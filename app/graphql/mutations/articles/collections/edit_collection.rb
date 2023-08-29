@@ -20,12 +20,15 @@ module Mutations
           }
           collection = app.article_collections.find(id)
 
-          collection.update(
+          options = {
             title: title,
             description: description,
-            locale: lang,
-            icon: icon
-          )
+            locale: lang
+          }
+
+          options.merge!({ icon: icon }) if icon.present?
+
+          collection.update(options)
 
           { collection: collection, errors: collection.errors }
         end

@@ -2,7 +2,7 @@
 import {
   translations,
   openMessenger
-} from '../../support/utils'
+} from '../../support'
 
 describe('Privacy Spec', function () {
   beforeEach(() => {

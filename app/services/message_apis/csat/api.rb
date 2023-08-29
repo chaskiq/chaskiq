@@ -10,6 +10,17 @@ module MessageApis::Csat
       @url = config["endpoint_url"]
     end
 
+    def self.definition_info
+      {
+        name: "Csat",
+        capability_list: %w[conversations bot],
+        tag_list: ["conversations.closed", "dashboard"],
+        description: "Offers CSat capabilities",
+        state: "enabled",
+        definitions: []
+      }
+    end
+
     # reports
     def report_kinds
       [
@@ -91,7 +102,7 @@ module MessageApis::Csat
     def send_survey(subject)
       data = MessageApis::Csat::Presenter.csat_buttons
 
-      author = subject.app.agents.first
+      author = subject.app.agents.bots.first
 
       controls = {
         app_package: "Csat",

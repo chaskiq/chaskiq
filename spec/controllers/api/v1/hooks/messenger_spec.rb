@@ -253,7 +253,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(message.html_content).to be == "one\ntwo\ntree\n✌️"
       expect(message.serialized_content).to be_present
 
-      blocks = JSON.parse(message.serialized_content)["blocks"]
+      blocks = MessageApis::BlockManager.get_blocks(message.serialized_content)
 
       expect(blocks.size).to be == 4
     end

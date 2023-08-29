@@ -3,25 +3,28 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.5"
+ruby "3.2.0"
 
+# gem 'google-protobuf', git: 'https://github.com/google/protobuf'
+
+gem "grpc", force_ruby_platform: true
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "anycable-rails", "~> 1.3.0"
+gem "anycable-rails"
 gem "pg"
-gem "rails", "7.0.3" # , github: "rails/rails",
-gem "uri", "0.10.0"
+gem "rails", "7.0.5.1" # , github: "rails/rails",
+gem "uri", "0.10.3"
 
 # Use sqlite3 as the database for Active Record
-# gem 'sqlite3'
+# gem "sqlite3", group: "test"
 # gem "sqlite3", "~> 1.3.6"
 # Use Puma as the app server
 gem "haml"
-gem "jsbundling-rails", "~> 1.0"
-gem "kredis", "~> 1.1"
-gem "propshaft", "~> 0.6.4"
-gem "puma", "~> 5.6"
+gem "jsbundling-rails"
+gem "kredis", "~> 1.3"
+gem "propshaft"
+gem "puma", "~> 6.0"
 gem "sassc"
-gem "tailwindcss-rails", "~> 2.0"
+gem "tailwindcss-rails"
 
 gem "devise" # , "4.7.1" # github: "plataformatec/devise"
 # Use CoffeeScript for .coffee assets and views
@@ -43,7 +46,9 @@ gem "nightfury", github: "michelson/nightfury" # "~> 1.0"
 gem "action_policy-graphql", "~> 0.4"
 gem "goldiloader"
 gem "graphiql-rails", group: :development
-gem "graphql", "~> 1.11.6"
+gem "graphql", "~> 1.13"
+
+gem "nokogiri", force_ruby_platform: true
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -57,6 +62,11 @@ gem "groupdate"
 gem "pg_search"
 gem "phonelib"
 gem "ransack"
+
+gem "searchkick"
+
+# gem "elasticsearch", "7.12" # select one
+gem "opensearch-ruby" # select one
 
 gem "browser", "~> 2.5"
 gem "geocoder", "~> 1.6"
@@ -80,7 +90,7 @@ gem "oauth", "~> 0.5.5"
 gem "omniauth-oauth2"
 
 gem "image_processing", "~> 1.12"
-gem "sidekiq", "6.4.1"
+gem "sidekiq", "~> 6.5"
 # gem "sidekiq-cron"
 
 gem "emoji_data", github: "chaskiq/emoji_data.rb"
@@ -90,7 +100,6 @@ gem "urlcrypt"
 
 gem "aws-sdk-rails"
 gem "aws-sdk-s3", "~> 1.48"
-gem "draftjs_exporter", github: "chaskiq/draftjs_exporter"
 
 gem "mini_magick", "~> 4.8"
 
@@ -104,6 +113,7 @@ gem "ruby-oembed"
 gem "mustache"
 
 gem "chronic", "~> 0.10.2"
+gem "fast_page", "~> 0.1.5"
 gem "kaminari", "~> 1.2"
 
 gem "timezone", "~> 1.2"
@@ -119,6 +129,8 @@ gem "i18n-js", "~> 4.0.0.alpha1"
 
 gem "globalize", github: "globalize/globalize"
 
+# To use Stripe, also include:
+gem "stripe", "~> 6.0"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.1.0", require: false
 
@@ -134,7 +146,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "rack-mini-profiler", "~> 2.0"
+  # gem "rack-mini-profiler", "~> 2.0"
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "web-console", ">= 3.3.0"

@@ -39,6 +39,8 @@ pt:
       de: Alemão
       ca: Catalão
       zh-CN: Chinês
+      fr: "French"
+      it: "Italian"
     redirecting: A redireccionar
     choose_language: Choose Language
     select_language: Selecione o idioma
@@ -49,6 +51,7 @@ pt:
     leads: Contactos
     visitors: Visitante
     users: Usuários
+    agents: Agentes
     type_message: Type your message
     search_conversations: Pesquisar conversas
     days: Dias
@@ -107,6 +110,7 @@ pt:
     settings: Configurações
     childs:
       conversations: Conversas
+      conversations_new: Compose
       assignment_rules: Regras de Atribuição
       mailing_campaigns: Campanhas De E-Mailing
       in_app_messages: Mensagens no App
@@ -163,6 +167,7 @@ pt:
       assignment_rules: Regras de roteamento de agentes
       tags: Etiquetas
       unassigned: Não designado
+      assigned_to_me: Assigned to me
     states:
       opened: Aberto
       closed: Fechado
@@ -170,6 +175,7 @@ pt:
       newest: Mais recente
       oldest: Mais Antigo
       waiting: Esperando
+      updated: Recently Updated
       priority_first: Priorizado
       all: Todos
       unfiltered: Todos
@@ -265,6 +271,7 @@ pt:
       disabled: desativo
       send: sent
       delivering: delivering
+      sent: sent
     tabs:
       stats: Estatísticas
       settings: Configurações
@@ -578,6 +585,33 @@ pt:
       destroy_agent: Apagar
       destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
       update_agent: Atualizar
+      participants: Manage participants
+      updated_team: Team updated
+      created_team: Team created
+      deleted_team: Team deleted
+      confirm_team_delete: Are you sure you want to delete this team?
+      new:
+        action_button: Add Team
+        title_content: Add a new Team
+        content_text: Create a new Team
+      edit:
+        action_button: Edit Team
+        title_content: Edit Team
+        content_text: Edit Team
+      delete:
+        action_button: Delete Team
+        title_content: Delete Team
+        content_text: Delete Team
+    agent_teams:
+      action_button: Add Team member
+      title_content: Adicionar agente de usuário
+      content_text: enviar um convite por email
+      search_placeholder: "Search for an agent"
+      delete_success: Agent deleted from team
+      added_success: Agent added to team
+      add_team: Add Team
+      updated_team: Team updated successfully
+      created_team: Team created successfully
     webhooks:
       title: Webhooks
       create_success: O Webhook foi criado
@@ -751,3 +785,30 @@ pt:
       email: Email
       company: Company
       phone: Phone
+  twilio_phone:
+    buttons:
+      holdOn: Put on hold
+      holdOff: Remove hold
+      pickUp: Pick up
+      hangUp: Hang up
+      join: Join
+      leave: Leave
+      goToConversation: Go to conversation
+      open_call_window: Open Call Window
+    messages:
+      inProgress: In-progress
+      incoming: Incoming call...
+      error: "ERROR: %{message}"
+      noConversations: No active conversations
+      noAgentsInCall: NO AGENTS IN THE CALL
+      agentsInCall: "AGENTS IN THE CALL:"
+    conversations:
+      message_header: New Phone Call
+    status:
+      onHold: ON HOLD
+    labels:
+      title: "Call with %{subject}"
+      status: Status
+      'client:Anonymous': Anonymous client
+      'client:agent': Agent
+      'client:support_agent': Agent

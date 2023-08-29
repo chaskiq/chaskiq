@@ -120,6 +120,8 @@ export function clearConversation(cb) {
 
 export function typingNotifier(cb) {
   return (dispatch, getState) => {
+    if (!getState()?.conversation?.key) return;
+
     graphql(
       TYPING_NOTIFIER,
       {
@@ -287,7 +289,7 @@ export function updateConversationState(state, cb) {
       UPDATE_CONVERSATION_STATE,
       {
         appKey: getState().app.key,
-        conversationId: getState().conversation.id,
+        conversationId: `${getState().conversation.id}`,
         state: state,
       },
       {
@@ -340,17 +342,15 @@ export function assignAgent(id, cb) {
       ASSIGN_USER,
       {
         appKey: getState().app.key,
-        conversationId: getState().conversation.id,
+        conversationId: `${getState().conversation.id}`,
         appUserId: id,
       },
       {
         success: (data) => {
           const conversation = data.assignUser.conversation;
-          const newConversation = Object.assign(
-            {},
-            getState().conversation,
-            conversation
-          );
+          const newConversation = Object.assign({}, getState().conversation, {
+            assignee: conversation.assignee,
+          });
           dispatch(dispatchGetConversations(newConversation));
           if (cb) cb(data.assignUser.conversation);
         },
@@ -406,6 +406,7 @@ export default function reducer(
       return action.data;
     }
     case ActionTypes.UpdateConversation: {
+      if (state.key !== action.data.key) return state;
       return { ...state, ...action.data };
     }
     default:

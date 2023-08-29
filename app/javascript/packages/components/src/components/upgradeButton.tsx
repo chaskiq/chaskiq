@@ -32,7 +32,7 @@ function UpgradeButton({ classes, size, app, label, feature, children }) {
           onToggle={onToggle}
           classes={classes}
         >
-          <div className="rounded-lg shadow-lg overflow-hidden border-2 border-black">
+          <div className="rounded-lg shadow-lg overflow-hidden border-2 border-black dark:border-white">
             <MenuItems app={app} feature={feature} />
           </div>
         </FeaturesMenu>
@@ -111,7 +111,7 @@ function FeaturesMenu({ classes, size, label, name, children, onToggle }) {
 
 function MenuItems({ app, feature }) {
   return (
-    <div className="relative z-20 bg-white py-6 px-5 grid gap-6 sm:gap-8 sm:p-8">
+    <div className="relative z-20 bg-white dark:bg-black py-6 px-5 grid gap-6 sm:gap-8 sm:p-8">
       <Link
         to={`/apps/${app.key}/billing`}
         className="-m-3 rounded-lg p-3 flex items-start space-x-4 hover:bg-cool-gray-50 transition ease-in-out duration-150"

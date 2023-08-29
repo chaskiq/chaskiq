@@ -30,23 +30,9 @@ class ConversationSearchService
     conversations
   end
 
-  private def filter_by_agent(agent_id, filter)
-    collection = @app.conversations
-                     .left_joins(:messages)
-                     .where.not(conversation_parts: { id: nil })
-                     .distinct
+  private
 
-    collection = collection.where(state: filter) if filter.present?
-
-    if agent_id.present?
-      agent = agent_id.empty? ? nil : agent_id
-      collection = collection.where(assignee_id: agent)
-    end
-
-    collection
-  end
-
-  private def sort_conversations(sort, conversations)
+  def sort_conversations(sort, conversations)
     return conversations if sort.blank?
 
     s = case sort
@@ -63,5 +49,21 @@ class ConversationSearchService
     end
 
     conversations.order(s)
+  end
+
+  def filter_by_agent(agent_id, filter)
+    collection = @app.conversations
+                     .left_joins(:messages)
+                     .where.not(conversation_parts: { id: nil })
+                     .distinct
+
+    collection = collection.where(state: filter) if filter.present?
+
+    if agent_id.present?
+      agent = agent_id.empty? ? nil : agent_id
+      collection = collection.where(assignee_id: agent)
+    end
+
+    collection
   end
 end

@@ -1,7 +1,7 @@
 
 import {
   login
-} from '../../support/utils'
+} from '../../support'
 
 describe('Conversations Spec', function () {
   beforeEach(() => {
@@ -24,13 +24,7 @@ describe('Conversations Spec', function () {
       App.last.start_conversation(
         message: { 
           text_content: 'hi from test backend',
-          serialized_content: '{"blocks":[
-            {"key":"bl82q","text":"some text from backend",
-            "type":"unstyled",
-            "depth":0,
-            "inlineStyleRanges":[],
-            "entityRanges":[],"data":{}}],
-            "entityMap":{}}'
+          serialized_content: MessageApis::BlockManager.serialized_text("some text from backend")
         },
         from: app_user
       )
@@ -74,8 +68,10 @@ describe('Conversations Spec', function () {
 
         cy.contains('Add to messenger home').click().then(() => {
           cy.contains('Send App').should('not.be.disabled')
-          cy.get('[data-cy=send-app-ContentShowcase]').click()
-          cy.get('#message-id-2').contains('Hello, World')
+          cy.get('[data-cy=send-app-ContentShowcase]').click().then(() => {
+            cy.contains('Hello, World')
+          })
+          
         })
       })
   })

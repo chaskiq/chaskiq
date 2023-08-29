@@ -7,6 +7,7 @@ import sanitizeHtml, {
 } from '@chaskiq/components/src/utils/htmlSanitize';
 import { LabelIcon } from '@chaskiq/components/src/components/icons';
 import Avatar from '@chaskiq/components/src/components/Avatar';
+import { CallIcon } from '@chaskiq/components/src/components/rtc';
 
 export function textColor(color) {
   const lightReturnColor = '#121212';
@@ -14,7 +15,7 @@ export function textColor(color) {
   return readableColor(color, lightReturnColor, darkReturnColor);
 }
 
-export default function ConversationItemList({ app, conversation }) {
+export default function ConversationItemList({ app, conversation, isActive }) {
   const renderConversationContent = (o) => {
     const message = o.lastMessage.message;
     if (message.htmlContent) {
@@ -77,11 +78,15 @@ export default function ConversationItemList({ app, conversation }) {
   return (
     <Link
       to={`/apps/${app.key}/conversations/${conversation.key}`}
-      className="flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out"
+      className={`flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out`}
       data-cy={`conversation-item`}
     >
-      <div className={`block w-2 ${stateClass()}`}></div>
-      <div className="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800 dark:hover:bg-gray-800">
+      <div className={`block w-1 ${stateClass()}`}></div>
+      <div
+        className={`${
+          isActive ? 'bg-gray-100 dark:bg-black dark:hover:bg-black/10' : ''
+        } w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800 dark:hover:bg-gray-800/20`}
+      >
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
             <Avatar src={user.avatarUrl} alt={user.displayName} size="full" />
@@ -93,7 +98,7 @@ export default function ConversationItemList({ app, conversation }) {
                 {user.displayName}
               </span>
 
-              <span className="text-xs leading-5 font-light text-gray-300 dark:text-gray-300">
+              <span className="text-xs leading-5 font-light text-gray-400 dark:text-gray-200">
                 <Moment fromNow ago>
                   {message.createdAt}
                 </Moment>
@@ -103,12 +108,20 @@ export default function ConversationItemList({ app, conversation }) {
         </div>
         <div className="flex flex-col mt-5 space-y-2">
           <div className="space-x-2 text-sm leading-5 text-gray-500 dark:text-gray-100 flex pb-2 pt-1">
-            {appUser && appUser.id !== participant.id && (
-              <img
-                alt={appUser.displayName}
-                className="rounded-full h-5 w-5 self-start"
-                src={appUser.avatarUrl}
-              />
+            {!message.readAt && appUser?.kind !== 'agent' && (
+              <div className="flex">
+                <span className="w-3 h-3 bg-red-600 border-2 border-white dark:border-gray-800 rounded-full"></span>
+              </div>
+            )}
+
+            {appUser?.kind === 'agent' && (
+              <div className="w-12">
+                <Avatar
+                  src={appUser.avatarUrl}
+                  alt={user.displayName}
+                  size="small"
+                />
+              </div>
             )}
 
             {message.privateNote && (
@@ -133,7 +146,8 @@ export default function ConversationItemList({ app, conversation }) {
                     key={`${conversation.key}-${o}-${i}`}
                     className="mr-0.5 border inline-flex items-center px-2.5 py-0.5 
                     rounded-full text-xs font-medium bg-gray-100 
-                    text-blue-800 capitalize dark:bg-gray-900 dark:text-gray-100"
+                    dark:border-gray-700
+                    text-gray-800 dark:bg-gray-900 dark:text-gray-100"
                   >
                     {o}
                   </div>

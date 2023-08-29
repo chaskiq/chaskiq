@@ -1,0 +1,16 @@
+{
+	"name": "chaskiq-container",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+	"extensions": [],
+	"service": "runner",
+	"workspaceFolder": "/app",
+	"shutdownAction": "stopCompose",
+	"settings": {
+		"editor.formatOnSave": true,
+		"search.exclude": {
+			"**/doc": true
+		}
+	}
+}

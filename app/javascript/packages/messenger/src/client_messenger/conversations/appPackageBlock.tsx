@@ -82,7 +82,9 @@ export default class AppPackageBlock extends Component<
         message: message,
         data: {
           field: data.field,
-          id: message.message.blocks.app_package,
+          id:
+            message.message.blocks.app_package ||
+            message.message.blocks.appPackage,
           values: message.message.blocks.values,
           message_key: message.key,
           conversation_key: this.props.conversation.key,

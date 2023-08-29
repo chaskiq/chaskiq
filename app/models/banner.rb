@@ -29,14 +29,13 @@ class Banner < Message
       bg_color: bg_color,
       action_text: action_text,
       url: url,
-      show_sender: show_sender,
       sender_data: sender_data,
       font_options: font_options
     }
   end
 
   def sender_data
-    a = sender_id ? app.agents.find(sender_id) : nil
+    a = sender_id ? app.agents.find_by(id: sender_id) : nil
     return nil if a.blank?
 
     {

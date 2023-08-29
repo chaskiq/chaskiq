@@ -92,8 +92,8 @@ class Apps::SecurityController < ApplicationController
   end
 
   def setup_script
-    hostname = ENV["HOST"]
-    ws_hostname = ENV["WS"]
+    hostname = ENV.fetch("HOST", nil)
+    ws_hostname = ENV.fetch("WS", nil)
 
     code = %{
         (function(d,t) {

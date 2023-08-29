@@ -114,8 +114,8 @@ export const SYNC_EXTERNAL_PROFILE = `
 `;
 
 export const START_CONVERSATION = `
-  mutation StartConversation($appKey: String!, $id: String, $message: MessageInput!, $subject: String, $initiatorChannel: String){
-    startConversation(appKey: $appKey, id: $id, message: $message, subject: $subject, initiatorChannel: $initiatorChannel){
+  mutation StartConversation($appKey: String!, $id: String, $message: MessageInput!, $subject: String, $initiatorChannel: String, $initiatorBlock: Any){
+    startConversation(appKey: $appKey, id: $id, message: $message, subject: $subject, initiatorChannel: $initiatorChannel, initiatorBlock: $initiatorBlock ){
       conversation{
         id
         key
@@ -376,6 +376,14 @@ export const DELETE_ASSIGNMENT_RULE = `
         }
         state
       }
+    }
+  }
+`;
+
+export const SORT_AGENTS = `
+  mutation SortAgents($appKey: String!, $list: [String!]!){
+    sortAgents(appKey: $appKey, list: $list){
+      list
     }
   }
 `;
@@ -746,6 +754,58 @@ export const INVITE_AGENT = `
         avatarUrl
         name
       }
+    }
+  }
+`;
+
+export const CREATE_TEAM = `
+  mutation CreateTeam($appKey: String!, $name: String!, $description: String, $role: String!){
+    createTeam(appKey: $appKey, name: $name, description: $description, role: $role){
+      team {
+        name
+        description
+      }
+      errors
+    }
+  }
+`;
+
+export const DELETE_TEAM = `
+  mutation DeleteTeam($appKey: String!, $id: String!){
+    deleteTeam(appKey: $appKey, id: $id){
+      team {
+        name
+        description
+      }
+      errors
+    }
+  }
+`;
+
+export const UPDATE_TEAM = `
+  mutation UpdateTeam($appKey: String!, $id: String!, $name: String!, $role: String!, $description: String!){
+    updateTeam(appKey: $appKey, id: $id, name: $name, description: $description, role: $role){
+      team {
+        name
+        description
+      }
+      errors
+    }
+  }
+`;
+
+export const ADD_TEAM_AGENT = `
+  mutation AddTeamAgent($appKey: String!, $id: String!, $agentId: String!){
+    addTeamAgent(appKey: $appKey, id: $id, agentId: $agentId){
+      errors
+    }
+  }
+`;
+
+export const DELETE_TEAM_AGENT = `
+  mutation DeleteTeamAgent($appKey: String!, $id: String!, $agentId: String!){
+    deleteTeamAgent(appKey: $appKey, id: $id, agentId: $agentId){
+      errors
     }
   }
 `;
@@ -1124,6 +1184,7 @@ export const ARTICLE_SETTINGS_UPDATE = `
         headerImage
         translations
         availableLanguages
+        defaultLang
       }
       errors
     }
@@ -1152,6 +1213,7 @@ export const ARTICLE_SETTINGS_DELETE_LANG = `
         headerImage
         translations
         availableLanguages
+        defaultLang
       }
       errors
     }
@@ -1430,6 +1492,23 @@ export const PUSH_EVENT = `
   }
 `;
 
+export const STRIPE_SUBSCRIPTION_CREATE_INTENT = `
+  mutation StripeCreateIntent($appKey: String!, $planId: String!) {
+    stripeCreateIntent(appKey: $appKey, planId: $planId){
+      redirectUrl
+      data
+    }
+  }
+`;
+
+export const STRIPE_CUSTOMER_PORTAL = `
+  mutation StripeCustomerPortal($appKey: String!) {
+    stripeCustomerPortal(appKey: $appKey){
+      redirectUrl
+    }
+  }
+`;
+
 export default {
   PUSH_EVENT,
   UPDATE_APP,
@@ -1510,4 +1589,5 @@ export default {
   APP_USER_PROFILE_CREATE,
   APP_USER_PROFILE_UPDATE,
   APP_USER_PROFILE_DELETE,
+  STRIPE_SUBSCRIPTION_CREATE_INTENT,
 };

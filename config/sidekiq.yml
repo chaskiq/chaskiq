@@ -5,6 +5,7 @@
   production:
     :concurrency: 5
   :queues:
+    - [searchkick, 1]
     - [mailers, 2]
     - [default, 1]
     - [active_storage_analysis, 2]

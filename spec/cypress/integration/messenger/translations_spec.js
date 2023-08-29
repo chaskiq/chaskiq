@@ -2,7 +2,7 @@
 import {
   translations,
   openMessenger
-} from '../../support/utils'
+} from '../../support'
 
 describe('Translations Spec', function () {
   it('user lang en', function () {

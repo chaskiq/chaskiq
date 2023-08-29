@@ -3,7 +3,7 @@ import {
   login,
   findButtonByName,
   findElementByName
-} from '../../support/utils'
+} from '../../support'
 
 describe('Login Spec', function () {
   beforeEach(() => {

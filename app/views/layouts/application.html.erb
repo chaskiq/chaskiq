@@ -12,9 +12,13 @@
     <meta name="chaskiq-host" content="<%= Chaskiq::Config.get('HOST') %>"/>
     <meta name="chaskiq-ws" content="<%= Chaskiq::Config.get('WS') %>"/>
 
-    <% if oauth_app = Doorkeeper::Application.first %>
+    <% if auth0_enabled? %>
+      <meta name="auth0-domain" content="<%= Chaskiq::Config.get('AUTH0_DOMAIN') %>"/>
+      <meta name="auth0-client-id" content="<%= Chaskiq::Config.get('AUTH0_CLIENT_ID') %>"/>
+    <% elsif oauth_app = Doorkeeper::Application.first %>
       <meta name="chaskiq-client-id" content="<%= oauth_app.uid %>"/>
     <% end %>
+
     <!--
     <meta content='width=device-width, initial-scale=1' name='viewport'>
     <meta content='width=device-width, initial-scale=1' media='(device-height: 568px)' name='viewport'>
@@ -38,7 +42,7 @@
   <body>
     <%= render partial: "shared/flash" %>
 
-    <div class="page" id="main-page" 
+    <div class="page antialiased" id="main-page" 
       data-controller="modal slide-modal dark-mode" 
       data-modal-allow-background-close="false">
 
@@ -67,7 +71,7 @@
       </div>
     </div>
 
-    <% if enabled_subscriptions? %>
+    <% if paddle_subscriptions? %>
       <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
       <script type="text/javascript">
         Paddle.Setup({ vendor: 115475 });
@@ -84,7 +88,7 @@
           g.src="<%= Chaskiq::Config.get('HOST') %>/embed.js"
           s.parentNode.insertBefore(g,s);
           g.onload=function(){
-            new window.ChaskiqMessengerEncrypted({
+            window.chaskiqSupport = new window.ChaskiqMessengerEncrypted({
               domain: "<%= Chaskiq::Config.get('HOST') %>",
               ws:  "<%= Chaskiq::Config.get('WS') %>",
               app_id: "<%= support_app_data[:app].key %>",

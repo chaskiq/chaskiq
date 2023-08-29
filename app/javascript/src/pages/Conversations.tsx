@@ -29,8 +29,6 @@ import {
   setCurrentSection,
   setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation';
-import { AnchorLink } from '@chaskiq/components/src/components/RouterLink';
-import { WriteIcon } from '@chaskiq/components/src/components/icons';
 import AppUserEdit from './conversations/ParticipantBlock';
 
 function Conversations({
@@ -41,6 +39,7 @@ function Conversations({
   events,
   app_user,
   pushEvent,
+  reconnect,
 }) {
   const [fetching, setFetching] = React.useState(false);
   const [fixedSidebarOpen, setFixedSidebarOpen] = React.useState(false);
@@ -55,6 +54,15 @@ function Conversations({
     dispatch(setCurrentPage('Conversations'));
     dispatch(setCurrentSection('Conversations'));
   }, []);
+
+  // reconnect strategy
+  React.useEffect(() => {
+    if (reconnect > 0) {
+      fetchConversations({ page: 1 }, () => {
+        setFetching(false);
+      });
+    }
+  }, [reconnect]);
 
   const fetchConversations = (options, cb = null) => {
     dispatch(
@@ -109,7 +117,9 @@ function Conversations({
         size="small"
       >
         {/* <MoreVertIcon /> */}
-        {I18n.t('conversations.sorts.' + conversations.sort)}
+        <span className="whitespace-nowrap">
+          {I18n.t('conversations.sorts.' + conversations.sort)}
+        </span>
       </Button>
     );
   };
@@ -178,6 +188,12 @@ function Conversations({
         selected: true,
       },
       {
+        id: 'updated',
+        name: I18n.t('conversations.sorts.updated'),
+        count: 1,
+        selected: true,
+      },
+      {
         id: 'oldest',
         name: I18n.t('conversations.sorts.oldest'),
         count: 1,
@@ -201,7 +217,7 @@ function Conversations({
 
     return (
       <React.Fragment>
-        <div className="items-center bg-white dark:bg-gray-800 px-3 py-4 border-b border-gray-200 dark:border-gray-700 sm:px-3 flex justify-between">
+        <div className="items-center bg-white dark:bg-gray-900 px-3 py-4 border-b border-gray-200 dark:border-gray-800 sm:px-3 flex justify-between">
           <FilterMenu
             options={filters}
             value={conversations.filter}
@@ -238,25 +254,21 @@ function Conversations({
               filterHandler={sortConversations}
               triggerButton={sortButton}
             />
-
-            <AnchorLink
-              to={`/apps/${app.key}/conversations/new`}
-              className="ml-2"
-            >
-              <WriteIcon />
-            </AnchorLink>
           </div>
         </div>
 
         <div
-          className="overflow-scroll"
+          className="overflow-scroll h-generalHeight"
           onScroll={handleScroll}
-          style={{ height: 'calc(100vh - 64px)' }}
         >
           {conversations.collection.map((o) => {
-            const user = o.mainParticipant;
             return (
-              <ConversationItemList key={o.key} app={app} conversation={o} />
+              <ConversationItemList
+                key={o.key}
+                app={app}
+                conversation={o}
+                isActive={o.key == conversation?.key}
+              />
             );
           })}
 
@@ -296,7 +308,7 @@ function Conversations({
 
       <div
         className={
-          'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-800'
+          'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900'
         }
       >
         {renderConversations()}
@@ -321,7 +333,7 @@ function Conversations({
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/assignment_rules`}>
-          <div className="flex-grow bg-gray-50 dark:bg-gray-800 h-screen border-r w-1/12 dark:border-black">
+          <div className="flex-grow h-screen border-r w-1/12 dark:border-black">
             <AccessDenied section="assign_rules">
               <AssignmentRules />
             </AccessDenied>
@@ -346,7 +358,7 @@ function Conversations({
       </Switch>
 
       {!isEmpty(conversation) && conversation.id && fixedSidebarOpen && (
-        <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
+        <div className="bg-gray-100 dark:bg-gray-900 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
           {app_user && app_user.id ? (
             <ConversationSidebar toggleFixedSidebar={toggleFixedSidebar} />
           ) : (
@@ -356,12 +368,12 @@ function Conversations({
       )}
 
       {conversation && !conversation.id && fixedSidebarOpen && (
-        <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
+        <div className="bg-gray-100 dark:bg-gray-900 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
           <div className="m-2">
             {conversation.mainParticipant ? (
               <AppUserEdit />
             ) : (
-              <div className="bg-white rounded-md border p-4">
+              <div className="bg-white dark:bg-gray-900 rounded-md border p-4">
                 <p>No recipient selected.</p>
               </div>
             )}
@@ -373,7 +385,7 @@ function Conversations({
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversations, conversation, app_user } = state;
+  const { auth, app, conversations, conversation, app_user, reconnect } = state;
   const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
@@ -383,6 +395,7 @@ function mapStateToProps(state) {
     app_user,
     app,
     isAuthenticated,
+    reconnect,
   };
 }
 

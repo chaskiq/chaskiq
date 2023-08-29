@@ -9,6 +9,7 @@ export const AUTH = `
         kind,
         properties
         sessionId
+        sessionValue
       }
     }
   }
@@ -41,6 +42,8 @@ export const PING = `
         customizationColors
         searcheableFields
         homeApps
+        userEditorSettings
+        leadEditorSettings
         articleSettings{
           subdomain
         }

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 text = "foobar"
-serialized_content = "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+serialized_content = MessageApis::BlockManager.serialized_text(text)
+# "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
 
 app = FactoryBot.create(:app,
                         domain_url: "http://localhost:5002",

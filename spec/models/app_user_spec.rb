@@ -148,4 +148,43 @@ RSpec.describe AppUser, type: :model do
       expect(app_user.properties["aaa"]).to include("555")
     end
   end
+
+  describe "merge users" do
+    it "add user to be one" do
+      app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
+      app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
+      expect(AppUser.where(email: "test@test.cl").all.size).to be == 1
+    end
+
+    it "add user to be one" do
+      app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
+      visitor
+      expect(AppUser.where(email: "test@test.cl").all.size).to be == 1
+    end
+
+    describe "merge" do
+      before :each do
+        app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
+        visitor.become_lead!
+      end
+
+      it "merge from visitor" do
+        lead = Lead.first
+        lead.update_email("test@test.cl")
+      end
+
+      it "merge_contact from lead to app user " do
+        lead = Lead.first
+        lead.update(phone: "123456")
+        app.merge_contact(from: lead, to: app_user)
+        expect(app_user.reload.phone).to be == "123456"
+      end
+
+      it "merge_contact from user to app lead " do
+        lead = Lead.first
+        lead.update(phone: "123456")
+        expect { app.merge_contact(from: app_user, to: lead) }.to raise_exception
+      end
+    end
+  end
 end

@@ -1,5 +1,4 @@
 import React from 'react';
-import Prism from 'prismjs';
 import { connect } from 'react-redux';
 
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
@@ -41,13 +40,14 @@ function VerificationView({ app }) {
         })(document,"script");
       </script>
     `;
-    return Prism.highlight(code, Prism.languages.javascript, 'javascript');
+    return <code>{code}</code>;
   }
 
   function keyGeneration() {
     const code = optionsForFilter().find((o) => o.id === currentLang).code;
-
-    return Prism.highlight(code, Prism.languages.ruby, 'ruby');
+    console.log(code);
+    return code;
+    //Prism.highlight(code, Prism.languages.ruby, 'ruby');
   }
 
   function optionsForFilter() {
@@ -197,7 +197,9 @@ function VerificationView({ app }) {
         }}
       />
 
-      <CodeBox content={setupScript()} />
+      <pre className="p-3 bg-black rounded-md border-black border-2 dark:border-gray-100 text-white text-sm overflow-auto shadow-sm">
+        {setupScript()}
+      </pre>
     </div>
   );
 }

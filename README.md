@@ -2,27 +2,22 @@
 ![image](https://user-images.githubusercontent.com/11976/81771025-eaefe780-94af-11ea-881b-ad7910536fee.png)
 
 # Chaskiq 
-## Open Source Messaging Platform for Marketing, Support & Sales
+## Free & Source Available Messaging Platform for Marketing, Support & Sales
 ### The front line of your customer service.
 
+[![Push Docker Image](https://github.com/chaskiq/chaskiq/actions/workflows/dockerimage.yml/badge.svg)](https://github.com/chaskiq/chaskiq/actions/workflows/dockerimage.yml)
 
-<a href="https://travis-ci.org/chaskiq/chaskiq">
-  <img src="https://travis-ci.org/chaskiq/chaskiq.svg?branch=master" alt="CI">
-</a>
+[![CI](https://github.com/chaskiq/chaskiq/actions/workflows/ruby.yml/badge.svg)](https://github.com/chaskiq/chaskiq/actions/workflows/ruby.yml)
 
 <a href="https://hub.docker.com/r/chaskiq/chaskiq">
   <img src="https://img.shields.io/docker/pulls/chaskiq/chaskiq.svg" alt="CI">
-</a>
-
-<a href="https://hub.docker.com/r/chaskiq/chaskiq">
-  <img src="https://img.shields.io/docker/cloud/build/chaskiq/chaskiq" alt="CI">
 </a>
 
 [![Crowdin](https://badges.crowdin.net/e/41a6bbb31a5d79361a6264cb9ceac533/localized.svg)](https://chaskiq.crowdin.com/chaskiq)
 
 <br/>
 
-<a href="https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/master" alt="Deploy to Heroku">
+<a href="https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/main" alt="Deploy to Heroku">
     <img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
 </a>
 
@@ -125,37 +120,13 @@ Chaskiq is built for the *next* 10 years of the Internet, so our requirements ar
 - [PostgreSQL](https://www.postgresql.org/) &mdash; Our main data store is in Postgres.
 - [Redis](https://redis.io/) &mdash; We use Redis as a cache and for transient data.
 
-Plus *lots* of Ruby Gems, a complete list of which is at [/master/Gemfile](https://github.com/chaskiq/chaskiq/blob/master/Gemfile).
-
-## Contributing
-
-Chaskiq is **100% free** and **open source**. We encourage and support an active, healthy community that
-accepts contributions from the public &ndash; including you!
+Plus *lots* of Ruby Gems, a complete list of which is at [/main/Gemfile](https://github.com/chaskiq/chaskiq/blob/main/Gemfile).
 
 ## The Chaskiq Team
 
 For a complete list of the many individuals that contributed to the design and implementation of Chaskiq, please refer to [GitHub's list of contributors](https://github.com/chaskiq/chaskiq/contributors).
 
-## License
-
-### Open source license
-
-Copyright (C) 2018-2020 Miguel Michelson
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 ### Commercial license
 
-The commercial license is designed to for you to use Chaskiq in commercial products and applications, without the provisions of the AGPL-3.0-or-later. With the commercial license, your code is kept proprietary, to yourself. See the Chaskiq Commercial License at [chaskiq.io](https://chaskiq.io/commercial-license)
+The commercial license is designed to for you to use Chaskiq in commercial products and applications, without the provisions of the AGPL-3.0-or-later + commons clause. With the commercial license, your code is kept proprietary, to yourself. See the Chaskiq Commercial License at [chaskiq.io](https://chaskiq.io/commercial-license)
 

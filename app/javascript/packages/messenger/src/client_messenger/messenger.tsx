@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { setCookie, getCookie, deleteCookie } from './cookies';
 
 // import styled from '@emotion/styled'
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 
 import { uniqBy } from 'lodash';
 import {
@@ -25,9 +25,13 @@ import {
 } from "./shared/absintheSubscription";*/
 
 import UAParser from 'ua-parser-js';
-import DraftRenderer from './textEditor/draftRenderer';
+//import DraftRenderer from './textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
+// RESTORE THIS
 import Tour from './UserTour';
 import TourManager from './tourManager';
+
 import UrlPattern from 'url-pattern';
 //import { withTranslation } from 'react-i18next'
 //import i18n from './i18n'
@@ -107,6 +111,7 @@ type MessengerProps = {
   app_id: any;
   encData: any;
   sessionId: any;
+  sessionValue: any;
   encryptedMode: any;
   domain: string;
   kind: string;
@@ -114,6 +119,7 @@ type MessengerProps = {
   reset: any;
   open: boolean;
   tabId: string;
+  handleShutDown: any;
 };
 
 type MessengerState = {
@@ -250,6 +256,9 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         case 'unload':
           // this.unload()
           break;
+        case 'shutdown':
+          this.handleShutDown();
+          break;
         default:
           break;
       }
@@ -304,6 +313,10 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     document.dispatchEvent(event);
   }
 
+  handleShutDown() {
+    this.props.handleShutDown();
+  }
+
   unload() {
     destroySubscription(this.App);
   }
@@ -329,6 +342,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       email: this.props.email,
       properties: this.props.properties,
       session_id: this.props.sessionId,
+      session_value: this.props.sessionValue,
     };
 
     if (this.props.encryptedMode) {
@@ -337,6 +351,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         'enc-data': this.props.encData || '',
         'user-data': JSON.stringify(this.props.encData),
         'session-id': this.props.sessionId,
+        'session-value': this.props.sessionValue,
         lang: this.props.lang,
       };
 
@@ -345,6 +360,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         enc_data: this.props.encData || '',
         user_data: JSON.stringify(this.props.encData),
         session_id: this.props.sessionId,
+        session_value: this.props.sessionValue,
       };
     }
 
@@ -353,7 +369,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       url: `${graphqlUrl(this.props.domain)}`,
     });
 
-    this.App = createSubscription(this.props, this.defaultCableData.user_data);
+    this.App = createSubscription(
+      this.props,
+      this.defaultCableData.user_data,
+      this.props.sessionValue
+    );
   };
 
   setVideoSession() {
@@ -1639,6 +1659,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                                     alt={'https://chaskiq.io'}
                                     src={`${this.props.domain}/logo-gray.png`}
                                   />
+                                  {/* NOTICE:
+                                    If you need to rebrand chaskiq 
+                                    there is special commercial license, 
+                                    please contact us 
+                                  */}
                                   {i18n.t('messenger.runon')}
                                 </a>
                               </FooterAck>
@@ -1678,6 +1703,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                               app_id={this.props.app_id}
                               enc_data={this.props.encData}
                               conversation={this.state.conversation}
+                              session_id={this.props.sessionId}
                               appBlock={this.state.currentAppBlock}
                             />
                           )}
@@ -1823,7 +1849,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
               }}
               id={this.state.banner.id}
               serialized_content={
-                <DraftRenderer
+                <Renderer
                   domain={this.props.domain}
                   raw={JSON.parse(this.state.banner.serialized_content)}
                 />
@@ -1903,6 +1929,17 @@ function MessengerBridge(props) {
     return `chaskiq_session_id_${app_id}`;
   }
 
+  function cookieSessionNamespace() {
+    // old app keys have hypens, we get rid of this
+    const app_id = props.app_id.replace('-', '');
+    return `chaskiq_ap_session_${app_id}`;
+  }
+
+  function sessionCookieNamespace() {
+    const app_id = props.app_id.replace('-', '');
+    return `chaskiq_ap_session_${app_id}`;
+  }
+
   function getSession() {
     // cookie rename, if we wet an old cookie update to new format and expire it
     const oldCookie = getCookie('chaskiq_session_id');
@@ -1951,7 +1988,11 @@ function MessengerBridge(props) {
       {
         success: (data) => {
           const u = data.messenger.user;
-          if (u.kind !== 'AppUser') {
+          if (u.kind === 'AppUser') {
+            if (u.sessionValue) {
+              setCookie(cookieSessionNamespace(), u.sessionValue, 7);
+            }
+          } else {
             if (u.sessionId) {
               checkCookie(u.sessionId);
             } else {
@@ -1979,6 +2020,14 @@ function MessengerBridge(props) {
     // if(open) window.localStorage.setItem('chaskiqTabClosedAt', Math.random() + '');
   }
 
+  function shutdown() {
+    deleteCookie(cookieNamespace());
+    deleteCookie(sessionCookieNamespace());
+    // setReady(false); // this will reset the session, but we really dont that dat to happen
+    // what will happen is that the livechat will be still connected
+    openOnLoad.current = open;
+  }
+
   function dataBundle() {
     // console.log("USER BUNDLE", user)
     return (
@@ -2001,6 +2050,7 @@ function MessengerBridge(props) {
         <Messenger
           {...dataBundle()}
           reset={reset}
+          handleShutDown={shutdown}
           open={openOnLoad.current}
           tabId={tabId.current}
         />

@@ -6,7 +6,7 @@ require "oembed"
 require "open-uri"
 
 class FetchLinkCardService < BaseService
-  URL_PATTERN = %r{https?://\S+}.freeze
+  URL_PATTERN = %r{https?://\S+}
 
   def call(url)
     # Get first http/https URL that isn't local

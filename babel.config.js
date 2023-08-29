@@ -54,46 +54,6 @@ module.exports = function (api) {
           async: false,
         },
       ],
-      /*'@babel/plugin-syntax-dynamic-import',
-      isTestEnv && 'babel-plugin-dynamic-import-node',
-      '@babel/plugin-transform-destructuring',
-      [
-        '@babel/plugin-proposal-class-properties',
-        {
-          loose: true,
-        },
-      ],
-      [
-        '@babel/plugin-proposal-object-rest-spread',
-        {
-          useBuiltIns: true,
-        },
-      ],
-      [
-        '@babel/plugin-transform-runtime',
-        {
-          helpers: false,
-          regenerator: true,
-          corejs: false,
-        },
-      ],
-      [
-        '@babel/plugin-transform-regenerator',
-        {
-          async: false,
-        },
-      ],
-      ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
-      ['@babel/plugin-proposal-private-methods', { loose: true }],*/
-      [
-        'prismjs',
-        {
-          languages: ['javascript', 'css', 'markup', 'ruby', 'typescript'],
-          plugins: ['line-numbers'],
-          theme: 'twilight',
-          css: true,
-        },
-      ],
     ].filter(Boolean),
   };
 };

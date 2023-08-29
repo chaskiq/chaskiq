@@ -384,7 +384,7 @@ export function RtcView(props) {
             id="call-initiator"
             className="flex flex-col justify-center items-center space-y-6"
           >
-            <p className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-pink-100 text-blue-800 border border-pink-900-">
+            <p className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-brand text-blue-800 border border-brand-900-">
               Start a call
             </p>
             <div className="call-buttons">

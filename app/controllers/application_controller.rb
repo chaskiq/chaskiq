@@ -25,6 +25,8 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
+    return auth0_resource if auth0_enabled?
+
     current_resource_owner || warden.authenticate(:agent)
   rescue StandardError
     nil
@@ -56,9 +58,21 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def enabled_subscriptions?
-    Chaskiq::Config.get("PADDLE_PUBLIC_KEY").present? &&
+    stripe_subscriptions? || paddle_subscriptions?
+  end
+
+  def stripe_subscriptions?
+    Chaskiq::Config.get("STRIPE_PRIVATE_KEY").present?
+  end
+
+  def paddle_subscriptions?
+    (Chaskiq::Config.get("PADDLE_PUBLIC_KEY").present? &&
       Chaskiq::Config.get("PADDLE_VENDOR_ID").present? &&
-      Chaskiq::Config.get("PADDLE_SECRET_TOKEN").present?
+      Chaskiq::Config.get("PADDLE_SECRET_TOKEN").present?)
+  end
+
+  def auth0_enabled?
+    Chaskiq::Config.get("AUTH0_ENABLED") == "true"
   end
 
   def modal_close
@@ -80,6 +94,9 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :enabled_subscriptions?
+  helper_method :paddle_subscriptions?
+  helper_method :stripe_subscriptions?
+  helper_method :auth0_enabled?
 
   protected
 
@@ -121,6 +138,16 @@ class ApplicationController < ActionController::Base
     return if lang.blank?
 
     I18n.available_locales.include?(lang.to_sym)
+  end
+
+  def auth0_resource
+    if (token = request.headers["Authorization"].split&.last) && token.present?
+      @agent ||= AuthIdentity.find_agent_from_token(token)
+      if @agent
+        sign_in(@agent, scope: "agent")
+        @agent
+      end
+    end
   end
 
   def set_lang_for_agent(lang)

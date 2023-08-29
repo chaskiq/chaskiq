@@ -48,6 +48,7 @@ module UserHandler
     ap.last_visited_at = attrs[:last_visited_at] if attrs[:last_visited_at].present?
     ap.subscribe! unless ap.subscribed?
     ap.type = "AppUser"
+
     ap.save
     ap
   end
@@ -110,6 +111,24 @@ module UserHandler
 
   def get_app_user_by_email(email)
     app_users.users.find_by(email: email)
+  end
+
+  def merge_contact_async(from:, to:)
+    ContactMergerJob.perform_later(app_id: id, from: from, to: to)
+  end
+
+  # from visitor to app user
+  def merge_contact(from:, to:)
+    raise "contact origin is not a Lead" if from.type == "AppUser"
+    raise "contact destination is not Contact" if to.type != "AppUser"
+
+    to.update(properties: to.properties.merge!(from.properties))
+
+    from.conversations.where(main_participant_id: from.id).update_all(main_participant_id: to.id)
+    from.conversation_parts.where(authorable_id: from.id).update_all(authorable_id: to.id)
+    from.events.update_all(eventable_id: to.id)
+    from.visits.update_all(app_user_id: to.id)
+    from
   end
 
   def compare_user_identifier(data)

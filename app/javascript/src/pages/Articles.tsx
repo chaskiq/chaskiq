@@ -93,7 +93,7 @@ class Articles extends Component<ArticlesProps, ArticlesState> {
     );
   };
 
-  updateSettings = (data) => {
+  updateSettings = (data, cb) => {
     const { settings } = data;
     graphql(
       ARTICLE_SETTINGS_UPDATE,
@@ -110,18 +110,21 @@ class Articles extends Component<ArticlesProps, ArticlesState> {
             },
             () => {
               if (!isEmpty(data.articleSettingsUpdate.errors)) {
-                return this.props.dispatch(
+                this.props.dispatch(
                   errorMessage(I18n.t('articles.settings_updated_error'))
                 );
+                return cb && cb();
               }
               this.props.dispatch(
                 successMessage(I18n.t('articles.settings_updated_success'))
               );
+              return cb && cb();
             }
           );
         },
         error: () => {
           errorMessage(I18n.t('articles.settings_updated_error'));
+          cb && cb();
         },
       }
     );

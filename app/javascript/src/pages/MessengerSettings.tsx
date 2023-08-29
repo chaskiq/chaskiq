@@ -31,6 +31,7 @@ import {
 
 import { APP } from '@chaskiq/store/src/graphql/queries';
 import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations';
+import EditorSettings from './settings/EditorSettings';
 
 type AppSettingsContainerProps = {
   dispatch: (val: any) => void;
@@ -278,6 +279,16 @@ class AppSettingsContainer extends Component<
             label: I18n.t('settings.app.inbound_settings'),
             content: (
               <InboundSettings
+                settings={this.props.app}
+                update={this.update}
+                namespace={'app'}
+              />
+            ),
+          },
+          {
+            label: 'Editor settings',
+            content: (
+              <EditorSettings
                 settings={this.props.app}
                 update={this.update}
                 namespace={'app'}

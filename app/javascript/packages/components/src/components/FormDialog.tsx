@@ -1,8 +1,12 @@
 import React from 'react';
 import { Transition } from '@headlessui/react';
+import usePortal from 'react-useportal';
 
 function FormDialog(props) {
   const [_open, setOpen] = React.useState(props.open);
+  const { Portal } = usePortal({
+    bindTo: document && document.getElementById('portal-root'),
+  });
 
   function handleClose() {
     setOpen(false);
@@ -12,65 +16,67 @@ function FormDialog(props) {
   React.useEffect(() => setOpen(props.open), [props.open]);
 
   return props.open ? (
-    <Backdrop>
-      <Transition
-        show={Boolean(props.open)}
-        enter="ease-out duration-300"
-        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        enterTo="opacity-100 translate-y-0 sm:scale-100"
-        leave="ease-in duration-200"
-        leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        className="relative bg-white dark:bg-black dark:text-gray-100 rounded-lg px-4 pt-5 pb-4 overflow-hidden--- shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6"
-      >
-        <div className="absolute top-0 right-0 pt-4 pr-4">
-          <button
-            onClick={handleClose}
-            type="button"
-            className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
-          >
-            <svg
-              className="h-6 w-6"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 24 24"
+    <Portal>
+      <Backdrop>
+        <Transition
+          show={Boolean(props.open)}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          enterTo="opacity-100 translate-y-0 sm:scale-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+          leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          className="relative bg-white dark:bg-gray-900 dark:text-gray-100 rounded-lg px-4 pt-5 pb-4 overflow-hidden--- shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6"
+        >
+          <div className="absolute top-0 right-0 pt-4 pr-4">
+            <button
+              onClick={handleClose}
+              type="button"
+              className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
-          </button>
-        </div>
-
-        <div className="sm:flex--dis sm:items-start">
-          {/* <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                <svg className="h-6 w-6 text-red-600" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                  <path strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                </svg>
-              </div> */}
-
-          <div className="mt-3 sm:mt-0 text-left">
-            {props.titleContent && (
-              <h3 className="text-xl leading-6 font-semibold text-gray-900 dark:text-gray-100">
-                {props.titleContent}
-              </h3>
-            )}
-
-            <div className="mt-2">{props.formComponent}</div>
+              <svg
+                className="h-6 w-6"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
           </div>
-        </div>
 
-        <div className="mt-5 sm:mt-4 flex flex-row-reverse">
-          {props.dialogButtons}
-        </div>
-      </Transition>
-    </Backdrop>
+          <div className="sm:flex--dis sm:items-start">
+            {/* <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <svg className="h-6 w-6 text-red-600" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                    <path strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                </div> */}
+
+            <div className="mt-3 sm:mt-0 text-left">
+              {props.titleContent && (
+                <h3 className="text-xl leading-6 font-semibold text-gray-900 dark:text-gray-100">
+                  {props.titleContent}
+                </h3>
+              )}
+
+              <div className="mt-2">{props.formComponent}</div>
+            </div>
+          </div>
+
+          <div className="mt-5 sm:mt-4 flex flex-row-reverse">
+            {props.dialogButtons}
+          </div>
+        </Transition>
+      </Backdrop>
+    </Portal>
   ) : null;
 }
 

@@ -5,7 +5,7 @@ import serialize from 'form-serialize';
 import I18n from '../../shared/FakeI18n';
 
 import graphql from '@chaskiq/store/src/graphql/client';
-import TextEditor from '@chaskiq/components/src/components/textEditor';
+import TextEditor from '@chaskiq/components/src/components/danteEditor';
 import Button from '@chaskiq/components/src/components/Button';
 import Badge from '@chaskiq/components/src/components/Badge';
 import Input from '@chaskiq/components/src/components/forms/Input';
@@ -28,6 +28,7 @@ type CampaignEditorProps = {
   app: any;
   mode: any;
   dispatch: any;
+  theme: any;
 };
 type CampaignEditorState = {
   loading: boolean;
@@ -141,8 +142,6 @@ export default class CampaignEditor extends Component<
     });
   };
 
-  saveHandler = (_html3, _plain, _serialized) => {};
-
   uploadHandler = ({ serviceUrl, imageBlock }) => {
     imageBlock.uploadCompleted(serviceUrl);
   };
@@ -218,11 +217,13 @@ export default class CampaignEditor extends Component<
             <React.Fragment>
               {!this.state.preview && (
                 <TextEditor
+                  allowedEditorFeature={() => true}
                   videoless={this.props.mode === 'campaigns'}
                   campaign={true}
                   uploadHandler={this.uploadHandler}
                   serializedContent={this.props.data.serializedContent}
                   read_only={this.state.read_only}
+                  theme={this.props.theme}
                   toggleEditable={() => {
                     this.setState({
                       read_only: !this.state.read_only,
@@ -235,10 +236,11 @@ export default class CampaignEditor extends Component<
                     lineHeight: '2em',
                     fontSize: '1.2em',
                   }}
-                  saveHandler={this.saveHandler}
-                  updateState={({ _status, _statusButton, content }) => {
-                    // console.log("get content", content);
-                    this.saveContent(content);
+                  updateState={(editor: any) => {
+                    this.saveContent({
+                      //html: editor.getHTML(),
+                      serialized: JSON.stringify(editor.getJSON()),
+                    });
                   }}
                 />
               )}
@@ -265,6 +267,7 @@ export default class CampaignEditor extends Component<
                 notifyHeight={this.heightHandler}
                 textComponent={
                   <TextEditor
+                    allowedEditorFeature={() => true}
                     campaign={true}
                     uploadHandler={this.uploadHandler}
                     serializedContent={this.props.data.serializedContent}
@@ -281,10 +284,11 @@ export default class CampaignEditor extends Component<
                       lineHeight: '2em',
                       fontSize: '1.2em',
                     }}
-                    saveHandler={this.saveHandler}
-                    updateState={({ _status, _statusButton, content }) => {
-                      // console.log("get content", content);
-                      this.saveContent(content);
+                    updateState={(editor: any) => {
+                      this.saveContent({
+                        //html: editor.getHTML(),
+                        serialized: JSON.stringify(editor.getJSON()),
+                      });
                     }}
                   />
                 }

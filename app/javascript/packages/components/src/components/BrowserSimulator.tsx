@@ -73,7 +73,7 @@ export const EditorMessengerEmulatorWrapper = styled.div<EditorMessengerProps>`
 
   ${({ mode }) =>
     mode === 'user_auto_messages'
-      ? tw`bg-white dark:bg-black rounded-lg shadow-lg p-8 pt-0 mb-6 mr-8 border border-gray-300`
+      ? tw`bg-white dark:bg-black overflow-auto h-[23rem] rounded-lg shadow-lg p-8 pt-0 mb-6 mr-8 border border-gray-300`
       : ''}
 
   ${({ mode }) =>
@@ -95,7 +95,7 @@ export const EditorPad = styled.div<EditorMessengerProps>`
 				justify-content: flex-end;
 				flex-flow: column;
 				height: 90vh;
-
+        ${tw`dark:bg-gray-900`}
 				.postContent {
 					height: 440px;
 					overflow: auto;

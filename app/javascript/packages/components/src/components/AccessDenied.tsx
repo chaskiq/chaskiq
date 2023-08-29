@@ -2,6 +2,9 @@ import React from 'react';
 import icon from '../../../../src/images/favicon.png';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { UNAUTHORIZED } from '@chaskiq/store/src/actions/status_messages';
+import { clearCode } from '@chaskiq/store/src/actions/error_status_code';
+import { useDispatch } from 'react-redux';
 
 export function allowedAccessTo(app, section, verb = 'read') {
   const userRole = app.currentAppRole;
@@ -17,7 +20,7 @@ export function allowedAccessTo(app, section, verb = 'read') {
     role_definition['manage']?.includes(section) ||
     role_definition[verb]?.includes(section);
 
-  console.log('PERMISSION CHECK FOR:', verb, section, res);
+  // console.log('PERMISSION CHECK FOR:', verb, section, res);
   return res;
   // you can disable this behavior by returning true
   //return true
@@ -33,10 +36,29 @@ function get(role_definition, role_name) {
   }
 }
 
-function RestrictedArea({ app, current_user, verb, section, children }) {
+function has_error(code) {
+  return code === UNAUTHORIZED;
+}
+
+function RestrictedArea({
+  app,
+  current_user,
+  verb,
+  section,
+  children,
+  error_code,
+}) {
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    return function cleanup() {
+      dispatch(clearCode());
+    };
+  }, [verb, section, children]);
+
   return (
     <React.Fragment>
-      {!allowedAccessTo(app, section, verb) ? (
+      {has_error(error_code) || !allowedAccessTo(app, section, verb) ? (
         <main className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex-shrink-0 flex justify-center">
             <a href="/" className="inline-flex">
@@ -74,11 +96,12 @@ function RestrictedArea({ app, current_user, verb, section, children }) {
 }
 
 function mapStateToProps(state) {
-  const { app, current_user } = state;
+  const { app, current_user, error_code } = state;
 
   return {
     current_user,
     app,
+    error_code,
   };
 }
 

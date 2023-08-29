@@ -45,6 +45,12 @@ class Message < ApplicationRecord
     false
   end
 
+  def html_from_serialized
+    json = JSON.parse(serialized_content)
+    data = ActiveSupport::HashWithIndifferentAccess.new(json)
+    Dante::Renderer.new(raw: data).render
+  end
+
   def show_notification_for(user)
     if available_for_user?(user)
       metrics.create(

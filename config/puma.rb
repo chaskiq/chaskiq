@@ -25,8 +25,11 @@ environment ENV.fetch('RAILS_ENV') { 'development' }
 # Puma 5 new options
 # https://github.com/puma/puma/blob/master/5.0-Upgrade.md
 #
+# Puma 6 new options
+# https://github.com/puma/puma/blob/master/6.0-Upgrade.md
+
 wait_for_less_busy_worker
-nakayoshi_fork
+# nakayoshi_fork # this wasd eprecated in version 6
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked web server processes. If using threads and workers together

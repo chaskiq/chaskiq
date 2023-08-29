@@ -8,7 +8,7 @@ export default function MainLayout() {
     <BrowserRouter>
       <Switch>
         <Route
-          path={'/:lang?(en|es)?'}
+          path={'/:lang?(en|es|pt)?'}
           render={(props) => <Docs {...props} />}
         />
 

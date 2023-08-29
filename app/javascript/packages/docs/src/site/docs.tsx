@@ -18,7 +18,7 @@ import CustomizedInputBase from './searchBar';
 
 import { Facebook, Twitter, LinkedIn } from './icons';
 import { Route, Switch, Link } from 'react-router-dom';
-import { Global, css } from '@emotion/core';
+import { Global, css } from '@emotion/react';
 
 const subdomain = window.location.host.split('.')[1]
   ? window.location.host.split('.')[0]
@@ -27,7 +27,7 @@ const subdomain = window.location.host.split('.')[1]
 function Docs(props) {
   // const classes = useStyles();
   const [settings, setSettings] = React.useState<any>({}) as any;
-  const [lang, setLang] = React.useState(props.match.params.lang || 'en');
+  const [lang, setLang] = React.useState(props.match.params.lang);
   const [error, _setError] = React.useState(false);
   const { history } = props;
 
@@ -45,6 +45,7 @@ function Docs(props) {
       {
         success: (data) => {
           setSettings(data.helpCenter);
+          if (!lang) setLang(data.helpCenter.defaultLang);
         },
         error: () => {},
       }
@@ -109,18 +110,19 @@ function Docs(props) {
                       <hr className={'classes.hr'} />
                     </div>
 
-                    {settings.availableLanguages && (
-                      <Dropdown
-                        icon={
-                          <LangGlobeIcon className="h-5 w-5 outline-none" />
-                        }
-                        filterHandler={handleLangChange}
-                        options={settings.availableLanguages.map((o) => ({
-                          name: o,
-                          id: o,
-                        }))}
-                      />
-                    )}
+                    {settings.availableLanguages &&
+                      settings.availableLanguages > 0 && (
+                        <Dropdown
+                          icon={
+                            <LangGlobeIcon className="h-5 w-5 outline-none" />
+                          }
+                          filterHandler={handleLangChange}
+                          options={settings.availableLanguages.map((o) => ({
+                            name: o,
+                            id: o,
+                          }))}
+                        />
+                      )}
                   </div>
                 </div>
               </div>

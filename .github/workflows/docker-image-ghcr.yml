@@ -2,7 +2,12 @@ name: Create and publish a Docker image to ghcr.io
 
 on:
   push:
-    branches: ['enc-credentials']
+    branches:
+      - master
+      - main
+      - stage
+  release:
+    types: [published]
 
 env:
   REGISTRY: ghcr.io
@@ -43,11 +48,11 @@ jobs:
           build-args: |
             "APP_ENV=production"
             "NODE_ENV=production"
-            "RUBY_VERSION=2.7.5"
+            "RUBY_VERSION=3.2.0"
             "PG_MAJOR=11"
             "NODE_MAJOR=16"
             "YARN_VERSION=1.13.0"
-            "BUNDLER_VERSION=2.3.15"
+            "BUNDLER_VERSION=2.3.26"
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

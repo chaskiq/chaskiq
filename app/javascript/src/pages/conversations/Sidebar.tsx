@@ -138,7 +138,7 @@ function renderInternal({ object, conversation, app, app_user }) {
 
 function UserBlock({ app_user }) {
   return (
-    <div className="space-y-2 divide-y divide-gray-200">
+    <div className="space-y-2 divide-y divide-gray-200 dark:divide-gray-600">
       <div className="space-y-1 py-2">
         <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
           {I18n.t('conversation.sidebar.browser')}
@@ -194,7 +194,7 @@ function TagBlocks({ conversation }) {
 
 function ConversationBlock({ conversation }) {
   return (
-    <div className="space-y-2 divide-y divide-gray-200">
+    <div className="space-y-2 divide-y divide-gray-200 dark:divide-gray-600">
       <div className="space-y-2 pt-2">
         <dt className="text-sm leading-5 font-medium text-gray-500">
           {I18n.t('conversation.sidebar.latest_user_visible_comment_at')}
@@ -281,7 +281,16 @@ export function AppItem({ app, object, conversation, app_user }) {
 
   function updatePackage(packageParams, cb) {
     if (packageParams.field.action.type === 'url') {
-      return window.open(packageParams.field.action.url);
+      cb && cb();
+
+      if (!packageParams.field?.action?.options)
+        return window.open(packageParams.field.action.url);
+
+      return window.open(
+        packageParams.field.action.url,
+        'pagename',
+        packageParams.field?.action?.options
+      );
     }
 
     const params = {
@@ -304,7 +313,7 @@ export function AppItem({ app, object, conversation, app_user }) {
 
   return (
     <ErrorBoundary>
-      <div className="rounded-md border border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-800 w-full p-2--">
+      <div className="rounded-md border-- border-gray-200 bg-white dark:bg-gray-800 w-full p-2-- dark:border-none">
         <p className="hidden text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
           {object.name}
         </p>

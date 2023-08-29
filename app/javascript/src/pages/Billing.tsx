@@ -2,16 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { isEmpty } from 'lodash';
-import I18n from '../shared/FakeI18n';
+import usePortal from 'react-useportal';
 
+import I18n from '../shared/FakeI18n';
 import ContentHeader from '@chaskiq/components/src/components/PageHeader';
 import Content from '@chaskiq/components/src/components/Content';
 import Tabs from '@chaskiq/components/src/components/Tabs';
 import CircularProgress from '@chaskiq/components/src/components/Progress';
-
 import graphql from '@chaskiq/store/src/graphql/client';
-
 import { clearSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
+
+import subscriptionPlanListFeatures from '../layout/subscriptionPlanFeatures';
 
 import {
   setCurrentSection,
@@ -25,12 +26,20 @@ import {
   UPDATE_SUBSCRIPTION_PLAN,
 } from '@chaskiq/store/src/graphql/queries';
 
+import {
+  STRIPE_CUSTOMER_PORTAL,
+  STRIPE_SUBSCRIPTION_CREATE_INTENT,
+} from '@chaskiq/store/src/graphql/mutations';
+import Tooltip from 'rc-tooltip';
+
 function Billing({ current_user, dispatch, paddleSubscription, app }) {
   const [plans, setPlans] = React.useState([]);
   const [openCheckout, setOpenCheckout] = React.useState(null);
   const [openSubscriptionUpdate, setOpenSubscriptionUpdate] =
     React.useState(null);
   const [subscriptionDetails, setSubscriptionDetails] = React.useState([]);
+  const [customerPortalLoading, setCustomerPortalLoading] =
+    React.useState(false);
 
   React.useEffect(() => {
     dispatch(setCurrentPage('Billing'));
@@ -93,8 +102,35 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
     }
   }
 
-  function openCheckoutHandler(plan) {
+  function openCheckoutHandlerPaddle(plan) {
     subscription ? setOpenSubscriptionUpdate(plan) : setOpenCheckout(plan);
+  }
+
+  function openCheckoutHandler(plan) {
+    graphql(
+      STRIPE_SUBSCRIPTION_CREATE_INTENT,
+      {
+        appKey: app.key,
+        planId: plan.id + '',
+      },
+      {
+        success: (data) => {
+          switch (data.stripeCreateIntent.redirectUrl) {
+            case 'no':
+              break;
+            default:
+              setOpenCheckout(plan);
+              window.location = data.stripeCreateIntent.redirectUrl;
+              break;
+          }
+          //console.log(data)
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      }
+    );
+    //subscription ? setOpenSubscriptionUpdate(plan) : setOpenCheckout(plan);
   }
 
   function getSubscriptionDetails() {
@@ -114,21 +150,16 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
   }
 
   function tabs() {
-    /*
-    <Plans plans={plans}
-      currentPlan={subscriptionPlanId}
-      appPlan={app.plan}
-      openCheckout={(plan) => openCheckoutHandler(plan) }
-    />
-    */
     return [
       {
         label: I18n.t('subscriptions.tabs')[0],
         content: !isEmpty(plans) && (
           <PlanBoard
             plans={plans}
-            openCheckout={(plan) => openCheckoutHandler(plan)}
-            // currentPlan={subscriptionPlanId}
+            openCheckout={(plan) => {
+              if (plan.source == 'stripe') return openCheckoutHandler(plan);
+              openCheckoutHandlerPaddle(plan);
+            }}
             appPlan={app.plan}
           />
         ),
@@ -162,6 +193,26 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
 
     const plan = plans.find((o) => o.id === subscriptionDetails[0].plan_id);
     return plan && plan.name;
+  }
+
+  function manageSubscription() {
+    setCustomerPortalLoading(true);
+    graphql(
+      STRIPE_CUSTOMER_PORTAL,
+      {
+        appKey: app.key,
+      },
+      {
+        success: (data) => {
+          setCustomerPortalLoading(false);
+          window.location = data.stripeCustomerPortal.redirectUrl;
+        },
+        error: (err) => {
+          setCustomerPortalLoading(false);
+          console.log(err);
+        },
+      }
+    );
   }
 
   const subscription = subscriptionDetails[0];
@@ -251,15 +302,20 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
           // actions={}
         />
 
-        <p>
-          {/* JSON.stringify(paddleSubscription) */}
-          {/* JSON.stringify(subscriptionDetails) */}
-        </p>
-
         {!isEmpty(paddleSubscription) && renderAlert()}
 
-        {openCheckout && (
-          <Checkout
+        {openCheckout && openCheckout.source === 'paddle' && (
+          <PaddleCheckout
+            current_user={current_user}
+            app={app}
+            handleClose={() => setOpenCheckout(null)}
+            handleSuccess={() => setOpenCheckout(null)}
+            product={openCheckout}
+          />
+        )}
+
+        {openCheckout && openCheckout.source === 'stripe' && (
+          <StripeCheckout
             current_user={current_user}
             app={app}
             handleClose={() => setOpenCheckout(null)}
@@ -275,6 +331,19 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
             handleSubmit={(planId) => updatesubscription(planId)}
             plan={openSubscriptionUpdate}
           />
+        )}
+
+        {app.subscriptionsEnabled && app.preferences.stripe_customer_id && (
+          <div className="flex items-center justify-end">
+            <button
+              className="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-gray-800 text-white hover:bg-gray-700"
+              onClick={manageSubscription}
+              disabled={customerPortalLoading}
+            >
+              manage subscription
+              {customerPortalLoading && 'loadding...'}
+            </button>
+          </div>
         )}
 
         <Tabs tabs={tabs()}></Tabs>
@@ -502,7 +571,7 @@ function UpdateSubscriptionModal({
               <span className="font-bold">{plan.name}</span> plan
             </h3>
 
-            {!loading && plan.recurring_price.USD != '0.00' && (
+            {!loading && plan.pricing != '0.00' && (
               <div className="mt-2">
                 <p className="text-sm leading-5 text-gray-500 dark:text-gray-300">
                   {
@@ -527,7 +596,7 @@ function UpdateSubscriptionModal({
                         __html: I18n.t(
                           'subscriptions.update_subscription.amount',
                           {
-                            recurring_price: plan.recurring_price.USD,
+                            recurring_price: plan.pricing,
                           }
                         ),
                       }}
@@ -573,108 +642,78 @@ function UpdateSubscriptionModal({
   );
 }
 
-/*
-function Plans ({ plans, openCheckout, currentPlan, appPlan }) {
-  return (
-    plans.filter((o) => o.id !== currentPlan)
-      .map((o) => <div
-        key={`plan-key-${o.id}`}
-        className="pt-4">
-        <Plan
-          key={`plan-key-${o.id}`}
-          plan={o}
-          appPlan={appPlan}
-          currentPlan={currentPlan}
-          openCheckout={openCheckout}
-        />
-      </div>
-      )
-  )
-}
-
-function Plan ({ plan, openCheckout, _currentPlan, appPlan }) {
-  function findInTranslation () {
-    const translatedPlan = I18n.t('subscriptions.plans').find((o) => o.id === plan)
-    return translatedPlan && translatedPlan
-  }
-
-  return (
-    <div className={`${appPlan.id === plan.id ? 'bg-gray-100' : ''} border rounded-md shadow-lg flex mb-4`}>
-      <div className="p-5 flex-grow">
-        <h2 className="text-4xl font-extrabold">{plan.name}</h2>
-        <p className="text-gray-600">
-          {findInTranslation() && findInTranslation().description }
-        </p>
-
-        <div>
-          <div className="flex items-center my-4">
-            <span className="mr-2 font-bold text-md uppercase">
-              {I18n.t('subscriptions.plan.included')}
-            </span>
-            <div className="ml-2 h-1 bg-gray-200 flex-grow"/>
-          </div>
-
-          <dl className="mt-8 space-y-5 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-5">
-            {
-              // findInTranslation() && findInTranslation()
-              plan.features.filter((o) => o.active).map((o, index) => (
-                <div key={`items-${index}`} className="sm:col-span-1">
-                  <dt className="text-sm leading-5 font-medium text-gray-500">
-                    <div className="flex">
-                      <div className="mr-1 flex items-center justify-center h-4 w-4 rounded-full bg-green-100">
-                        <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                      </div>
-                      <span>{I18n.t(`subscriptions.features.${o.name}.title`)}</span>
-                    </div>
-                  </dt>
-                </div>
-              ))
-            }
-
-          </dl>
-
-        </div>
-      </div>
-
-      <div className="bg-gray-100 p-5 text-center flex flex-col items-center justify-center">
-        <p className="font-bold text-lg">
-          {I18n.t('subscriptions.plan.pay_by', { billing_type: plan.billing_type })}
-        </p>
-        <h2 className="flex justify-center items-center my-4">
-          <span className="mr-2 text-3xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-5xl">
-            $ {plan.recurring_price.USD}
-          </span>
-          <span className="text-2xl text-gray-300">USD</span>
-        </h2>
-        {
-          plan.trial_days !== 0 &&
-            <p dangerouslySetInnerHTML={
-              {
-                __html: I18n.t('subscriptions.plan.trial_days', { trial_days: plan.trial_days })
-              }
-            }>
-            </p>
-        }
-        <Button
-          className="my-4"
-          size="large"
-          onClick={() => openCheckout(plan)}>
-          { I18n.t('subscriptions.plan.get_access') }
-        </Button>
-      </div>
-    </div>
-  )
-}*/
-
 declare global {
   interface Window {
     Paddle: any;
   }
 }
 
-function Checkout({ current_user, app, product, handleSuccess, handleClose }) {
+function StripeCheckout({
+  current_user,
+  app,
+  product,
+  handleSuccess,
+  handleClose,
+}) {
+  return (
+    <div>
+      <div className="fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
+        <div className="fixed inset-0 transition-opacity">
+          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+
+        <div
+          className="bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:max-w-sm sm:w-full sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-headline"
+        >
+          <div>
+            <div className="mt-3 text-center sm:mt-5">
+              <div className="absolute top-0 right-0 pt-4 pr-4">
+                <button
+                  onClick={handleClose}
+                  type="button"
+                  className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
+                >
+                  <svg
+                    className="h-6 w-6"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+
+              <div className="checkout-container">
+                You will be redirected to the checkeout gateway
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PaddleCheckout({
+  current_user,
+  app,
+  product,
+  handleSuccess,
+  handleClose,
+}) {
+  const { Portal } = usePortal({
+    bindTo: document && document.getElementById('portal-root'),
+  });
+
   React.useEffect(() => {
     window.Paddle.Setup({
       vendor: 115475, // Replace with your Vendor ID.
@@ -697,8 +736,8 @@ function Checkout({ current_user, app, product, handleSuccess, handleClose }) {
   }, []);
 
   return (
-    <div>
-      <div className="fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
+    <Portal>
+      <div className="fixed z-50 bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
         <div className="fixed inset-0 transition-opacity">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
@@ -738,7 +777,7 @@ function Checkout({ current_user, app, product, handleSuccess, handleClose }) {
           </div>
         </div>
       </div>
-    </div>
+    </Portal>
   );
 }
 
@@ -769,27 +808,27 @@ function Transactions({ app }) {
       <table className="min-w-full">
         <thead>
           <tr className="border-t border-gray-200">
-            <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 dark:bg-black text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               <span className="lg:pl-2">Status</span>
             </th>
-            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 dark:bg-black text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Date
             </th>
-            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 dark:bg-black text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Amount
             </th>
-            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 dark:bg-black text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Receipt
             </th>
           </tr>
         </thead>
 
-        <tbody className="bg-white divide-y divide-gray-100">
+        <tbody className="bg-white divide-y divide-gray-100 dark:divide-gray-900 dark:bg-black">
           {transactions.map((o) => (
             <tr key={`trx-${o.order_id}`}>
               <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
                 <div className="flex items-center space-x-3 lg:pl-2">
-                  <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-pink-600" />
+                  <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-brand" />
                   <a
                     href="#"
                     className="truncate hover:text-gray-600 dark:hover:text-gray-200"
@@ -828,8 +867,12 @@ function Transactions({ app }) {
 export default withRouter(connect(mapStateToProps)(Billing));
 
 function PlanBoard({ appPlan, plans, openCheckout }) {
+  function isPlan(plan) {
+    return appPlan && appPlan.id === plan.id;
+  }
+
   return (
-    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div className="max-w-2xl mt-5 mx-auto bg-white dark:bg-black py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       {/* xs to lg */}
       <div className="space-y-24 lg:hidden">
         {plans.map((plan) => (
@@ -840,14 +883,14 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
               </h2>
               <p className="mt-4">
                 <span className="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
-                  ${Math.floor(plan.recurring_price.USD)}
+                  ${Math.floor(plan.pricing)}
                 </span>
                 <span className="text-base font-medium text-gray-500 dark:text-gray-300">
                   /mo
                 </span>
               </p>
 
-              {appPlan && appPlan.id === plan.id && (
+              {isPlan(plan) && (
                 <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
                   This is your current plan
                 </p>
@@ -864,6 +907,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                   focus:shadow-outline
                   mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
                     onClick={() => openCheckout(plan)}
+                    //onClick={() => payIntent(plan)}
                   >
                     {' '}
                     Buy {plan.name}
@@ -884,8 +928,8 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
-                {Object.keys(I18n.t('subscriptions.features')).map((k) => (
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+                {subscriptionPlanListFeatures().map((k) => (
                   <tr
                     key={`mobile-feature-${k}`}
                     className="border-t border-gray-200"
@@ -894,30 +938,16 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                       className="py-5 px-4 text-sm font-normal text-gray-500 dark:text-gray-300  text-left"
                       scope="row"
                     >
-                      {I18n.t(`subscriptions.features.${k}.title`)}
+                      <PlanDescriptor k={k} />
                     </th>
-                    <td className="py-5 pr-4">
-                      {plan.features.find((p) => p.active && p.name === k) && (
-                        <svg
-                          className="ml-auto h-5 w-5 text-green-500"
-                          x-description="Heroicon name: check"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      )}
 
-                      {plan.features.find((p) => p.active && p.name === k) && (
-                        <span className="sr-only">Yes</span>
-                      )}
-                    </td>
+                    {plan.features.find((p) => p.active) && (
+                      <PlanItemDescriptor
+                        plan={plan}
+                        k={k}
+                        key={`feature-${k}-plan-${plan.name}`}
+                      />
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -937,7 +967,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                 {' '}
                 {plan.name}
               </button>
-              {/* <a href="#" className="block w-full bg-gradient-to-r from-orange-500 to-pink-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center hover:to-pink-600">
+              {/* <a href="#" className="block w-full bg-gradient-to-r from-orange-500 to-brand-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center hover:to-brand-600">
                 Buy Basic
               </a> */}
             </div>
@@ -960,7 +990,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
               {plans.map((o) => (
                 <th
                   key={`plan-${o.id}`}
-                  className="w-1/4 pb-4 px-6 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 text-left"
+                  className="w-1/4- pb-4 px-6 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 text-left"
                   scope="col"
                 >
                   {o.name}
@@ -968,7 +998,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
               ))}
             </tr>
           </thead>
-          <tbody className="border-t border-gray-200 divide-y divide-gray-200">
+          <tbody className="border-t border-gray-200 divide-y divide-gray-200 dark:divide-gray-600">
             <tr>
               <th
                 className="py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 dark:text-gray-100 text-left"
@@ -985,7 +1015,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                     <div>
                       <p>
                         <span className="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
-                          ${Math.floor(p.recurring_price.USD)}
+                          ${Math.floor(p.pricing)}
                         </span>
                         <span className="text-base font-medium text-gray-500 dark:text-gray-300">
                           /mo
@@ -996,7 +1026,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                       </p>
                     </div>
 
-                    {appPlan && appPlan.id == p.id && (
+                    {isPlan(p) && (
                       <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
                         This is your current plan
                       </p>
@@ -1026,47 +1056,50 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
             <tr>
               <th
                 className="py-3 pl-6 bg-gray-50 dark:bg-black text-sm font-medium text-gray-900 dark:text-white text-left"
-                colSpan={4}
+                colSpan={plans ? plans?.length + 1 : 5}
                 scope="colgroup"
               >
                 Features
               </th>
             </tr>
 
-            {Object.keys(I18n.t('subscriptions.features')).map((k) => (
-              <tr key={`plan-feature-matrix-${k}`}>
-                <th
-                  className="py-5 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
-                  scope="row"
-                >
-                  {I18n.t(`subscriptions.features.${k}.title`)}
-                </th>
-
-                {plans.map((plan) => (
-                  <td
-                    className="py-5 px-6"
-                    key={`feature-${k}-plan-${plan.name}`}
+            {subscriptionPlanListFeatures().map((k) => (
+              <React.Fragment key={`plan-feature-matrix-${k}`}>
+                <tr>
+                  <th
+                    className="py-5 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
+                    scope="row"
                   >
-                    {plan.features.find((o) => o.name === k && o.active) && (
-                      <svg
-                        className="h-5 w-5 text-green-500"
-                        x-description="Heroicon name: check"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    )}
-                    <span className="sr-only">Included in {plan.name}</span>
-                  </td>
-                ))}
-              </tr>
+                    <PlanDescriptor k={k} />
+                  </th>
+
+                  {plans.map((plan) => (
+                    <PlanItemDescriptor
+                      plan={plan}
+                      k={k}
+                      key={`feature-${k}-plan-${plan.name}`}
+                    />
+                  ))}
+                </tr>
+
+                <tr key={`plan-feature-matrix-${k}-exp`}>
+                  <th
+                    className="dark:bg-gray-900 py-2 bg-gray-100 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
+                    scope="row"
+                  />
+                  <th
+                    colSpan={4}
+                    className="dark:bg-gray-900 py-2  bg-gray-100 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
+                    scope="row"
+                  >
+                    <span
+                      className={'text-xs text-gray-500 dark:text-gray-300'}
+                    >
+                      {I18n.t(`subscriptions.features.${k}.upgrade_message`)}
+                    </span>
+                  </th>
+                </tr>
+              </React.Fragment>
             ))}
           </tbody>
           <tfoot>
@@ -1106,5 +1139,67 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
         </table>
       </div>
     </div>
+  );
+}
+
+function PlanDescriptor({ k }) {
+  return (
+    <div className="flex flex-col">
+      <span className={'text-sm text-gray-900 dark:text-gray-100 font-bold'}>
+        {I18n.t(`subscriptions.features.${k}.title`)}
+      </span>
+      <span className={'hidden text-xxs text-gray-500 dark:text-gray-300'}>
+        {I18n.t(`subscriptions.features.${k}.upgrade_message`)}
+      </span>
+    </div>
+  );
+}
+
+function PlanItemDescriptor({ plan, k }) {
+  const planItem = plan.features.find((o) => o.name === k && o.active);
+  return (
+    <td className="py-5 px-6">
+      {planItem && (
+        <div className="flex flex-col items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6 text-green-500 bg-green-200 rounded-full"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+
+          <span className="text-xs uppercase font-bold text-gray-400 dark:text-gray-400">
+            {planItem.count == 'unlimited' ? '∞' : `Up to ${planItem.count}`}
+          </span>
+        </div>
+      )}
+      {!planItem && (
+        <div className="text-gray-300 flex flex-col justify-center items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </div>
+      )}
+      <span className="sr-only">Included in {plan.name}</span>
+    </td>
   );
 }

@@ -12,6 +12,9 @@ class Conversation < ApplicationRecord
   belongs_to :main_participant, class_name: "AppUser", optional: true # , foreign_key: "user_id"
   # has_one :conversation_source, dependent: :destroy
   has_many :messages, class_name: "ConversationPart", dependent: :destroy_async
+
+  has_many :message_blocks, through: :messages, source: :message_block
+
   has_many :conversation_channels, dependent: :destroy_async
   has_many :conversation_part_channel_sources, through: :messages
   has_one :latest_message, -> { order("id desc") },
@@ -226,6 +229,21 @@ class Conversation < ApplicationRecord
   def block!(msg = nil)
     block(msg)
     save
+  end
+
+  # used for agents
+  def notify_typing(author = nil)
+    author = app.agents.bots.first if author.blank?
+    key = "#{app.key}-#{main_participant.session_id}"
+    MessengerEventsChannel.broadcast_to(key, {
+      type: "conversations:typing",
+      data: {
+        conversation: self.key,
+        author: {
+          name: author.name
+        }
+      }
+    }.as_json)
   end
 
   def notify_conversation_list

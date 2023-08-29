@@ -16,6 +16,7 @@ export const ARTICLE_SETTINGS = `
       twitter
       website
       availableLanguages
+      defaultLang
     }
   }
 `;
@@ -128,6 +129,16 @@ export const ARTICLE = `
         state
         updatedAt
         description
+        nextArticleUrl {
+          id
+          slug
+          title
+        }
+        prevArticleUrl {
+          id
+          slug
+          title
+        }
         collection{
           slug
           title

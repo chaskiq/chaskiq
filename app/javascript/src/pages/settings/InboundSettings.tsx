@@ -81,7 +81,7 @@ function RepliesClosedConversationsControls({
   const enabledValue = state[enabledKind];
   return (
     <div>
-      <p className="text-lg leading-5 font-bold text-gray-900 pb-2">
+      <p className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100 pb-2">
         {I18n.t('settings.inbound.closed_replies_title', { name: option.name })}
       </p>
 
@@ -134,7 +134,7 @@ function IdleSessionClosedMessenger({
   const enabledValue = state[enabledKind];
   return (
     <div>
-      <p className="text-lg leading-5 font-bold text-gray-900 pb-2">
+      <p className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100 pb-2">
         {I18n.t('settings.inbound.idle_sessions_title', { name: option.name })}
       </p>
 
@@ -277,7 +277,7 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
         <Hints type="inbound_settings" />
       </div>
 
-      <p className="text-lg font-bold text-gray-900 pb-2">
+      <p className="text-lg font-bold text-gray-900 dark:text-gray-100 pb-2">
         {I18n.t('settings.inbound.title')}
       </p>
 

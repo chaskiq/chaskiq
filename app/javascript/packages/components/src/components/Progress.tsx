@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 // based on https://codepen.io/Siddharth11/pen/xbGrpG
 
 const spin = keyframes`
@@ -26,7 +26,7 @@ export default function CircularIndeterminate({
     <div className="flex justify-center items-center">
       <Loader
         className={`loader ease-linear rounded-full
-          border-4 border-t-4 border-pink-600 h-${sizeVariant} w-${sizeVariant}`}
+          border-4 border-t-4 border-brand h-${sizeVariant} w-${sizeVariant}`}
       />
     </div>
   );

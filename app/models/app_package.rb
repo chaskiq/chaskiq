@@ -5,6 +5,9 @@ class AppPackage < ApplicationRecord
   has_many :app_package_integrations, dependent: :destroy
   has_many :apps, through: :app_package_integrations
   belongs_to :author, class_name: "Agent", optional: true, foreign_key: :agent_id
+  has_one :plugin, dependent: :destroy
+
+  accepts_nested_attributes_for :plugin
 
   acts_as_taggable_on :tags, :capabilities
 
@@ -20,6 +23,7 @@ class AppPackage < ApplicationRecord
     sheet_url
     oauth_url
     content_url
+    frozen
   ], coder: JSON
 
   validates :name, presence: true, uniqueness: true
@@ -42,6 +46,8 @@ class AppPackage < ApplicationRecord
 
   def is_external?
     return true if author.present?
+
+    return false if plugin.present? && plugin.new_record?
 
     # will return true for non existing message_apply
     external = begin
@@ -111,5 +117,17 @@ class AppPackage < ApplicationRecord
   # message api
   def message_api_klass
     @message_api_klass ||= "MessageApis::#{name}::Api".constantize
+  end
+
+  def frozen?
+    frozen == true
+  end
+
+  def freeze!
+    update(frozen: true)
+  end
+
+  def unfreeze!
+    update(frozen: false)
   end
 end

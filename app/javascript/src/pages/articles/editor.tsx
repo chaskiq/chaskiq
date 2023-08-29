@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 
-import TextEditor from '@chaskiq/components/src/components/textEditor';
+// import TextEditor from '@chaskiq/components/src/components/textEditor';
+import TextEditor from '@chaskiq/components/src/components/danteEditor';
 
 type ArticleEditorProps = {
   updateState: (val: any) => void;
   uploadHandler: any;
   loading: boolean;
   article: any;
+  theme: any;
 };
 
 type ArticleEditorState = {
@@ -36,7 +38,7 @@ export default class ArticleEditor extends Component<
       statusButton: 'success',
       content: {
         html: content.html,
-        serialized: content.serialized,
+        serialized: JSON.stringify(content.serialized),
       },
     });
   };
@@ -51,11 +53,11 @@ export default class ArticleEditor extends Component<
     //  return <CircularProgress/>
 
     const content = this.props.article.content;
-
     const serializedContent = content ? content.serialized_content : null;
 
     return (
       <TextEditor
+        allowedEditorFeature={() => true}
         campaign={true}
         uploadHandler={this.props.uploadHandler}
         loading={this.isLoading()}
@@ -70,17 +72,19 @@ export default class ArticleEditor extends Component<
           sticky: true,
           placement: 'up',
         }}
-        serializedContent={serializedContent}
         data={{
           serialized_content: serializedContent,
         }}
+        theme={this.props.theme}
         styles={{
           lineHeight: '2em',
           fontSize: '1.2em',
         }}
-        updateState={({ _status, _statusButton, content }) => {
-          //console.log('get content', content);
-          this.saveContent(content);
+        updateState={(editor: any) => {
+          this.saveContent({
+            html: editor.getHTML(),
+            serialized: editor.getJSON(),
+          });
         }}
       />
     );

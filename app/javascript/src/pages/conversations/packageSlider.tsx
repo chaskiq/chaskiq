@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 
 import React, { useState } from 'react';
-import { XIcon } from '@heroicons/react/outline';
 import { useHotkeys } from 'react-hotkeys-hook';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils';
 import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
 import { Link } from 'react-router-dom';
 import Tooltip from 'rc-tooltip';
-import { IntegrationsIcon } from '@chaskiq/components/src/components/icons';
+import {
+  IntegrationsIcon,
+  CloseIcon,
+} from '@chaskiq/components/src/components/icons';
 import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 import graphql from '@chaskiq/store/src/graphql/client';
 import { errorMessage } from '@chaskiq/store/src/actions/status_messages';
@@ -51,10 +53,10 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
           text-purple-lighter 
           flex-none w-23 
           p-2 
-          border-r border-gray-300 dark:border-gray-800 border-l`}
+          border-r border-gray-300 dark:border-gray-900 border-l`}
         >
           <div className="cursor-pointer mb-4">
-            <div className="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
+            <div className="bg-white dark:bg-gray-900 dark:text-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
               <Tooltip placement="right" overlay={'Go to app packages'}>
                 <Link to={`/apps/${app.key}/integrations`}>
                   {<IntegrationsIcon />}
@@ -110,7 +112,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
                     onClick={() => setOpen(false)}
                   >
                     <span className="sr-only">Close panel</span>
-                    <XIcon className="h-6 w-6" aria-hidden="true" />
+                    <CloseIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
               </div>

@@ -3,15 +3,17 @@ import Moment from 'react-moment';
 import styled from '@emotion/styled';
 
 import translation from './translation';
-import { ThemeProvider } from 'emotion-theming';
-import EditorContainer from 'Dante2/package/esm/editor/styled/base';
+import EditorContainer from 'dante3/package/esm/styled/base.js';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 import { ARTICLE } from '@chaskiq/store/src/graphql/docsQueries';
 
 import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs';
 import Avatar from '@chaskiq/components/src/components/Avatar';
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+//import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
+import { Link } from 'react-router-dom';
 
 import { withRouter } from 'react-router-dom';
 
@@ -122,13 +124,46 @@ function Article(props: ArticleProps) {
               </div>
             </div>
 
-            <ThemeProvider theme={theme}>
-              <NewEditorStyles>
-                <DraftRenderer
-                  raw={JSON.parse(article.content.serialized_content)}
-                />
-              </NewEditorStyles>
-            </ThemeProvider>
+            <Renderer
+              theme={theme}
+              raw={JSON.parse(article.content.serialized_content)}
+            />
+
+            <dl className="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
+              {article.prevArticleUrl && (
+                <div>
+                  <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
+                    Previous
+                  </dt>
+                  <dd className="mt-1">
+                    <Link
+                      className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+                      to={article.prevArticleUrl.slug}
+                    >
+                      <span aria-hidden="true">←</span>{' '}
+                      {article.prevArticleUrl.title}
+                    </Link>
+                  </dd>
+                </div>
+              )}
+
+              {article.nextArticleUrl && (
+                <div className="ml-auto text-right">
+                  <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
+                    Next
+                  </dt>
+                  <dd className="mt-1">
+                    <Link
+                      className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+                      to={article.nextArticleUrl.slug}
+                    >
+                      {article.nextArticleUrl.title}{' '}
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                  </dd>
+                </div>
+              )}
+            </dl>
           </div>
         ) : null}
       </div>

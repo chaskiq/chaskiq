@@ -84,7 +84,19 @@ class Apps::BotsController < ApplicationController
     render :index
   end
 
-  private def collection_finder
+  private
+
+  def handle_bot_tasks_filters(filters, collection)
+    return collection if filters["users"].blank?
+
+    ors = nil
+    filters["users"].each_with_index do |filter, _index|
+      ors = ors.nil? ? BotTask.infix([filter]) : ors.or(BotTask.infix([filter]))
+    end
+    collection = collection.where(ors) if ors.present?
+  end
+
+  def collection_finder
     mode = action_name # params[:mode]
     filters = params[:filters] ||= {}
 
@@ -93,15 +105,5 @@ class Apps::BotsController < ApplicationController
     collection = @app.bot_tasks.for_outbound if mode == "outbound"
     collection = collection.where(state: filters["state"]) if filters["state"].present?
     @collection = handle_bot_tasks_filters(filters, collection).ordered
-  end
-
-  private def handle_bot_tasks_filters(filters, collection)
-    return collection if filters["users"].blank?
-
-    ors = nil
-    filters["users"].each_with_index do |filter, _index|
-      ors = ors.nil? ? BotTask.infix([filter]) : ors.or(BotTask.infix([filter]))
-    end
-    collection = collection.where(ors) if ors.present?
   end
 end

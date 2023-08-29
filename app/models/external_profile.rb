@@ -2,6 +2,14 @@ class ExternalProfile < ApplicationRecord
   belongs_to :app_user
   has_one :app, through: :app_user
 
+  after_commit :reindex_product
+
+  def reindex_product
+    return unless app_user.should_index?
+
+    app_user&.reindex
+  end
+
   def app_package
     app.app_package_integrations
        .joins(:app_package)

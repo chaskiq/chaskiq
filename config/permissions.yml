@@ -12,6 +12,9 @@ agent:
     - team
     - users
     - segments
+    - fixed_app_packages
+    - routing_bots
+    - quick_replies
   write:
 
 program_manager:
@@ -60,3 +63,4 @@ admin_only:
 #    - quick_replies
 #    - team
 #    - users
+#    - conversation_customizations

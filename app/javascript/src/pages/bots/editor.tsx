@@ -8,7 +8,7 @@ import Segment from './segment';
 import BotTaskSetting from './taskSettings';
 import I18n from '../../shared/FakeI18n';
 
-import TextEditor from '@chaskiq/components/src/components/textEditor';
+import TextEditor from '@chaskiq/components/src/components/danteEditor';
 import UpgradeButton from '@chaskiq/components/src/components/upgradeButton';
 import InplaceInputEditor from '@chaskiq/components/src/components/InplaceInputEditor';
 import SwitchControl from '@chaskiq/components/src/components/Switch';
@@ -64,19 +64,19 @@ const ItemManagerContainer = styled.div`
   margin-right: 19px;
 `;
 
-const ItemsContainer = styled.div`
-  box-shadow: 0 24px 0 0 #fff, 0 -24px 0 0 #fff,
-    16px 0 32px -12px rgba(0, 0, 0, 0.1), -16px 0 32px -12px rgba(0, 0, 0, 0.1);
-`;
+const ItemsContainer = styled.div``;
+// box-shadow: 0 24px 0 0 #fff, 0 -24px 0 0 #fff,
+//   16px 0 32px -12px rgba(0, 0, 0, 0.1), -16px 0 32px -12px rgba(0, 0, 0, 0.1);
+//`;
 
 const PathActionsContainer = styled.div`
   align-items: flex-end;
   border-radius: 0 0 8px 8px;
   box-sizing: border-box;
-  box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.1), 0 -24px 0 0 #fff,
-    16px 0 32px -12px rgba(0, 0, 0, 0.1), -16px 0 32px -12px rgba(0, 0, 0, 0.1);
   padding: 20px 20px 24px;
 `;
+// box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.1), 0 -24px 0 0 #fff,
+// 16px 0 32px -12px rgba(0, 0, 0, 0.1), -16px 0 32px -12px rgba(0, 0, 0, 0.1);
 
 type ItemButtonsType = {
   first?: boolean;
@@ -1314,7 +1314,7 @@ const Path = ({
         {/* <hr/> */}
       </div>
 
-      <hr className="my-4 w-full border-4" />
+      <hr className="my-4 w-full border-4 dark:border-gray-900" />
 
       <div className="p-4 flex flex-col justify-center items-center">
         <div className="flex">
@@ -1498,6 +1498,7 @@ const PathEditor = ({ step, message, path, updatePath }) => {
   return (
     <div className="shadow border border-gray-400 rounded p-6 relative dark:bg-gray-800 bg-gray-100 max-w-sm">
       <TextEditor
+        allowedEditorFeature={() => true}
         uploadHandler={uploadHandler}
         serializedContent={message.serialized_content}
         read_only={readOnly}
@@ -1512,9 +1513,11 @@ const PathEditor = ({ step, message, path, updatePath }) => {
           fontSize: '1em',
         }}
         saveHandler={saveHandler}
-        updateState={({ _status, _statusButton, content }) => {
-          //console.log('get content', content);
-          saveContent(content);
+        updateState={(editor: any) => {
+          saveContent({
+            //html: editor.getHTML(),
+            serialized: JSON.stringify(editor.getJSON()),
+          });
         }}
       />
     </div>
@@ -1654,7 +1657,7 @@ const getListStyle = (_isDraggingOver) => ({
 });
 
 const getPathStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : 'transparent',
+  background: isDraggingOver ? 'sky' : 'transparent',
   padding: 2,
   // width: 250
 });

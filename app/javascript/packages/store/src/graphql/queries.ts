@@ -119,6 +119,40 @@ export const ROLE_AGENTS = `
   }
 `;
 
+export const TEAMS = `
+  query App($appKey: String!, $page: Int, $per: Int) { 
+    app(key: $appKey){
+      key
+      teams(page: $page, per: $per ){
+        collection{
+          id
+          name
+          role
+          description
+        }
+      }
+    }
+  }
+`;
+
+export const TEAM_WITH_AGENTS = `
+  query App($appKey: String!, $id: String!, $page: Int, $per: Int) { 
+    app(key: $appKey){
+      key
+      team(id: $id){
+        agents(page: $page, per: $per ){
+          collection{
+            id
+            name
+            avatarUrl
+            email
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const PENDING_AGENTS = `
   query App($appKey: String!){
     app(key: $appKey) {
@@ -324,6 +358,35 @@ export const CONTACT_SEARCH = `
         id
         email
         displayName
+        kind
+      }
+    }
+  }
+`;
+
+export const CONTACT_SEARCH_BY_PROFILE = `
+  query ContactSearchByProfile($appKey: String!, $provider: String!, $profileId: String!){
+    app(key: $appKey) {
+      contactSearchByProfile(provider: $provider, profileId: $profileId ){
+        id
+        provider
+        profileId
+        appUser {
+          id
+          email
+        }
+      }
+    }
+  }
+`;
+
+export const AGENT_SEARCH = `
+  query App($appKey: String!, $term: String!){
+    app(key: $appKey) {
+      agentSearch(term: $term){
+        id
+        email
+        displayName
       }
     }
   }
@@ -414,7 +477,7 @@ query AppUserConversations($appKey: String!, $id: String!, $page: Int, $per: Int
 `;
 
 export const APP_USER_VISITS = `
-query AppUserVisits($appKey: String!, $id: Int!, $page: Int, $per: Int){
+query AppUserVisits($appKey: String!, $id: String!, $page: Int, $per: Int){
   app(key: $appKey ){
     name
     key
@@ -586,6 +649,7 @@ export const ARTICLE_SETTINGS = `
         langs
         translations
         availableLanguages
+        defaultLang
       }
     }
   }
@@ -753,14 +817,17 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
 `;
 
 export const BOT_TASKS = `
-  query BotTasks($appKey: String!, $lang: String, $mode: String, $filters: BotTaskFilter){
+  query BotTasks($appKey: String!, $lang: String, $mode: String, $filters: BotTaskFilter, $page: Int){
     app(key: $appKey){
-      botTasks(lang: $lang, mode: $mode, filters: $filters){
-        title
-        id
-        state
-        botType
-        position
+      botTasks(lang: $lang, mode: $mode, filters: $filters, page: $page){
+        collection {
+          title
+          id
+          state
+          botType
+          position
+        }
+        meta 
       }
     }
   }
@@ -1095,4 +1162,5 @@ export default {
   SUBSCRIPTION_TRANSACTIONS,
   SUBSCRIPTION_DETAILS,
   UPDATE_SUBSCRIPTION_PLAN,
+  CONTACT_SEARCH_BY_PROFILE,
 };

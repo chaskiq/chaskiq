@@ -279,7 +279,7 @@ export function InlineFilterDialog({
       </div>
 
       <div className="overflow-scroll h-48">
-        <ul className="divide-y divide-gray-200">
+        <ul className="divide-y divide-gray-200 dark:divide-gray-600">
           {f.map((o, i) => (
             <li key={`select-fields-${i}`}>
               <a

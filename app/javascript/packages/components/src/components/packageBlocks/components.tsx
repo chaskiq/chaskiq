@@ -1,7 +1,7 @@
 import React from 'react';
 import serialize from 'form-serialize';
 import ErrorBoundary from '../ErrorBoundary';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { Loader } from './styled';
 
 import { ImageRenderer } from './Image';
@@ -25,6 +25,7 @@ function ContentRenderer({
   updatePackage,
   disabled,
   appPackage,
+  cb,
 }) {
   React.useEffect(() => {
     updatePackage &&
@@ -36,7 +37,9 @@ function ContentRenderer({
           },
           // location: 'content'
         },
-        () => {}
+        () => {
+          cb && cb();
+        }
       );
   }, []);
 
@@ -106,6 +109,9 @@ export function DefinitionRenderer({
             disabled={disabled}
             appPackage={appPackage}
             updatePackage={updatePackage}
+            cb={() => {
+              setLoading(false);
+            }}
           />
         );
       case 'image':
@@ -135,6 +141,15 @@ export function DefinitionRenderer({
               handleAction={handleAction}
             />
           </Padder>
+        );
+      case 'hidden':
+        return (
+          <input
+            type="hidden"
+            id={field.id}
+            name={field.name || field.id}
+            defaultValue={field.value || ''}
+          />
         );
       case 'input':
         return (
@@ -206,6 +221,7 @@ export function DefinitionRenderer({
           <Padder>
             <iframe
               id="package-frame"
+              allow="autoplay; camera; microphone; fullscreen; speaker; display-capture"
               // sandbox="allow-top-navigation allow-same-origin allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts allow-downloads"
               src={field.url}
               style={{

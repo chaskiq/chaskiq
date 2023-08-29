@@ -42,6 +42,8 @@ require "database_cleaner/active_record"
 
 # DatabaseCleaner.strategy = :truncation
 
+# include ActiveSupport::Testing::TaggedLogging
+
 RSpec.configure do |config|
   config.include ViewComponent::TestHelpers, type: :view_component
   config.include Capybara::RSpecMatchers, type: :view_component
@@ -53,7 +55,7 @@ RSpec.configure do |config|
   # https://github.com/rspec/rspec-rails/issues/2410
   config.include ActiveSupport::Testing::Assertions
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = Rails.root.join("spec/fixtures")
 
   Geocoder.configure(lookup: :test, ip_lookup: :test)
 
@@ -109,10 +111,16 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   # Ensures all non-javascript tests will use the faster :rack_test
-  config.before(:all, type: :system) do
+  config.before(:all) do # , type: :system) do
     # driven_by :rack_test
     # then, whenever you need to clean the DB
     # DatabaseCleaner.clean
+
+    # require_relative Rails.root.join("app/services/plugin_subscriptions")
+    # PluginSubscriptions::PluginDownloader.new.fetch_plugin_data
+    # Plugin.save_all_plugins
+  rescue StandardError => e
+    Rails.logger.error("ERROR DOWNLOADING PLUGINS")
   end
 
   # Ensures that all javascript tests use :headless_chrome

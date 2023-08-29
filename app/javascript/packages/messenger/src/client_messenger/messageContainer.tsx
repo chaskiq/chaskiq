@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import DanteContainer from './textEditor/editorStyles';
-import DraftRenderer from './textEditor/draftRenderer';
+//import DraftRenderer from './textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
 import theme from './textEditor/theme';
 
 import { MessageCloseBtn } from './styles/styled';
@@ -34,14 +36,11 @@ export default class MessageContainer extends Component<MessageContainerProps> {
           {this.props.i18n.t('messenger.dismiss')}
         </MessageCloseBtn>
 
-        <ThemeProvider theme={editorTheme}>
-          <DanteContainer>
-            <DraftRenderer
-              domain={this.props.domain}
-              raw={JSON.parse(this.props.availableMessage.serialized_content)}
-            />
-          </DanteContainer>
-        </ThemeProvider>
+        <Renderer
+          theme={editorTheme}
+          domain={this.props.domain}
+          raw={JSON.parse(this.props.availableMessage.serialized_content)}
+        />
       </Quest>
     );
   }

@@ -42,7 +42,7 @@ function Dashboard(props) {
   const { app, dispatch } = props;
 
   React.useEffect(() => {
-    dispatch(setCurrentSection(null));
+    dispatch(setCurrentSection('Dashboard'));
     dispatch(setCurrentPage(null));
   }, []);
 
@@ -198,7 +198,7 @@ function classNames(...classes) {
 
 function Example({ actions }) {
   return (
-    <div className="mt-5 rounded-lg bg-gray-200 dark:bg-gray-900 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
+    <div className="mt-5 rounded-lg bg-gray-200 dark:bg-gray-900 overflow-hidden shadow divide-y divide-gray-200 dark:divide-gray-600 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
       {actions.map((action, actionIdx) => (
         <div
           key={action.title}
@@ -211,7 +211,7 @@ function Example({ actions }) {
             actionIdx === actions.length - 1
               ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
               : '',
-            'relative group bg-white dark:bg-black dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
+            'relative group bg-white dark:bg-gray-800 dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
           )}
         >
           <div>

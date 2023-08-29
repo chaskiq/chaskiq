@@ -39,6 +39,8 @@ zh-CN:
       de: 德语
       ca: 加泰罗尼亚语
       zh-CN: 中文
+      fr: "French"
+      it: "Italian"
     redirecting: 重定向中
     choose_language: Choose Language
     select_language: 选择语言
@@ -49,6 +51,7 @@ zh-CN:
     leads: 线索
     visitors: 访客
     users: 用户
+    agents: Agents 代理人
     type_message: Type your message
     search_conversations: 在对话中搜索
     days: 天后
@@ -107,6 +110,7 @@ zh-CN:
     settings: 设置
     childs:
       conversations: 会话
+      conversations_new: Compose
       assignment_rules: 作业规则
       mailing_campaigns: 邮件营销活动
       in_app_messages: 应用内消息
@@ -163,6 +167,7 @@ zh-CN:
       assignment_rules: 代理路由规则
       tags: 标签
       unassigned: 未分配
+      assigned_to_me: Assigned to me
     states:
       opened: 已打开
       closed: 已关闭
@@ -170,6 +175,7 @@ zh-CN:
       newest: 最新的
       oldest: 最早的
       waiting: 等待
+      updated: Recently Updated
       priority_first: 已优先处理
       all: 全部
       unfiltered: 全部
@@ -265,6 +271,7 @@ zh-CN:
       disabled: 关闭
       send: sent
       delivering: delivering
+      sent: sent
     tabs:
       stats: 统计
       settings: 设置
@@ -578,6 +585,33 @@ zh-CN:
       destroy_agent: 删除
       destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
       update_agent: 更新
+      participants: Manage participants
+      updated_team: Team updated
+      created_team: Team created
+      deleted_team: Team deleted
+      confirm_team_delete: Are you sure you want to delete this team?
+      new:
+        action_button: Add Team
+        title_content: Add a new Team
+        content_text: Create a new Team
+      edit:
+        action_button: Edit Team
+        title_content: Edit Team
+        content_text: Edit Team
+      delete:
+        action_button: Delete Team
+        title_content: Delete Team
+        content_text: Delete Team
+    agent_teams:
+      action_button: Add Team member
+      title_content: 添加新代理
+      content_text: 发送激活邀请
+      search_placeholder: "Search for an agent"
+      delete_success: Agent deleted from team
+      added_success: Agent added to team
+      add_team: Add Team
+      updated_team: Team updated successfully
+      created_team: Team created successfully
     webhooks:
       title: Webhooks
       create_success: Webhook已创建
@@ -751,3 +785,30 @@ zh-CN:
       email: Email
       company: Company
       phone: 电话
+  twilio_phone:
+    buttons:
+      holdOn: Put on hold
+      holdOff: Remove hold
+      pickUp: Pick up
+      hangUp: Hang up
+      join: Join
+      leave: Leave
+      goToConversation: Go to conversation
+      open_call_window: Open Call Window
+    messages:
+      inProgress: In-progress
+      incoming: Incoming call...
+      error: "ERROR: %{message}"
+      noConversations: No active conversations
+      noAgentsInCall: NO AGENTS IN THE CALL
+      agentsInCall: "AGENTS IN THE CALL:"
+    conversations:
+      message_header: New Phone Call
+    status:
+      onHold: ON HOLD
+    labels:
+      title: "Call with %{subject}"
+      status: Status
+      'client:Anonymous': Anonymous client
+      'client:agent': Agent
+      'client:support_agent': Agent

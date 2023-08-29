@@ -22,6 +22,7 @@ const actionTypes = {
   UpdateConversationItem: 'UPDATE_CONVERSATION_ITEM',
   UpdatePresence: 'UPDATE_USER_PRESENCE',
   AppendConversation: 'APPEND_CONVERSATION',
+  SetCode: 'SET_CODE',
 
   SetCurrentPage: 'SET_CURRENT_PAGE',
   SetSubscriptionState: 'SET_SUBSCRIPTION_STATE',
@@ -30,6 +31,7 @@ const actionTypes = {
   SetUpgradePage: 'SET_UPGRADE_PAGE',
 
   SetNotification: 'SET_NOTIFICATION',
+  SetReconnection: 'SET_RECONNECTION',
 };
 
 export interface ActionType {

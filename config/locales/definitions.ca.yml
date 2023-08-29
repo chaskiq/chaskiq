@@ -179,6 +179,13 @@ ca:
       access_list:
         label: 'Rol del agent'
         hint: 'blank access will disable account settings access for user'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
   data_tables:
     agents:
       email: Email
@@ -195,6 +202,7 @@ ca:
         site_title: Títol del lloc
         site_description: Descripció del Lloc
         action: Acció
+        default_lang: Default Lang
     users:
       name: Nom
       email: Correu electrònic

@@ -47,6 +47,10 @@ module Types
 
     field :tag_list, [String], null: true
 
+    def tag_list
+      object.tags.collect(&:name)
+    end
+
     def state
       object.subscription_state
     end
@@ -60,8 +64,6 @@ module Types
     def offline
       object.offline?
     end
-
-    field :properties, Types::JsonType, null: true
 
     field :visits, Types::PaginatedVisitsType, null: true do
       argument :page, Integer, required: false, default_value: 1

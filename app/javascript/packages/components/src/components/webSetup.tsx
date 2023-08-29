@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import FormDialog from './FormDialog';
-import Prism from 'prismjs';
 
 import styled from '@emotion/styled';
 
@@ -30,7 +29,7 @@ function WebSetup({ app }) {
   return (
     <React.Fragment>
       <button
-        className="text-xs bg-green-500 hover:bg-green-600 text-green-100 font-bold py-1 px-2 rounded inline-flex items-center text-gray-100"
+        className="text-xs bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded inline-flex items-center"
         onClick={handleClickOpen}
       >
         {I18n.t('common.get_snippet')}
@@ -75,7 +74,7 @@ function SimpleDialog(props) {
         })(document,"script");
       </script>
     `;
-    return Prism.highlight(code, Prism.languages.javascript, 'javascript');
+    return <code>{code}</code>;
   }
 
   return (
@@ -89,9 +88,7 @@ function SimpleDialog(props) {
       formComponent={
         <div className="space-y-2">
           <p>{I18n.t('dashboard.snippet')}</p>
-          <Pre>
-            <div dangerouslySetInnerHTML={{ __html: setupScript() }} />
-          </Pre>
+          <Pre>{setupScript()}</Pre>
         </div>
       }
     />

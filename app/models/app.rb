@@ -7,6 +7,7 @@ class App < ApplicationRecord
   include Tokenable
   include UserHandler
   include Notificable
+  include Subscribable
 
   store_accessor :preferences, %i[
     active_messenger
@@ -29,13 +30,27 @@ class App < ApplicationRecord
     user_home_apps
     visitor_home_apps
     inbox_apps
+    profile_apps
+
     paddle_user_id
     paddle_subscription_id
     paddle_subscription_plan_id
     paddle_subscription_status
+
+    stripe_customer_id
+    stripe_subscription_id
+    stripe_subscription_plan_id
+    stripe_subscription_status
+
     privacy_consent_required
     inbound_email_address
     avatar_settings
+
+    agent_editor_settings
+    user_editor_settings
+    lead_editor_settings
+
+    sorted_agents
   ]
 
   include InboundAddress
@@ -67,6 +82,8 @@ class App < ApplicationRecord
   has_many :segments, dependent: :destroy_async
   has_many :roles, dependent: :destroy_async
   has_many :agents, through: :roles
+  has_many :teams, dependent: :destroy_async
+  has_many :agent_teams, through: :teams
   has_many :campaigns, dependent: :destroy_async
   has_many :user_auto_messages, dependent: :destroy_async
   has_many :tours, dependent: :destroy_async
@@ -93,13 +110,24 @@ class App < ApplicationRecord
     agents.where("bot =?", true)
   end
 
+  def default_packages
+    %w[ContentShowcase ArticleSearch Qualifier InboxSections ContactFields]
+  end
+
   def attach_default_packages
-    default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections ContactFields]
     AppPackage.where(name: default_packages).find_each do |app_package|
       app_packages << app_package unless app_package_integrations.exists?(
         app_package_id: app_package.id
       )
     end
+  end
+
+  def packages_integrations_in_use
+    app_package_integrations.joins(:app_package).where.not("app_packages.name" => default_packages)
+  end
+
+  def disable_packages_in_use!
+    packages_integrations_in_use.delete_all
   end
 
   def encryption_enabled?
@@ -108,6 +136,10 @@ class App < ApplicationRecord
 
   def outgoing_email_domain
     preferences[:outgoing_email_domain].presence || Chaskiq::Config.get("DEFAULT_OUTGOING_EMAIL_DOMAIN")
+  end
+
+  def searchkick_enabled?
+    @searchkick_enabled ||= plan.enabled?("SearchIndex")
   end
 
   def config_fields
@@ -190,6 +222,12 @@ class App < ApplicationRecord
         pkg&.message_api_klass&.prepare_initiator_channel_for(conversation, pkg) if pkg.present?
       end
 
+      if options[:initiator_block]
+        pkg = find_app_package(options[:initiator_block]["name"])
+        pkg&.message_api_klass&.prepare_block_initiator_channel_for(conversation, pkg, options[:initiator_block]) if pkg.present?
+        message = nil
+      end
+
       if message.present?
         conversation.add_message(
           from: user,
@@ -231,6 +269,14 @@ class App < ApplicationRecord
     availability.in_hours?(time)
   rescue StandardError # Biz::Error::Configuration
     nil
+  end
+
+  def email
+    if owner.present?
+      owner.email
+    else
+      agents.humans.first.email
+    end
   end
 
   def generate_encryption_key
@@ -293,7 +339,7 @@ class App < ApplicationRecord
   end
 
   def custom_field_keys
-    custom_fields&.map { |o| o[:name].to_sym } || []
+    custom_fields&.map { |o| o["name"].to_sym } || []
   end
 
   def app_user_updateable_fields
@@ -331,94 +377,6 @@ class App < ApplicationRecord
     else
       []
     end
-  end
-
-  def plan
-    if paddle_subscription_status == "active" || paddle_subscription_status == "trialing"
-      @plan ||= Plan.new(
-        Plan.get_by_id(paddle_subscription_plan_id.to_i) || Plan.get("free")
-      )
-    else
-      @plan = Plan.get("free")
-    end
-  end
-
-  attr_reader :new_language
-
-  def new_language=(attribute)
-    assign_attributes(
-      "greetings_#{attribute}": "",
-      "tagline_#{attribute}": "",
-      "intro_#{attribute}": ""
-    )
-  end
-
-  ### JSON DATA OBJECTS ###
-  def lead_tasks_settings_objects
-    return LeadTasksSettings.new if lead_tasks_settings.blank?
-
-    @lead_tasks_settings_objects ||= LeadTasksSettings.new(lead_tasks_settings)
-  end
-
-  def user_tasks_settings_objects
-    return UserTasksSettings.new if user_tasks_settings.blank?
-
-    @user_tasks_settings_objects ||= UserTasksSettings.new(user_tasks_settings)
-  end
-
-  def team_schedule_objects
-    return [] if team_schedule.blank?
-
-    @team_schedule_objects ||= team_schedule.map { |o| ScheduleRecord.new(o) }
-  end
-
-  def team_schedule_objects_attributes=(attributes)
-    array = attributes.keys.map { |o| attributes[o] }
-    self.team_schedule = JSON.parse(array.map { |o| ScheduleRecord.new(o) }.to_json)
-    # array.map{|o| ScheduleRecord.new(o) }
-  end
-
-  def inbound_settings_objects
-    return [] if inbound_settings.blank?
-
-    @inbound_settings_objects ||= InboundSettingsRecord.new(inbound_settings)
-  end
-
-  def inbound_settings_attributes=(attributes)
-    # array = attributes.keys.map{|o| attributes[o] }
-    # self.inbound_settings = JSON.parse(array.map{|o| ScheduleRecord.new(o) }.to_json)
-    # array.map{|o| ScheduleRecord.new(o) }
-  end
-
-  def customization_colors_objects
-    @customization_colors_objects ||= CustomizationRecord.new(customization_colors)
-  end
-
-  def customization_colors_attributes=(attributes)
-    @customization_colors_objects = CustomizationRecord.new(attributes)
-    self.customization_colors = @customization_colors_objects.as_json
-  end
-
-  def tag_list_objects
-    return [] if tag_list.blank?
-
-    @tag_list_objects ||= tag_list.map { |o| TagListRecord.new(o) }
-  end
-
-  def tag_list_objects_attributes=(attributes)
-    array = attributes.keys.map { |o| attributes[o] }
-    self.tag_list = array.map { |o| TagListRecord.new(o) }.as_json
-  end
-
-  def custom_fields_objects
-    return [] if custom_fields.blank?
-
-    @custom_fields_objects ||= custom_fields.map { |o| CustomFieldRecord.new(o) }
-  end
-
-  def custom_fields_objects_attributes=(attributes)
-    array = attributes.keys.map { |o| attributes[o] }
-    self.custom_fields = array.map { |o| CustomFieldRecord.new(o) }.as_json
   end
 
   private

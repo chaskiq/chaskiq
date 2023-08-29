@@ -125,7 +125,20 @@ class Apps::ConversationsController < ApplicationController
     @conversation = @app.conversations.find_by(key: params[:id])
   end
 
-  private def search_service
+  private
+
+  def menu_items_response(item, method)
+    if method.call
+      render turbo_stream: [
+        turbo_stream.replace(
+          "conversation-#{item}-#{@conversation.key}",
+          partial: "apps/conversations/menu_items/#{item}"
+        )
+      ]
+    end
+  end
+
+  def search_service
     @search_service ||= ConversationSearchService.new(
       options: {
         app: @app,
@@ -135,16 +148,5 @@ class Apps::ConversationsController < ApplicationController
         agent_id: params.dig(:conversation_search_service, :agent_id)
       }
     )
-  end
-
-  private def menu_items_response(item, method)
-    if method.call
-      render turbo_stream: [
-        turbo_stream.replace(
-          "conversation-#{item}-#{@conversation.key}",
-          partial: "apps/conversations/menu_items/#{item}"
-        )
-      ]
-    end
   end
 end

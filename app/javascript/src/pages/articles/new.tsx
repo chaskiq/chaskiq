@@ -59,6 +59,7 @@ type ArticlesNewProps = {
   history: any;
   settings: any;
   data: any;
+  theme: any;
 };
 
 type ArticlesNewState = {
@@ -386,7 +387,9 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
       },
       {
         success: (_data) => {
-          imageBlock.uploadCompleted(serviceUrl);
+          imageBlock.updateAttributes({
+            url: serviceUrl,
+          });
         },
         error: (err) => {
           console.log('error on direct upload', err);
@@ -531,7 +534,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
   };
 
   render() {
-    const { app } = this.props;
+    const { app, theme } = this.props;
 
     return (
       <main className="flex-1 relative focus:outline-none">
@@ -634,12 +637,13 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
                           />
                         </div>
 
-                        <div className="relative z-0 p-6 shadow rounded border  bg-yellow-50 dark:border-pink-800 dark:bg-gray-800 border-yellow-100 mb-4 my-4">
+                        <div className="relative z-0 p-6 shadow rounded border  bg-gray-50 dark:bg-black dark:border-gray-800 border-gray-100 mb-4 my-4">
                           {!this.state.loading && this.state.article && (
                             <ArticleEditor
                               article={this.state.article}
                               updateState={this.updateState}
                               loading={false}
+                              theme={this.props.theme}
                               uploadHandler={this.uploadHandler}
                             />
                           )}
@@ -707,12 +711,13 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state;
+  const { auth, app, theme } = state;
   const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
+    theme,
     isAuthenticated,
   };
 }

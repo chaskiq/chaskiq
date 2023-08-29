@@ -60,6 +60,20 @@ interface IWrapperComponent {
   dispatch?: any;
 }
 
+export function themeForSelect(theme) {
+  if (theme === 'dark') {
+    return {
+      neutral0: 'black',
+      neutral5: '#777',
+      neutral10: '#777',
+      neutral80: '#999',
+      primary25: 'hotpink',
+      primary: '#666',
+    };
+  }
+  return {};
+}
+
 const WrappedComponent = React.forwardRef(function Input(
   {
     label,
@@ -83,12 +97,11 @@ const WrappedComponent = React.forwardRef(function Input(
     switch (variant) {
       case 'underline':
         return `border-dashed border-b-2 border-gray-400 
-        w-full py-2 px-3 text-gray-700
-        focus:outline-none focus:border-gray-600 dark:bg-black dark:text-white`;
+                w-full py-2 px-3 text-gray-700 focus:outline-none focus:border-gray-600 dark:bg-gray-900 dark:text-white`;
       default:
-        return `shadow appearance-none border border-${borderColor(
-          error
-        )}-300 rounded w-full py-2 px-3 text-gray-700 dark:bg-black dark:text-white
+        return `shadow appearance-none border border-${borderColor(error)}-300 
+        dark:border-${borderColor(error)}-700
+         rounded w-full py-2 px-3 text-gray-700 dark:bg-gray-900 dark:border-gray-700 dark:text-white
         leading-tight focus:outline-none focus:shadow-outline`;
     }
   }
@@ -120,20 +133,6 @@ const WrappedComponent = React.forwardRef(function Input(
       default:
         return <p>nada {type}</p>;
     }
-  }
-
-  function themeForSelect() {
-    if (theme === 'dark') {
-      return {
-        neutral0: 'black',
-        neutral5: '#777',
-        neutral10: '#777',
-        neutral80: '#999',
-        primary25: 'hotpink',
-        primary: '#666',
-      };
-    }
-    return {};
   }
 
   function renderText() {
@@ -188,7 +187,7 @@ const WrappedComponent = React.forwardRef(function Input(
             borderRadius: 4,
             colors: {
               ...selectTheme.colors,
-              ...themeForSelect(),
+              ...themeForSelect(theme),
             },
           })}
         />
@@ -210,7 +209,7 @@ const WrappedComponent = React.forwardRef(function Input(
             onChange={props.onChange}
             defaultChecked={defaultValue}
             ref={ref}
-            className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+            className="form-checkbox h-4 w-4 text-brand transition duration-150 ease-in-out"
           />
           <label
             htmlFor={name}
@@ -309,8 +308,12 @@ const WrappedComponent = React.forwardRef(function Input(
             name={name}
             className={`shadow appearance-none border border-${borderColor(
               error
-            )}-300 rounded 
-            w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-900 mb-3 leading-tight 
+            )}-300
+            dark:border-${borderColor(error)}-800
+            rounded 
+            w-full py-2 px-3 text-gray-700 dark:text-gray-200      
+            dark:bg-gray-900
+            dark:border-gray-700 mb-3 leading-tight 
             focus:outline-none focus:shadow-outline`}
             defaultValue={defaultValue}
             value={value}
@@ -474,7 +477,8 @@ function DatePickerWrapper({ val, name, onChange }: IDatePickerWrapper) {
       showTimeSelect
       className={`shadow appearance-none border border-gray-300 rounded 
       w-full py-2 px-3 text-gray-700 dark:text-gray-200
-      dark:bg-gray-700
+      dark:bg-gray-900
+      dark:border-gray-700
       leading-tight focus:outline-none focus:shadow-outline`}
       // includeTimes={[
       //  setHours(setMinutes(new Date(), 0), 17),
