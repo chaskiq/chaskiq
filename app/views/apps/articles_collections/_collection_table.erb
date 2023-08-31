@@ -9,9 +9,7 @@
 			<%= link_to( t("articles.add_articles"), 
 				uncategorized_app_articles_path(@app.key, section_id: section, collection_id: @article_collection.slug), 
 				data: {
-				'turbo-frame': 'modal', 
-				'turbo-action': 'replace', 
-				'action': 'click->modal#open'
+				'turbo-frame': 'modal',
 				}, 
 				class: "btn btn-outlined sm") 
 			%>

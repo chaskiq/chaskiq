@@ -38,8 +38,9 @@ controllers.forEach((controller) => {
 
 controllers.forEach((controller) => {
   if(controller.module.default){
-    console.log("ADDINDG CONTROLLER", controller)
-    application.register(controller.name.replace("--index.js", ""), controller.module.default);
+    const name = controller.name.replace("--index.js", "")
+    console.log("ADDINDG CONTROLLER", name)
+    application.register(name, controller.module.default);
   }
 });
 

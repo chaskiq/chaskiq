@@ -1,10 +1,9 @@
 import { Controller } from '@hotwired/stimulus';
-import { FetchRequest } from '@rails/request.js';
 export default class extends Controller {
   static targets = ['container', 'form'];
 
   connect() {
-    document.addEventListener('modal-close', this.close.bind(this));
+    //document.addEventListener('modal-close', this.close.bind(this));
   }
 
   disconnect() {
@@ -15,11 +14,17 @@ export default class extends Controller {
     this.containerTarget.classList.remove('hidden');
   }
 
-  close(e) {
+  close(event) {
+    //if (event.currentTarget.classList.contains('fixed')) {
+      this.element.style.display = 'none';
+    //}
+  }
+
+  /*close(e) {
     this.containerTarget.classList.add('hidden');
     document.getElementById('modal').innerHTML = null;
     document.getElementById('modal').src = null;
-  }
+  }*/
 
   closeWithKeyboard(e) {
     /*if (
@@ -28,23 +33,5 @@ export default class extends Controller {
     ) {
       this.close(e)
     }*/
-  }
-
-  // not used
-
-  submit(e) {
-    console.log('THIS DOES NOTHINF!');
-  }
-
-  async sendPost(data) {
-    const method = data._method ? data._method : this.formTarget.method;
-    const req = new FetchRequest(method, this.formTarget.action, {
-      body: JSON.stringify(data),
-      responseKind: 'turbo-stream',
-    });
-    const response = await req.perform();
-    if (response.ok) {
-      console.log('HEY HET HEY');
-    }
   }
 }

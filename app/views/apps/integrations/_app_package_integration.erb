@@ -47,9 +47,7 @@
 												<%=  link_to( I18n.t('common.edit'), 
 																	edit_app_integration_path(@app.key, integration), 
 																	data: {
-																	'turbo-frame': 'modal', 
-																	'turbo-action': 'replace', 
-																	'action': 'click->modal#open'
+																		'turbo-frame': 'modal'
 																	}, 
 																	class: "btn btn-outlined sm")
 												%>

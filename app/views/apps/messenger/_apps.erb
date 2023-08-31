@@ -54,9 +54,7 @@
 				<%= link_to "Add app", 
 					capabilities_app_packages_path(@app.key, kind: 'home', category: params[:kind]),
 					data: {
-						'turbo-frame': 'modal', 
-						'turbo-action': 'replace', 
-						'action': 'click->modal#open'
+						'turbo-frame': 'modal'
 					},
 					class: "btn btn-success"
 				%>

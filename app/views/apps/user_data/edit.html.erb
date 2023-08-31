@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "modal" do %>
+<%= render "shared/modal" do %>
 	<%= form_for @tag, 
 		url: app_user_datum_path(@app.key, @tag.name), 
 		method: :patch,
@@ -8,20 +8,13 @@
 
 		<% options = I18n.t('settings.user_data.attr_types') %>
 		
-		<%= f.select :type, options_for_select(options.map{|k,v| [k,v]}, nil), {}, {
-			data: {
-				'select-target': 'select', 
-				options: options.map{|k,v| {label: k, value: v }  }.to_json 
-			},
+		aaaa
+		<%= f.object.type %>
+		bbbb
+		<%= f.select :type, options_for_select(options.map{|k,v| [v, k]}, nil), {}, {
 			label: I18n.t('definitions.settings.languages.select_lang')
 		} 
 		%>
-
-
-		"[erb]": {
-        "editor.defaultFormatter": "aliariff.vscode-erb-beautify"
-    },
-
 
 		<%= f.submit(t("common.submit"), class: "btn btn-success")%>
 	<% end %>

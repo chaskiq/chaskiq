@@ -21,16 +21,15 @@ class SegmentManagerService
 
     if data
       self.predicates = predicates <<
-                        SegmentPredicate.new({
-                                               type: data["type"],
-                                               attribute: data["name"],
-                                               comparison: nil
-                                             })
+                        SegmentPredicate.new( type: data["type"],
+                                              attribute: data["name"],
+                                              comparison: nil
+                                             )
     end
   end
 
   def generate_predicates(predicate)
-    predicate = predicate.with_indifferent_access
+    predicate = predicate #.with_indifferent_access
 
     SegmentPredicate.new(
       type: predicate[:type],

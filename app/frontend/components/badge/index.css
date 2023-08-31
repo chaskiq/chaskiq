@@ -1,10 +1,10 @@
 .badge {
-  @apply inline-flex items-center;
+  @apply mr-0.5 border inline-flex items-center px-2.5 py-0.5  rounded-full text-xs font-medium bg-gray-100  dark:border-gray-700 text-gray-800 dark:bg-gray-900 dark:text-gray-100;
 }
 .badge.sm {
-  @apply inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-5;
+  @apply mr-0.5 border inline-flex items-center px-2.5 py-0.5  rounded-full text-xs font-medium bg-gray-100  dark:border-gray-700 text-gray-800 dark:bg-gray-900 dark:text-gray-100;
 }
 
 .badge.default {
-  @apply inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-5;
+  @apply mr-0.5 border inline-flex items-center px-2.5 py-0.5  rounded-full text-xs font-medium bg-gray-100  dark:border-gray-700 text-gray-800 dark:bg-gray-900 dark:text-gray-100;
 }

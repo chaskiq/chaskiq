@@ -100,81 +100,81 @@
           </div>
           <div class="ml-3 w-2/5 flex flex-wrap">
             <p class="text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">miguelmichelson@gmail.com</p>
-            <div class="flex items-center">
+            <%= turbo_frame_tag "menuaa" do %>
+              <div class="flex items-center" data-turbo="true">
 
-              <% 
-                filter_items = [{
-                                  title: I18n.t('navigator.user_menu.create_app'),
-                                  description: I18n.t(
-                                    'navigator.user_menu.create_app_description'
-                                  ),
-                                  id: 'new-app',
-                                  href: '/apps/new',
-                                },
+                <% 
+                  filter_items = [{
+                                    title: I18n.t('navigator.user_menu.create_app'),
+                                    description: I18n.t(
+                                      'navigator.user_menu.create_app_description'
+                                    ),
+                                    id: 'new-app',
+                                    href: '/apps/new',
+                                  },
 
-                                {
-                                  id: 'choose-lang',
-                                  title: I18n.t('home.choose_lang'),
-                                  href: "/languages",
-                                  data: {
-                                    'turbo-frame': 'modal', 
-                                    'turbo-action': 'replace', 
-                                    'action': 'click->modal#open'
-                                  }, 
-                                },
-                                {
-                                  id: 'edit-profile',
-                                  title: I18n.t('home.edit_profile'),
-                                  href: '/agents/edit'
-                                },
-                                {
-                                  id: 'toggle-dark-mode',
-                                  title: ( 'toggle theme' ),
-                                  data: {
-                                    action: "click->dark-mode#toggle"
-                                  }
-                                },
-                                {
-                                  title: I18n.t('navigator.user_menu.signout'),
-                                  id: 'sign-out',
-                                  render: lambda{|o| 
-                                    %{
-                                      #{button_to I18n.t('navigator.user_menu.signout'), destroy_agent_session_path, method: :delete, form: {"data-turbo": false} }
+                                  {
+                                    id: 'choose-lang',
+                                    title: I18n.t('home.choose_lang'),
+                                    href: "/languages",
+                                    data: {
+                                      'turbo-frame': 'modal'
+                                    }, 
+                                  },
+                                  {
+                                    id: 'edit-profile',
+                                    title: I18n.t('home.edit_profile'),
+                                    href: '/agents/edit'
+                                  },
+                                  {
+                                    id: 'toggle-dark-mode',
+                                    title: ( 'toggle theme' ),
+                                    data: {
+                                      action: "click->dark-mode#toggle"
+                                    }
+                                  },
+                                  {
+                                    title: I18n.t('navigator.user_menu.signout'),
+                                    id: 'sign-out',
+                                    render: lambda{|o| 
+                                      %{
+                                        #{button_to I18n.t('navigator.user_menu.signout'), destroy_agent_session_path, method: :delete, form: {"data-turbo": false} }
+                                      }
                                     }
                                   }
-                                }
-                              ]
-              %>
-
-              <%= render Toggle::Component.new(
-                id: 'away-mode', 
-                label: I18n.t('common.away_mode'), 
-                checked: true, 
-                disabled: false, 
-                on_change: '')
-              %>
-
-               <%= render FilterMenu::Component.new(
-                     label: "select lang", 
-                     items: filter_items,
-                     orientation: 'right',
-                     variant: 'outlined',
-                     origin: 'bottom',
-                     size: 'sm',
-                     button: lambda{ |data|
-                        %{
-                          <button data-action='#{data[:data][:action]}'>
-                            <svg fill="currentColor" viewBox="0 0 20 20" class="w-4">
-                              <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
-                              </path>
-                            </svg>
-                          </button>
-                        }.html_safe
-                     }
-                  )
+                                ]
                 %>
 
-            </div>
+                <%= render Toggle::Component.new(
+                  id: 'away-mode', 
+                  label: I18n.t('common.away_mode'), 
+                  checked: true, 
+                  disabled: false, 
+                  on_change: '')
+                %>
+
+                <%= render FilterMenu::Component.new(
+                      label: "select lang", 
+                      items: filter_items,
+                      orientation: 'right',
+                      variant: 'outlined',
+                      origin: 'bottom',
+                      size: 'sm',
+                      button: lambda{ |data|
+                          %{
+                            <button data-action='#{data[:data][:action]}'>
+                              <svg fill="currentColor" viewBox="0 0 20 20" class="w-4">
+                                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
+                                </path>
+                              </svg>
+                            </button>
+                          }.html_safe
+                      }
+                    )
+                  %>
+
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

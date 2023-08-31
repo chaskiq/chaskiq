@@ -25,7 +25,8 @@
 											"data-turbo-action": 'replace', 
 											"data-action": "click->slide-modal#open", 
 											"data-urlll": app_contact_path(@app.key, user) do %>
-											<%= image_tag user.avatar_url, class: "h-8 w-8 rounded-full bg-white" %>
+											
+											<%= render(Avatar::Component.new(src: user.avatar_url, app: @app, size: "full")) %>
 										<% end %>
 									</span>
 								</div>

@@ -7,8 +7,9 @@
          <div>
             <div class="-m-1 flex">
                <div class="inline-flex rounded-lg overflow-hidden border-4 border-white">
-							 <%= image_tag @app_user.avatar_url, 
-							 	class: "inline-flex rounded-lg overflow-hidden border-4 border-white" %>
+					   <%= render(Avatar::Component.new(src: @app_user.avatar_url, app: @app, size: "full")) %>
+
+               	<% #= image_tag @app_user.avatar_url, class: "inline-flex rounded-lg overflow-hidden border-4 border-white" %>
             </div>
          </div>
          <div class="ml-3 sm:flex-1">

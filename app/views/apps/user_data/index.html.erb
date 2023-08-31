@@ -1,14 +1,12 @@
 <%= render Content::Component.new do %>
 
-	<%= turbo_frame_tag 'app-settings', data: {controller: 'history-frame'} do %>
+	<%= turbo_frame_tag 'app-settings' do %>
 
 		<%= render PageHeader::Component.new(title: I18n.t('settings.app.app_settings')) do %>
 			<%= link_to( I18n.t('common.add_new'), 
 				new_app_user_datum_path(@app.key), 
 				data: {
-				'turbo-frame': 'modal', 
-				'turbo-action': 'replace', 
-				'action': 'click->modal#open'
+				'turbo-frame': 'modal'
 				}, 
 				class: "btn btn-flat-dark md") 
 			%>
@@ -34,7 +32,9 @@
 				<%= t('settings.user_data.non_editable') %>
 			</p>
 
-			<%= render ListRenderer::Component.new(field: @data) %>
+			<div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
+				<%= render ListRenderer::Component.new(field: @data) %>
+			</div>
 		<% end %>
 
 	<% end %>	

@@ -249,12 +249,12 @@ class Conversation < ApplicationRecord
   def notify_conversation_list
     broadcast_append_later_to app,
                               :conversations,
-                              # action: "replace",
+                              # action: "prepend",
                               target: "conversation-list-#{app.key}",
                               partial: "apps/conversations/conversation",
                               locals: {
                                 app: app,
-                                conversation: id
+                                conversation: self
                                 # conversation: {a: 1}
                               }
 

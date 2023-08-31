@@ -1,12 +1,36 @@
 <%= form_for @app, url: app_settings_path(@app.key) do |f| %>
-	<%= f.text_field :name %>
-	<%= f.text_field :domain_url %>
-	<%= f.uploader_field :logo, display: 'image' %>
-	<% #= f.file_field :logo %>
-	<%= f.text_field :outgoing_email_domain %>
-	<%= f.text_field :tagline %>
-	<%= f.check_box :gather_social_data %>
-	<%= f.check_box :register_visits %>
+	
+	<div class="mt-10 mb-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+
+		<div class="sm:col-span-4">
+			<%= f.text_field :name %>
+		</div>
+
+		<div class="sm:col-span-2">
+			<%= f.uploader_field :logo, display: 'image' %>
+		</div>
+
+		<div class="sm:col-span-3">
+			<%= f.text_field :domain_url %>
+		</div>
+
+		<div class="sm:col-span-3">
+			<%= f.text_field :outgoing_email_domain %>
+		</div>
+
+		<div class="sm:col-span-6">
+			<%= f.text_area :tagline %>
+		</div>
+
+		<div class="sm:col-span-3">
+			<%= f.check_box :gather_social_data %>
+		</div>
+
+		<div class="sm:col-span-3">
+			<%= f.check_box :register_visits %>
+		</div>
+
+	</div>
 
 	<%= f.submit(t("common.save"), class: "btn btn-success")%>
 <% end %>

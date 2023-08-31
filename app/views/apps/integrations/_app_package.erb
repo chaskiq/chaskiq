@@ -46,9 +46,7 @@
 												<%=  link_to( I18n.t('common.add'), 
 																	new_app_integration_path(@app.key, app_package: app_package.id), 
 																	data: {
-																	'turbo-frame': 'modal', 
-																	'turbo-action': 'replace', 
-																	'action': 'click->modal#open'
+																	'turbo-frame': 'modal'
 																	}, 
 																	class: "btn btn-outlined sm")
 												%>

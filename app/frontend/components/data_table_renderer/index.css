@@ -12,6 +12,6 @@
   }
 
   &.sm {
-    @apply grid sm:grid-cols-3 sm:gap-4 sm:px-0 #{!important};
+    @apply grid sm:grid-cols-3 sm:gap-4 sm:px-0;
   }
 }

@@ -5,21 +5,21 @@
   @apply px-2 py-1 text-sm font-medium leading-7;
 
   &.xs {
-    @apply px-2 py-1 text-xs font-medium #{!important};
+    @apply px-2 py-1 text-xs font-medium;
   }
   &.sm,
   &small {
-    @apply px-2.5 py-1.5 text-xs leading-4 #{!important};
+    @apply px-2.5 py-1.5 text-xs leading-4;
   }
 
   &.md,
   &.medium {
-    @apply px-4 py-2 text-sm leading-7 font-medium uppercase #{!important};
+    @apply px-4 py-2 text-sm leading-7 font-medium uppercase;
   }
 
   &.lg,
   &.large {
-    @apply px-8 py-4 text-xl font-light uppercase #{!important};
+    @apply px-8 py-4 text-xl font-light uppercase;
   }
 
   &.icon {

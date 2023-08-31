@@ -92,9 +92,7 @@
 								<div class="flex">
 
 									<%= link_to( edit_app_segment_path(@app.key, @segment), data: {
-										'turbo-frame': 'modal', 
-										'turbo-action': 'replace', 
-										'action': 'click->modal#open'
+										'turbo-frame': 'modal'
 										}, class: "btn btn-outlined sm") do %>
 										<svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
 											<path d="M4.5 14.5v-3a1 1 0 011-1h4a1 1 0 011 1v3m3 0h-12a1 1 0 01-1-1v-12a1 1 0 011-1h8.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V13.5a1 1 0 01-1 1z" stroke="currentColor">

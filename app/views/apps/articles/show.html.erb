@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "app-settings", data: {controller: 'history-frame'} do %>
+<%= turbo_frame_tag "app-settings" do %>
 	<%= form_for @article , url: app_article_path(@app.key, @article, locale: params[:locale]) do |f| %>
 		<div class="py-8 xl:py-10">
 				<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-5xl xl:grid xl:grid-cols-3">

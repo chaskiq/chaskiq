@@ -26,7 +26,7 @@
 												oli oli lki
 											<% end %>
 
-											<%= render Dropdown::Component.new(label: t('contact_manager.create') ) do |c| %>
+											<%= render Dropdown::Component.new(label: t('contact_manager.create'), size: "sm" ) do |c| %>
                           <!--<a href="#" data-action="click->modal#open" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded">
                             <span>Open Modal</span>
                           </a>-->
@@ -77,7 +77,7 @@
         </div>
         <div class="flex flex-col">
           <div style="margin-top: 20px;">
-            <div class="css-9y61j4">
+            <div>
 
               <% #= @segment.predicates  %> 
 

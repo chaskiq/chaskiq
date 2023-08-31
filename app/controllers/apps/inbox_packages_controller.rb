@@ -38,7 +38,7 @@ class Apps::InboxPackagesController < ApplicationController
     @app.save
 
     render turbo_stream: turbo_stream.replace(
-      "inbox-sortable",
+      "inbox-sorts",
       partial: "apps/inbox_packages/inbox_sorts"
     )
   end

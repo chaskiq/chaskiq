@@ -1,4 +1,4 @@
-import './index.css'
+import './index.scss'
 
 // Add a Stimulus controller for this component.
 // It will automatically registered and its name will be available

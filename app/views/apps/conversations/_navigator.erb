@@ -1,3 +1,17 @@
+<%= link_to new_app_conversation_path(@app.key), class: "
+		bg-gray-200 dark:bg-gray-900 
+		bg-white hover:text-gray-600 hover:bg-gray-100 
+		dark:hover:text-gray-100 dark:hover:bg-gray-700
+		dark:bg-black dark:text-gray-100 dark:focus:bg-black
+		focus:outline-none focus:bg-gray-200
+		group flex items-center 
+		px-2 py-2 
+		text-sm leading-5 font-medium text-gray-900 
+		rounded-md transition ease-in-out duration-150" do %>
+		<svg class="text-lg mr-3 h-6 w-6 dark:text-gray-100 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+		<%= t("conversations.menu.compose") %>
+<% end %>
+
 <%= link_to app_conversations_path(@app.key), class: "
 		bg-gray-200 dark:bg-gray-900 
 		bg-white hover:text-gray-600 hover:bg-gray-100 

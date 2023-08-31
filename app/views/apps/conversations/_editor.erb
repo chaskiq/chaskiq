@@ -1,10 +1,35 @@
-<div class="pb-3 px-4 flex-none mt-auto">
-  <div
-		data-turbo="false" 
-		data-controller="chat-editor"
-		data-editor-action-path="<%= app_conversation_conversation_messages_path(@app.key, @conversation.key)%>" 
-		class="bg-white flex rounded-lg border border-grey overflow-hidden shadow-lg">
+<div 
+	data-turbo="false" 
+	data-controller="chat-editor"
+	data-editor-action-path="<%= app_conversation_conversation_messages_path(@app.key, @conversation.key)%>" 
+	class="pb-3 px-4 flex-none mt-auto">
+  
+	<div class="flex rounded-lg border border-grey-100 dark:border-gray-900 overflow-hidden-- shadow-lg">
+		<div class="w-full">
+			<div class="border-b bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+			<nav class="-mb-px flex items-center">
+				<a href="#" class="whitespace-nowrap py-2 px-2 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">Reply</a>
+				<a href="#" class="whitespace-nowrap py-2 px-2 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">Private Note</a>
+				<div class="flex flex-grow items-center justify-end pr-3">
+				<input id="send_mode" 
+					data-chat-editor-target="sendMode"
+					type="checkbox" class="form-checkbox h-4 w-4 text-brand-600 transition duration-150 ease-in-out" checked="">
+				<label for="send_mode" class="ml-2 block text-xs leading-5 text-gray-900 dark:text-gray-100">
+					Publish on enter
+				</label>
+				</div>
+			</nav>
+			
+			</div>
+			<div>
+				<div
+					class="p-2">
+					<div data-chat-editor-target="wrapper"></div>
+				</div>
+			</div>
+		</div>
 	</div>
+
 
 	<%= link_to "Add app", 
 		capabilities_app_packages_path(
@@ -13,9 +38,7 @@
 			conversation_key: @conversation.key
 		),
 		data: {
-			'turbo-frame': 'modal', 
-			'turbo-action': 'replace', 
-			'action': 'click->modal#open'
+			'turbo-frame': 'modal',
 		},
 		class: "btn btn-success"
 	%>

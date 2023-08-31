@@ -47,9 +47,7 @@
 							#{
 								[
 								link_to( "edit link", edit_app_team_path(@app.key, record), data: {
-									'turbo-frame': 'modal', 
-									'turbo-action': 'replace', 
-									'action': 'click->modal#open'
+									'turbo-frame': 'modal'
 									}, class: "btn btn-outlined sm"),
 								button_to( 'remove', 
 									app_team_path(@app.key, record), method: :delete, class: "btn btn-danger sm"),

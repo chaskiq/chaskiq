@@ -1,7 +1,24 @@
 import { Controller } from '@hotwired/stimulus';
 import React from 'react';
-import { render } from 'react-dom';
-import ConversationEditor from '../src/pages/conversations/Editor';
+import { createRoot } from 'react-dom/client';
+
+import Dante, {
+  defaultTheme, 
+  darkTheme,
+  ImageBlockConfig,
+  CodeBlockConfig,
+  DividerBlockConfig,
+  PlaceholderBlockConfig,
+  EmbedBlockConfig,
+  VideoBlockConfig,
+  GiphyBlockConfig,
+  VideoRecorderBlockConfig,
+  SpeechToTextBlockConfig,
+  AddButtonConfig,
+} from 'dante3/package/esm';
+import { DirectUpload } from "@rails/activestorage";
+
+// import ConversationEditor from '../src/pages/conversations/Editor';
 import { post, FetchRequest } from '@rails/request.js';
 
 import { AppPackageBlockConfig } from '@chaskiq/components/src/components/danteEditor/appPackage';
@@ -9,7 +26,7 @@ import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/
 import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/danteEditor/quickReplies';
 
 export default class extends Controller {
-  //static targets = ['contentframe'];
+  static targets = ['wrapper', 'sendMode'];
 
   connect() {
     this.actionPath = this.element.dataset.editorActionPath;
@@ -28,7 +45,7 @@ export default class extends Controller {
       }),
     ];
 
-    render(
+    /*render(
       <ConversationEditor
         insertNode={this.insertNote.bind(this)}
         insertComment={this.insertComment.bind(this)}
@@ -36,6 +53,42 @@ export default class extends Controller {
         appendExtensions={extensions}
       />,
       this.element
+    );*/
+
+    const root = createRoot(this.wrapperTarget);
+
+    root.render(
+      <EditorComponent 
+        //upload={this.upload} 
+        //ctx={this}
+        //initialValue={null}
+        handleReturn={(e, isEmptyDraft, value) => {
+            console.log(e)
+            try {
+              console.log(
+                e.currentTarget.pmViewDesc.node.content.content[0].attrs
+                  .blockKind
+              );
+              const blockKind =
+                e.currentTarget.pmViewDesc?.node?.content?.content[0]?.attrs
+                  ?.blockKind?.name;
+              if (['EmbedBlock', 'VideoBlock'].includes(blockKind)) {
+                return;
+              }
+            } catch (error) {
+              console.error(error);
+            }
+
+            if (this.isDocEmpty(value.serialized)) return; //|| this.isDisabled()) return;
+            if (this.sendModeTarget.checked ) {
+              this.handleSubmit(value);
+              e.currentTarget.editor.commands.clearContent(true);
+              return true;
+            }
+          }
+        }
+        callback={this.updateContent}>
+      </EditorComponent>
     );
 
     setTimeout(() => {
@@ -60,6 +113,32 @@ export default class extends Controller {
 
   insertNote(formats, cb) {
     cb && cb();
+  }
+
+  isDocEmpty(docJSON) {
+    if (!docJSON) return true;
+    const { content } = docJSON;
+
+    if (!content || content.length === 0) {
+      return true;
+    }
+
+    for (const node of content) {
+      if (
+        node.type !== 'paragraph' ||
+        (node.content && node.content.length > 0)
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  handleSubmit(value) {
+    const { html, serialized } = value;
+    this.insertComment({ html, serialized: JSON.stringify(serialized) });
+    return true;
   }
 
   async insertComment(formats, cb) {
@@ -100,4 +179,99 @@ export default class extends Controller {
   typingNotifier() {
     console.log('NOTIFY TYPING');
   }
+}
+
+function EditorComponent({callback, ctx, upload, initialValue, handleReturn}){
+  const [val, setValue] = React.useState(null)
+  const valRef = React.useRef(val);  // Add this ref
+  const editorRef = React.useRef(null)
+
+  React.useEffect(() => {
+    valRef.current = val;   // Update the ref whenever `val` changes
+  }, [val]);
+
+  function manageReturn(event){
+    console.log("handle return")
+    console.log(valRef.current)
+    return handleReturn(event, false, valRef.current)
+  }
+
+  return (
+    <Dante 
+        //theme={darkTheme}
+        theme={defaultTheme}
+        content={val}
+        tooltips={[
+          AddButtonConfig({
+            fixed: true
+          }),
+        ]} 
+        widgets={[
+          ImageBlockConfig({
+            options: {
+              upload_handler: (file, ctx) => {
+                upload(file, (blob)=>{
+                  console.log(blob)
+                  console.log(ctx)
+                  ctx.updateAttributes({
+                    url: blob.service_url
+                  })
+                })
+              }
+            }
+          }),
+          CodeBlockConfig(),
+          DividerBlockConfig(),
+          PlaceholderBlockConfig(),
+          EmbedBlockConfig({
+            options: {
+              endpoint: "/oembed?url=",
+              placeholder: "Paste a link to embed content from another site (e.g. Twitter) and press Enter"
+            },
+          }),
+          VideoBlockConfig({
+            options: {
+              endpoint: "/oembed?url=",
+              placeholder:
+                "Paste a YouTube, Vine, Vimeo, or other video link, and press Enter",
+              caption: "Type caption for embed (optional)",
+            },
+          }),
+          GiphyBlockConfig(),
+          VideoRecorderBlockConfig({
+            options: {
+              upload_handler: (file, ctx) => {
+                console.log("UPLOADED VIDEO FILE!!!!", file)
+                
+                upload(file, (blob)=>{
+                  console.log(blob)
+                  console.log(ctx)
+                  ctx.updateAttributes({
+                    url: blob.service_url
+                  })
+                })
+              }
+            }
+          }),
+          SpeechToTextBlockConfig(),
+        ]}
+
+        editorProps={{
+          handleKeyDown: (view, event) => {
+            if (event.key === 'Enter') {
+
+              editorRef.current?.commands?.clearContent(true);
+              return (
+                handleReturn &&
+                manageReturn(event, false)
+              );
+            }
+          },
+        }}
+        onUpdate={(editor)=>{
+          editorRef.current = editor
+          setValue({serialized: editor.getJSON(), html: editor.view.dom.innerText })
+          // this.pushEvent("update-content", {content: editor.getJSON() } )
+      }}/>
+  )
 }

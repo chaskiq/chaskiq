@@ -28,9 +28,7 @@
 				<%= link_to( I18n.t('common.add_new'), 
 					edit_app_bot_path(@app.key, @bot, mode: 'new-step'), 
 					data: {
-					'turbo-frame': 'modal', 
-					'turbo-action': 'replace', 
-					'action': 'click->modal#open'
+					'turbo-frame': 'modal',
 					}, 
 					class: "self-center btn btn-flat-dark") 
 				%>

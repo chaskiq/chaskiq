@@ -46,8 +46,8 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
   def select(object_name, method_name, template_object, options = {})
     @template.tag.div(class: "w-full sm:w-full py-2", "data-controller": "select") do
       @template.label_tag(tr(options[:label] || object_name), nil, class: "block text-gray-700 dark:text-white text-sm font-bold mb-2") +
-        super(object_name, method_name, template_object, options.reverse_merge(class: "select")) +
-        @template.tag.div(data: { "select-target": "holder" }) { "" } +
+        super(object_name, method_name, template_object, options.reverse_merge(class: "hidden select")) +
+        @template.tag.div(class: "select-wrapper", data: {"select-target": "holder" }) { "" } +
         field_details(object_name, object, options)
     end
   end

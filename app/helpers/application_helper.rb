@@ -90,31 +90,37 @@ module ApplicationHelper
       {
         label: I18n.t("settings.app.app_settings"),
         href: app_settings_path(@app.key),
+        turbo_frame: "_top",
         active: controller.controller_name == "settings"
       },
       {
         label: I18n.t("settings.app.security"),
         href: app_security_index_path(@app.key),
+        turbo_frame: "_top",
         active: controller.controller_name == "security"
       },
       {
         label: I18n.t("settings.app.user_data"),
         href: app_user_data_path(@app.key),
+        turbo_frame: "_top",
         active: controller.controller_name == "user_data"
       },
       {
         label: I18n.t("settings.app.tags"),
         href: app_tags_path(@app.key),
+        turbo_frame: "_top",
         active: controller.controller_name == "tags"
       },
       {
         label: I18n.t("settings.app.quick_replies"),
         href: app_quick_replies_path(@app.key),
+        turbo_frame: "_top",
         active: controller.controller_name == "quick_replies"
       },
       {
         label: I18n.t("settings.app.email_forwarding"),
         href: app_email_forwarding_index_path(@app.key),
+        turbo_frame: "_top",
         active: controller.controller_name == "email_forwarding"
       }
     ]
@@ -358,4 +364,16 @@ module ApplicationHelper
       { label: "Ukrainian", value: "uk" }
     ]
   end
+
+  def get_action_classes(actionIdx, total_length)
+    classes = [
+      "relative group bg-white dark:bg-gray-800 dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+    ]
+    classes << "rounded-tl-lg rounded-tr-lg sm:rounded-tr-none" if actionIdx == 0
+    classes << "sm:rounded-tr-lg" if actionIdx == 1
+    classes << "sm:rounded-bl-lg" if actionIdx == total_length - 2
+    classes << "rounded-bl-lg rounded-br-lg sm:rounded-bl-none" if actionIdx == total_length - 1
+    classes.join(' ')
+  end
 end
+

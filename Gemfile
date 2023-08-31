@@ -11,7 +11,7 @@ gem "grpc", force_ruby_platform: true
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "anycable-rails"
 gem "pg"
-gem "rails", "7.0.5.1" # , github: "rails/rails",
+gem "rails", "7.0.6" # , github: "rails/rails",
 gem "uri", "0.10.3"
 
 # Use sqlite3 as the database for Active Record
@@ -132,7 +132,8 @@ gem "globalize", github: "globalize/globalize"
 # To use Stripe, also include:
 gem "stripe", "~> 6.0"
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.1.0", require: false
+gem "bootsnap", require: false
+
 
 gem "dotenv-rails", groups: %i[development test]
 
@@ -148,7 +149,8 @@ end
 group :development do
   # gem "rack-mini-profiler", "~> 2.0"
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem "listen", ">= 3.0.5", "< 3.2"
+  # gem "listen", ">= 3.0.5", "< 3.2"
+  gem "listen"
   gem "web-console", ">= 3.3.0"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "erb_lint", require: false

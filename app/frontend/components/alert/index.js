@@ -1,4 +1,4 @@
-import './index.css'
+import './index.scss'
 
 import { Controller as BaseController } from '@hotwired/stimulus'
 

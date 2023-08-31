@@ -347,51 +347,6 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
         >
           {!this.props.loading ? (
             <>
-              {/*<DanteEditor
-              {...{
-                ...defaultProps,
-                body_placeholder: I18n.t('common.type_message'),
-              }}
-              read_only={this.props.read_only}
-              toggleEditable={this.props.toggleEditable}
-              ref={forwardedRef}
-              debug={false}
-              data_storage={{
-                url: '/',
-                save_handler: this.saveHandler,
-              }}
-              handleReturn={(e) => {
-                return (
-                  this.props.handleReturn &&
-                  this.props.handleReturn(e, this.isEmptyDraftJs(), this)
-                );
-              }}
-              onChange={(e) => {
-                this.dante_editor = e;
-              }}
-              content={this.initialContent}
-              tooltips={
-                this.props.tooltipsConfig
-                  ? this.props.tooltipsConfig()
-                  : this.tooltipsConfig()
-              }
-              widgets={
-                this.props.widgetsConfig
-                  ? this.props.widgetsConfig()
-                  : this.widgetsConfig()
-              }
-              decorators={(context) => {
-                return new MultiDecorator([
-                  PrismDraftDecorator({ prism: Prism }),
-                  new CompositeDecorator([
-                    {
-                      strategy: findEntities.bind(null, 'LINK', context),
-                      component: Link,
-                    },
-                  ]),
-                ]);
-              }}
-            />*/}
               <Dante
                 onChange={(e) => {
                   console.log('EEE', e);

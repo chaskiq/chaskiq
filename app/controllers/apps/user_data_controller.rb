@@ -36,13 +36,15 @@ class Apps::UserDataController < ApplicationController
 
   def create
     @custom_field = CustomFieldRecord.new
-    @custom_field.assign_attributes(params[:tag_list_record].permit!)
+    resource_params = params.require(:custom_field_record).permit(:name, :type)
+
+    @custom_field.assign_attributes(resource_params)
     @app.custom_fields_objects << @custom_field
     @app.custom_fields = @app.custom_fields_objects.as_json
 
     if @app.save
       flash.now[:notice] = "Place was updated!"
-      redirect_to app_tags_path(@app.key)
+      redirect_to app_user_data_path(@app.key)
     else
       render "new", status: :unprocessable_entity
     end
@@ -53,6 +55,6 @@ class Apps::UserDataController < ApplicationController
     @app.custom_fields = @custom_fields.as_json
     @app.save
     flash.now[:notice] = "Place was updated!"
-    redirect_to app_tags_path(@app.key)
+    redirect_to app_user_data_path(@app.key)
   end
 end

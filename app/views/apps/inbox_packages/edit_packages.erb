@@ -7,14 +7,12 @@
 								<%= button_to app_inbox_packages_path(@app.key, conversation_key: params[:conversation_key]), method: :get do %>
 									cancel
 								<% end %>
-								<%= render Button::Component.new(size: "sm", 
-									data: {
-										controller: 'turbo-button',
-										action: 'click->turbo-button#visit',
-										url: sidebar_app_conversations_path(@app.key, q: 'done')  
-									}) do %>
+
+
+								<%= button_to sidebar_app_conversations_path(@app.key, q: 'done'), method: :get, class: "btn sm" do %>
 									done
 								<% end %>
+
 							</div>
 					</div>
 					<div class="flex flex-col justify-around items-center border rounded-md my-2 py-2">
@@ -30,9 +28,7 @@
 								<%= link_to "new Page", 
 									capabilities_app_packages_path(@app.key, kind: 'inbox'),
 									data: {
-										'turbo-frame': 'modal', 
-										'turbo-action': 'replace', 
-										'action': 'click->modal#open'
+										'turbo-frame': 'modal'
 									}
 								%>
 								

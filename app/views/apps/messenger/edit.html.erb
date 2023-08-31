@@ -1,6 +1,6 @@
 <%= render Content::Component.new do %>
 
-	<%= turbo_frame_tag 'app-settings', data: {controller: 'history-frame'} do %>
+	<%= turbo_frame_tag 'app-settings' do %>
 
 		<%= render PageHeader::Component.new(title: I18n.t('settings.app.messenger_settings') ) do %>
 			

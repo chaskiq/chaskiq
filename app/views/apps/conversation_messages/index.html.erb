@@ -8,7 +8,8 @@
 		<%= render partial: 'apps/conversation_messages/pagination' %>
 	</div>
 
-	<%= turbo_frame_tag "conversation-messages-list-#{@conversation.key}", class: 'flex flex-col-reverse' do %>
+	<%= turbo_frame_tag "conversation-messages-list-#{@conversation.key}", 
+		class: 'flex flex-col' do %>
 		<%= render 'apps/conversation_messages/messages' %>
 	<% end %>
 </div>

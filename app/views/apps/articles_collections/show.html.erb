@@ -1,6 +1,6 @@
 <%= render Content::Component.new do %>
 
-	<%= turbo_frame_tag 'app-settings', data: {controller: 'history-frame'} do %>
+	<%= turbo_frame_tag 'app-settings' do %>
 
 		<%= render PageHeader::Component.new(title: @article_collection.title ) do %>
 			
@@ -8,8 +8,6 @@
 				new_app_articles_section_path(@app.key, collection_id: @article_collection), 
 				data: {
 				'turbo-frame': 'modal', 
-				'turbo-action': 'replace', 
-				'action': 'click->modal#open'
 				}, 
 				class: "btn btn-flat-dark md") 
 			%>

@@ -8,8 +8,8 @@ class ConversationPart::Component < ApplicationViewComponent
   end
 
   def block_class
-    return "bg-white text-green-500" if @message.authorable.is_a?(AppUser)
+    return "bg-gray-800 text-white" if @message.authorable.is_a?(AppUser)
 
-    @message.private_note? ? "bg-yellow-300 text-black" : "bg-gray-700 text-white"
+    @message.private_note? ? "bg-yellow-300 text-black" : "bg-blue-700 text-white"
   end
 end

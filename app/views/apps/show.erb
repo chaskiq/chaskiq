@@ -1,143 +1,55 @@
 <%= render Content::Component.new do %>
 
   <div class="space-y-2">
-    <p
-      class="text-4xl leading-2 text-gray-900 dark:text-gray-100 font-bold">
-      <%= raw I18n.t('dashboard.hey', name: @app.name) %>
+    <p class="text-4xl leading-2 text-gray-900 dark:text-gray-100 font-bold">
+      <%= I18n.t('dashboard.hey', name: @app.name).html_safe %>
     </p>
 
     <div class="py-3 flex space-x-3 justify-end">
-      <WebSetup />
+      <% #= render 'web_setup' %>
 
-      <LinkButton
-        variant="outlined"
-        onClick={() =>
-          window.open(`/tester/${app.key}`, '_blank').focus()
-        }
-        target="blank"
-      >
-        Chat tester
-      </LinkButton>
-
-      <LinkButton
-        variant="outlined"
-        onClick={() => history.push('/playground')}
-      >
-        Playground
-      </LinkButton>
+      <%= link_to "Chat tester", "/tester/#{@app.key}", target: "_blank", class: "btn btn-outlined" %>
+      
+      <%= link_to "Playground", "/playground", class: "btn btn-outlined" %>
     </div>
   </div>
 
   <div class="space-y-2">
-    <div class="mt-5 rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
-        <div class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white dark:bg-black dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+    
+    <div class="mt-5 rounded-lg bg-gray-200 dark:bg-gray-900 overflow-hidden shadow divide-y divide-gray-200 dark:divide-gray-600 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
+      <% @actions.each_with_index do |action, actionIdx| %>
+        <div class="<%= get_action_classes(actionIdx, @actions.length) %>">
           <div>
-              <span class="bg-sky-50 text-sky-700 rounded-lg inline-flex p-3 ring-4 ring-white">
-                <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
-                    <path d="M3.5 11.493H4v-.5h-.5v.5zm0 2.998H3a.5.5 0 00.8.4l-.3-.4zm4-2.998v-.5h-.167l-.133.1.3.4zm-3-7.496H4v1h.5v-1zm6 1h.5v-1h-.5v1zm-6 1.998H4v1h.5v-1zm4 1H9v-1h-.5v1zM3 11.493v2.998h1v-2.998H3zm.8 3.398l4-2.998-.6-.8-4 2.998.6.8zm3.7-2.898h6v-1h-6v1zm6 0c.829 0 1.5-.67 1.5-1.5h-1c0 .277-.223.5-.5.5v1zm1.5-1.5V1.5h-1v8.994h1zM15 1.5c0-.83-.671-1.5-1.5-1.5v1c.277 0 .5.223.5.5h1zM13.5 0h-12v1h12V0zm-12 0C.671 0 0 .67 0 1.5h1c0-.277.223-.5.5-.5V0zM0 1.5v8.993h1V1.5H0zm0 8.993c0 .83.671 1.5 1.5 1.5v-1a.499.499 0 01-.5-.5H0zm1.5 1.5h2v-1h-2v1zm3-6.996h6v-1h-6v1zm0 2.998h4v-1h-4v1z" fill="currentColor"></path>
-                </svg>
+            <% if action[:icon] %>
+              <span class="<%= action[:icon_background] %> <%= action[:icon_foreground] %> rounded-lg inline-flex p-3 ring-4 ring-white">
               </span>
+            <% end %>
           </div>
+
           <div class="mt-8">
-              <h3 class="text-lg font-medium"><a class="focus:outline-none" href="/apps/GPi9haWV1ocbr4My_Q8xPw/conversations"><span class="absolute inset-0" aria-hidden="true"></span>Conversations</a></h3>
-              <div class="mt-2 text-sm text-gray-500"><span class="truncate--">Live chat status <span class=" inline-flex items-center 
-                inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                bg-green-300 text-green-800
-                ">Running</span></span></div>
+            <h3 class="text-lg font-medium">
+              <% if action[:external_link] %>
+                <%= link_to action[:title], action[:external_link], rel: "noopener noreferrer", class: "focus:outline-none" %>
+              <% else %>
+                <%= link_to action[:title], action[:href], class: "focus:outline-none" %>
+              <% end %>
+            </h3>
+
+            <% if action[:render] %>
+              <%= action[:render].call %>
+            <% end %>
+
+            <% if action[:text] %>
+              <p class="mt-2 text-sm text-gray-500"><%= action[:text] %></p>
+            <% end %>
           </div>
+
           <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"></path>
-              </svg>
+            <!-- SVG icon goes here -->
           </span>
         </div>
-        <div class="sm:rounded-tr-lg relative group bg-white dark:bg-black dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-          <div>
-              <span class="bg-purple-50 text-purple-700 rounded-lg inline-flex p-3 ring-4 ring-white">
-                <svg class="h-6 w-6 css-1dhg8p7" aria-hidden="true" fill="currentColor" focusable="false" viewBox="-3 0 20 20" role="presentation">
-                    <path d="M.5 14.5H0v.5h.5v-.5zm6-9l.4-.3a.5.5 0 00-.816.023L6.5 5.5zm3 4l-.4.3a.5.5 0 00.807-.01L9.5 9.5zM0 0v14.5h1V0H0zm.5 15H15v-1H.5v1zm2.416-3.223l4-6-.832-.554-4 6 .832.554zM6.1 5.8l3 4 .8-.6-3-4-.8.6zm3.807 3.99l5-7-.814-.58-5 7 .814.58z" fill="currentColor"></path>
-                </svg>
-              </span>
-          </div>
-          <div class="mt-8">
-              <h3 class="text-lg font-medium"><a class="focus:outline-none" href="/apps/GPi9haWV1ocbr4My_Q8xPw/reports"><span class="absolute inset-0" aria-hidden="true"></span>Reports</a></h3>
-          </div>
-          <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"></path>
-              </svg>
-          </span>
-        </div>
-        <div class="relative group bg-white dark:bg-black dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-          <div>
-              <span class="bg-teal-50 text-teal-700 rounded-lg inline-flex p-3 ring-4 ring-white">
-                <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
-                    <path d="M7.5 12.5V15m5-15v2.5M2.5 0v6.5m0 2V15m5-4.5V0m5 4.5V15m-2-10.5h4v-2h-4v2zm-5 8h4v-2h-4v2zm-5-4h4v-2h-4v2z" stroke="currentColor"></path>
-                </svg>
-              </span>
-          </div>
-          <div class="mt-8">
-              <h3 class="text-lg font-medium"><a class="focus:outline-none" href="/apps/GPi9haWV1ocbr4My_Q8xPw/messenger"><span class="absolute inset-0" aria-hidden="true"></span>Messenger settings</a></h3>
-          </div>
-          <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"></path>
-              </svg>
-          </span>
-        </div>
-        <div class="relative group bg-white dark:bg-black dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-          <div>
-              <span class="bg-teal-50 text-teal-700 rounded-lg inline-flex p-3 ring-4 ring-white">
-                <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
-                    <path clip-rule="evenodd" d="M5.944.5l-.086.437-.329 1.598a5.52 5.52 0 00-1.434.823L2.487 2.82l-.432-.133-.224.385L.724 4.923.5 5.31l.328.287 1.244 1.058c-.045.277-.103.55-.103.841 0 .291.058.565.103.842L.828 9.395.5 9.682l.224.386 1.107 1.85.224.387.432-.135 1.608-.537c.431.338.908.622 1.434.823l.329 1.598.086.437h3.111l.087-.437.328-1.598a5.524 5.524 0 001.434-.823l1.608.537.432.135.225-.386 1.106-1.851.225-.386-.329-.287-1.244-1.058c.046-.277.103-.55.103-.842 0-.29-.057-.564-.103-.841l1.244-1.058.329-.287-.225-.386-1.106-1.85-.225-.386-.432.134-1.608.537a5.52 5.52 0 00-1.434-.823L9.142.937 9.055.5H5.944z" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round"></path>
-                    <path clip-rule="evenodd" d="M9.5 7.495a2 2 0 01-4 0 2 2 0 014 0z" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round"></path>
-                </svg>
-              </span>
-          </div>
-          <div class="mt-8">
-              <h3 class="text-lg font-medium"><a class="focus:outline-none" href="/apps/GPi9haWV1ocbr4My_Q8xPw/settings"><span class="absolute inset-0" aria-hidden="true"></span>App Settings</a></h3>
-          </div>
-          <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"></path>
-              </svg>
-          </span>
-        </div>
-        <div class="sm:rounded-bl-lg relative group bg-white dark:bg-black dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-          <div>
-              <span class="bg-sky-50 text-sky-700 rounded-lg inline-flex p-3 ring-4 ring-white">
-                <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
-                    <path d="M14.5.5l.457.203A.5.5 0 0014.5 0v.5zM.5.5V0a.5.5 0 00-.5.5h.5zm14 9v.5a.5.5 0 00.457-.703L14.5 9.5zm-2-4.5l-.457-.203a.5.5 0 000 .406L12.5 5zm2-5H.5v1h14V0zM0 .5v9h1v-9H0zM.5 10h14V9H.5v1zm14.457-.703l-2-4.5-.914.406 2 4.5.914-.406zm-2-4.094l2-4.5-.914-.406-2 4.5.914.406zM1 15V9.5H0V15h1z" fill="currentColor"></path>
-                </svg>
-              </span>
-          </div>
-          <div class="mt-8">
-              <h3 class="text-lg font-medium"><a class="focus:outline-none" href="/apps/GPi9haWV1ocbr4My_Q8xPw/campaigns"><span class="absolute inset-0" aria-hidden="true"></span>Campaigns</a></h3>
-          </div>
-          <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"></path>
-              </svg>
-          </span>
-        </div>
-        <div class="rounded-bl-lg rounded-br-lg sm:rounded-bl-none relative group bg-white dark:bg-black dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
-          <div>
-              <span class="bg-sky-50 text-sky-700 rounded-lg inline-flex p-3 ring-4 ring-white">
-                <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
-                    <path d="M1.5.5V0a.5.5 0 00-.5.5h.5zm0 13H1a.5.5 0 00.5.5v-.5zM4 0v15h1V0H4zM1.5 1h10V0h-10v1zM13 2.5v9h1v-9h-1zM11.5 13h-10v1h10v-1zm-9.5.5V.5H1v13h1zm11-2a1.5 1.5 0 01-1.5 1.5v1a2.5 2.5 0 002.5-2.5h-1zM11.5 1A1.5 1.5 0 0113 2.5h1A2.5 2.5 0 0011.5 0v1zM7 5h4V4H7v1z" fill="currentColor"></path>
-                </svg>
-              </span>
-          </div>
-          <div class="mt-8">
-              <h3 class="text-lg font-medium"><a href="https://dev.chaskiq.io" rel="noopener noreferrer" class="focus:outline-none"><span class="absolute inset-0" aria-hidden="true"></span>Chaskiq Guides</a></h3>
-              <p class="mt-2 text-sm text-gray-500">Help Center</p>
-          </div>
-          <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z"></path>
-              </svg>
-          </span>
-        </div>
+      <% end %>
     </div>
+
   </div>
 <% end %>

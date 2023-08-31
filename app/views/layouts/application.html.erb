@@ -43,7 +43,7 @@
     <%= render partial: "shared/flash" %>
 
     <div class="page antialiased" id="main-page" 
-      data-controller="modal slide-modal dark-mode" 
+      data-controller="modal-- slide-modal dark-mode" 
       data-modal-allow-background-close="false">
 
       <%= render "shared/flash" %>
@@ -63,8 +63,10 @@
 
       <% #= turbo_frame_tag "modal" %>
       <div data-controller="modal-form">
-        <%= render 'shared/modal' %>
+        <% #= render 'shared/modal' %>
       </div>
+
+      <%= turbo_frame_tag "modal" %>
 
       <div data-controllerrrrrr="slide-modal-form">
         <%= render 'shared/slide-modal' %>
