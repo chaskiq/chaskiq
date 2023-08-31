@@ -1,6 +1,0 @@
-/* Use component-local class names and add them to HTML via #class_for(name) helper */
-
-.separator {
-	@apply my-2 border-gray-200 dark:border-gray-800;
-	border-bottom-width: 1px;
-}
