@@ -1,0 +1,189 @@
+<%= form_for @app, url: app_messenger_path(@app.key, :inbound_settings), data: {controller: 'segment-manager'} do |f| %>
+
+	<%= render Hints::Component.new(type: 'inbound_settings') %>
+
+
+	<div class="inline-flex mt-4">
+		<% user_apps_class = !params[:kind] ? 
+			"bg-indigo-600 text-gray-100
+			border-indigo-600 pointer-events-none
+			focus:outline-none focus:shadow-outline-gray
+			outline-none	border bg-white
+			dark:bg-gray-900 dark:text-gray-100 font-light
+			py-2 px-4 rounded-l-lg" : 
+			
+			"focus:outline-none focus:shadow-outline-gray 
+			outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
+			font-light py-2 px-4 rounded-l-lg"
+		%>
+
+		<a 
+			href="<%= edit_app_messenger_path(@app.key, 'apps') %>"
+			class="<%= user_apps_class %>">
+			users
+		</a>
+
+		<% visitor_class = params[:kind] == 'visitors' ? 
+							"bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none
+								focus:outline-none 
+								focus:shadow-outline-gray 
+								outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
+								font-light py-2 px-4
+								rounded-r-lg
+								" : "focus:outline-none focus:shadow-outline-gray 
+								outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
+								font-light py-2 px-4
+								rounded-r-lg" 
+		%>
+		<a 
+			href="<%= edit_app_messenger_path(@app.key, 'apps', kind: :visitors) %>"
+			class="<%= visitor_class %>">
+			visitors
+		</a>
+	</div>
+
+	<%= f.fields_for :inbound_settings_objects, @app.inbound_settings_objects do |ff|%>
+		<div>
+			<div class="py-4">
+				<Hints type="inbound_settings" />
+			</div>
+
+			<p class="text-lg leading-5 font-medium text-gray-900 pb-2">
+				<%= I18n.t('settings.inbound.title')%>
+			</p>
+
+			<div>
+				<%= ff.check_box :enabled, label: I18n.t('settings.inbound.checkbox'), hint: nil %>
+				<!--
+				<Input
+					type="checkbox"
+					checked={state.enable_inbound}
+					onChange={(e) => handleChange('enable_inbound', e)}
+					value={state.enable_inbound}
+					color="primary"
+					label=<%= I18n.t('settings.inbound.checkbox')%>
+				/>-->
+			</div>
+
+			<p class="my-2 max-w-xl text-sm leading-5 text-gray-500">
+				<%= I18n.t('settings.inbound.hint') %>
+			</p>
+
+			<hr />
+
+			<div class="py-4">
+				<p class="text-lg leading-5 font-medium text-gray-900 dark:text-gray-100 pb-2">
+					<%= I18n.t('settings.inbound.title2') %>
+				</p>
+			</div>
+
+			<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
+				<%= I18n.t('settings.inbound.hint2') %>
+			</p>
+
+			<p class="text-md leading-6 font-medium text-gray-600 dark:text-gray-300 pb-2">
+				<%= I18n.t('settings.inbound.note2') %>
+			</p>
+
+			<div class="py-4">
+				<p class="py-2"><%= I18n.t('settings.inbound.note3') %></p>
+
+				<hr />
+
+				<div class="py-6">
+					<div class="flex">
+						<div class="w-1/2">
+							<%= ff.check_box :users_enabled %>
+						</div>
+
+						<div class="w-1/2">
+							<div class="mb-4">
+								<%= ff.radio_button :users_segment, 'all' %>
+								<%= ff.label :users_segment, I18n.t('settings.inbound.filters.users.all') %>
+							</div>
+							<div class="mb-4">
+								<%= ff.radio_button :users_segment, 'some' %>
+								<%= ff.label :users_segment, I18n.t('settings.inbound.filters.users.some') %>
+							</div>
+						</div>
+					</div>
+
+					<div class="w-full" data-controller="segment-manager">
+						segment manager
+						<%		
+							segment_manager = SegmentManagerService.new(app: @app)
+							segment_manager.segment_predicates = {}
+						%>
+
+						<% #= render 'apps/segment_manager/form', segment_manager: segment_manager %>
+					</div>
+				</div>
+
+
+				<!--
+				<AppSegmentManager
+					app={settings}
+					label= I18n.t('settings.inbound.filters.users.label')}
+					namespace={'users'}
+					all= I18n.t('settings.inbound.filters.users.all')}
+					checked={state.users_enabled}
+					updateChecked={handleChange}
+					predicates={state.usersPredicates || []}
+					setPredicates={setPredicates}
+					radioValue={state.users_radio}
+					dispatch={dispatch}
+					some= I18n.t('settings.inbound.filters.users.some')}
+				/>
+				-->
+
+				<hr />
+
+				<div class="py-6">
+					<div class="flex">
+						<div class="w-1/2">
+							<%= ff.check_box :visitors_enabled %>
+						</div>
+
+						<div class="w-1/2">
+							<div class="mb-4">
+								<%= ff.radio_button :visitors_segment, 'all' %>
+								<%= ff.label :visitors_segment, I18n.t('settings.inbound.filters.leads.all') %>
+							</div>
+							<div class="mb-4">
+								<%= ff.radio_button :visitors_segment, 'some' %>
+								<%= ff.label :visitors_segment, I18n.t('settings.inbound.filters.leads.some') %>
+							</div>
+						</div>
+					</div>
+
+					<div class="w-full">
+						segment manager
+					</div>
+				</div>
+
+				<% #= ff.object.to_json %>
+				<AppSegmentManager
+					app={settings}
+					label= I18n.t('settings.inbound.filters.leads.label')}
+					all= I18n.t('settings.inbound.filters.leads.all')}
+					namespace="visitors"
+					dispatch={dispatch}
+					checked={state.visitors_enabled}
+					updateChecked={handleChange}
+					predicates={state.visitorsPredicates || []}
+					setPredicates={setPredicates}
+					radioValue={state.visitors_radio}
+					some= I18n.t('settings.inbound.filters.leads.some')
+				/>
+
+				<p class="text-sm leading-6 font-medium text-gray-400 pb-2">
+					<%= I18n.t('settings.inbound.filters.hint') %>
+				</p>
+			</div>
+
+			<div class="pb-4">	
+				<%= f.button I18n.t('common.save'), class: 'btn btn-success'%>
+			</div>
+		</div>
+	<% end %>
+<% end %>

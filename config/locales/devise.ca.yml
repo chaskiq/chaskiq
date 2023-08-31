@@ -1,0 +1,63 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+ca:
+  devise:
+    confirmations:
+      confirmed: "La teva adreça de correu electrònic s'ha confirmat correctament."
+      send_instructions: "Rebràs un correu electrònic amb instruccions per confirmar la teva adreça de correu electrònic en pocs minuts."
+      send_paranoid_instructions: "Si la teva adreça de correu electrònic existeix a la nostra base de dades, rebràs un correu electrònic amb instruccions per confirmar la teva adreça en pocs minuts."
+    failure:
+      already_authenticated: "Ja has iniciat la sessió."
+      inactive: "El compte no està activat."
+      invalid: "%{authentication_keys} o contrasenya no valits."
+      locked: "El teu compte està bloquejat."
+      last_attempt: "Tens un intent més abans que el teu compte es bloquegi."
+      not_found_in_database: "%{authentication_keys} o contrasenya no valits."
+      timeout: "La teva sessió ha caducat. Si us plau, torna a iniciar sessió per continuar."
+      unauthenticated: "Has d'iniciar la sessió o registrar-te abans de continuar."
+      unconfirmed: "Abans de continuar, has de confirmar el teu mail."
+    mailer:
+      confirmation_instructions:
+        subject: "Instruccions de confirmació"
+      reset_password_instructions:
+        subject: "Instruccions de regeneració de la contrasenya"
+      unlock_instructions:
+        subject: "Instruccions per desbloquejar"
+      email_changed:
+        subject: "El correu electrònic ha canviat"
+      password_change:
+        subject: "S'ha canviat la contrasenya"
+    omniauth_callbacks:
+      failure: "No podem autenticar-te des de %{kind} degut a \"%{reason}\"."
+      success: "Autenticat amb èxit des del compte %{kind}."
+    passwords:
+      no_token: "No podeu accedir a aquesta pàgina sense provenir d'un correu electrònic de restabliment de la contrasenya. Si hi heu accedit des d'un correu electrònic de restabliment de la contrasenya, assegureu-vos que heu utilitzat l'URL completa proporcionada."
+      send_instructions: "Rebràs un correu electrònic amb instruccions sobre com restablir la teva contrasenya en pocs minuts."
+      send_paranoid_instructions: "Si la vostra adreça de correu electrònic existeix a la nostra base de dades, rebreu un enllaç de recuperació de la contrasenya a la vostra adreça de correu electrònic en pocs minuts."
+      updated: "La contrasenya s'ha canviat correctament. Ara ja estàs registrat."
+      updated_not_active: "La contrasenya s'ha canviat amb èxit."
+    registrations:
+      destroyed: "Adéu! El teu compte s'ha cancel·lat correctament. Esperem tornar-te a veure aviat."
+      signed_up: "Benvingut/da! Heu iniciat la sessió amb èxit."
+      signed_up_but_inactive: "Has iniciat la sessió amb èxit. Tanmateix, no hem pogut iniciar la sessió perquè el teu compte encara no està activat."
+      signed_up_but_locked: "T'has registrat amb èxit. Tanmateix, no has pogut iniciar la sessió perquè el teu compte està bloquejat."
+      signed_up_but_unconfirmed: "S'ha enviat un missatge amb un enllaç de confirmació a la teva adreça de correu electrònic. Si us plau, segueix l'enllaç per activar el teu compte."
+      update_needs_confirmation: "Has actualitzat el teu compte amb èxit, però hem de verificar la teva nova adreça. Comprova la teva bústia electrònic i segueix l'enllaç per confirmar la teva nova adreça de correu electrònic."
+      updated: "El seu compte ha estat actualitzat amb èxit."
+    sessions:
+      signed_in: "Sessió iniciada correctament."
+      signed_out: "Sessió finalitzada correctament."
+      already_signed_out: "Sessió finalitzada correctament."
+    unlocks:
+      send_instructions: "Rebràs un correu electrònic amb instruccions per desbloquejar el teu compte en uns minuts."
+      send_paranoid_instructions: "Si el teu compte existeix, rebràs un correu electrònic amb instruccions per desbloquejar-lo en uns minuts."
+      unlocked: "El compte s'ha desblocat correctament. Inicia sessió per a continuar."
+  errors:
+    messages:
+      already_confirmed: "ja s'ha confirmat, si us plau intenta iniciar la sessió"
+      confirmation_period_expired: "s'ha de confirmar dins de %{period}, si us plau sol·licita'n un de nou"
+      expired: "ha caducat, si us plau, sol·licita'n un de nou"
+      not_found: "No s'ha trobat"
+      not_locked: "no està bloquejada"
+      not_saved:
+        one: "Un error ha impedit que es guardés aquest %{resource}:"
+        other: "%{count} errors han impedit que es guardés aquest %{resource}:"

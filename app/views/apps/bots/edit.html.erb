@@ -1,0 +1,22 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings' do %>
+
+		<%= render PageHeader::Component.new(title: @bot.name ) do %>
+			<button class="btn btn-success">actions</button>
+			<button class="btn btn-success">actions</button>
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: bot_menu_data(app: @app, bot: @bot) ) do %>
+			<%= case params[:tab]
+					when 'stats' then  render('stats')
+					when 'settings' then  render('form')
+					when 'editor' then render('editor')
+					when 'audience' then  render('audience')
+					end
+			%>
+		<% end %>
+
+	<% end %>
+	
+<% end %>

@@ -1,0 +1,9 @@
+<%= render "shared/modal" do %>
+	<%= form_for @oauth_application, url: app_oauth_application_path(@app.key, @oauth_application) do |f|%>
+		<%= f.text_field :name, hint: t("doorkeeper.applications.help.name") %>
+		<%= f.text_area :redirect_uri, hint: t("doorkeeper.applications.help.redirect_uri") %>
+		<%= f.check_box :confidential, hint: t("doorkeeper.applications.help.confidential") %>
+		<%= f.text_field :scopes, hint: t("doorkeeper.applications.help.scopes") %>
+		<%= f.submit(t("common.submit"), class: "btn btn-success")%>
+	<% end %>
+<% end %>

@@ -1,0 +1,15 @@
+
+<div 
+	class="px-6 py-4"
+	data-controller="infinite-scroll" 
+	data-infinite-scroll-target="entries">
+
+	<div class="invisible h-1" data-infinite-scroll-target="pagination">
+		<%= render partial: 'apps/conversation_messages/pagination' %>
+	</div>
+
+	<%= turbo_frame_tag "conversation-messages-list-#{@conversation.key}", 
+		class: 'flex flex-col' do %>
+		<%= render 'apps/conversation_messages/messages' %>
+	<% end %>
+</div>

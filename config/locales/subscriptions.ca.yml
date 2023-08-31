@@ -1,0 +1,109 @@
+ca:
+  subscriptions:
+    upgrade: Actualitza
+    tabs:
+      - Pla
+      - Historial de transaccions
+    features:
+      Segments:
+        title: Segments
+        description: true
+        upgrade_message: You can create segments by setting rules or filters for your users.
+      Leads:
+        title: Client potencial
+        description: true
+        upgrade_message: When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer.
+      AppUsers:
+        title: Usuaris
+        description: true
+        upgrade_message: when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations.
+      Conversations:
+        title: Converses
+        description: true
+        upgrade_message: use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations.
+      BotTasks:
+        title: Tasca del Bot
+        description: true
+        upgrade_message: use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person.
+      Integrations:
+        title: Integracions
+        description: true
+        upgrade_message: Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity.
+      Campaigns:
+        title: Campanyes
+        active: false
+        upgrade_message: Send emails campaigns to your subscribers.
+      Tours:
+        title: Visita guiada
+        description: true
+        upgrade_message: Use interactive tours to help customers learn more about your product.
+      UserAutoMessages:
+        title: Missatges automàtics d’usuari
+        description: true
+        upgrade_message: Use powerful messaging to boost sales, onboard users, and accelerate growth.
+      OutgoingWebhooks:
+        title: Webhooks de sortida
+        active: false
+        upgrade_message: Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages.
+      OauthApplications:
+        title: Aplicacions Oauth
+        description: true
+        upgrade_message: Use our API and OAuth2 apps to create custom integrations.
+      Articles:
+        title: Articles
+        active: false
+        upgrade_message: Use Articles to quickly create and share information and answers.
+      QuickReplies:
+        title: Respostes ràpides
+        description: true
+        upgrade_message: Quickly find and use pre-written responses to save time.
+      CustomAttributes:
+        title: Atributs personalitzats
+        upgrade_message: Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business.
+      Agents:
+        title: Agents
+        upgrade_message: Number of customer service representatives available to handle inquiries.
+      InboundMessages:
+        title: Inbound messages
+        upgrade_message: Forward emails to Chaskiq to manage them in one place.
+    plans:
+      - 
+        name: "gratuït"
+        description: Aquest és un pla gratuït!
+        id: 618560
+      - 
+        name: "principiant"
+        description: Aquest és el pla senzill
+        id: 616249
+      - 
+        name: "súper"
+        id: 596123
+        description: Aquest és el súper pla
+    plan:
+      included: Què inclou
+      pay_by: Paga per %{billing_type}
+      trial_days: Proveu aquest pla de forma gratuïta durant <span class="font-bold"> %{trial_days} dies </span>
+      get_access: Obteniu accés
+    alerts:
+      subscription_updated:
+        title: S'ha actualitzat la subscripció
+        desc: La subscripció s'ha actualitzat correctament. Rebràs una notificació per mail
+      subscription_created:
+        title: Subscripció creada
+        desc: La subscripció s'ha creat correctament. Rebreu una notificació aviat
+      subscription_cancelled:
+        title: S'ha cancel·lat la subscripció
+        desc: La subscripció s'ha cancel·lat
+      close: Tanca aquest diàleg
+    billing_information:
+      title: Informació de facturació
+      description: Actualment feu servir el pla "%{plan_name}".
+      next_billing: Propera facturació a %{next_payment_date} per $%{next_payment_amount} %{next_payment_currency}
+      cancel_plan: cancel·la el pla
+      update_payment_method: Actualitzar el mètoda de pagament
+      subscription_state: Estat de la subscripció %{state}
+    update_subscription:
+      cta: Actualitza la subscripció
+      billed_on: Se us cobrarà a cadascun <span class="font-bold">%{billing_period}%{billing_type}</span>
+      amount: Amb la quantitat de <span class="font-bold">$ %{recurring_price} USD</span>
+      next_payment: El próxim pagament serà <span class="font-bold">%{next_payment_date}</span></span>

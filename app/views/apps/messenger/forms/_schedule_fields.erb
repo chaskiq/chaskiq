@@ -1,0 +1,32 @@
+<%= content_tag :div, 
+	class: "flex flex-row justify-between items-center nested-fields", 
+	data: { new_record: f.object.new_record? } do %>
+	<% options = ScheduleRecord.hours_ranges %>
+	<% labeled_options = options.map{|o| {label: o, value: o}}%>
+	<% days = Date::ABBR_DAYNAMES.map(&:downcase) %>
+	<% labeled_days = days.map{|o|  {label: o, value: o} } %>
+
+	<div class="w-1/4 p-1">
+		<%= f.select :day, options_for_select(days.map{|o| [o,o]}, f.object.day), {}, {
+			data: {'select-target': 'select', options: labeled_days.to_json }}
+		%>
+	</div>
+	<div class="w-1/4 p-1">
+		<%= f.select :from, options_for_select(options.map{|o| [o,o]}, f.object.from), {}, {
+				data: {'select-target': 'select', options: labeled_options.to_json }} 
+		%>
+	</div>
+	<div class="w-1/4 p-1">
+
+		<%= f.select :to, options_for_select(options.map{|o| [o,o]}, f.object.to), {}, {
+				data: {'select-target': 'select', options: labeled_options.to_json }} 
+		%>
+	</div>
+	<div class="w-1/4 pt-3">
+		<button class="btn btn-icon"
+			data-action="click->nested-form#remove_association" } 
+			type="button">
+			<svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M4.5 4.5l6 6m-6 0l6-6m-3 10a7 7 0 110-14 7 7 0 010 14z" stroke="currentColor"></path></svg>
+		</button>
+	</div>
+<% end %>

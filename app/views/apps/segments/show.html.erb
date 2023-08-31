@@ -1,0 +1,93 @@
+<main class="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 focus:outline-none md:py-6 h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+    <div class="py-4">
+      <div class="rounded-lg h-96">
+        <div class="mb-5">
+          <div>
+            <nav class="sm:hidden">
+              <a href="#" class="flex items-center text-sm leading-5 font-medium text-gray-500 hover:text-gray-700 focus:outline-none focus:underline transition duration-150 ease-in-out">
+                <svg class="flex-shrink-0 -ml-1 mr-1 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                Back
+              </a>
+            </nav>
+          </div>
+          <div class="mt-2 md:flex md:items-center md:justify-between">
+            <div class="flex-1 min-w-0">
+              <h2 class="text-2xl font-bold leading-7 text-gray-900 dark:text-gray-50 sm:text-3xl sm:leading-9 sm:truncate">all users</h2>
+            </div>
+            <div class="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
+              <div>
+                <div class="relative inline-block text-left">
+                  <div class="flex">
+                    <div>
+											<%= render Button::Component.new(size: 'sm', variant: 'success') do %>
+												oli oli lki
+											<% end %>
+
+											<%= render Dropdown::Component.new(label: t('contact_manager.create'), size: "sm" ) do |c| %>
+                          <!--<a href="#" data-action="click->modal#open" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded">
+                            <span>Open Modal</span>
+                          </a>-->
+                        <%= button_to "oli", new_app_contact_path(@app.key), form: { data: {"turbo-frame": "modal"}}, method: :get %>
+
+                        <%= turbo_frame_tag "sss" do %>
+                          <%= link_to new_app_contact_path(@app.key), data: {'turbo-frame': 'modal'} do %>
+                            New page
+                          <% end %>
+                        <% end %>
+
+                        <% #= render "shared/modal", src: new_app_contact_path(@app) %>
+
+                        <button class="w-full group flex items-center
+                                      px-4 py-2 text-sm leading-5 text-gray-700
+                                      hover:bg-gray-100 hover:text-gray-900
+                                      focus:outline-none focus:bg-gray-100
+                                      focus:text-gray-900
+                                      dark:hover:bg-gray-700 dark:hover:text-gray-100
+                                      dark:focus:bg-gray-800
+                                      ">
+                          <div class="flex flex-col justify-between ml-2">
+                            <span class="font-bold self-start dark:text-gray-100">
+                            Import CSV
+                            </span>
+                            <span class="text-xs text-left dark:text-gray-300">
+                            Imports CSV
+                            </span>
+                          </div>
+                        </button>
+
+
+                        <% c.action(action: {
+                                            title: 'Import CSV',
+                                            description: 'Imports CSV',
+                                            #icon: <UnsubscribeIcon/>,
+                                            id: 'import-csv',
+                                            state: 'import-csv',
+                                          }) %>
+											  <% end %>
+
+										</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <div style="margin-top: 20px;">
+            <div>
+
+              <% #= @segment.predicates  %> 
+
+              <%= render 'apps/segment_manager/form',  segment_manager: @segment_manager, url_form: edit_segment_app_segment_path(@app.key, @segment), incomplete: false, changed: false %>
+              
+              <%= render 'apps/segment_manager/table', segment_manager: @segment_manager, results: @app_users %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

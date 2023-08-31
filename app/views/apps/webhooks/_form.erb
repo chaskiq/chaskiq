@@ -1,0 +1,41 @@
+<%= render "shared/modal" do %>
+	<%= form_for @webhook, 
+		url: form_url, 
+		data: {'turbo-frame': '_top' } do |f|%>
+
+		<%= f.text_field :url, 
+			label: 'url for outgoing webhook', 
+			hint: 'we\'ll send POST requests', 
+			placeholder: 'https://mysite.com' 
+		%>
+		
+		<% options = Event::EVENT_CONSTANTS  %>
+
+		<% 
+			labeled_options = options.map{|o| {
+				label: o[:identifier], 
+				value: o[:name] 
+			}
+		} %>
+		
+		<%= f.select :tag_list, options_for_select( options.map{|o| [o[:identifier],o[:name]]}, @webhook.tags ), {}, {
+			data: {
+				'select-target': 'select', 
+				options: labeled_options.to_json 
+			},
+			multiple: true,
+			hint: 'chaskiq will deliver this events to configured endpoint',
+			label: 'events to send'
+		} 
+		%>
+
+		<%= f.check_box :state, 
+			value: 'enabled', 
+			label: 'enable webhook',
+      hint: 'chaskiq will deliver this events to configured endpoint',
+			checked: f.object.is_enabled
+		%>
+
+		<%= f.submit(t("common.submit"), class: "btn btn-success")%>
+	<% end %>
+<% end %>

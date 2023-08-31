@@ -1,0 +1,51 @@
+<ul id="inbox-sorts" class="border-b" 
+	data-controller="sortable" 
+	data-handle=".cursor-move"
+	data-url="<%= sort_app_inbox_packages_path(@app.key) %>"
+	data-ghost="bg-red-200">
+	<% @app.inbox_apps.each_with_index do |d, index| %>
+
+		<li 
+			data-id="<%= index %>"
+			class="bg-white">
+			<div>
+					<div class="mb-2 p-4-- flex flex-col justify-between items-center">
+						<div class="border-md p-3 shadow w-full mx-2 ">
+								<div class="flex justify-between items-center">
+									<div>
+											<p class="text-xs leading-4 font-bold text-gray-700">
+												<%= d["name"] %>
+											</p>
+											<p class="text-xs leading-6 font-medium text-gray-400">
+												<%= d["values"] %>
+											</p>
+									</div>
+									<div class="flex justify-end items-center w-full">
+											<div class="cursor-move">
+												<div>
+														<svg class="w-6 h-6 css-1dhg8p7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+															<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+														</svg>
+												</div>
+											</div>
+
+											<%= button_to app_inbox_package_path(
+												@app.key, index), 
+												method: :delete , class: 'h-10 w-10' do %>
+												<svg fill="currentColor" viewBox="0 0 20 20" class="css-1dhg8p7">
+													<path 
+														fill-rule="evenodd" 
+														d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+														clip-rule="evenodd">
+													</path>
+												</svg>
+											<% end %>
+									</div>
+								</div>
+						</div>
+					</div>
+			</div>
+		</li>
+
+	<% end %>
+</ul>

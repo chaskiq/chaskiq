@@ -1,0 +1,35 @@
+<%= turbo_frame_tag "quick-reply-#{quick_reply.id}",
+	class: "" do %>
+	
+	<%= link_to app_quick_reply_path(@app.key, quick_reply),
+		"data-turbo-frame": 'quick_reply_editor',
+		class: "block focus:outline-none transition duration-150 ease-in-out 
+		border-t hover:bg-gray-100 border-gray-200
+		dark:hover:bg-gray-900 dark:border-gray-800" do %>
+		<div class="flex items-center px-4 py-4 sm:px-6">
+			<div class="min-w-0 flex-1 flex items-center">
+				<div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
+					<div>
+						<div class="text-sm leading-5 font-medium text-indigo-600 truncate">
+							<%= quick_reply.title %>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<svg
+					class="h-5 w-5 text-gray-400"
+					viewBox="0 0 20 20"
+					fill="currentColor"
+				>
+					<path
+						fillRule="evenodd"
+						d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+						clipRule="evenodd"
+					/>
+				</svg>
+			</div>
+		</div>
+	<% end %>
+
+<%end%>

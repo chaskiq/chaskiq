@@ -1,0 +1,58 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+
+Style/StringLiterals:
+  Description: Checks if uses of quotes match the configured preference.
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#consistent-string-literals
+  Enabled: true
+  EnforcedStyle: double_quotes
+  SupportedStyles:
+  - single_quotes
+  - double_quotes
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
+
+Rails/EnvironmentVariableAccess:
+  AllowReads: true
+
+Lint/EmptyBlock:
+  Exclude:
+    - 'spec/**/*'
+Metrics/BlockLength:
+  Exclude:
+  - 'spec/**/*'
+
+Style/OpenStructUse:
+  Enabled: false
+Style/AsciiComments:
+  Enabled: false
+Lint/MissingSuper:
+  Enabled: false
+Rails/SkipsModelValidations:
+  Enabled: false
+Rails/OutputSafety:
+  Exclude:
+    - app/helpers/tailwind_form_builder.rb
+Metrics/ModuleLength:
+  Exclude:
+    - app/helpers/application_helper.rb
+    - app/services/message_apis/helpers.rb
+Rails/InverseOf:
+  Enabled: false
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'node_modules/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/{rails,rake}'
+    - 'spec/cypress/**/*'
+    - 'tmp/**/*'
+
+
+

@@ -1,0 +1,109 @@
+fr:
+  subscriptions:
+    upgrade: Faire évoluer
+    tabs:
+      - Abonnements
+      - Historique des transactions
+    features:
+      Segments:
+        title: Segments
+        description: true
+        upgrade_message: You can create segments by setting rules or filters for your users.
+      Leads:
+        title: Prospects
+        description: true
+        upgrade_message: When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer.
+      AppUsers:
+        title: Utilisateurs de l'application
+        description: true
+        upgrade_message: when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations.
+      Conversations:
+        title: Conversations
+        description: true
+        upgrade_message: use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations.
+      BotTasks:
+        title: Tâches de bot
+        description: true
+        upgrade_message: use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person.
+      Integrations:
+        title: Intégrations
+        description: true
+        upgrade_message: Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity.
+      Campaigns:
+        title: Campagnes
+        active: false
+        upgrade_message: Send emails campaigns to your subscribers.
+      Tours:
+        title: Tours
+        description: true
+        upgrade_message: Use interactive tours to help customers learn more about your product.
+      UserAutoMessages:
+        title: Messages automatiques des utilisateurs
+        description: true
+        upgrade_message: Use powerful messaging to boost sales, onboard users, and accelerate growth.
+      OutgoingWebhooks:
+        title: Webhooks sortants
+        active: false
+        upgrade_message: Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages.
+      OauthApplications:
+        title: Applications Oauth
+        description: true
+        upgrade_message: Use our API and OAuth2 apps to create custom integrations.
+      Articles:
+        title: Articles
+        active: false
+        upgrade_message: Use Articles to quickly create and share information and answers.
+      QuickReplies:
+        title: Réponses rapides
+        description: true
+        upgrade_message: Quickly find and use pre-written responses to save time.
+      CustomAttributes:
+        title: Attributs personnalisés
+        upgrade_message: Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business.
+      Agents:
+        title: Agents
+        upgrade_message: Number of customer service representatives available to handle inquiries.
+      InboundMessages:
+        title: Inbound messages
+        upgrade_message: Forward emails to Chaskiq to manage them in one place.
+    plans:
+      - 
+        name: "gratuit"
+        description: C'est un plan gratuit !
+        id: 618560
+      - 
+        name: "débutant"
+        description: Ceci est le plan simple
+        id: 616249
+      - 
+        name: "Super"
+        id: 596123
+        description: Ceci est le super plan
+    plan:
+      included: Ce qui est inclus
+      pay_by: Payer par %{billing_type}
+      trial_days: Essayez ce forfait gratuitement pendant <span class="font-bold"> %{trial_days} jours </span>
+      get_access: Accéder à
+    alerts:
+      subscription_updated:
+        title: Abonnement mis à jour
+        desc: L'abonnement a été mis à jour avec succès, vous recevrez une notification par e-mail
+      subscription_created:
+        title: Abonnement créé
+        desc: L'abonnement a été créé avec succès. Vous recevrez bientôt un reçu
+      subscription_cancelled:
+        title: Abonnement annulé
+        desc: L'abonnement a été annulé
+      close: Fermer cette fenêtre
+    billing_information:
+      title: Information du plan de facturation
+      description: Vous utilisez actuellement le forfait "%{plan_name}".
+      next_billing: Prochaine facturation le %{next_payment_date} pour%{next_payment_amount} $ %{next_payment_currency}
+      cancel_plan: annuler le plan
+      update_payment_method: Mise à jour de la méthode de paiement
+      subscription_state: État d'abonnement %{state}
+    update_subscription:
+      cta: Mettre à jour l’abonnement
+      billed_on: Vous serez facturé sur chaque <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: Avec le montant de <span class="font-bold"> %{recurring_price} $ USD</span>
+      next_payment: Le prochain paiement sera effectué le <span class="font-bold">%{next_payment_date}</span>

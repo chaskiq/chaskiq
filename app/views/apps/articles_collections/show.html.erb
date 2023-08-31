@@ -1,0 +1,34 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings' do %>
+
+		<%= render PageHeader::Component.new(title: @article_collection.title ) do %>
+			
+			<%= link_to( t("articles.new_section"), 
+				new_app_articles_section_path(@app.key, collection_id: @article_collection), 
+				data: {
+				'turbo-frame': 'modal', 
+				}, 
+				class: "btn btn-flat-dark md") 
+			%>
+
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: articles_collection_menu_data(app: @app, article_setting: @article_setting ) ) do %>
+
+			<!-- base articles -->
+			<h3 class="text-3xl leading-6 font-medium text-gray-900 py-4 dark:text-gray-100">
+				base section
+			</h3>
+			<%= render 'collection_table', 
+				section: nil,
+				articles: @article_collection.articles.where(section: nil) 
+			%>
+
+			<!-- articles with sections -->
+			<% @article_collection.sections.each do |section| %>
+				<%= render 'collection_table', section: section, articles: section.articles %>
+			<% end %>
+		<% end %>
+	<% end %>
+<% end %>

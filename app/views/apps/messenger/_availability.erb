@@ -1,0 +1,80 @@
+
+<div data-controller="nested-form">
+	<%= form_for @app, url: app_messenger_path(@app.key, :availability) do |f| %>
+		<%= render Hints::Component.new(type: 'availability') %>
+
+		<% options = t("settings.availability.reply_time.options").map{ |o| 
+				{o[:label] => o[:value]} 
+			}.reduce Hash.new, :merge 
+		%>
+
+		<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
+			<%= I18n.t('settings.availability.title') %>
+		</p>
+
+		<p><%= I18n.t('settings.availability.hint') %></p>
+
+		<hr />
+
+		<div class="py-4">
+			<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+				<%= I18n.t('settings.availability.title2') %>
+			</p>
+
+			<p class="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
+				<%= I18n.t('settings.availability.hint2') %>
+			</p>
+		</div>
+
+		<div class="py-4">
+			<p class="text-xs text-gray-900 dark:text-gray-100 font-bold">
+				<%= I18n.t('settings.availability.timezone', tz: @app.timezone) %>
+			</p>
+
+
+			<template data-nested-form-target="template">
+				<%= f.fields_for :team_schedule_objects, ScheduleRecord.new, child_index: 'NEW_RECORD' do |ff| %>
+					<%= render 'apps/messenger/forms/schedule_fields', f: ff %>
+				<% end %>
+			</template>
+
+			<%= f.fields_for :team_schedule_objects, @app.team_schedule_objects, include_id: false do |ff| %>
+				<%= render 'apps/messenger/forms/schedule_fields', f: ff %>
+			<% end %>
+
+			<div class="mb-3" data-nested-form-target="links">
+				<%= link_to "Add Task", "#", class: "btn btn-outlined", data: { action: "click->nested-form#add_association" } %>
+			</div>
+
+			<AvailabilitySchedule records={records} setRecords={setRecords} />
+		</div>
+
+		<div class="py-4">
+			<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+				<%= I18n.t('settings.availability.reply_time.title') %>
+			</p>
+
+			<p class="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
+				<%= I18n.t('settings.availability.reply_time.hint') %>
+			</p>
+		</div>
+
+		<%= f.collection_radio_buttons :reply_time, options, :last, :first do |b| %>
+			<div class="form-check form-check-inline mb-4 space-y-2">
+				<div class="flex items-center">
+					<%= b.radio_button %>
+					<%= b.label class: 'ml-2 block font-bold text-sm leading-5 text-gray-900 dark:text-white' %>
+				</div>
+			</div>
+		<% end %>
+
+		<div>
+			<p class="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
+				<%= I18n.t('settings.availability.reply_time.hint2') %>
+			</p>
+		</div>
+
+		<%= f.submit t("common.submit"), class: "btn btn-success my-6" %>
+
+	<% end %>
+</div>

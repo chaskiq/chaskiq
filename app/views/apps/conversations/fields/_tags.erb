@@ -1,0 +1,11 @@
+<% tags = @app.tag_list_objects %>
+
+<%= f.select :tag_list, options_for_select(tags.map { |o| [ o.name, o.name ] }, @conversation.tag_list ), 
+	{}, {
+		multiple: true, 
+		data: {
+			'select-target': 'select', 
+			options: tags.map{|o| {label: o.name, value: o.name } }.to_json 
+			}
+		}
+%>

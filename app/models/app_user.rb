@@ -1,0 +1,436 @@
+# frozen_string_literal: true
+
+require "digest/md5"
+
+class AppUser < ApplicationRecord
+  include AASM
+  include UnionScope
+  include Tokenable
+  include Redis::Objects
+  include Connectivity
+  include EmailValidable
+  include Avatar
+  include AuditableBehavior
+
+  ENABLED_SEARCH_FIELDS = [
+    { "name" => "email", "type" => "string" },
+    { "name" => "postal", "type" => "string" },
+    { "name" => "name", "type" => "string" },
+    { "name" => "first_name", "type" => "string" },
+    { "name" => "last_name", "type" => "string" },
+    { "name" => "company_name", "type" => "string" },
+    { "name" => "company_size", "type" => "string" },
+    { "name" => "phone", "type" => "string" }
+  ].freeze
+
+  BROWSING_FIELDS = [
+    { "name" => "lang", "type" => "string" },
+    { "name" => "type", "type" => "string" },
+    { "name" => "last_visited_at", "type" => "date" },
+    { "name" => "tags", "type" => "string" },
+    { "name" => "referrer", "type" => "string" },
+    { "name" => "state", "type" => "string" },
+    { "name" => "ip", "type" => "string" },
+    { "name" => "city", "type" => "string" },
+    { "name" => "region", "type" => "string" },
+    { "name" => "country", "type" => "string" },
+    { "name" => "lat", "type" => "string" },
+    { "name" => "lng", "type" => "string" },
+    { "name" => "web_sessions", "type" => "string" },
+    { "name" => "timezone", "type" => "string" },
+    { "name" => "browser", "type" => "string" },
+    { "name" => "browser_version", "type" => "string" },
+    { "name" => "os", "type" => "string" },
+    { "name" => "os_version", "type" => "string" },
+    { "name" => "browser_language", "type" => "string" }
+  ].freeze
+
+  attr_accessor :disable_callbacks, :additional_validations
+
+  # belongs_to :user
+  belongs_to :app
+  has_many :conversations,
+           foreign_key: :main_participant_id,
+           dependent: :destroy_async
+
+  has_many :conversation_parts, inverse_of: :authorable, dependent: :destroy_async
+
+  # has_many :metrics , as: :trackable
+  has_many :metrics, dependent: :destroy_async
+  has_many :visits, dependent: :destroy_async
+  has_many :external_profiles, dependent: :destroy_async
+
+  acts_as_taggable_on :tags
+
+  include Eventable
+
+  after_create :add_created_event
+
+  after_save :enqueue_social_enrichment, if: :saved_change_to_email?
+
+  ALLOWED_PROPERTIES = %i[
+    ip
+    city
+    region
+    country
+    session_id
+    email
+    lat
+    lng
+    postal
+    web_sessions
+    timezone
+    browser
+    browser_version
+    os
+    os_version
+    browser_language
+    lang
+    created_at
+    updated_at
+    last_seen
+    first_seen
+    signed_up
+    last_contacted
+    last_heard_from
+  ].freeze
+
+  ACCESSOR_PROPERTIES = [
+    :name,
+    :first_name,
+    :last_name,
+    # :country,
+    :country_code,
+    # :region,
+    :region_code,
+    :facebook,
+    :twitter,
+    :linkedin,
+    :gender,
+    :organization,
+    :job_title,
+    :phone,
+    :company_name,
+    :company_size,
+    :privacy_consent
+  ].freeze
+
+  validates :name, presence: true, if: proc { |c| c.additional_validations? }
+
+  validates :email, email: true, allow_blank: true, if: -> { type == "Lead" }, unless: proc { |c| !c.additional_validations? }
+
+  validates :email, email: true, if: -> { type == "AppUser" }, unless: proc { |c| !c.additional_validations? }
+
+  store_accessor :properties, ACCESSOR_PROPERTIES
+
+  ACCESSOR_PROPERTIES.each do |prop|
+    ransacker prop do |parent|
+      Arel::Nodes::InfixOperation.new("->>", parent.table[:properties], Arel::Nodes.build_quoted(prop))
+    end
+  end
+
+  ransacker :full_name do |parent|
+    Arel::Nodes::NamedFunction.new("concat", [
+                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:properties], Arel::Nodes.build_quoted(:first_name)),
+                                     Arel::Nodes::Quoted.new(" "),
+                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:properties], Arel::Nodes.build_quoted(:last_name))
+                                   ])
+  end
+
+  scope :availables, lambda {
+    where(["app_users.subscription_state =? or app_users.subscription_state=?",
+           "passive", "subscribed"])
+  }
+
+  scope :visitors, lambda {
+    where(type: "Visitor")
+  }
+
+  scope :leads, lambda {
+    where(type: "Lead")
+  }
+
+  scope :non_users, lambda {
+    where(type: %w[Visitor Lead])
+  }
+
+  scope :users, lambda {
+    where(type: "AppUser")
+  }
+
+  # from redis-objects
+  counter :new_messages
+  value :trigger_locked, expireat: -> { 5.seconds.from_now }
+
+  aasm column: :subscription_state do # default column: aasm_state
+    state :passive, initial: true
+    state :subscribed, after_enter: :notify_subscription
+    state :unsubscribed, after_enter: :notify_unsubscription
+    state :archived # , after_enter: :notify_archived
+    state :blocked # , after_enter: :notify_bloqued
+
+    event :subscribe do
+      transitions from: %i[passive unsubscribed archived blocked], to: :subscribed
+    end
+
+    event :unsubscribe do
+      transitions from: %i[subscribed passive archived blocked], to: :unsubscribed
+    end
+
+    event :block do
+      transitions from: %i[archived subscribed unsubscribed passive], to: :blocked
+    end
+
+    event :archive do
+      transitions from: %i[blocked subscribed unsubscribed passive], to: :archived
+    end
+  end
+
+  def update_email(email)
+    app_user = app.get_app_user_by_email(email)
+    if app_user
+      # merge here
+    end
+
+    self
+  end
+
+  def additional_validations?
+    additional_validations.present?
+  end
+
+  def delay_for_trigger
+    settings = is_a?(AppUser) ? app.user_tasks_settings : app.lead_tasks_settings
+    delay = settings["delay"] ? 2.minutes.from_now : 0.minutes.from_now
+  end
+
+  def available?
+    %w[passive subscribed].include?(subscription_state)
+  end
+
+  def calbackable?
+    !@disable_callbacks
+  end
+
+  def add_created_event
+    return unless calbackable?
+
+    events.log(action: :user_created)
+  end
+
+  def add_email_changed_event
+    return unless calbackable?
+
+    events.log(action: :email_changed)
+  end
+
+  def lead_event
+    return unless calbackable?
+
+    events.log(action: :visitors_convert)
+  end
+
+  def display_name
+    composed_name || name
+  end
+
+  def composed_name
+    names = [first_name, last_name].compact
+    return if names.blank?
+
+    names.join(" ")
+  end
+
+  def session_key
+    "#{app.key}-#{session_id}"
+  end
+
+  def generate_token
+    self.session_id = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless app.app_users.where(session_id: random_token).any?
+    end
+  end
+
+  # delegate :email, to: :user
+
+  def as_json(options = nil)
+    super({
+      only: %i[id kind display_name avatar_url],
+      methods: %i[id kind display_name avatar_url]
+    }.merge(options || {}))
+  end
+
+  def formatted_user
+    {
+      id: id,
+      email: email,
+      properties: properties,
+      state: state
+    }
+  end
+
+  def notify_unsubscription
+    # puts 'app user unsubscribe'
+  end
+
+  def notify_subscription
+    # we should only unsubscribe when process is made from interface, not from sns notification
+    # puts 'app user subscribe'
+  end
+
+  %w[open send delivery reject bounce complaint click close skip finish].each do |action|
+    define_method("track_#{action}") do |opts|
+      m = metrics.new
+      m.assign_attributes(opts)
+      m.action = action
+      m.save
+      m
+    end
+  end
+
+  def encoded_id
+    return nil if email.blank?
+
+    URLcrypt.encode(email)
+  end
+
+  def decoded_id
+    return nil if email.blank?
+
+    URLcrypt.decode(email)
+  end
+
+  def kind
+    self.class.model_name.singular
+  end
+
+  def style_class
+    case state
+    when "passive"
+      "plain"
+    when "subscribed"
+      "information"
+    when "unsusbscribed"
+      "warning"
+    end
+  end
+
+  def enqueue_social_enrichment
+    return unless calbackable?
+
+    add_email_changed_event
+  end
+
+  def register_visit(options)
+    visits.register(options, false) # app.register_visits)
+  end
+
+  def register_in_crm
+    crm_tags = app.app_packages.tagged_with("crm").pluck(:id)
+    integrations = app.app_package_integrations.includes(:app_package)
+                      .where(app_package: crm_tags)
+
+    integrations.each do |_integration|
+      profile = external_profiles.find_or_create_by(
+        provider: pkg.name.downcase
+      )
+      profile.sync
+    end
+  end
+
+  def identified?
+    type == "AppUser"
+  end
+
+  def search_data
+    a = ACCESSOR_PROPERTIES.map { |o| { o => send(o) } }.reduce({}, :merge)
+                           .merge(
+                             ALLOWED_PROPERTIES.map { |o| { o => send(o) } }.reduce({}, :merge)
+                             .merge(
+                               {
+                                 external_profiles: external_profiles&.map { |o| { "profile_id" => o.profile_id, "provider" => o.provider } },
+                                 custom_attributes: app.custom_fields&.map { |o| { "name" => o["name"], "value" => properties[o["name"]] } }
+                               }
+                             )
+                           ).merge({ app_id: app_id, type: type })
+
+    Rails.logger.debug "this."
+    Rails.logger.debug a
+    a
+  end
+
+  def self.properties_for_index
+    [ALLOWED_PROPERTIES, ACCESSOR_PROPERTIES, %i[app_id type]].flatten
+  end
+
+  # a = [:name, :first_name, :last_name, :display_name, :phone]
+
+  searchkick word_start: properties_for_index,
+             searchable: properties_for_index,
+             filterable: properties_for_index,
+             merge_mappings: true,
+             mappings: {
+               properties: {
+                 custom_attributes: {
+                   type: "nested",
+                   properties: {
+                     name: {
+                       type: "text",
+                       fields: {
+                         keyword: {
+                           type: "keyword",
+                           ignore_above: 256
+                         }
+                       }
+                     },
+                     value: {
+                       type: "text",
+                       fields: {
+                         keyword: {
+                           type: "keyword",
+                           ignore_above: 256
+                         }
+                       }
+                     }
+                   }
+                 },
+                 external_profiles: {
+                   type: "nested",
+                   properties: {
+                     profile_id: {
+                       type: "text",
+                       fields: {
+                         keyword: {
+                           type: "keyword",
+                           ignore_above: 256
+                         }
+                       }
+                     },
+                     provider: {
+                       type: "text",
+                       fields: {
+                         keyword: {
+                           type: "keyword",
+                           ignore_above: 256
+                         }
+                       }
+                     }
+                   }
+                 }
+               }
+             },
+             # locations: [:location],
+             callbacks: false
+  # index_name: ["#{self.model_name.plural}_#{Rails.env}"]
+
+  scope :search_import, -> { includes(:external_profiles) }
+
+  after_commit do
+    reindex(mode: :async) if !destroyed? && should_index?
+  end
+
+  def should_index?
+    Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true" && app.searchkick_enabled?
+  end
+end

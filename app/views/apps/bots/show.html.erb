@@ -1,0 +1,20 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings' do %>
+
+		<%= render PageHeader::Component.new(title: I18n.t('task_bots.title') ) do %>
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: bots_menu_data(app: @app) ) do %>
+			<% #= render Hints::Component.new(type: "articles")%>
+			<% #= render 'table'%>
+			<%= case controller.action_name
+					when 'users' then render('users_form')
+					when nil, 'leads' then render('leads_form')
+					end
+			%>
+		<% end %>
+
+	<% end %>
+	
+<% end %>

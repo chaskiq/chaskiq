@@ -1,0 +1,168 @@
+<!doctype html>
+<title>Example</title>
+<style>
+body {
+  margin: 0px;
+  padding: 0px;
+  font-size: 10px;
+}
+a{
+  color: white;
+}
+a:hover{
+  color: #fefefe;
+}
+.wrapper {
+  /*display: flex;
+  justify-content: space-between;*/
+}
+.column {
+  display: flex;
+  flex-direction: column;
+}
+.column > div {
+  font-size: 4vh;
+  color: white;
+  background: royalblue;
+  margin: .1em;
+  padding: .3em 1em;
+  border-radius: 3px;
+  flex: 1;
+}
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+.w{
+      max-width: 312px;
+}
+</style>
+<div class="wrapper">
+
+
+  <div class="column">
+    <div>
+    
+      <div id="header">
+        <h1>Chaskiq tester site</h1>
+      </div>
+
+      <div id="nav">
+        <ul class="flex">
+          <li><a class="active" href="/tester/<%= @app.key%>">Visit as a Lead</a></li>
+          <li><a href="/tester/<%= @app.key%>/about">About</a></li>
+          <li><a href="/tester/<%= @app.key%>/services">Services</a></li>
+          <li><a href="/tester/<%= @app.key%>/contact">Contact</a></li>
+        </ul>
+      </div>
+
+  
+      <pre class="w" style="font-size: 1em">
+        <%= @json_payload %>
+      </pre>
+    
+    </div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+    <div>10</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+    <div>10</div>
+    <div>11</div>
+  </div>
+  <div class="column">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+    <div>10</div>
+    <div>11</div>
+    <div>12</div>
+  </div>
+</div>
