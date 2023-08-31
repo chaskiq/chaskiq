@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "modal" do %>
+<%= render "shared/modal" do %>
 	<%= form_for @oauth_application, url: app_oauth_application_path(@app.key, @oauth_application) do |f|%>
 		<%= f.text_field :name, hint: t("doorkeeper.applications.help.name") %>
 		<%= f.text_area :redirect_uri, hint: t("doorkeeper.applications.help.redirect_uri") %>

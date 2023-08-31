@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "modal" do %>
+<%= render "shared/modal" do %>
 	<%= form_for BotPath.new, url: app_bot_path(@app.key, @bot, mode: 'add-path'), method: :patch do |f|%>
 		<%= f.text_field :title, hint: t("doorkeeper.applications.help.name") %>
 		
