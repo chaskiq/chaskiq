@@ -63,8 +63,8 @@ class Apps::QuickRepliesController < ApplicationController
               "quick_reply_editor",
               partial: "apps/quick_replies/quick_reply"
             ),
-            turbo_stream.replace(
-              "quick-reply-#{@quick_reply.id}",
+            turbo_stream.append(
+              "quick-replies-list",
               partial: "apps/quick_replies/list_item",
               locals: { quick_reply: @quick_reply }
             )

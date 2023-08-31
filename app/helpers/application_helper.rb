@@ -161,41 +161,49 @@ module ApplicationHelper
     [{
       label: I18n.t("settings.app.appearance"),
       href: app_messenger_index_path(@app.key),
+      turbo_frame: "_top",
       active: controller.controller_name == "messenger" && controller.action_name == "index"
     },
      {
        label: I18n.t("settings.app.translations"),
        href: edit_app_messenger_path(@app.key, :translations),
+       turbo_frame: "_top",
        active: params[:id] == "translations"
      },
      {
        label: I18n.t("settings.app.privacy"),
        href: edit_app_messenger_path(@app.key, :privacy),
+       turbo_frame: "_top",
        active: params[:id] == "privacy"
      },
      {
        label: "Apps",
        href: edit_app_messenger_path(@app.key, :apps),
+       turbo_frame: "_top",
        active: params[:id] == "apps"
      },
      {
        label: I18n.t("settings.app.availability"),
        href: edit_app_messenger_path(@app.key, :availability),
+       turbo_frame: "_top",
        active: params[:id] == "availability"
      },
      {
        label: I18n.t("settings.app.email_requirement"),
        href: edit_app_messenger_path(@app.key, :email_requirement),
+       turbo_frame: "_top",
        active: params[:id] == "email_requirement"
      },
      {
        label: I18n.t("settings.app.inbound_settings"),
        href: edit_app_messenger_path(@app.key, :inbound_settings),
+       turbo_frame: "_top",
        active: params[:id] == "inbound_settings"
      },
      {
        label: I18n.t("settings.app.messenger_style"),
        href: edit_app_messenger_path(@app.key, :style_settings),
+       turbo_frame: "_top",
        active: params[:id] == "style_settings"
      }]
   end

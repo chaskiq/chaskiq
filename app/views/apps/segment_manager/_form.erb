@@ -8,7 +8,9 @@
 	
 	<% #= segment_manager&.predicates.as_json %>
 	
-	<% form_url = url_form ? url_form : app_segment_managers_path(@app.key) %>
+	<% form_url = local_assigns[:url_form] ? 
+		local_assigns[:url_form] : app_segment_managers_path(@app.key) 
+	%>
 
 	<%= form_for segment_manager, url: form_url, data: {controller: 'segment-manager'}  do |f| %>
 

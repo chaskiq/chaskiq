@@ -1,9 +1,25 @@
+import { Controller } from '@hotwired/stimulus';
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
+
+import Dante, {
+  defaultTheme, 
+  darkTheme,
+  ImageBlockConfig,
+  CodeBlockConfig,
+  DividerBlockConfig,
+  PlaceholderBlockConfig,
+  EmbedBlockConfig,
+  VideoBlockConfig,
+  GiphyBlockConfig,
+  VideoRecorderBlockConfig,
+  SpeechToTextBlockConfig,
+  AddButtonConfig,
+  MenuBarConfig
+} from 'dante3/package/esm';
+import { DirectUpload } from "@rails/activestorage";
 
 //import TextEditor from '@chaskiq/components/src/components/textEditor';
-
-import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
   static targets = ['serializedInput', 'htmlInput', 'container'];
@@ -12,41 +28,106 @@ export default class extends Controller {
     const serializedContent = this.element.dataset.content;
 
     console.log(serializedContent);
-    /*
-    render(
-      <TextEditor
-        //campaign={true}
-        uploadHandler={this.uploadHandler.bind(this)}
-        //loading={this.isLoading()}
-        //read_only={this.state.read_only}
-        toggleEditable={() => {
-          //this.setState({
-          //	read_only: !this.state.read_only,
-          //})
-        }}
-        serializedContent={serializedContent}
-        data={{
-          serialized_content: serializedContent,
-        }}
-        styles={{
-          lineHeight: '2em',
-          fontSize: '1.2em',
-        }}
-        updateState={({ _status, _statusButton, content }) => {
-          //console.log("copy to seialized input", this.serializedInputTarget)
-          //console.log("copy to html input", this.htmlInputTarget)
-          const { html, serialized } = content;
-          this.serializedInputTarget.value = serialized;
-          //console.log('get content', content)
-          //this.saveContent(content)
-        }}
-      />,
-      this.containerTarget
+
+    const root = createRoot(this.containerTarget);
+
+    root.render(
+      <EditorComponent 
+        upload={this.upload} 
+        ctx={this}
+        initialValue={serializedContent ? JSON.parse(serializedContent) : null }
+        callback={this.updateContent}>
+      </EditorComponent>
     );
-    */
+
   }
 
-  uploadHandler(a) {
+  updateContent(a, ctx) {
+    if(!a) return
+    ctx.serializedInputTarget.value = JSON.stringify(a.serialized)
     console.log('UPLOADER HANDLER MISSING', a);
   }
+}
+
+function EditorComponent({ctx, callback, upload, initialValue}){
+  const [val, setValue] = React.useState(initialValue)
+  const valRef = React.useRef(null);
+  const editorRef = React.useRef(null)
+
+  React.useEffect(() => {
+    valRef.current = val;
+    callback(val, ctx)   // Update the ref whenever `val` changes
+  }, [val]);
+
+  return (
+    <Dante 
+      //theme={darkTheme}
+      theme={defaultTheme}
+      content={initialValue}
+      tooltips={[
+        AddButtonConfig({
+          fixed: true
+        }),
+        MenuBarConfig({
+          placement: "up",
+          fixed: true
+        }),
+      ]} 
+      widgets={[
+        ImageBlockConfig({
+          options: {
+            upload_handler: (file, ctx) => {
+              upload(file, (blob)=>{
+                console.log(blob)
+                console.log(ctx)
+                ctx.updateAttributes({
+                  url: blob.service_url
+                })
+              })
+            }
+          }
+        }),
+        CodeBlockConfig(),
+        DividerBlockConfig(),
+        PlaceholderBlockConfig(),
+        EmbedBlockConfig({
+          options: {
+            endpoint: "/oembed?url=",
+            placeholder: "Paste a link to embed content from another site (e.g. Twitter) and press Enter"
+          },
+        }),
+        VideoBlockConfig({
+          options: {
+            endpoint: "/oembed?url=",
+            placeholder:
+              "Paste a YouTube, Vine, Vimeo, or other video link, and press Enter",
+            caption: "Type caption for embed (optional)",
+          },
+        }),
+        GiphyBlockConfig(),
+        VideoRecorderBlockConfig({
+          options: {
+            upload_handler: (file, ctx) => {
+              console.log("UPLOADED VIDEO FILE!!!!", file)
+              
+              upload(file, (blob)=>{
+                console.log(blob)
+                console.log(ctx)
+                ctx.updateAttributes({
+                  url: blob.service_url
+                })
+              })
+            }
+          }
+        }),
+        SpeechToTextBlockConfig(),
+      ]}
+      onUpdate={(editor)=>{
+        editorRef.current = editor
+        setValue({
+          serialized: editor.getJSON(), 
+          html: editor.view.dom.innerText 
+        })
+    }}/>
+  )
 }

@@ -30,9 +30,11 @@
 			<div class="w-1/2">
 				<div>
 
-					<div class="grid grid-cols-4 overflow-auto" style="height:540px">
+					<div class="grid grid-cols-6 overflow-auto" style="height:240px">
 						<% CustomizationRecord.patterns.each do |pattern|%>
-							<button data-action="click->style-settings#selectPattern" data-pattern="<%= pattern[:url] %>">
+							<button 
+								data-action="click->style-settings#selectPattern" 
+								data-pattern="<%= pattern[:url] %>">
 								<%= image_tag pattern[:url]%>
 							</button>
 						<% end %>
@@ -50,13 +52,12 @@
 				</div>
 			</div>
 
-			<% if @app.customization_colors_objects.pattern %>
 				<div class="w-1/2">
 					<img data-style-settings-target="patternHolder"
-						class="w-full mx-3 border-4 border-gray-900" 
+						class="w-full h-48 mx-3 border-4 border-gray-900" 
 						src="<%= @app.customization_colors_objects.pattern %>" />
 				</div>
-			<% end %>
+		
 		</div>
 
 		<hr />

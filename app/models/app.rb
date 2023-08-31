@@ -584,7 +584,7 @@ class CustomizationRecord
   end
 
   def self.pattern_base_url
-    "https://www.toptal.com/designers/subtlepatterns/patterns/"
+    "https://storage.googleapis.com/subtlepatterns-production/designers/subtlepatterns/uploads/"
   end
 
   def self.patterns
