@@ -45,7 +45,29 @@
 								</div>
 							}) 
 						}
+					},
+					{
+						name: :delete,
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="ml-4" data-turbo="true">
+											<div class="text-sm leading-5 font-medium text-gray-900">
+												#{ 
+													link_to 'Delete Item',
+													 app_translation_path(@app.key, record.locale ), 
+													 method: :delete,
+													  data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' }, 
+														class: 'btn btn-flat-dark'
+
+												 }
+											</div>
+									</div>
+								</div>
+							}) 
+						}
 					}
+
 				]
 			},
 			paginate: nil

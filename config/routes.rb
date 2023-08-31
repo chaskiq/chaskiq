@@ -134,11 +134,14 @@ Rails.application.routes.draw do
     end
 
     resources :messenger , controller: "apps/messenger" do
+
       collection do
         post :sort_user_apps
         post :sort_visitor_apps
       end
     end
+    resources :translations, controller: "apps/translations"
+    resources :inbound_settings, controller: "apps/inbound_settings"
     resources :user_data, controller: "apps/user_data"
     resources :quick_replies, controller: "apps/quick_replies"
     resources :contact_avatars, controller: "apps/contact_avatars"
