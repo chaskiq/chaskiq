@@ -16,7 +16,7 @@ class Apps::TagsController < ApplicationController
 
   def update
     @tag = @app.tag_list_objects.find { |o| o.name == params[:id] }
-    @tag.assign_attributes(params[:tag_list_record].permit!)
+    @tag.assign_attributes(resource_params)
     @app.tag_list = @app.tag_list_objects.as_json
 
     if @app.save
@@ -29,7 +29,7 @@ class Apps::TagsController < ApplicationController
 
   def create
     @tag = TagListRecord.new
-    @tag.assign_attributes(params[:tag_list_record].permit!)
+    @tag.assign_attributes(resource_params)
     @app.tag_list_objects << @tag
     @app.tag_list = @app.tag_list_objects.as_json
 
@@ -47,5 +47,9 @@ class Apps::TagsController < ApplicationController
     @app.save
     flash.now[:notice] = "Place was updated!"
     redirect_to app_tags_path(@app.key)
+  end
+
+  def resource_params
+    params.require(:tag_list_record).permit(:name, :color)
   end
 end

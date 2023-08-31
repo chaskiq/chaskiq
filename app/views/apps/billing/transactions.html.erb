@@ -6,7 +6,7 @@
 
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: billing_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: billing_menu_data(app: @app) ) do %>
 			
 			<div class="pt-4">
 				<table class="min-w-full">

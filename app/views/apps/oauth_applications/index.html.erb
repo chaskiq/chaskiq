@@ -13,7 +13,7 @@
 			%>
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: oauth_apps_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: oauth_apps_menu_data(app: @app) ) do %>
 			<%= render 'table' %>
 		<% end %>
 

@@ -5,7 +5,7 @@
 		<%= render PageHeader::Component.new(title: I18n.t('articles.title') ) do %>
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: articles_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: articles_menu_data(app: @app) ) do %>
 			<%= render Hints::Component.new(type: "articles")%>
 			<%= render 'table'%>
 		<% end %>

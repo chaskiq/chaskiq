@@ -1,4 +1,4 @@
-<%= turbo_frame_tag 'modal' do %>
+<%= render "shared/modal" do %>
 
 	<%= form_for @conversation, url: app_conversation_path(
 		@app.key, @conversation.key, step: params[:mode]) do |f| %>

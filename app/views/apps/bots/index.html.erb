@@ -16,7 +16,7 @@
 
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: articles_collections_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: articles_collections_menu_data(app: @app, article_setting: @article_setting ) ) do %>
 			<%= render 'table' %>
 		<% end %>
 

@@ -52,19 +52,15 @@ class Alert::Component < ApplicationViewComponent
     horizontal = "end"
 
     vertical = case @placement[:vertical]
-               when "bottom" then "end"
+               when "bottom", nil then "end"
                when "top" then "start"
                when "center" then "center"
-               else
-                 "end"
                end
 
     horizontal = case @placement[:horizontal]
-                 when "left" then "end"
+                 when "left", nil then "end"
                  when "right" then "start"
                  when "center" then "center"
-                 else
-                   "end"
                  end
 
     "sm:items-#{vertical} sm:justify-#{horizontal}"

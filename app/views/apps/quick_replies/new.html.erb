@@ -2,7 +2,7 @@
 	class: 'w-2/3 relative z-0 p-6 shadow dark:bg-gray-800 rounded rounded-l-none' do %>
 	<% if @quick_reply.present? %>
 
-		<%= render Tabs::Component.new(	items: quick_replies_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: quick_replies_menu_data(app: @app, quick_reply: @quick_reply ) ) do %>
 
 			<%= form_for @quick_reply, url: app_quick_replies_path(@app.key) do |f| %>
 

@@ -11,7 +11,7 @@
 			<% end %>
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: integrations_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: integrations_menu_data(app: @app) ) do %>
 			<%= render Hints::Component.new(type: 'integrations') %>
 
 			<div class="

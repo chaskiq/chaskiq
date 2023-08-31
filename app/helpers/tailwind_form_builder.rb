@@ -47,7 +47,7 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
     @template.tag.div(class: "w-full sm:w-full py-2", "data-controller": "select") do
       @template.label_tag(tr(options[:label] || object_name), nil, class: "block text-gray-700 dark:text-white text-sm font-bold mb-2") +
         super(object_name, method_name, template_object, options.reverse_merge(class: "hidden select")) +
-        @template.tag.div(class: "select-wrapper", data: {"select-target": "holder" }) { "" } +
+        @template.tag.div(class: "select-wrapper", data: { "select-target": "holder" }) { "" } +
         field_details(object_name, object, options)
     end
   end
@@ -103,15 +103,15 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
                                        class: "form-control-file photo_upload cursor-pointer absolute block py-2 px-4 w-full opacity-0 pin-r pin-t")
           end
       end +
-        %(
-  				<button class="bg-gray-300 hover:bg-blue-light text-white font-bold py-2 px-4 w-full inline-flex items-center">
-  					<svg fill="#FFF" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-  						<path d="M0 0h24v24H0z" fill="none"/>
-  							<path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
-  					</svg>
-  					<span class="ml-2">Upload Document</span>
-  				</button>
-  			).html_safe
+        @template.content_tag(:button, class: "bg-gray-300 hover:bg-blue-light text-white font-bold py-2 px-4 w-full inline-flex items-center") do
+          @template.concat(
+            @template.content_tag(:svg, fill: "#FFF", height: "18", viewBox: "0 0 24 24", width: "18", xmlns: "http://www.w3.org/2000/svg") do
+              @template.concat(@template.content_tag(:path, nil, d: "M0 0h24v24H0z", fill: "none"))
+              @template.concat(@template.content_tag(:path, nil, d: "M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"))
+            end
+          )
+          @template.concat(@template.content_tag(:span, "Upload Document", class: "ml-2"))
+        end
     end
   end
 

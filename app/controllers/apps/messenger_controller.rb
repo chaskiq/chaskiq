@@ -7,7 +7,7 @@ class Apps::MessengerController < ApplicationController
   def update
     flash[:notice] = "success!"
 
-    if @app.update(params[:app].permit!)
+    if @app.update(resource_params)
 
       if params[:app][:new_language].present?
         render turbo_stream: [
@@ -22,5 +22,27 @@ class Apps::MessengerController < ApplicationController
     else
       render "edit"
     end
+  end
+
+  def resource_params
+    lang_items = @app.translations.map(&:locale).map do |o|
+      [:"greetings_#{o}", :"tagline_#{o}", :"intro_#{o}"]
+    end.flatten
+
+    permitted_attrs = [
+      :active_messenger,
+      :inline_new_conversations,
+      :privacy_consent_required,
+      :domain_url,
+      :reply_time,
+      lang_items,
+      :email_requirement,
+      { team_schedule_objects_attributes: %i[day from to],
+        inbound_settings_objects: %i[enabled users_enabled users_segment visitors_enabled visitors_segment],
+        customization_colors_attributes: %i[primary secondary pattern] }
+    ]
+
+    # .flatten
+    params.require(:app).permit(permitted_attrs)
   end
 end

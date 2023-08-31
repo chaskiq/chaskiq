@@ -5,7 +5,7 @@
 		<%= render PageHeader::Component.new(title: I18n.t('task_bots.title') ) do %>
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: bots_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: bots_menu_data(app: @app) ) do %>
 			<% #= render Hints::Component.new(type: "articles")%>
 			<% #= render 'table'%>
 			<%= case controller.action_name

@@ -29,9 +29,7 @@ class Apps::ConversationsController < ApplicationController
     end
   end
 
-  def new
-    
-  end
+  def new; end
 
   def search
     @conversations = search_service.search

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag 'modal' do %>
+<%= render "shared/modal" do %>
 	<%= form_for current_agent, url: '/languages', "data": {'turbo-frame': '_top'} do |f| %>
 
 		<% langs = I18n.t('common.langs').map{|k,v| {

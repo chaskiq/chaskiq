@@ -1,19 +1,12 @@
 <%= render Content::Component.new do %>
 
-	<%= turbo_frame_tag 'app-settings' do %>
+	<%= turbo_frame_tag 'app-article-settings' do %>
 
 		<%= render PageHeader::Component.new(title: I18n.t("articles.settings.title") ) do %>
 			
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: articles_settings_menu_data ) do %>
-			<%= case params[:id]  
-					when nil then render 'basic'
-					when "basic", "appearance", "translations"
-						render params[:id]  
-					end
-			%>			
-		<% end %>
+		<%= render "form" %>
 
 	<% end %>
 	

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag 'modal' do |f| %>
+<%= render "shared/modal" do |f| %>
 
 	<form action="<%= add_uncategorized_app_articles_path(
 		@app.key, 

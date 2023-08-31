@@ -2,12 +2,24 @@
 	<%= I18n.t("articles.settings.basic") %>
 </p>
 
-<%= form_for @article_setting, url: app_articles_settings_path(@app.key) do |f| %>
+<%= form_for @article_setting, url: app_articles_setting_path(@app.key, :basic) do |f| %>
 
-	<%= f.text_field :subdomain %>
-	<%= f.text_field :domain %>
-	<%= f.text_field :website %>
-	<%= f.text_field :google_code %>
+	<div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+	
+		<div class="sm:col-span-3">
+			<%= f.text_field :subdomain %>
+		</div>
+		<div class="sm:col-span-3">
+			<%= f.text_field :domain %>
+		</div>
+		<div class="sm:col-span-4">
+			<%= f.text_field :website %>
+		</div>
+		<div class="sm:col-span-2">
+			<%= f.text_field :google_code %>
+		</div>
+
+	</div>
 
 	<%= f.submit(t("common.save")) %>
 <% end %>

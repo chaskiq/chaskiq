@@ -16,7 +16,7 @@ export default class extends Controller {
 
   close(event) {
     //if (event.currentTarget.classList.contains('fixed')) {
-      this.element.style.display = 'none';
+    this.element.style.display = 'none';
     //}
   }
 

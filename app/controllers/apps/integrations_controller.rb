@@ -16,7 +16,7 @@ class Apps::IntegrationsController < ApplicationController
       @agent_app_packages = current_agent.app_packages
     else
       @integrations = @app.app_package_integrations
-      @integrations = @integrations
+      # @integrations = @integrations
     end
   end
 

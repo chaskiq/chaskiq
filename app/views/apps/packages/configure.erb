@@ -1,12 +1,10 @@
-<%= turbo_frame_tag 'modal' do %>
+<%= render "shared/modal" do %>
 	<div data-controller="definitions-renderer">
 
-
-		ºkkkk 
+		DEFINITION RENDER HERE
 		<%= @blocks[:kind] %>
 
 		<% #= @blocks[:definitions] %>
-		zzz
 		<%= @conversation_key %>
 
 		<%= render DefinitionRenderer::Component.new(

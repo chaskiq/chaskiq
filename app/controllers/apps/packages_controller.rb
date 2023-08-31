@@ -137,7 +137,7 @@ class Apps::PackagesController < ApplicationController
     @blocks = @package.call_hook({
                                    kind: "submit",
                                    ctx: {
-                                     values: params[:values],
+                                     # values: params[:values],
                                      lang: I18n.locale,
                                      current_user: current_agent,
                                      field: params[:ctx][:field],

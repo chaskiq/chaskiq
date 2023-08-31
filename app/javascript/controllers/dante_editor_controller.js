@@ -3,7 +3,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 import Dante, {
-  defaultTheme, 
+  defaultTheme,
   darkTheme,
   ImageBlockConfig,
   CodeBlockConfig,
@@ -15,9 +15,9 @@ import Dante, {
   VideoRecorderBlockConfig,
   SpeechToTextBlockConfig,
   AddButtonConfig,
-  MenuBarConfig
+  MenuBarConfig,
 } from 'dante3/package/esm';
-import { DirectUpload } from "@rails/activestorage";
+import { DirectUpload } from '@rails/activestorage';
 
 //import TextEditor from '@chaskiq/components/src/components/textEditor';
 
@@ -32,102 +32,103 @@ export default class extends Controller {
     const root = createRoot(this.containerTarget);
 
     root.render(
-      <EditorComponent 
-        upload={this.upload} 
+      <EditorComponent
+        upload={this.upload}
         ctx={this}
-        initialValue={serializedContent ? JSON.parse(serializedContent) : null }
-        callback={this.updateContent}>
-      </EditorComponent>
+        initialValue={serializedContent ? JSON.parse(serializedContent) : null}
+        callback={this.updateContent}
+      ></EditorComponent>
     );
-
   }
 
   updateContent(a, ctx) {
-    if(!a) return
-    ctx.serializedInputTarget.value = JSON.stringify(a.serialized)
+    if (!a) return;
+    ctx.serializedInputTarget.value = JSON.stringify(a.serialized);
     console.log('UPLOADER HANDLER MISSING', a);
   }
 }
 
-function EditorComponent({ctx, callback, upload, initialValue}){
-  const [val, setValue] = React.useState(initialValue)
+function EditorComponent({ ctx, callback, upload, initialValue }) {
+  const [val, setValue] = React.useState(initialValue);
   const valRef = React.useRef(null);
-  const editorRef = React.useRef(null)
+  const editorRef = React.useRef(null);
 
   React.useEffect(() => {
     valRef.current = val;
-    callback(val, ctx)   // Update the ref whenever `val` changes
+    callback(val, ctx); // Update the ref whenever `val` changes
   }, [val]);
 
   return (
-    <Dante 
+    <Dante
       //theme={darkTheme}
       theme={defaultTheme}
       content={initialValue}
       tooltips={[
         AddButtonConfig({
-          fixed: true
+          fixed: true,
         }),
         MenuBarConfig({
-          placement: "up",
-          fixed: true
+          placement: 'up',
+          fixed: true,
         }),
-      ]} 
+      ]}
       widgets={[
         ImageBlockConfig({
           options: {
             upload_handler: (file, ctx) => {
-              upload(file, (blob)=>{
-                console.log(blob)
-                console.log(ctx)
+              upload(file, (blob) => {
+                console.log(blob);
+                console.log(ctx);
                 ctx.updateAttributes({
-                  url: blob.service_url
-                })
-              })
-            }
-          }
+                  url: blob.service_url,
+                });
+              });
+            },
+          },
         }),
         CodeBlockConfig(),
         DividerBlockConfig(),
         PlaceholderBlockConfig(),
         EmbedBlockConfig({
           options: {
-            endpoint: "/oembed?url=",
-            placeholder: "Paste a link to embed content from another site (e.g. Twitter) and press Enter"
+            endpoint: '/oembed?url=',
+            placeholder:
+              'Paste a link to embed content from another site (e.g. Twitter) and press Enter',
           },
         }),
         VideoBlockConfig({
           options: {
-            endpoint: "/oembed?url=",
+            endpoint: '/oembed?url=',
             placeholder:
-              "Paste a YouTube, Vine, Vimeo, or other video link, and press Enter",
-            caption: "Type caption for embed (optional)",
+              'Paste a YouTube, Vine, Vimeo, or other video link, and press Enter',
+            caption: 'Type caption for embed (optional)',
           },
         }),
         GiphyBlockConfig(),
         VideoRecorderBlockConfig({
           options: {
             upload_handler: (file, ctx) => {
-              console.log("UPLOADED VIDEO FILE!!!!", file)
-              
-              upload(file, (blob)=>{
-                console.log(blob)
-                console.log(ctx)
+              console.log('UPLOADED VIDEO FILE!!!!', file);
+
+              upload(file, (blob) => {
+                console.log(blob);
+                console.log(ctx);
                 ctx.updateAttributes({
-                  url: blob.service_url
-                })
-              })
-            }
-          }
+                  url: blob.service_url,
+                });
+              });
+            },
+          },
         }),
         SpeechToTextBlockConfig(),
       ]}
-      onUpdate={(editor)=>{
-        editorRef.current = editor
+      onUpdate={(editor) => {
+        editorRef.current = editor;
         setValue({
-          serialized: editor.getJSON(), 
-          html: editor.view.dom.innerText 
-        })
-    }}/>
-  )
+          serialized: editor.getJSON(),
+          html: editor.view.dom.innerText,
+        });
+      }}
+    />
+  );
 }

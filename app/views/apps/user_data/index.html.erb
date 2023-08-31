@@ -12,7 +12,7 @@
 			%>
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: settings_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: settings_menu_data(app: @app) ) do %>
 
 			<%= render Hints::Component.new(type: 'user_data') %>
 

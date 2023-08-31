@@ -35,7 +35,9 @@ class Apps::ArticlesCollectionsController < ApplicationController
   end
 
   def create
-    @article_collection = @app.article_collections.new(params[:article_collection].permit!)
+    @article_collection = @app.article_collections.new(
+      resource_params
+    )
     if @article_collection.save
       flash.now[:notice] = "Place was updated!"
       # render turbo_stream: [flash_stream]

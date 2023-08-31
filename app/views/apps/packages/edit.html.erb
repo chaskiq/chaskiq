@@ -5,7 +5,7 @@
 		<%= render PageHeader::Component.new(title: I18n.t('settings.integrations.title') ) do %>
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: integrations_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: integrations_menu_data(app: @app) ) do %>
 			<%= render Hints::Component.new(type: 'integrations') %>
 
 			<div class="

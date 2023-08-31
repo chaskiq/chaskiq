@@ -183,4 +183,6 @@ class ApplicationController < ActionController::Base
   def flash_stream
     turbo_stream.replace("flash", partial: "shared/flash", locals: { flash: flash })
   end
+
+  helper_method :flash_stream
 end

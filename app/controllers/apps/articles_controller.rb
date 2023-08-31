@@ -8,6 +8,8 @@ class Apps::ArticlesController < ApplicationController
     @articles = articles.page(params[:page]).per(params[:per])
   end
 
+  def edit; end
+
   def show; end
 
   def new

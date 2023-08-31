@@ -12,9 +12,30 @@ class Apps::ArticlesSettingsController < ApplicationController
 
   def update
     @article_setting = @app.article_settings.presence || @app.build_article_settings
+    @article_setting.update(resource_params)
   end
 
   private
+
+  def resource_params
+    lang_items = @app.translations.map(&:locale).map do |o|
+      [:"site_title_#{o}", :"site_description_#{o}"]
+    end.flatten
+
+    params.require(:article_setting).permit(
+      :color,
+      :twitter,
+      :linkedin,
+      :facebook,
+      :header_image,
+      :logo,
+      :subdomain,
+      :domain,
+      :website,
+      :google_code,
+      lang_items
+    )
+  end
 
   def set_navigation
     @navigator = "apps/articles/navigator"

@@ -7,7 +7,7 @@
 			<button class="btn btn-success">actions</button>
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: bot_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: bot_menu_data(app: @app, bot: @bot) ) do %>
 			<%= case params[:tab]
 					when 'stats' then  render('stats')
 					when 'settings' then  render('form')

@@ -9,6 +9,8 @@ class App < ApplicationRecord
   include Notificable
   include Subscribable
 
+  attr_accessor :new_language
+
   store_accessor :preferences, %i[
     active_messenger
     domain_url
@@ -379,10 +381,6 @@ class App < ApplicationRecord
     end
   end
 
-
-
-
-
   ### JSON DATA OBJECTS ###
   def lead_tasks_settings_objects
     return LeadTasksSettings.new if lead_tasks_settings.blank?
@@ -451,7 +449,6 @@ class App < ApplicationRecord
     self.custom_fields = array.map { |o| CustomFieldRecord.new(o) }.as_json
   end
 
-
   private
 
   def init_app_segments
@@ -484,8 +481,6 @@ class App < ApplicationRecord
     end
     h
   end
-
-
 end
 
 class ScheduleRecord
@@ -498,7 +493,7 @@ class ScheduleRecord
   end
 
   def self.hours_ranges
-    date = Date.today
+    date = Time.zone.today
     c = date.to_time.beginning_of_day
     (1..48).map do |_i|
       c += 30.minutes

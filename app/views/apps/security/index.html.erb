@@ -6,7 +6,7 @@
 
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: settings_menu_data ) do %>
+		<%= render Tabs::Component.new(	items: settings_menu_data(app: @app) ) do %>
 			
 
     <div class="space-y-6 mx-10-- py-6 text-sm">

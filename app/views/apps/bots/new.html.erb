@@ -1,4 +1,4 @@
-<%= turbo_frame_tag 'modal' do %>
+<%= render "shared/modal" do %>
 	<%= form_for @bot, url: app_bots_path(@app.key) do |f| %>
 		
 		<p class="text-md font-bold">

@@ -1,4 +1,4 @@
-<%= render Tabs::Component.new(items: team_menu_data) do %>
+<%= render Tabs::Component.new(items: team_menu_data(app: @app)) do %>
 	<%= render Table::Component.new(
 			data: @agents, 
 			config: {
