@@ -1,5 +1,4 @@
 class Apps::TranslationsController < ApplicationController
-
   before_action :find_app
 
   def new
@@ -7,7 +6,7 @@ class Apps::TranslationsController < ApplicationController
   end
 
   def update
-    lang = params[:app][:new_language] 
+    lang = params[:app][:new_language]
     lang_params = {
       "greetings_#{lang}": "--",
       "intro_#{lang}": "--",
@@ -26,8 +25,7 @@ class Apps::TranslationsController < ApplicationController
   end
 
   def destroy
-    
-    lang = params[:id] 
+    lang = params[:id]
     lang_params = {
       "greetings_#{lang}": nil,
       "intro_#{lang}": nil,

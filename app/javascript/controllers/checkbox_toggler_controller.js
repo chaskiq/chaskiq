@@ -1,7 +1,7 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = ["hint", "elementToToggle", "checkbox"];
+  static targets = ['hint', 'elementToToggle', 'checkbox'];
 
   connect() {
     this.updateHint();
@@ -23,9 +23,9 @@ export default class extends Controller {
 
   toggleElement() {
     if (this.checkboxTarget.checked) {
-      this.elementToToggleTarget.classList.remove("hidden");
+      this.elementToToggleTarget.classList.remove('hidden');
     } else {
-      this.elementToToggleTarget.classList.add("hidden");
+      this.elementToToggleTarget.classList.add('hidden');
     }
   }
 

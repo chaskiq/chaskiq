@@ -18,5 +18,4 @@ class Apps::SettingsController < ApplicationController
 
     redirect_to params[:redirect] || app_settings_path(@app.key)
   end
-  
 end
