@@ -1,0 +1,51 @@
+
+<% f = locals[:f] %>
+<div>
+	<div class="relative inline-block text-left">
+		<div class="flex">
+			<%= render Dropdown::Component.new(
+				label: "type in #{locals[:segment].value.join(", ")}", 
+				variant: 'outlined',
+				orientation: "left",
+				size: 'sm') do %>
+				
+				<div>
+					<div class="p-2">
+						<h2 class="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
+							select filter for type <%= locals[:segment].attribute %>
+						</h2>
+					</div>
+
+					<%= f.hidden_field :type %>
+					<%= f.hidden_field :attribute %>
+					<%= f.hidden_field :comparison %>
+
+					<% options = { 
+						'AppUser': 'AppUser', 
+						'Lead': 'Lead', 
+						'Visitor': 'Visitor' 
+					} %>
+
+					<div class="mt-2 p-2 h-32 overflow-scroll">
+
+						<%= f.collection_check_boxes(:value, options, :last, :first) do |b| %>
+							<div class="form-check form-check-inline">
+								<%= b.check_box class: 'form-check-input', checked: locals[:segment].value.include?(b.value) %>
+								<%= b.label class: 'form-check-label' %>
+							</div>
+						<% end %>
+
+					</div>
+
+					<div class="css-1d4ndkk">
+						
+						<%= f.submit "apply" %>
+
+					</div>
+				</div>
+
+			<% end %>
+
+		</div>
+	</div>
+</div>

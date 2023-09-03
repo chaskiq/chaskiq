@@ -1,0 +1,29 @@
+<%= f.fields_for :steps do |fff| %>
+
+	<%= fff.text_field :type %>
+	<% #= ff.text_field :wait_for_input %>
+	<% #= fff.text_field :id, label: 'step id' %>
+
+	<p class="text-lg">CONTROLS</p>
+
+	<%
+=begin
+ fff.fields_for fff.object.controls do |ffff| %>
+
+		<%= ffff.text_field :type %>
+		<%= ffff.text_field :wait_for_input %>
+
+		<p class="text-lg">schema</p>
+		<%= ffff.fields_for ffff.object.schema do |fffff| %>
+
+			<%= fffff.text_field :id %>
+			<%= fffff.text_field :label %>
+			<%= fffff.text_field :next_step_uuid %>
+			<%= fffff.text_field :type %>
+
+			<%= fffff.object.as_json %>
+		<% end %>
+	<% end 
+=end 
+%>
+<% end %>

@@ -1,0 +1,39 @@
+{
+  "name": "@chaskiq/docs",
+  "version": "0.0.0",
+  "description": "help center site for chaskiq",
+  "keywords": [
+    "help",
+    "center",
+    "frontend",
+    "react",
+    "chaskiq"
+  ],
+  "author": "michelson <miguelmichelson@gmail.com>",
+  "homepage": "https://chaskiq.io",
+  "license": "AGPL-3.0-or-later",
+  "main": "dist/docs.js",
+  "umd": "dist/docs.umd.js",
+  "module": "dist/docs.esm.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michelson/chaskiq.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/michelson/chaskiq/issues"
+  },
+  "peerDependencies": {
+    "@chaskiq/components": "^0.0.0",
+    "@chaskiq/store": "^0.0.0"
+  }
+}

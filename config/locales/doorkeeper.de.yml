@@ -1,0 +1,133 @@
+de:
+  activerecord:
+    attributes:
+      doorkeeper/application:
+        name: 'Name'
+        redirect_uri: 'Redirect URI'
+    errors:
+      models:
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: 'darf kein Fragment enthalten.'
+              invalid_uri: 'Must be a valid URI.'
+              unspecified_scheme: 'muss ein Schema angeben.'
+              relative_uri: 'muss ein absoluter URI sein.'
+              secured_uri: 'This URI must have HTTPS!'
+              forbidden_uri: 'Forbidden by the server!'
+            scopes:
+              not_match_configured: "stimmt nicht mit der Konfiguration auf dem Server überein."
+  doorkeeper:
+    applications:
+      confirmations:
+        destroy: 'Bist du sicher?'
+      buttons:
+        edit: 'Bearbeiten'
+        destroy: 'Zerstören'
+        submit: 'Senden'
+        cancel: 'Abbrechen'
+        authorize: 'Genehmigen'
+      form:
+        error: 'Hoppla! Bitte überprüfe das Formular auf mögliche Fehler'
+      help:
+        confidential: 'Die Anwendung wird verwendet, wo das Client-Geheimnis vertraulich gehalten werden kann. Native mobile Apps und Single Page Apps gelten als nicht vertraulich.'
+        redirect_uri: 'Benutze eine Zeile pro URI'
+        blank_redirect_uri: "Leer lassen, wenn Sie Ihren Provider so konfiguriert haben, dass Client-Zugangsdaten verwendet werden, Resource Owner Password Zugangsdaten oder andere Grant-Typen, die keine Weiterleitungs-URI erfordern."
+        scopes: 'Trennen Sie die Bereiche mit Leerzeichen. Lassen Sie leer, um die Standardbereiche zu verwenden.'
+      edit:
+        title: 'Anwendung bearbeiten'
+      index:
+        title: 'Deine Anwendungen'
+        new: 'Neue Anwendung'
+        name: 'Name'
+        callback_url: 'Callback-URL'
+        confidential: 'Vertraulich?'
+        actions: 'Aktionen'
+        confidentiality:
+          'yes': 'Ja'
+          'no': 'Nein'
+      new:
+        title: 'Neue Anwendung'
+      show:
+        title: 'Anwendung: %{name}'
+        application_id: 'Anwendungs UID'
+        secret: 'Secret'
+        scopes: 'Bereiche'
+        confidential: 'Vertraulich'
+        callback_urls: 'Callback URL''s'
+        actions: 'Aktionen'
+    authorizations:
+      buttons:
+        authorize: 'Genehmigen'
+        deny: 'Ablehnen'
+      error:
+        title: 'Ein Fehler ist aufgetreten'
+      new:
+        title: 'Autorisierung erforderlich'
+        prompt: 'Autorisierst du %{client_name} dein Konto zu verwenden?'
+        able_to: 'Diese Anwendung wird in der Lage sein'
+      show:
+        title: 'Autorisierungs-Code'
+    authorized_applications:
+      confirmations:
+        revoke: 'Bist du sicher?'
+      buttons:
+        revoke: 'Widerrufen'
+      index:
+        title: 'Deine autorisierten Anwendungen'
+        application: 'Anwendung'
+        created_at: 'Erstellt am'
+        date_format: '%d.%m.%Y %H:%M:%S'
+    pre_authorization:
+      status: 'Vorautorisierung'
+    errors:
+      messages:
+        #Common error messages
+        invalid_request:
+          unknown: 'Der Anfrage fehlt ein benötigter Parameter, enthält einen nicht unterstützten Parameterwert oder ist anderweitig fehlerhaft.'
+          missing_param: 'Benötigter Parameter fehlt: %{value}.'
+          not_support_pkce: 'Ungültiger code_verifier Parameter. Server unterstützt nicht pkce.'
+          request_not_authorized: 'Anfrage muss autorisiert werden. Benötigter Parameter für die Autorisierung der Anfrage fehlt oder ungültig.'
+        invalid_redirect_uri: "Die angeforderte Weiterleitung uri ist fehlerhaft oder entspricht nicht der Client-Weiterleitungs-URI."
+        unauthorized_client: 'Der Client ist nicht berechtigt, diese Anfrage mit dieser Methode durchzuführen.'
+        access_denied: 'Der Ressourcenbesitzer oder Autorisierungsserver hat die Anfrage abgelehnt.'
+        invalid_scope: 'Der angeforderte Scope ist ungültig, unbekannt oder fehlerhaft.'
+        invalid_code_challenge_method: 'Die Code-Challenge-Methode muss plain oder S256 sein.'
+        server_error: 'Der Autorisierungs-Server hat ein unerwartetes Problem festgestellt und konnte die Anfrage nicht bearbeiten.'
+        temporarily_unavailable: 'Der Autorisierungsserver kann die Anfrage derzeit aufgrund einer temporären Überlastung oder Wartung des Servers nicht bearbeiten.'
+        #Configuration error messages
+        credential_flow_not_configured: 'Resource Owner Password Credentials flow fehlgeschlagen, da Doorkeeper.configure.resource_owner_from_account nicht konfiguriert ist.'
+        resource_owner_authenticator_not_configured: 'Der Resource Owner konnte nicht gefunden werden, da Doorkeeper.configure.resource_owner_authenticator nicht konfiguriert ist.'
+        admin_authenticator_not_configured: 'Der Zugriff auf das Admin-Panel ist verboten, da Doorkeeper.configure.admin_authenticator nicht konfiguriert wird.'
+        #Access grant errors
+        unsupported_response_type: 'Der Autorisierungsserver unterstützt diesen Response type nicht.'
+        #Access token errors
+        invalid_client: 'Client-Authentifizierung ist fehlgeschlagen: unbekannter Client, keine Client-Authentifizierung oder nicht unterstützte Authentifizierungsmethode.'
+        invalid_grant: 'Die beigefügte Autorisierung ist ungültig, abgelaufen, wurde widerrufen, an einen anderen Client ausgestellt oder der Weiterleitungs-URI stimmt nicht mit der Autorisierungs-Anfrage überein.'
+        unsupported_grant_type: 'Der Autorisierungs-Typ wird nicht vom Autorisierungs-Server unterstützt.'
+        invalid_token:
+          revoked: "Das Zugangstoken wurde widerrufen"
+          expired: "Der Zugangstoken ist abgelaufen"
+          unknown: "Das Zugangstoken ist ungültig"
+        revoke:
+          unauthorized: "Sie sind nicht berechtigt, diesen Token zu widerrufen"
+    flash:
+      applications:
+        create:
+          notice: 'Anwendung erstellt.'
+        destroy:
+          notice: 'Anwendung gelöscht.'
+        update:
+          notice: 'Anwendung aktualisiert.'
+      authorized_applications:
+        destroy:
+          notice: 'Anwendung widerrufen.'
+    layouts:
+      admin:
+        title: 'Doorkeeper'
+        nav:
+          oauth2_provider: 'OAuth2-Anbieter'
+          applications: 'Anwendungen'
+          home: 'Startseite'
+      application:
+        title: 'OAuth Autorisierung erforderlich'

@@ -1,0 +1,45 @@
+<%= turbo_frame_tag 'conversation-sidebar-packages', class: "space-y-2" do %>
+	<% #= form_for @app, app_inbox_packages_path(@app.key) do %>
+		<div class="flex flex-col">
+			<div class="">
+					<div class="flex justify-between border-b border-gray-200 mt-3 pb-2">
+						<div class="w-full flex justify-between">
+								<%= button_to app_inbox_packages_path(@app.key, conversation_key: params[:conversation_key]), method: :get do %>
+									cancel
+								<% end %>
+
+
+								<%= button_to sidebar_app_conversations_path(@app.key, q: 'done'), method: :get, class: "btn sm" do %>
+									done
+								<% end %>
+
+							</div>
+					</div>
+					<div class="flex flex-col justify-around items-center border rounded-md my-2 py-2">
+						<div>
+								<h2 class="text-sm leading-6 font-medium text-gray-900">
+									Add apps to inbox sidebar
+								</h2>
+						</div>
+						<div class="flex justify-end my-2">
+								<% # render Button::Component.new(size: "sm", variant: "success") do %>
+								<% # Add app %>
+								<% #end %>
+								<%= link_to "new Page", 
+									capabilities_app_packages_path(@app.key, kind: 'inbox'),
+									data: {
+										'turbo-frame': 'modal'
+									}
+								%>
+								
+						</div>
+					</div>
+					<div></div>
+					<div class="w-full">
+						<%= render 'apps/inbox_packages/inbox_sorts' %>
+					</div>
+					</div>
+			</div>
+		</div>
+	<% # end %>
+<% end %>

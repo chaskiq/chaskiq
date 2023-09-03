@@ -1,0 +1,6 @@
+{
+  "packages": [
+    "app/javascript/packages/*"
+  ],
+  "version": "0.0.0"
+}

@@ -1,0 +1,237 @@
+ca:
+  definitions:
+    articles:
+      title:
+        label: Títol
+      author:
+        label: Autor/a
+      state:
+        label: Estat
+      collection:
+        label: Coŀlecció
+      actions:
+        label: Accions
+      website:
+        label: Pàgina web
+        hint: Pàgina web del vostre domini principal
+      domain:
+        label: Domini
+        hint: Domini del vostre domini centre d'ajuda
+      subdomain:
+        label: Subdomini
+        hint: Subdomini en què estarà disponible el Centre d'ajuda
+      google_code:
+        label: Codi Google
+        hint: ID de seguiment de Google
+      credits:
+        label: Mostrar crèdits
+        hint: ""
+    settings:
+      name:
+        label: Nom
+        hint:
+      logo:
+        label: Logotip
+        hint:
+      enable_articles:
+        label: "Mostra l'article a la finestra del xat"
+        hint: "Aquesta opció mostrarà els articles a la secció inicial del missatger"
+      inline_conversation:
+        label: Mostra els missatges nous a una caixa flotant
+        hint: Aquesta opció no obrirà el widget del quadre de xat
+      encryption_key:
+        label: Clau de xifratge
+        placeholder: "Deixeu-lo en blanc si no hi ha xifratge"
+        hint: Aquesta clau s'utilitzarà per xifrar i desxifrar les dades d'usuari JWE
+      privacy_consent_required_ue:
+        label: Es requereix consentiment de privadesa per a GDPR
+        hint: Es mostrarà una visualització de confirmació per als països de la UE abans d'establir converses
+      privacy_consent_required_all:
+        label: Es requereix consentiment de privadesa a tot el món
+        hint: Es mostrarà una visualització de confirmació per a tots els visitants abans d'establir converses
+      privacy_consent_required_none:
+        label: No es requereix consentiment de privadesa
+        hint: No mostraré cap visualització de confirmació a ningú (no es recomana)
+      active_messenger:
+        label: Activeu Messenger
+        hint: Quan estigui activat, s'activarà el giny web de Messenger
+      domain:
+        label: URL del domini
+        hint: Aquest serà el lloc d’amfitrió on s’utilitzarà chaskiq
+      outgoing_email_domain:
+        label: Domini de l'email de sortida
+        hint: El domini de correu electrònic per enviar converses, per a @yourapp, utilitzeu "la vostra aplicació"
+      tagline:
+        label: Eslògan
+        hint: Es mostrarà a la part inferior del quadre de xat
+      timezone:
+        label: Zona horària
+        hint:
+      gather_social_data:
+        label: Recopileu dades socials
+        hint: "Recopileu perfils socials mitjançant el servei de contacte complet (p. Ex., LinkedIn, Twitter, etc.) per als meus usuaris a través d’un tercer"
+      register_visits:
+        label: Registre de visites
+        hint: "Fins i tot si està desactivat, recollirem el comptador global de visites i emmagatzemarem la informació de la darrera visita al perfil del visitant"
+      languages:
+        select_lang: Selecciona l'idioma
+    campaigns:
+      campaign_name:
+        label: Nom de la campanya
+        hint: Això no es mostrarà al correu electrònic
+      email_subject:
+        label: Assumpte del Email
+        hint: Aquest és el teu assumpte del mail
+      from_name:
+        label: Nom del remitent
+      from_email:
+        label: Des del correu
+      reply_email:
+        label: Correu electrònic de resposta
+      scheduled_at:
+        label: Programat a
+      scheduled_to:
+        label: Programat per
+      state:
+        label: Estat
+      description:
+        label: Descripció
+      actions:
+        label: Accions
+    bot_tasks:
+      state:
+        label: Estat
+      name:
+        label: Nom
+      actions:
+        label: Accions
+      title:
+        label: Títol
+        placeholder: escriu un títol de la tasca
+        hint: "Nom de la tasca, p. ex: bot de tasca de benvinguda d'usuaris"
+    stats:
+      email:
+        label: Email
+      host:
+        label: Host
+      createdAt:
+        label: Creat el
+      from:
+        label: De
+      actions:
+        label: Accions
+      when:
+        label: Quan
+      data:
+        label: Dades
+    app_packages:
+      name:
+        label: 'Nom de la integració'
+      published:
+        label: 'Publica en la plataforma'
+        type: 'camps de selecció'
+        hint: 'Si està desactivat, utilitzarà l''aplicació als espais wors als quals tingueu accés'
+      capability_list:
+        label: 'Capacitats d’integració'
+        hint: 'Trieu les funcions del paquet, p. ex. on funcionarà la integració'
+      description:
+        label: 'Descripció del paquet'
+        hint: 'digueu què fa el vostre connector'
+      initialize_url:
+        label: 'Inicialitzeu l''URL del webhook de flux'
+        hint: 'S''envia quan s''ha inserit una aplicació a una conversa, un missatge o a la pantalla d''inici perquè pugueu renderitzar l''aplicació.'
+        placeholder: 'p.ex. https://elteudomini.com/inici'
+      submit_url:
+        label: 'Envia l''URL del webhook del flux'
+        hint: 'S''envia quan un usuari final interactua amb la teva aplicació mitjançant un botó, un enllaç o una entrada de text. Aquest flux es pot produir diverses vegades quan l''usuari final interactua amb la vostra aplicació.'
+        placeholder: 'p.ex. https://elteudomini.com/aceptar'
+      configure_url:
+        label: 'Configuració de l''URL del webhook de flux (opcional)'
+        hint: 'S’envia quan un company vol utilitzar la teva aplicació perquè pugueu mostrar-los les opcions de configuració abans d’inserir-la. Si deixeu aquesta opció en blanc, s''ometrà la configuració.'
+        placeholder: 'p.ex. https://elteudomini.com/configuracio'
+      sheet_url:
+        label: 'Envia l''URL del webhook del flux de fulls (opcional)'
+        name: 'sheet_url'
+        hint: 'S''envia quan s''ha enviat un full. Un full és un iframe que heu carregat al Messenger que es tanca i s’envia quan es crida el mètode Submit Sheets JS.'
+        placeholder: 'p.ex. https://elteudomini.com/submit-sheet-url/'
+      content_url:
+        label: 'Dynamic content flow webhook URL'
+        hint: 'Sent when the content_url is set for a block, allows dynamic content to be rendered on demand'
+        placeholder: 'e.g. https://yourdomain.com/content-url/'
+    webhooks:
+      url:
+        label: url for outgoing webhook
+        hint: "we'll send POST requests"
+      enabled:
+        label: enable webhook
+      tag_list:
+        label: events to send
+        hint: chaskiq will deliver this events to configured endpoint
+    agents:
+      email:
+        label: Agent's Email
+        placeholder: marc@exemple.cat
+      name:
+        label: Nom del agent
+        placeholder: Marc Gaja
+      owner:
+        label: Propietari
+      access_list:
+        label: 'Rol del agent'
+        hint: 'blank access will disable account settings access for user'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
+  data_tables:
+    agents:
+      email: Email
+      name: Nom
+      owner: Propietari
+      access_list: Access List
+      actions: Accions
+      sign_in_count: Sign in count
+      last_sign_in_at: Darrera data d'identificació
+      invitation_accepted_at: Invitació acceptada el
+    articles:
+      settings:
+        locale: Locale
+        site_title: Títol del lloc
+        site_description: Descripció del Lloc
+        action: Acció
+        default_lang: Default Lang
+    users:
+      name: Nom
+      email: Correu electrònic
+      state: Estat
+      online: Connectat
+      ip: IP
+      country: País
+      city: Ciutat
+      phone: Telèfon
+      lat: Latitut
+      lng: Longitut
+      postal: Codi postal
+      browser: Navegador
+      browser_version: Versió del navegador
+      browser_lang: Idioma del navegador
+      referrer: Procedència
+      tag_list: Llista d'etiquetes
+      os: So
+      os_version: Versió del SO
+      lang: Idioma
+      web_sessions: Sessió web
+      last_seen: Vist per primer cop
+      first_seen: Vist per última vegada
+      subscription_status:
+        subscribed: Subscrit
+        unsubscribed: No subscrit
+        passive: Passiu
+    settings:
+      locale: Locale
+      greetings: Greetings
+      intro: Introducció
+      tagline: Eslògan

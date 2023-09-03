@@ -1,0 +1,54 @@
+ca:
+  hints:
+    platform:
+      title: Aquí pots administrar la teva llista de contactes mitjançant segments
+      description: Els segments permeten filtrar contactes específics a través de múltiples filtres
+    #link: {  href: '/', title: 'Learn how filters works on our knowledge base
+    webhooks:
+      title: Webhooks actius
+      description: "La funció Webhooks tracta d'entregar notificacions d'esdeveniments de chaskiq"
+    #link: { href: '/', text: 'Learn how webhooks works on our knowledge base'}
+    integrations:
+      title:
+      description: Aquesta és la secció d'integracions d'API de tercers.
+    #link: { href: '/',text: 'Learn how API integrations works on Chaskiq from the inside out'}
+    team:
+    app_config:
+    security:
+      title: Seguretat
+      description: Aquesta és la clau de xifrat per a identificar usuaris registrats en el seu servei
+    #link: { href: '/', text: 'Learn how Encryption & security settings works on Chaskiq'
+    appearance:
+    languages:
+    availability:
+      title: Configuració de la disponibilitat de l’equip
+      description: La configuració de disponibilitat permeten al seu equip fixar hores d'oficina i hores de resposta.
+    #link: {href: '/', text: 'Learn how Availability settings works on Chaskiq'}
+    email_requirement:
+      title: Requereix un correu electrònic per a noves converses
+      description: Així sempre pots tornar als visitants del teu lloc web
+    #link: {href: '/',text: 'Learn how Email requirement works on Chaskiq'}
+    inbound_settings:
+      title: Controleu les converses entrants i el llançador
+      description: Controleu qui us pot enviar missatges i on veuen el llançador
+    #link: { href: '/',text: 'Learn how Inbound settings works on Chaskiq'}
+    user_data:
+      title: Gestioneu els atributs de l'usuari
+      description: Els atributs d'usuari proporcionen una manera de personalitzar les dades per al filtratge de segments
+    #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+    tags:
+      title: Gestioneu les etiquetes d'aplicació
+      description: Els atributs d'etiquetes ofereixen una manera de personalitzar les dades per filtrar els segments i organitzar les converses
+    #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+    quick_replies:
+      title: Gestioneu les respostes ràpides
+      description: Les respostes ràpides proporcionen una manera d’organitzar respostes comunes per al teu negoci
+    #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+    articles:
+      title: Plataforma del Centre d'ajuda de Chaskiq
+      description: Aqui pots administrar els articles de Chaskiq
+    #link: { href: '/', text: 'Learn how to configure & manage the helpcenter system on Chaskiq'}
+    bots:
+    mailing_campaigns:
+    in_app:
+    guided_tours:

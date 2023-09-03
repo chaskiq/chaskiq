@@ -1,0 +1,11 @@
+<% tags = @app.agents %>
+
+<%= f.select :assignee_id, options_for_select(
+		tags.map { |o| [ (o.name || o.email), o.id.to_s ] }, @conversation.assignee_id.to_s ), 
+	{}, {
+		data: {
+			'select-target': 'select', 
+			options: tags.map{|o| {label: (o.name || o.email), value: o.id.to_s } }.to_json 
+			}
+		}
+%>

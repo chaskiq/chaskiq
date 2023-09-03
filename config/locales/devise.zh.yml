@@ -1,0 +1,62 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+zh-CN:
+  devise:
+    confirmations:
+      confirmed: "已成功确认你的邮箱地址。"
+      send_instructions: "您将很快收到一封关于如何确认您的帐户的电子邮件。"
+      send_paranoid_instructions: "如果我们的数据库有您的电子邮件地址，您将很快收到一封有关如何确认您的帐户的电子邮件。"
+    failure:
+      already_authenticated: "您已登录。"
+      inactive: "您的账户尚未激活。"
+      invalid: "%{authentication_keys} 或密码无效。"
+      locked: "您的帐号已被锁定。"
+      last_attempt: "这是最后一次尝试机会，失败后你的帐户将被锁定。"
+      not_found_in_database: "%{authentication_keys} 或密码无效。"
+      timeout: "你的会话已经过期，请重新登录以继续操作。"
+      unauthenticated: "你需要登录或注册才能继续。"
+      unconfirmed: "你必须先确认你的电子邮件地址才能继续。"
+    mailer:
+      confirmation_instructions:
+        subject: "确认说明"
+      reset_password_instructions:
+        subject: "重设密码的说明"
+      unlock_instructions:
+        subject: "解锁说明"
+      email_changed:
+        subject: "电子邮箱已更改"
+      password_change:
+        subject: "密码已更改"
+    omniauth_callbacks:
+      failure: "因\"%{reason}\"，无法从%{kind} 对您进行身份验证。"
+      success: "从%{kind} 账户成功进行身份验证。"
+    passwords:
+      no_token: "您必须通过密码重置邮件才能访问此页面。如果确实是通过密码重置邮件访问，请确保您使用的是邮件中提供的完整URL。"
+      send_instructions: "您将很快收到一封关于如何重设密码的电子邮件说明。"
+      send_paranoid_instructions: "如果您的电子邮件地址存在于我们的数据库中，您将在几分钟内收到一封包含密码恢复链接的电子邮件地址。"
+      updated: "您的密码已成功更改，你已登录。"
+      updated_not_active: "已成功更改您的密码。"
+    registrations:
+      destroyed: "再见！您的账户已成功注销。希望很快再见到您。"
+      signed_up: "欢迎您！您已成功注册。"
+      signed_up_but_inactive: "您已成功注册，但是在您激活账户之前您仍然无法登录。"
+      signed_up_but_locked: "您已成功注册，但是由于您的账户已被锁定，所以您尚无法登录。"
+      signed_up_but_unconfirmed: "已将一封包含确认链接的电子邮件发送至您的邮箱，请打开该链接激活您的账户。"
+      update_needs_confirmation: "您已成功更新您的账户，但我们需要验证您的新电子邮箱地址。请查看您的电子邮件，点击确认链接，以确认您的新电子邮箱地址。"
+      updated: "您的账户已成功更新。"
+    sessions:
+      signed_in: "已成功登录。"
+      signed_out: "已成功退出。"
+      already_signed_out: "已成功退出。"
+    unlocks:
+      send_instructions: "您将很快收到一封关于如何解锁你的帐户的电子邮件。"
+      send_paranoid_instructions: "如果您的帐户存在，您将很快收到一封包含有关如何解锁的电子邮件。"
+      unlocked: "您的账户已成功解锁。请登录后再继续操作。"
+  errors:
+    messages:
+      already_confirmed: "已经证实，请尝试登录"
+      confirmation_period_expired: "需要在%{period} 内确认，请重新申请"
+      expired: "已过期，请申请一个新的"
+      not_found: "未找到"
+      not_locked: "未锁定"
+      not_saved:
+        other: "因%{count} 个错误，使此%{resource} 无法保存："

@@ -1,0 +1,224 @@
+<% plans = PaymentServices::Paddle.new.get_plans %>
+
+<div data-controller="paddle-subscription"
+	data-email="<%= current_agent.email %>"
+	data-app-key="<%= @app.key %>"
+	class="max-w-2xl mx-auto bg-white dark:bg-gray-900 py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+   <div class="space-y-24 lg:hidden">
+
+			<% plans.each do |plan|%>
+				<div>
+					<div class="px-4">
+							<h2 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">free one</h2>
+							<p class="mt-4">
+								<span class="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
+								$<%= plan.recurring_price.USD %>
+								</span>
+								<span class="text-base font-medium text-gray-500 dark:text-gray-300">
+								/<%= plan.recurring_price.billing_type %>
+								</span>
+							</p>
+							<button 
+								data-action="click->modal#open click->paddle-subscription#open"
+								data-product-id="<%= plan.id %>"
+								class="
+								bg-green-400 
+								text-white
+								hover:bg-green-500 
+								focus:outline-none 
+								focus:border-green-700 
+								focus:shadow-outline
+								mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center"> 
+								Buy <%= plan.name %>
+							</button>
+					</div>
+
+					<table class="mt-8 w-full">
+							<caption class="bg-gray-50 border-t border-gray-200 py-3 px-4 text-sm font-medium text-gray-900 text-left">
+								Features
+							</caption>
+							
+							<thead>
+								<tr>
+									<th class="sr-only" scope="col">Feature</th>
+									<th class="sr-only" scope="col">Included</th>
+								</tr>
+							</thead>
+
+							<tbody class="divide-y divide-gray-200">
+
+								<% I18n.t('subscriptions.features').keys.each do |k| %>
+									<tr class="border-t border-gray-200">
+											<th class="py-5 px-4 text-sm font-normal text-gray-500 dark:text-gray-300  text-left" scope="row">
+												<%= I18n.t("subscriptions.features.#{k}.title") %>
+											</th>
+											<td class="py-5 pr-4">
+												<% if feature = plan.features.find{|o| o["name"] === k.to_s } and feature["active"] %>
+													<svg class="ml-auto h-5 w-5 text-green-500" x-description="Heroicon name: check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+															<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+													</svg>
+													<span class="sr-only">Yes</span>
+												<% end %>
+											</td>
+									</tr>
+								<% end %>
+								
+							</tbody>
+					</table>
+
+					<div class="border-t border-gray-200 px-4 pt-5">
+						<button 
+							data-action="click->modal#open click->paddle-subscription#open"
+							data-product-id="<%= plan.id %>"
+						class="
+							bg-green-400 
+							text-white
+							hover:bg-green-500 
+							focus:outline-none 
+							focus:border-green-700 
+							focus:shadow-outline
+							mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center">
+							<%= plan.name %>
+						</button>
+					</div>
+				</div>
+			<% end %>
+   </div>
+
+
+
+
+
+	 <!-- DESKTOP -->
+   <div class="hidden lg:block">
+      <table class="w-full h-px table-fixed">
+         <caption class="sr-only">Pricing plan comparison</caption>
+         <thead>
+
+            <tr>
+								<th class="pb-4 pl-6 pr-6 text-sm font-medium text-gray-900 dark:text-gray-100 text-left" scope="col">
+									<span class="sr-only">Feature by</span>
+									<span>Plans</span>
+								</th>
+							<% plans.each_with_index do |plan, index| %>
+               <th class="w-1/4 pb-4 px-6 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 text-left" scope="col">
+							 		<%= plan.name %>
+							 </th>
+							<% end %>
+					  </tr>
+         </thead>
+
+         <tbody class="border-t border-gray-200 divide-y divide-gray-200">
+            <tr>
+               <th class="py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 dark:text-gray-100 text-left" scope="row">Pricing</th>
+
+							<% plans.each do |plan|%>
+								<% if plan.name == @app.plan['name'] %>
+									<td class="h-full py-8 px-6 align-top">
+										<div class="h-full flex flex-col justify-between">
+											<div>
+												<p>
+												<span class="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
+													$<%= plan.recurring_price.USD %>
+												</span>
+												<span class="text-base font-medium text-gray-500 dark:text-gray-300">
+													/<%= plan.recurring_price.billing_type %>
+												</span>
+												</p>
+												<p class="mt-4 text-sm text-gray-500 dark:text-gray-300"></p>
+											</div>
+											<p class="mt-4 text-sm text-gray-500 dark:text-gray-300">
+												This is your current plan
+											</p>
+										</div>
+									</td>
+								<% else %>
+									<td class="h-full py-8 px-6 align-top">
+										<div class="h-full flex flex-col justify-between">
+											<div>
+												<p>
+													<span class="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
+													$<%= plan.recurring_price.USD %>
+													</span>
+													<span class="text-base font-medium text-gray-500 dark:text-gray-300">
+													/<%= plan.recurring_price.billing_type %>
+													</span>
+												</p>
+												<p class="mt-4 text-sm text-gray-500 dark:text-gray-300"></p>
+											</div>
+											<button 
+												data-action="click->modal#open click->paddle-subscription#open"
+												data-product-id="<%= plan.id %>"
+												class="
+												bg-green-400 
+												text-white
+												hover:bg-green-500 
+												focus:outline-none 
+												focus:border-green-700 
+												focus:shadow-outline
+												mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center"> 
+												<%= plan.name %>
+											</button>
+										</div>
+									</td>
+								<% end %>
+							<% end %>
+
+            </tr>
+            <tr>
+               <th class="py-3 pl-6 bg-gray-50 dark:bg-black text-sm font-medium text-gray-900 dark:text-white text-left" colspan="4" scope="colgroup">Features</th>
+            </tr>
+						<% I18n.t('subscriptions.features').keys.each do |k| %>
+							<tr>
+								<th class="py-5 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left" scope="row">
+									<%= I18n.t("subscriptions.features.#{k}.title") %>
+								</th>
+								
+								<% plans.each do |plan|%>
+									<td class="py-5 px-6">
+											<% if feature = plan.features.find{|o| o["name"] === k.to_s } and feature["active"] %>
+												<svg class="h-5 w-5 text-green-500" x-description="Heroicon name: check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+													<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+												</svg>
+												<span class="sr-only">Included in <%= plan.name %></span>
+											<% end %>
+									</td>
+								<% end %>
+							
+							</tr>
+						<% end %>
+
+         </tbody>
+         <tfoot>
+            <tr class="border-t border-gray-200">
+              <th class="sr-only" scope="row">Choose your plan</th>
+							<% plans.each do |plan|%>
+								<% if plan.name == @app.plan['name'] %>
+									<td class="pt-5 px-6">
+											<p class="mt-4 text-sm text-gray-500 dark:text-gray-300">
+												This is your current plan
+											</p>
+									</td>
+								<% else %>
+									<td class="pt-5 px-6">
+										<button 
+											data-action="click->modal#open click->paddle-subscription#open"
+											data-product-id="<%= plan.id %>"
+											class="
+											bg-green-400 
+											text-white
+											hover:bg-green-500 
+											focus:outline-none 
+											focus:border-green-700 
+											focus:shadow-outline
+											mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center"> 
+											<%= plan.name %>
+										</button>
+									</td>
+								<% end %>
+							<% end %>
+            </tr>
+         </tfoot>
+      </table>
+   </div>
+</div>

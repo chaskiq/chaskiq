@@ -1,0 +1,237 @@
+sv:
+  definitions:
+    articles:
+      title:
+        label: Titel
+      author:
+        label: Författare
+      state:
+        label: Tillstånd
+      collection:
+        label: Samling
+      actions:
+        label: Åtgärder
+      website:
+        label: Webbplats
+        hint: Webbplats för din huvuddomän
+      domain:
+        label: Domän
+        hint: Domän för hjälpcentret
+      subdomain:
+        label: Subdomän
+        hint: Subdomän där hjälpcentret kommer att vara tillgängligt
+      google_code:
+        label: Google Code
+        hint: Google spårnings-ID
+      credits:
+        label: Visa krediter
+        hint: ""
+    settings:
+      name:
+        label: Namn
+        hint:
+      logo:
+        label: Logotyp
+        hint:
+      enable_articles:
+        label: "Visa artikel i chattfönstret"
+        hint: "Det här alternativet kommer att visa artiklarna i hemavsnittet för chatten"
+      inline_conversation:
+        label: Visa nya meddelanden i en flytande ruta
+        hint: Det här alternativet kommer inte att öppna widgeten för chatten
+      encryption_key:
+        label: Krypteringsnyckel
+        placeholder: "Lämna tomt för okrypterat"
+        hint: Denna nyckel kommer att användas för att kryptera och dekryptera JWE användardata
+      privacy_consent_required_ue:
+        label: Nödvändigt samtycke till GDPR
+        hint: Kommer att visa en bekräftande vy för EU-länderna innan konversationer etableras
+      privacy_consent_required_all:
+        label: Världsomspännande samtycke till sekretess krävs
+        hint: Kommer att visa en bekräftande vy för alla besökare innan konversationer etableras
+      privacy_consent_required_none:
+        label: Inget integritetssamtycke krävs
+        hint: Visa inte en bekräftelsevy för någon (rekommenderas inte)
+      active_messenger:
+        label: Aktivera messenger
+        hint: När detta är aktiverat kommer widgeten för messenger att aktiveras
+      domain:
+        label: Domän-URL
+        hint: Detta kommer att vara värdplatsen där Chaskiq kommer att användas
+      outgoing_email_domain:
+        label: Utgående e-postdomän
+        hint: E-postdomän för att skicka konversationer, för @yourapp använd 'your app'
+      tagline:
+        label: Tagline
+        hint: Detta kommer att renderas i botten av chattboxen
+      timezone:
+        label: Tidszon
+        hint:
+      gather_social_data:
+        label: Samla in sociala data
+        hint: "Samla in profiler från sociala medier (t.ex. LinkedIn, Twitter, m.m.) för mina användare via en tredje part"
+      register_visits:
+        label: Registrera besök
+        hint: "Även om detta är inaktiverat kommer vi att samla in totala besöksantal av besök och lagra den senaste besöksinformationen på besökarens profil"
+      languages:
+        select_lang: Select language
+    campaigns:
+      campaign_name:
+        label: Kampanjnamn
+        hint: Detta kommer inte att visas i e-postmeddelandet
+      email_subject:
+        label: E-postämne
+        hint: Detta är ämnesraden för e-postmeddelandet
+      from_name:
+        label: Från namn
+      from_email:
+        label: Från e-post
+      reply_email:
+        label: Svara till
+      scheduled_at:
+        label: Schemalagd den
+      scheduled_to:
+        label: Schemalagd till
+      state:
+        label: Tillstånd
+      description:
+        label: Beskrivning
+      actions:
+        label: Åtgärder
+    bot_tasks:
+      state:
+        label: Tillstånd
+      name:
+        label: Namn
+      actions:
+        label: Åtgärder
+      title:
+        label: Titel
+        placeholder: ange en titel
+        hint: "Uppgiftens namn, t.ex: välkomna användare botuppgift"
+    stats:
+      email:
+        label: E-postadress
+      host:
+        label: Värd
+      createdAt:
+        label: Skapad den
+      from:
+        label: Från
+      actions:
+        label: Åtgärder
+      when:
+        label: Den
+      data:
+        label: Data
+    app_packages:
+      name:
+        label: 'Integrationsnamn'
+      published:
+        label: 'Publicera på plattformen'
+        type: 'kryssruta'
+        hint: 'Om inaktiverad kommer du att använda programmet i de arbetsytor du har tillgång till'
+      capability_list:
+        label: 'Integrationsfunktioner'
+        hint: 'Välj paketfunktioner, t.ex: var integrationen kommer fungera'
+      description:
+        label: 'App-paketbeskrivning'
+        hint: 'ange vad ditt plugin gör'
+      initialize_url:
+        label: 'Webhook URL för flödesinitiering'
+        hint: 'Skickas när en app aktiveras i en konversation, meddelande eller hemskärmen, så att du kan rendera appen.'
+        placeholder: 't.ex: https://dindoman.se/initialize-url/'
+      submit_url:
+        label: 'Spara webhook-URL för flöde'
+        hint: 'Skicka när en slutanvändare interagerar med din app, via en knapp, länk eller textfält. Detta flöde kan ske flera gånger under tiden en användare interagerar med din app.'
+        placeholder: 't.ex: https://dindoman.se/submit-url/'
+      configure_url:
+        label: 'Konfigurera webhook-URL för flöde (valfritt)'
+        hint: 'Skickas när en medarbetare vill använda din app, så att du kan visa de konfigurationsalternativen innan den läggs till. Lämnas detta fält tomt, inaktiveras konfigurationssteget.'
+        placeholder: 't.ex: https://dindoman.se/configure-url/'
+      sheet_url:
+        label: 'Spara webhook-URL för iframeflöde (valfritt)'
+        name: 'sheet_url'
+        hint: 'Skickas när en iframe har blivit sparad. En iframe laddas in i meddelanderutan och är stängd och sparad när iframeflödesfunktionen är anropad.'
+        placeholder: 't.ex: https://dindoman.se/submit-sheet-url/'
+      content_url:
+        label: 'Webhook-URL för dynamiskt innehållsflöde'
+        hint: 'Skickas när content_url är konfigurerad, tillåter dynamiskt innehåll att renderas vid behov'
+        placeholder: 't.ex: https://dindoman.se/content-url/'
+    webhooks:
+      url:
+        label: url för utgående webhook
+        hint: "vi skickar POST-förfrågningar"
+      enabled:
+        label: aktivera webhook
+      tag_list:
+        label: händelser att skicka
+        hint: chaskiq kommer att leverera dessa händelser till konfigurerad slutpunkt
+    agents:
+      email:
+        label: Agentens e-postadress
+        placeholder: du@exempel.se
+      name:
+        label: Agentens namn
+        placeholder: John Doe
+      owner:
+        label: Ägare
+      access_list:
+        label: 'Roller för agent'
+        hint: 'inga behörigheter kommer att inaktivera kontoinställningar för användaren'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
+  data_tables:
+    agents:
+      email: E-post
+      name: Namn
+      owner: Ägare
+      access_list: Rättigheter
+      actions: Åtgärder
+      sign_in_count: Antal inloggningar
+      last_sign_in_at: Senaste inloggningsdatum
+      invitation_accepted_at: Inbjudan accepterades den
+    articles:
+      settings:
+        locale: Språk
+        site_title: Webbplatstitel
+        site_description: Webbplatsbeskrivning
+        action: Åtgärder
+        default_lang: Default Lang
+    users:
+      name: Namn
+      email: E-postadress
+      state: Tillstånd
+      online: Aktiv
+      ip: IP
+      country: Land
+      city: Stad
+      phone: Phone
+      lat: Lat
+      lng: Lng
+      postal: Postnummer
+      browser: Webbläsare
+      browser_version: Webbläsarversion
+      browser_lang: Språk för webbläsare
+      referrer: Hänvisad från
+      tag_list: Taggar
+      os: Os
+      os_version: OS-version
+      lang: Språk
+      web_sessions: Webbsessioner
+      last_seen: Sågs första gången
+      first_seen: Sågs senast
+      subscription_status:
+        subscribed: Prenumererar
+        unsubscribed: Prenumeration avslutad
+        passive: Inaktiv
+    settings:
+      locale: Språk
+      greetings: Hälsningsfras
+      intro: Intro
+      tagline: Tagline

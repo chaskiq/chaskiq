@@ -1,0 +1,12 @@
+<%= render Content::Component.new do %>
+
+  <%= render PageHeader::Component.new(title: I18n.t('campaigns.title') ) do %>
+  <% end %>
+
+
+  <%= render Tabs::Component.new(	items: campaigns_menu_data(app: @app, campaign: @campaign ) ) do %>
+    <% #= render Hints::Component.new(type: "articles")%>
+    <% #= render 'table'%>
+  <% end %>
+
+<% end %>

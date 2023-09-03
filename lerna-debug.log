@@ -1,0 +1,16 @@
+0 silly argv {
+0 silly argv   _: [ 'add' ],
+0 silly argv   scope: '@chaskiq/components',
+0 silly argv   globs: [],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/usr/local/bin/lerna',
+0 silly argv   pkg: '@chasstore'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/michelson/Documents/chaskiq/chaskiq
+3 error Error: Invalid tag name "@chasstore": Tags may not have any characters that encodeURIComponent encodes.
+3 error     at invalidTagName (/Users/michelson/Documents/chaskiq/chaskiq/node_modules/npm-package-arg/npa.js:89:15)
+3 error     at fromRegistry (/Users/michelson/Documents/chaskiq/chaskiq/node_modules/npm-package-arg/npa.js:299:13)
+3 error     at resolve (/Users/michelson/Documents/chaskiq/chaskiq/node_modules/npm-package-arg/npa.js:80:12)
+3 error     at npa (/Users/michelson/Documents/chaskiq/chaskiq/node_modules/npm-package-arg/npa.js:48:10)
+3 error     at AddCommand.initialize (/Users/michelson/Documents/chaskiq/chaskiq/node_modules/@lerna/add/index.js:39:17)

@@ -1,0 +1,9 @@
+<%= turbo_frame_tag "flash" do %>
+	<% flash.each do |type, message| %>
+		<%= render Alert::Component.new( 
+			title: '', 
+			message: message, 
+			status: type 
+		) %>
+	<% end %>
+<% end %>

@@ -1,0 +1,79 @@
+<%= turbo_frame_tag "translations_table" do %>
+	<%= form_for @app, url: app_messenger_path(@app.key, :translations) do |f| %>
+
+		<%= render Table::Component.new(
+			data: @app.translations, 
+			config: {
+				columns: [
+					{ name: :locale },
+					{ name: :greetings, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="ml-4">
+											<div class="text-sm leading-5 font-medium text-gray-900">
+												#{ f.text_field "greetings_#{record.locale}".to_sym }
+											</div>
+									</div>
+								</div>
+							}) 
+						}
+					},
+					{ name: :tagline, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="ml-4">
+											<div class="text-sm leading-5 font-medium text-gray-900">
+												#{ f.text_field "tagline_#{record.locale}".to_sym}
+											</div>
+									</div>
+								</div>
+							}) 
+						}
+					},
+					{
+						name: :intro,
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="ml-4">
+											<div class="text-sm leading-5 font-medium text-gray-900">
+												#{ f.text_field "intro_#{record.locale}".to_sym }
+											</div>
+									</div>
+								</div>
+							}) 
+						}
+					},
+					{
+						name: :delete,
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="ml-4" data-turbo="true">
+											<div class="text-sm leading-5 font-medium text-gray-900">
+												#{ 
+													link_to 'Delete Item',
+													 app_translation_path(@app.key, record.locale ), 
+													 method: :delete,
+													  data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' }, 
+														class: 'btn btn-flat-dark'
+
+												 }
+											</div>
+									</div>
+								</div>
+							}) 
+						}
+					}
+
+				]
+			},
+			paginate: nil
+		)%>
+
+		<%= f.submit t("common.submit"), class: "btn btn-success" %>
+
+	<% end %>
+<% end %>
