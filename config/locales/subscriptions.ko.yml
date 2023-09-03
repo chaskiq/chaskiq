@@ -1,0 +1,109 @@
+ko:
+  subscriptions:
+    upgrade: Upgrade
+    tabs:
+      - Plans
+      - Transaction history
+    features:
+      Segments:
+        title: Segments
+        description: true
+        upgrade_message: You can create segments by setting rules or filters for your users.
+      Leads:
+        title: Leads
+        description: true
+        upgrade_message: When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer.
+      AppUsers:
+        title: AppUsers
+        description: true
+        upgrade_message: when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations.
+      Conversations:
+        title: Conversations
+        description: true
+        upgrade_message: use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations.
+      BotTasks:
+        title: BotTasks
+        description: true
+        upgrade_message: use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person.
+      Integrations:
+        title: Integrations
+        description: true
+        upgrade_message: Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity.
+      Campaigns:
+        title: Campaigns
+        active: false
+        upgrade_message: Send emails campaigns to your subscribers.
+      Tours:
+        title: Tours
+        description: true
+        upgrade_message: Use interactive tours to help customers learn more about your product.
+      UserAutoMessages:
+        title: UserAutoMessages
+        description: true
+        upgrade_message: Use powerful messaging to boost sales, onboard users, and accelerate growth.
+      OutgoingWebhooks:
+        title: OutgoingWebhooks
+        active: false
+        upgrade_message: Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages.
+      OauthApplications:
+        title: OauthApplications
+        description: true
+        upgrade_message: Use our API and OAuth2 apps to create custom integrations.
+      Articles:
+        title: Articles
+        active: false
+        upgrade_message: Use Articles to quickly create and share information and answers.
+      QuickReplies:
+        title: QuickReplies
+        description: true
+        upgrade_message: Quickly find and use pre-written responses to save time.
+      CustomAttributes:
+        title: CustomAttributes
+        upgrade_message: Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business.
+      Agents:
+        title: Agents
+        upgrade_message: Number of customer service representatives available to handle inquiries.
+      InboundMessages:
+        title: Inbound messages
+        upgrade_message: Forward emails to Chaskiq to manage them in one place.
+    plans:
+      - 
+        name: "free one"
+        description: This is a frebie plan!
+        id: 618560
+      - 
+        name: "rookie"
+        description: This is the simple plan
+        id: 616249
+      - 
+        name: "super"
+        id: 596123
+        description: This is the super plan
+    plan:
+      included: What's included
+      pay_by: Pay by %{billing_type}
+      trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
+      get_access: Get access
+    alerts:
+      subscription_updated:
+        title: Subscription updated
+        desc: The Subscription was updated successfully, You will receive an email notification
+      subscription_created:
+        title: Subscription Created
+        desc: The subscription was created successfully, You will receive a receipt soon
+      subscription_cancelled:
+        title: Subscription Cancelled
+        desc: The subscription was cancelled
+      close: Close this dialog
+    billing_information:
+      title: Billing plan information
+      description: You are currently using "%{plan_name}" plan.
+      next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
+      cancel_plan: cancel plan
+      update_payment_method: Update payment method
+      subscription_state: Estado de subscripción %{state}
+    update_subscription:
+      cta: Update subscription
+      billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
+      next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>

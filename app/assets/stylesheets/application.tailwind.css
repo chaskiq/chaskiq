@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply py-2 px-4 bg-blue-200;
+  }
+
+  .tab-active-right{
+    @apply bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none focus:outline-none focus:shadow-outline-gray outline-none border dark:bg-gray-900 dark:text-gray-100 font-light py-2 px-4 rounded-r-lg;
+  }
+  .tab-default-right{
+    @apply focus:outline-none focus:shadow-outline-gray outline-none border bg-white dark:bg-gray-900 dark:text-gray-100 font-light py-2 px-4 rounded-r-lg;
+  }
+
+  .tab-active-left{
+    @apply bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none focus:outline-none focus:shadow-outline-gray outline-none	border dark:bg-gray-900 dark:text-gray-100 font-light py-2 px-4 rounded-l-lg;
+  }
+  .tab-default-left{
+    @apply focus:outline-none focus:shadow-outline-gray outline-none border bg-white dark:bg-gray-900 dark:text-gray-100 font-light py-2 px-4 rounded-l-lg;
+  }
+}
+
+
+/* sessions notice */
+/*
+.error,
+.alert,
+.notice,
+.success,
+.info {
+  padding: 0.8em;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.success {
+  background: #e6efc2;
+  color: #264409;
+}
+
+.actions {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}*/

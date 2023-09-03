@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Campaigns</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>From name</th>
+      <th>From email</th>
+      <th>Reply email</th>
+      <th>Html content</th>
+      <th>Serialized content</th>
+      <th>Description</th>
+      <th>Name</th>
+      <th>Scheduled at</th>
+      <th>Timezone</th>
+      <th>State</th>
+      <th>App</th>
+      <th>Segments</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @campaigns.each do |campaign| %>
+      <tr>
+        <td><%= campaign.from_name %></td>
+        <td><%= campaign.from_email %></td>
+        <td><%= campaign.reply_email %></td>
+        <td><%= campaign.html_content %></td>
+        <td><%= campaign.serialized_content %></td>
+        <td><%= campaign.description %></td>
+        <td><%= campaign.name %></td>
+        <td><%= campaign.scheduled_at %></td>
+        <td><%= campaign.timezone %></td>
+        <td><%= campaign.state %></td>
+        <td><%= campaign.app %></td>
+        <td><%= campaign.segments %></td>
+        <td><%= link_to 'Show', campaign %></td>
+        <td><%= link_to 'Edit', edit_campaign_path(campaign) %></td>
+        <td><%= link_to 'Destroy', campaign, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Campaign', new_campaign_path %>

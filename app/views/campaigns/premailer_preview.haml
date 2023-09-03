@@ -1,0 +1,352 @@
+!!!
+%html
+  %head
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %title= @campaign.subject
+
+    :scss
+
+      @import url(//fonts.googleapis.com/css?family=Merriweather:400,700,400italic,700italic|Open+Sans:400,300,800);@charset "UTF-8";
+
+      .centered-table {
+        margin-left: auto;
+        margin-right: auto;
+        width:80%;
+      }
+
+      @media screen and (min-width: 768px){
+        .jumbotron {
+            padding-top: 48px;
+            padding-bottom: 48px;
+        }
+      }
+
+      hr {
+          margin-top: 20px;
+          margin-bottom: 20px;
+          border: 0;
+          border-top: 1px solid #eee;
+      }
+
+      .jumbotron {
+          padding-top: 60px;
+          padding-bottom: 60px;
+          padding-right: 60px;
+          padding-left: 60px;
+          margin-bottom: 30px;
+          color: inherit;
+          background-color: #eee;
+      }
+
+      code {
+        background: #ccc;
+        display: block;
+        padding: 1.2em;
+      }
+
+      #editor-container {
+          padding: 0;
+          margin: 0;
+          position: relative;
+          color: rgba(0,0,0,.8);
+          text-rendering: optimizeLegibility;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          -moz-font-feature-settings: liga on;
+          font-size: 8px;
+          line-height: 1.4;
+
+          font-family: freight-text-pro,Merriweather,Georgia,Cambria,Times New Roman,Times,serif;
+          letter-spacing: .01rem;
+          font-weight: 400;
+          font-style: normal;
+          font-size: 18px;
+          line-height: 1.9;
+
+          .graf--h2 {
+              font-family: jaf-bernino-sans,Open Sans,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif;
+              font-size: 60px;
+              font-style: normal;
+              font-weight: 700;
+              letter-spacing: -.04em;
+              line-height: 1;
+              margin-bottom: 8px;
+              margin-left: -3px;
+              margin-top: 40px;
+              padding-top: 0;
+          }
+
+          .graf--h2+.graf--h3, .graf--h2+.graf--h4 {
+              margin-top: -6px;
+          }
+
+          .graf--h3, .graf--h4 {
+              font-family: jaf-bernino-sans,Open Sans,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif;
+              letter-spacing: -.02em;
+              font-style: normal;
+              line-height: 1.2;
+              margin-top: 40px;
+          }
+
+          .graf--h3 {
+              font-weight: 700;
+              font-size: 36px;
+              margin-left: -1.8px;
+              margin-bottom: 4px;
+          }
+
+          .graf--h3+.graf--h4, .graf--h4+.graf--h3 {
+              margin-top: -2px;
+          }
+
+          .graf--h4 {
+              font-weight: 300;
+              font-size: 30px;
+              margin-left: -1.5px;
+              color: rgba(0,0,0,.44);
+              margin-bottom: 2px;
+          }
+
+          .graf--p,
+          .graf--p,
+          .graf--p a,
+          .graf--figure,
+          .graf--figure > div > span,
+          .graf--figure > div > a ,
+          .graf--column,
+          .graf--column,
+          .graf--column {
+              font-size: 18px;
+          }
+
+          .graf--figure {
+              -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+              clear: both;
+              margin-bottom: 30px;
+              outline: medium none;
+              position: relative;
+          }
+
+        .graf--blockquote, blockquote {
+            //font-family: $dante-font-family-serif;
+            border-left: 3px solid rgba(0, 0, 0, .8);
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: 0.16px;
+            letter-spacing: 0.01rem;
+            margin-left: -12px;
+            padding-left: 27px;
+            margin-bottom: 25px;
+            font-size: 1em;
+            line-height: 1.9em;
+            margin-top: 20px;
+        }
+
+          .aspect-ratio-fill{
+            display:none;
+          }
+
+          .graf-image, .graf-imageAnchor, .iframeContainer, .iframeContainer>iframe {
+              -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+              display: block;
+              margin: auto;
+              max-width: 100%;
+          }
+
+          .aspectRatioPlaceholder {
+              margin: 0 auto;
+              position: relative;
+              width: 100%;
+          }
+
+          .imageCaption {
+              top: 0;
+              text-align: center;
+              margin-top: 0;
+              font-family: jaf-bernino-sans,Open Sans,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif;
+              letter-spacing: 0;
+              font-weight: 400;
+              font-size: 13px;
+              line-height: 1.4;
+              color: rgba(0,0,0,.6);
+              outline: 0;
+              z-index: 300;
+              margin-top: 10px;
+              position: relative;
+          }
+
+
+          @media (max-width: 1200px){
+
+            .imageCaption, .postField--outsetCenterImage>.imageCaption {
+                position: relative;
+                width: 100%;
+                text-align: center;
+                left: 0;
+                margin-top: 10px;
+            }
+
+          }
+
+          @media screen and (min-width: 768px){
+              .jumbotron {
+                  padding-top: 48px;
+                  padding-bottom: 48px;
+              }        
+          }
+
+          .jumbotron {
+              padding-top: 30px;
+              padding-bottom: 30px;
+              margin-bottom: 30px;
+              color: inherit;
+              background-color: #eee;
+              padding-right: 60px;
+              padding-left: 60px;
+          }
+
+
+          @media (min-width: 768px){
+              .col-sm-6 {
+                  width: 50%;
+              }
+          }
+
+          @media (min-width: 768px){
+              .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9 {
+                  float: left;
+              }
+          }
+
+          .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, 
+          .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, 
+          .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, 
+          .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, 
+          .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, 
+          .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, 
+          .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, 
+          .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12,
+          .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6,
+          .col-xs-7, .col-xs-8, .col-xs-9 {
+              position: relative;
+              min-height: 1px;
+              padding-right: 15px;
+              padding-left: 15px;
+          }
+
+          .dante-clearfix:before {
+              display: table;
+              content: " ";
+          }
+
+          .signature { 
+
+              position: relative;
+              display: table;
+              float: left;
+              margin-bottom: 20px;
+          
+              img {
+                  float: left;
+                  margin-right: 30px;
+                  margin-bottom: 0 !important;
+                  height: 100px;
+                  width: 100px;
+                  border-radius: 50px;
+                  height: 100px;
+                  width: 100px;
+                  border-radius: 50px;
+              }
+
+              .signature {
+                  display: table;
+                  float: left;
+              }
+
+             .text {
+                width: 100%;
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+          }
+
+          .graf--mixtapeEmbed, .markup--mixtapeEmbed-strong {
+              font-family: jaf-bernino-sans,Open Sans,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif;
+              font-style: normal;
+              font-weight: 300;
+              letter-spacing: -.02em;
+          }
+
+          .graf--mixtapeEmbed {
+              color: rgba(0,0,0,.6);
+              font-size: 12px;
+          }
+
+          .graf--mixtapeEmbed {
+              border: 1px solid rgba(0,0,0,.15);
+              border-radius: 5px;
+              -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+              margin-bottom: 40px;
+              margin-top: 40px;
+              max-height: 310px;
+              max-width: 700px;
+              overflow: hidden;
+              padding: 30px;
+              position: relative;
+          }
+
+
+          .graf--mixtapeEmbed a {
+            text-decoration: none;
+          }
+
+          .mixtapeImage {
+            background-position: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            float: right;
+            height: 310px;
+            margin: -30px -30px 0 25px;
+            width: 310px;
+          }
+
+          .graf--mixtapeEmbed a {
+            text-decoration: none;
+          }
+
+          .markup--mixtapeEmbed-strong {
+              color: #000;
+              display: block;
+              font-size: 30px;
+              line-height: 1.2;
+              margin-bottom: 0;
+          }
+
+          .markup--mixtapeEmbed-em {
+              display: block;
+              font-size: 16px;
+              font-style: normal;
+              margin-bottom: 10px;
+              max-height: 120px;
+              overflow: hidden;
+          }
+
+
+      }
+
+
+  %body
+    %table.centered-table{border: "0", cellspacing: "0", cellpadding: "0"}
+      %tr
+        %td
+          #editor-container
+            = @subscriber.name
+            = h @campaign.html_content.html_safe
+
+    - unless params[:exclude_gif]
+      <img src='{{track_image_url}}' width='1' height='1'/>

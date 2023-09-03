@@ -1,0 +1,49 @@
+<%= turbo_frame_tag "inbound-settings-form" do %>
+
+  pupu
+	<%= form_for @app, url: app_inbound_setting_path(@app.key, :users), 
+		data: {controller: 'segment-manager', turbo: "true"} do |f| %>
+
+		<%= render Hints::Component.new(type: 'inbound_settings') %>
+
+		<div class="inline-flex mt-4">
+			<a 
+				href="<%= edit_app_messenger_path(@app.key, 'apps') %>"
+				data-tab="users"
+				class="tab-default-left"
+				data-action="click->simple-tabs#changeTab" 
+				data-simple-tabs-target="tab"
+				data-selected-class="tab-active-left"
+				data-unselected-class="tab-default-left"
+				>
+				users
+			</a>
+
+			<a 
+				href="<%= edit_app_messenger_path(@app.key, 'apps', kind: :visitors) %>"
+				class="tab-default-right"
+				data-tab="visitors"
+				data-action="click->simple-tabs#changeTab" 
+				data-simple-tabs-target="tab"
+				data-selected-class="tab-active-right"
+				data-unselected-class="tab-default-right"
+				>
+				visitors
+			</a>
+		</div>
+
+		<%= f.fields_for :inbound_settings_objects, @app.inbound_settings_objects do |ff|%>
+      <%= render "apps/inbound_settings/form_fields", 
+        form: ff, 
+        namespace: "users", 
+        segment_manager: segment_manager, 
+        collection: collection %>
+			<% #= render "apps/inbound_settings/form", form: ff, namespace: "visitors" %>
+		<% end %>
+
+		<div class="pb-4">	
+    	<%= f.button I18n.t('common.save'), class: 'btn btn-success'%>
+  	</div>
+	<% end %>
+
+<% end %>

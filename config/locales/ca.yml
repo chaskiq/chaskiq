@@ -1,0 +1,814 @@
+ca:
+  common:
+    edit: Edita
+    new: Nou
+    add: Afegir
+    add_new: Add New
+    update: Actualitza
+    remove: Eliminar
+    delete: Borrar
+    create: Crea
+    save: Desa
+    save_changes: Desa els canvis
+    preview: Vista prèvia
+    cancel: Cancel·lar
+    back: Back
+    back_to_site: Torna al site
+    not_found: No hem trobat la pàgina que cerques.
+    get_snippet: Consegueix el fragment
+    submit: Envia
+    confirm_deletion: Confirm deletion?
+    confirm_deletion_ready: Are you ready to delete?
+    next: Següent
+    prev: Anterior
+    showing: Mostrant
+    to: per
+    of: de
+    results: resultats
+    tz_hint: La zona horària del teu navegador és <b className="text-bold">%{timezone}</b>
+    send: Envia
+    actions: Accions
+    your_apps: Your Apps
+    upload_field: Upload %{field}
+    choose_color: Triar color
+    image: Image
+    langs:
+      en: Anglès
+      es: Espanyol
+      pt: Portuguès
+      de: Alemany
+      ca: Català
+      zh-CN: Xinès
+      fr: "French"
+      it: "Italian"
+    redirecting: Redireccionant
+    choose_language: Choose Language
+    select_language: Selecciona un Idioma
+    send_on_enter: Publicar al entrar
+    away_mode: Away Mode
+    toggle_light_mode: Toggle Light Mode
+    toggle_dark_mode: Toggle Dark Mode
+    leads: Client potencial
+    visitors: Visitants
+    users: Usuaris
+    agents: Agents
+    type_message: Type your message
+    search_conversations: Cerca la conversa
+    days: Dies
+    minutes: Minutes
+    visit: Visit
+    done: Done
+  status_messages:
+    error: 'Error'
+    success: 'Correcte'
+    updated_success: S'ha actualitzat amb èxit
+    updated_error: Error en l'actualització
+    created_success: Creat correctament
+    created_error: S'ha produït un error al crear
+    deleted_success: Eliminat satisfactòriament
+    deleted_error: Error d'eliminació
+    reordered_error: S'ha produït un error al reordenar
+    reordered_success: Reordenat correctament
+  error_view:
+    title: Woops! Something went wrong.
+    subtitle: Unfortunately 🤯
+    exp: Try refreshing the page
+    cta: Try to go home
+  home:
+    welcome: Benvingut a
+    welcome_site: Chaskiq
+    tagline: Troba la teva localització actual
+    create_new: Create New App
+    choose_lang: Choose Language
+    edit_profile: Edit Profile
+    edit_credentials: Edit User Credentials
+    go_to_doc: Go To Documentation
+  dashboard:
+    hey: "👋 Ei, esteu veient el tauler de <strong>%{name} </strong>! <br /> Obteniu el fragment d'instal·lació per a la configuració web <br />"
+    response_avg: Average Response Time
+    new_conversations: New Conversations
+    resolutions: Resolució
+    incoming_messages: Missatges entrants
+    visit_activity: Visit Activity
+    users_browser: Users Browser
+    lead_os: Lead OS
+    user_os: User OS
+    mac_os: Mac OS
+    user_country: User Country
+    snippet: Posa el següent script a la fin de la teva etiqueta html <body>
+    status: Estat del xat en directe
+    status_running: En execució
+    status_paused: Pausat
+    guides: Guies de Chaskiq
+  navigator:
+    dashboard: Tauler de control
+    platform: Plataforma
+    conversations: Converses
+    campaigns: Campanyes
+    routing_bots: Enrutament de bots
+    help_center: Centre d'ajuda
+    settings: Configuració
+    childs:
+      conversations: Converses
+      conversations_new: Compose
+      assignment_rules: Regles d'asignació
+      mailing_campaigns: Campanyes de correo
+      in_app_messages: Missatge d'aplicació
+      banners: Anuncis
+      guided_tours: Visites guiades
+      for_leads: Per a clients potencials
+      for_users: Pels usuaris
+      bot_settings: Tasques del bot
+      outbound: Sortint
+      new_conversations: New Conversations
+      articles: Articles
+      collections: Col·leccions
+      article_settings: Configuració
+      app_settings: Configuració de l'aplicació
+      team: Equip
+      messenger_settings: Configuració de Messenger
+      integrations: Integracions
+      webhooks: Webhook
+      api_access: API Access
+      billing: Facturació
+    user_menu:
+      create_app: Create New App
+      create_app_description: Crea l'aplicació Chaskiq de la teva empresa
+      signout: Sign Out
+      title: User Menu
+  profile:
+    no_name: No name
+    name: Full name
+    area_of_expertise: Area of expertise
+    specialization: Specialization
+    phone_number: Phone number
+    address: Address
+    availability: Disponibilitat
+  login:
+    title: Connect to your account
+    email: Your Email
+    password: Your password
+    remember_me: Remember me
+    forgot_password: Forgot your password?
+    sign_in: Connect
+    continue_with: Continue with
+  invitation:
+    title: Create your account
+    password: Type your password
+    password_confirmation: Confirm your password
+    button: Desa
+    built_with_love: Built with love by the team
+  conversations:
+    start_conversation: Start a conversation
+    title: Converses
+    menu:
+      conversations: Converses
+      all: Totes les converses
+      assignment_rules: Regles d'enrutament d'agents
+      tags: Etiquetes
+      unassigned: Sense assignar
+      assigned_to_me: Assigned to me
+    states:
+      opened: Obert
+      closed: Tancat
+    sorts:
+      newest: Més recent
+      oldest: Més antic
+      waiting: Esperant
+      updated: Recently Updated
+      priority_first: Prioritzat
+      all: Tots
+      unfiltered: Tots
+    empty:
+      title: No hi ha converses
+      text: Trieu converses al costat
+    app_package_panel:
+      title: Send App Package
+      send_app: Send App
+      preview: Vista prèvia
+    assignment_rules:
+      title: Títol
+      hint: This is the rule name
+      select_agent: Select Agent
+  conversation:
+    with: Conversa amb
+    tag_modal_title: Manage conversation tags
+    actions:
+      priorize: Priorize Conversation
+      remove_priority: Remove Priority
+      close: Tanca
+      reopen: Reobrir
+      start_call: Start Videocall
+      end_call: Finalitza trucada
+      assign_agent: Asignar agent
+      tag_conversation: Tag Conversation
+    messages:
+      seen: Vist
+      not_seen: No vist
+      note: Nota privada
+      reply: Respondre
+    sidebar:
+      customize: Customize
+      show_profile: Mostra el perfil
+      location: Ubicación
+      browser: Navegador del usuari
+      latest_user_visible_comment_at: Darrers comentaris
+      created_at: Creada el
+      assignee: Assignat a
+      first_agent_reply: Primera resposta del agent
+      app_inserter:
+        title: Add apps to inbox sidebar
+        add_app: Afegir Aplicació
+    editor:
+      panels:
+        bot:
+          title: Inicia una tasca del bot
+          confirm: Confirma %{title} activació
+          confirm_msg: Aquesta tasca de bot es lliurarà en la conversa actual de l'usuari o en una nova si l'usuari ha abandonat el xat.
+          empty: no hi ha bots disponibles
+          choose_another: Selecciona un altre
+        quick_reply:
+          title: Envia una resposta ràpida
+          confirm: Confirm send %{title}?
+          confirm_msg: Aquesta resposta ràpida s'entregara en la conversa actual del usuari.
+          empty: no hi ha resposta ràpida disponible
+          choose_another: Selecciona un altre
+  assignment_rules:
+    title: Regles d'asignació
+    create_button: Crea regla
+    success_message: Assignació creada correctament
+  campaigns:
+    title: Campanya
+    home:
+      title: Campanyes
+      text: Aquesta és la secció de campanyes, pots crear butlletins informatius, missatges emergents i visites guiades
+    remove_success: Campanya eliminada
+    remove_hint: Destruirem qualsevol contingut i dades relacionades
+    delete_campaign: Suprimir campanya %{name}
+    create_new: Create New Campaign
+    empty:
+      title: No hi ha campanyes
+    mailing: Campanyes de correo
+    in_app: Missatge d'aplicació
+    cloned_success: clonat amb èxit
+    cloned_error: error en clonar el registre
+    campaign_updated: Campanya actualitzada
+    updated_error: Error al actualitzar la campanya
+    error_purge: S'ha produït un error en esporgar les mètriques
+    purge_description: Purgar les mètriques de les campanyes
+    purge_title: Purgar les mètriques
+    deliver_title: Entregar
+    deliver_description: Eliminar la campanya
+    pause_title: Pausa
+    pause_description: posa en pausa la campanya
+    clone_title: Duplicar
+    clone_description: clona la campanya
+    activate: Activar campanyes
+    enables: Activa la campanya
+    disables: Campanya desactivada
+    state:
+      enabled: activat
+      disabled: inhabilitat
+      send: sent
+      delivering: delivering
+      sent: sent
+    tabs:
+      stats: Estadístiques
+      settings: Configuració
+      audience: Audiència
+      editor: Editor
+    banners:
+      settings: Configuració
+      action: Acció
+      style: Estil
+      top: top
+      bottom: a sota
+      inline: en línia
+      floating: flotant
+  campaign:
+    edit: Edita la configuració de la campanya
+    create: Crea una nova campanya
+    preview: Això és una visita prèvia
+    preview_hint: Així és com s'hauria de visualitzar el teu correo. Si estàs utilitzant variables com el {{name}} s'hauria de veure aquí.
+    stats:
+      title: Estadístiques de campanya
+      refresh_data: Actualitza les dades
+    unsubscribe:
+      status: Has sigut %{state}
+      success: Amb èxit, %{ email } ja no rebrà correus electrònics d’aquest remitent. Va ser un error?
+      resubscribe: Elimina la subscripció de la llista
+      cancel: Cancel·la la teva subscripció
+  task_bots:
+    type_filters:
+      title_visitors: Visitants
+      description_visitors: visitors on the platform
+      title_leads: Client potencial
+      description_leads: Visitors who make an actions
+      title_users: Usuaris
+      description_users: "your platform's registered users"
+    state_filters:
+      enabled_title: Activat
+      enabled_description: Enabled bot tasks
+      disabled_title: Inhabilitat
+      disabled_description: Disabled bot tasks
+    title: Tasques del bot
+    reply_soon: Hola, %{name} contestarà el més aviat possible.
+    reply_agent: rebràs una resposta d'un dels nostres agents
+    email_support: per obtenir assistència, podeu enviar un correu electrònic a %{email}
+    outbound: '🏓 Sortint'
+    new_conversations: '👋 New Conversations'
+    new_conversations_notice: This is what people will see when they start a new conversation
+    options:
+      add_message: Add Message Bubble
+      wait_user_input: Wait for user input
+      add_app_package: Afegir Aplicació
+    path_title_hint: path title
+    delete_path: delete path
+    add_path: Add new conversation part
+    continue_bot_with: Continue bot with
+    continue_with_reply_button: Continue bot with reply button
+    end_bot_with: End bot with
+    end_with_follow: End bot with follow actions
+    reply_button: reply button
+    follow_actions: follow actions
+    add_data_option: + add data option
+    save_data: Save data
+    close_conversation: close conversation
+    assign_agent: assign_agent
+    add_follow_action: Add Follow Action
+    assignee_agent: Assignee Agent
+    email_requirement:
+      message: Doneu a l’equip una manera de contactar-te
+      input_label: Rebre notificacions per mail
+      placeholder: Introduïu el vostre correu
+      ack: Gràcies
+    support:
+      ask: Are you an existing %{name} customer?
+      options:
+        op1: Si, sóc un client
+        op2: No, encara no sóc un client
+      reply:
+        op1: Benvingut de nou!
+        op2: d'acord, feu-nos saber si necessiteu alguna cosa i un agent us respondrà el més aviat possible
+    settings:
+      leads:
+        tab: Per a clients potencials
+        start_conversation: When leads start a conversation
+        delay: Deixeu un retard de 2 minuts abans d’activar Task Bots durant les hores d’oficina
+        share_time: Comparteix el teu temps de resposta típic
+        route: Dirigeixi els clients existents a l'assistència
+        route_desc: La ruta porta a les persones adequades preguntant si són clients existents quan inicien una nova conversa.
+        route_costumer: Què voleu fer quan trien "Sí, sóc client"?
+        assign: Uneix-te a la conversa
+        close: Tanca la conversa
+        ask: Demaneu dades de contacte
+        ask_hint: Si encara no tenim les seves dades de contacte, Bot suggerirà que els clients deixin la seva adreça electrònica o el seu número de telèfon per rebre notificacions sempre que respongueu.
+        dont_ask_email: No demanar el correu
+        ask_email_phone: Demaneu un correu electrònic o número mòbil
+        email_only: Només preguntar pel mail
+        override:
+          label: Substitueix el comportament predeterminat amb el teu propi bot de tasques
+          hint: Quan feu això, el comportament predeterminat següent, no tindrà lloc i la tasca s'activarà en cada nova conversa
+      users:
+        tab: Pels usuaris
+        start_conversation: Quan els usuaris inicien una conversa
+        delay: Deixeu un retard de 2 minuts abans d’activar Task Bots durant les hores d’oficina
+        override:
+          label: Substitueix el comportament predeterminat amb el teu propi bot de tasques
+          hint: suggeriment!
+      settings_title: Configuració de la tasca de bot
+      specific_times_title: Definiu hores específiques per mostrar aquest bot al vostre públic.
+      tz_hint: La zona horària de la vostra aplicació és %{timezone} Consulteu l'horari d'oficina.
+      office_hours: Durant l'horari laboral
+      outside_office: Fora d'horari laboral
+      custom_time: Temps personalitzat
+      enable_title: Activa tasca del bot
+      enable_hint: quan estigui activat, la tasca de bot començarà a funcionar
+    new: Create New Task
+    remove_success: bot eliminat
+    empty:
+      title: No s'han trobat tasques del bot
+      create_new: Crear-ne un nou
+    delete:
+      title: Suprimir el bot "%{name}"
+      hint: destruirem qualsevol contingut i dades relacionades
+    create:
+      title: Crea una tasca nova del bot
+  email_forwarding:
+    title: Reenviament de mail
+    subtitle: Adreça d'entrada predeterminada
+    ex: Reenvieu el correu electrònic de la vostra adreça de correu electrònic d'assistència normal (com ara ajuda@elteudomini.com) a Chaskiq perquè pugueu respondre als correus electrònics del vostre tauler d'agents
+  identified_users:
+    title: Configuració d'usuaris verificats
+    hint1: Per configurar la verificació d’identitat, haureu de generar un HMAC al servidor per a cada usuari que hàgiu iniciat la sessió i enviar-lo a Chaskiq.
+    lang: El vostre codi per generar un HMAC per a la vostra aplicació és
+    hint2: 'Sempre que pengeu dades d’usuari i tingueu un fragment de codi Chaskiq, afegiu un atribut nou anomenat <span className="font-bold"> identifier_key </span> i passeu el <span className="font-bold"> correu electrònic </span> i doneu-li l''etiqueta HMAC per a l''usuari connectat:'
+    encryption_key_label: Identity verification secret
+    dont_share_code: "Don't share this code"
+    hmac_hint1: Per configurar la verificació d’identitat, haureu de generar un HMAC al servidor per a cada usuari que hàgiu iniciat la sessió i enviar-lo a Chaskiq.
+  quick_replies:
+    title: Respostes ràpides
+    search: Cerca de respostes ràpides
+    will_send: La versió "%{lang}" s'enviarà a la conversa.
+    empty:
+      title: No hi ha respostes ràpides
+      create_new: Crea nova
+    delete:
+      title: Suprimeix la resposta ràpida %{name}
+      hint: destruirem qualsevol contingut i dades relacionades, però les converses mantindran el contingut
+    create:
+      success: La seva resposta ràpida s'ha creat amb èxit
+      error: Error al crear la resposta ràpida
+    update:
+      success: La seva resposta ràpida s'ha actualitzat amb èxit
+      error: Error al actualizar la resposta ràpida
+    add_as_dialog:
+      title: Afegiu aquest missatge com a resposta ràpida
+  new_app:
+    title: Crea l'aplicació Chaskiq de la teva empresa
+    text: Proporcioneu informació bàsica per configurar Chaskiq per al vostre equip i clients.
+    hint: Crea l'aplicació Chaskiq de la teva empresa
+  settings:
+    api:
+      title: Aplicacions Oauth
+      tabs:
+        apps: Aplicacions Oauth
+        authorized: Aplicacions autoritzades OAUTH
+      oauth_information: Informació de l'aplicació Oauth
+      details: Detalls i credencials Oauth.
+      delete_app: Elimina Oauth app?
+      create_app: Crea nova app Oauth
+      hint: Destruirem qualsevol contingut i dades relacionades
+      invite:
+        title: Afegir un nou agent
+        text: envia una invitació per correu
+    app:
+      app_settings: Configuració de l'aplicació
+      security: Seguretat
+      messenger_settings: Configuració de Messenger
+      appearance: Aparença
+      contact_avatars: Contact Avatars
+      appearance_title: Appearance Settings
+      privacy: Privacitat
+      privacy_title: Privacy Settings
+      translations: Traduccions
+      availability: Disponibilitat
+      email_requirement: El correu electrònic fa falta
+      inbound_settings: Inbound Settings
+      messenger_style: Estil de Messenger
+      user_data: User Data
+      tags: Etiquetes
+      quick_replies: Respostes ràpides
+      email_forwarding: Reenviament de mail
+    app_packages:
+      create_success: Paquet creat
+      create_error: Error al crear el paquet
+      update_success: Paquet actualitzat
+      update_error: Error al actualitzar el paquet
+      remove_success: Paquet eliminat correctament
+      remove_error: Error al eliminar el paquet
+      create_integration: Crea un nou paquet
+    app_inserter:
+      title: Add apps to your Messenger
+      subtitle: Help your customers before they start a conversation
+      action: Afegir Aplicació
+    integrations:
+      title: Integracions de tercers
+      create_success: Integració creada
+      create_error: Error al vincular la integració
+      update_success: Integració actualitzada
+      update_error: Error al actualizar la integració
+      remove_success: Integració eliminada correctament
+      remove_error: Error al borrar la integració
+      create_integration: Crea una nova integració
+      active:
+        title: Integracions actives
+        text: Integracions API
+      available:
+        title: APIs disponibles
+        text: Serveis API disponibles
+      yours:
+        title: Les vostres aplicacions d’integració
+        text: Aplicacions d'integració creades
+      hints:
+        hook_url: Aquesta integració rebrà un webhook a
+      delete_dialog:
+        title: Delete "%{name}" integration?
+        text: La integració amb el servei %{name} es desactivarà immediatament
+      empty:
+        title: Encara no teniu cap integració Api
+        text: Cerqueu els serveis Api disponibles a
+    availability:
+      title: Establiu la vostra disponibilitat
+      hint: Estableix l’horari d’oficina de l’equip i els horaris de resposta
+      title2: Defineix horari laboral
+      hint2: Fora d’aquest horari, els clients veuen quan tornareu, en relació amb la seva zona horària.
+      timezone: LA ZONA HORÀRIA DE LA TEVA APLICACIÓ ES %{tz}
+      reply_time:
+        title: Estableix el temps de resposta
+        hint: Durant l’horari d’oficina, feu saber als vostres clients quan poden esperar una resposta.
+        options:
+          - 
+            value: 'automàtic'
+            label: 'Temps de resposta automàtica. Actualment l''equip respondrà el més aviat possible'
+          - 
+            value: 'minuts'
+            label: 'L’equip sol respondre en qüestió de minuts.'
+          - 
+            value: 'hores'
+            label: 'L’equip sol respondre en qüestió d''hores.'
+          - 
+            value: '1 dia'
+            label: 'L’equip sol respondre en un dia.'
+        hint2: 'Nota: el visitant rebrà una resposta automàtica amb la disponibilitat del vostre equip durant els horaris fora de l’oficina o els temps de resposta llargs.'
+    email_requirement:
+      title: Sol·liciteu un correu electrònic per a converses noves
+      hint: Així sempre pots tornar als visitants del teu lloc web
+      ask: 'Demaneu als visitants del lloc web que deixin el seu mail abans d’iniciar un xat en directe:'
+      options:
+        - 
+          label: Només fora d'horari laboral
+          hint: REDUEIX EL VOLUM DE CONVERSA AL VOLTANT UN 5% DE MITJANA
+          value: oficina
+        - 
+          label: Sempre
+          hint: REDUEIX EL VOLUM DE CONVERSA AL VOLTANT UN 30% DE MITJANA
+          value: Sempre
+        - 
+          label: Mai
+          value: Mai
+          hint: PERMETRÀ ALS VISITANTS DEL LLOC WEB INICIAR UNA CONVERSA EN QUALSEVOL MOMENT
+    languages:
+      add: Afegeix un idioma
+      title: Idiomes
+    inbound:
+      title: Noves converses
+      checkbox: Deixeu que la gent iniciï noves converses entrants amb vosaltres
+      hint: Quan aquesta opció està desactivada, la gent només pot respondre als missatges de sortida que envieu.
+      title2: visibilitat
+      hint2: Controleu qui veu el llançador estàndard de Messenger al vostre lloc web.
+      note2: TOTS ELS MISSATGES QUE ENVIïS SERAN ENTREGATS.
+      note3: 'Al web, mostreu el llançador estàndard de Messenger a:'
+      closed_replies_title: Prevent replies to closed conversations for %{name}
+      closed_replies_enabled: Letting users reply to closed messages at any time.
+      closed_replies_disabled: Preventing users from responding to closed conversations after.
+      idle_sessions_title: Reset sessions on idle sessions for %{name}
+      idle_sessions_enabled: Allow idle sessions on messenger.
+      idle_sessions_disabled: Resets sessions on idle time after.
+      filters:
+        users:
+          label: Usuaris
+          all: Tots els usuaris
+          some: Usuaris que coincideixen amb certes dades
+        leads:
+          label: Client potencial
+          all: Totes les visites
+          some: Visitants que coincideixen amb certes dades
+        hint: Això no afecta els missatges de sortida que envieu.
+    team:
+      title: Equip
+      invitations: Invitations
+      agents: Agents
+      invitation_success: Invitation sent!
+      invitatin_error: Invitation not sent!
+      action_button: afegeix usuari/a
+      title_content: Afegeix un nou agent
+      content_text: envia una invitació per correu
+      hint: The new team member will be notified by it's email
+      send_invitation: Enviar invitació
+      resend_invitation: Reenviar la invitació
+      add_new: Afegeix membre a l'equip
+      update_agent_title: Actualitza la Informació
+      updated_agent: La informació s'ha actualitzat correctament
+      destroyed_agent: L'agent s'ha eliminat correctament
+      destroy_agent_title: Suprimeix agent
+      destroy_agent: Suprimir
+      destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
+      update_agent: Actualitza
+      participants: Manage participants
+      updated_team: Team updated
+      created_team: Team created
+      deleted_team: Team deleted
+      confirm_team_delete: Are you sure you want to delete this team?
+      new:
+        action_button: Add Team
+        title_content: Add a new Team
+        content_text: Create a new Team
+      edit:
+        action_button: Edit Team
+        title_content: Edit Team
+        content_text: Edit Team
+      delete:
+        action_button: Delete Team
+        title_content: Delete Team
+        content_text: Delete Team
+    agent_teams:
+      action_button: Add Team member
+      title_content: Afegeix un nou agent
+      content_text: envia una invitació per correu
+      search_placeholder: "Search for an agent"
+      delete_success: Agent deleted from team
+      added_success: Agent added to team
+      add_team: Add Team
+      updated_team: Team updated successfully
+      created_team: Team created successfully
+    webhooks:
+      title: Webhook
+      create_success: Webhook creat
+      create_error: Error al afegir el webhook
+      update_success: Webhook actualitzat
+      update_error: Error al actualitzar el webhook
+      delete_success: El webhook s'ha eliminat correctament
+      delete_error: Error al eliminar el webhook
+      outgoing_webhooks: Webhook de sortida
+      new_webhook: New Webhook
+      active_webhooks: Webhooks actius
+      disabled_webhooks: Webhooks desactivats
+      empty:
+        title: Encara no teniu cap webhook actiu
+        desc: Cerca els teus webhooks
+        disabled_webhooks: Webhooks desactivats
+      delete:
+        title: Delete webhook?
+        text: El webhook amb el servei %{name} es desactivarà immediatament
+    tags:
+      title: Etiquetes
+      modal:
+        title: Crea l'etiqueta de l'aplicació
+        hint: Looking for more tags? Look at
+        link: configuració del compte
+      inputs:
+        name: Nom del camp
+        color: Color del camp
+    contact_avatars:
+      title: Contact avatars style
+      hint: Choose one of the 6 avatar styles provided by https://boringavatars.com/
+      choose_color: Triar color
+    user_data:
+      title: Camps personalitzats
+      default_fields: Atributs predeterminats
+      non_editable: Aquests camps no són editables
+      modal:
+        title: Crea un camp de dades d'usuari
+      inputs:
+        name: Nom del camp
+        type: Tipus de camp
+        validation: Validació
+        validation_hint: La validació es opcional
+      attr_types:
+        date: Data
+        integer: Nombre enter
+        string: Cadena
+  articles:
+    title: Articles
+    all: Tots
+    published: Publicat
+    draft: Esborranys
+    visit: visita el centre d'ajuda
+    new: New Article
+    add: Add Item
+    collections: Col·leccions
+    help_center: Centre d'ajuda
+    description_placeholder: Descriu la teva col·lecció per ajudar-vos a trobar-la.
+    title_placeholder: Escriu el títol de les seccions
+    new_section: New Section
+    new_collection: New Collection
+    edit_collection: Edita col·lecció
+    create_article:
+      placeholder: Escriu el títol de l'article
+      description_placeholder: Afegiu un resum per trobar l'article més endavant
+    create:
+      title: Nova col·lecció d'articles
+      placeholder: Introdueix el títol de la col·lecció
+      description: Descriviu la vostra col·lecció per ajudar-vos a trobar-la.
+    deleted_success: Article deleted
+    new_article: Article nou
+    settings_updated_success: Article settings updated
+    settings_updated_error: Article settings failed
+    activate_help_center: Activate Help Center
+    delete_article: Delete article "%{title}?
+    delete_article_exp: destruirem qualsevol contingut i dades relacionades
+    square_preferred: square images preferred (min size 200x200px)
+    square_preferred_hint: squared images will be optimal resized
+    reordered_success: Reordered correctly
+    reordered_error: Reordered error
+    add_articles: Add Articles
+    updated_success: Article updated
+    updated_error: Article error on save
+    delete_section: Suprimeix una secció
+    author: Autor/a
+    written_by: written by
+    created_on: Creat el
+    base_section: Base Section
+    state:
+      published: publicat
+      published_desc: 'shows article on the help center'
+      draft: esborrany
+      draft_desc: 'hides the article on the help center'
+    settings:
+      title: Configuració del centre d'ajuda
+      add_language: Afegeix un idioma
+      select_lang: Selecciona l'idioma
+      add_language_to_help: Afegeix un nou idioma al centre d'ajuda
+      delete:
+        title: Suprimeix traducció "%{name}"
+        text: Destruirem la traducció i amagarem qualsevol article amb l'idioma "%{name}"
+      appearance: Aparença
+      appearance_settings: Configuració de l'aspecte
+      lang: Idioma
+      lang_title: Cerca el teu Centre d’ajuda
+      lang_desc: Gestioneu els idiomes admesos i personalitzeu la capçalera del Centre d'ajuda
+      basic: Configuració bàsica
+      general_app: Descripció general de l'aplicació
+  contact_manager:
+    create: Create Users & Leads
+    import_csv: Importar csv
+    success_message: Processing file import, you will be notified the status soon
+    import_contacts: import_contacts
+    import_exp: You can upload a csv or excel file in order to import contacts
+    import_type: Tipus d'importació
+    import_choose: Choose what kind of contacts you will import
+    select_file: Seleccioneu un fitxer
+    definitions:
+      app_user: Usuari Verificat
+      lead: Lead
+      phone: Telèfon
+      company_name: Nom de l'empresa
+  segment_manager:
+    add_filters: Afegir filtres
+    select_fields: 'Seleccioneu camps:'
+    create_segment: Create new segment
+    save_changes_to: Save changes to the <b>%{name}</b>{' '} segment.
+    changes_notice: The changes will be saved to the app segments.
+    delete_segment: 'Esborrar segment'
+    save_segment: Guardar segment
+    match: coincideix
+    all: tots
+    any: qualsevol
+    criteria: criteri
+    days_ago: dies abans
+    filter_for: Select filter for %{name}
+    date_filter_for: Select the date filter for %{name}
+    integer_filter_for: Select the integer filter for %{name}
+    match_criteria_for: Match criteria options for %{name}
+    apply: aplicar
+    is: és
+    is_not: no és
+    starts_with: comença amb
+    ends_with: acaba amb
+    contains: conté
+    does_not_contain: no conté
+    is_unknown: és desconegut
+    has_any_value: has any value
+    exactly: exactament
+    less_than: més petit que
+    less_than_eq: less than eq
+    more_than: més que
+    more_than_eq: more than eq
+    match_any: match any
+    match_all: match all
+    missing_value: Falta el valor!
+  full_contact:
+    inbox:
+      name: Nom
+      first_name: First name
+      last_name: Last name
+      twitter: Twitter
+      facebook: Facebook
+      linkedin: Linkedin
+      organization: Organization
+      job_title: Job title
+  contact_fields:
+    inbox:
+      first_name: First name
+      last_name: Last name
+      email: Email
+      company: Company
+      phone: Telèfon
+  twilio_phone:
+    buttons:
+      holdOn: Put on hold
+      holdOff: Remove hold
+      pickUp: Pick up
+      hangUp: Hang up
+      join: Join
+      leave: Leave
+      goToConversation: Go to conversation
+      open_call_window: Open Call Window
+    messages:
+      inProgress: In-progress
+      incoming: Incoming call...
+      error: "ERROR: %{message}"
+      noConversations: No active conversations
+      noAgentsInCall: NO AGENTS IN THE CALL
+      agentsInCall: "AGENTS IN THE CALL:"
+    conversations:
+      message_header: New Phone Call
+    status:
+      onHold: ON HOLD
+    labels:
+      title: "Call with %{subject}"
+      status: Status
+      'client:Anonymous': Anonymous client
+      'client:agent': Agent
+      'client:support_agent': Agent

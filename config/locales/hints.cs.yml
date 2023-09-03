@@ -1,0 +1,54 @@
+cs:
+  hints:
+    platform:
+      title: Here you can manage your contact list via segments
+      description: Segments allows to filter specific contacts through multiple filter
+    #link: {  href: '/', title: 'Learn how filters works on our knowledge base
+    webhooks:
+      title: Active Webhooks
+      description: "Webhooks feature it's all about delivering notifications of chaskiq events"
+    #link: { href: '/', text: 'Learn how webhooks works on our knowledge base'}
+    integrations:
+      title:
+      description: This is the third party API integrations section.
+    #link: { href: '/',text: 'Learn how API integrations works on Chaskiq from the inside out'}
+    team:
+    app_config:
+    security:
+      title: Security
+      description: This is the encryption key to identify registered users on your service
+    #link: { href: '/', text: 'Learn how Encryption & security settings works on Chaskiq'
+    appearance:
+    languages:
+    availability:
+      title: Team Availability Settings
+      description: Availability settings let your team set office hours & reply times.
+    #link: {href: '/', text: 'Learn how Availability settings works on Chaskiq'}
+    email_requirement:
+      title: Require an email for new conversations
+      description: So you can always get back to your website visitors
+    #link: {href: '/',text: 'Learn how Email requirement works on Chaskiq'}
+    inbound_settings:
+      title: Control inbound conversations and the launcher
+      description: Control who can send you messages and where they see the launcher
+    #link: { href: '/',text: 'Learn how Inbound settings works on Chaskiq'}
+    user_data:
+      title: Manage user attributes
+      description: User attributes provides a way to customize data for segment filtering
+    #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+    tags:
+      title: Manage app tags
+      description: Tags attributes provides a way to customize data for segment filtering and organize conversations
+    #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+    quick_replies:
+      title: Manage quick replies
+      description: Quick replies provides a way to organize common anwsers for your bussiness
+    #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+    articles:
+      title: Chaskiq HelpCenter platform
+      description: Here you can manage the articles of Chaskiq
+    #link: { href: '/', text: 'Learn how to configure & manage the helpcenter system on Chaskiq'}
+    bots:
+    mailing_campaigns:
+    in_app:
+    guided_tours:

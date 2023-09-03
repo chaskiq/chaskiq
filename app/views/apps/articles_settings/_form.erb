@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "article-setting-form" do %>
+
+  <%= render Tabs::Component.new(	items: articles_settings_menu_data(app: @app) ) do %>
+    <%= case params[:id]  
+        when nil then render 'basic'
+        when "basic", "appearance", "translations"
+          render params[:id]  
+        end
+    %>			
+  <% end %>
+
+<% end %>

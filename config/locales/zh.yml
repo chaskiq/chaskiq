@@ -1,0 +1,814 @@
+zh-CN:
+  common:
+    edit: 编辑
+    new: 新增
+    add: 添加
+    add_new: Add New
+    update: 更新
+    remove: 移除
+    delete: 删除
+    create: 新建
+    save: 保存
+    save_changes: 保存更改
+    preview: 预览
+    cancel: 取消
+    back: Back
+    back_to_site: 返回站点
+    not_found: 您要查找的页面不存在。
+    get_snippet: 获取代码片段
+    submit: 提交
+    confirm_deletion: Confirm deletion?
+    confirm_deletion_ready: Are you ready to delete?
+    next: 下一个
+    prev: 上一个
+    showing: 显示中
+    to: 至
+    of: 共
+    results: 搜索结果
+    tz_hint: 您的浏览器时区是 <b className="text-bold">%{timezone}</b>
+    send: 发送
+    actions: 操作
+    your_apps: Your Apps
+    upload_field: Upload %{field}
+    choose_color: 选择颜色
+    image: Image
+    langs:
+      en: 英文
+      es: 西班牙语
+      pt: 葡萄牙语
+      de: 德语
+      ca: 加泰罗尼亚语
+      zh-CN: 中文
+      fr: "French"
+      it: "Italian"
+    redirecting: 重定向中
+    choose_language: Choose Language
+    select_language: 选择语言
+    send_on_enter: 回车发布
+    away_mode: Away Mode
+    toggle_light_mode: Toggle Light Mode
+    toggle_dark_mode: Toggle Dark Mode
+    leads: 线索
+    visitors: 访客
+    users: 用户
+    agents: Agents 代理人
+    type_message: Type your message
+    search_conversations: 在对话中搜索
+    days: 天后
+    minutes: Minutes
+    visit: Visit
+    done: Done
+  status_messages:
+    error: '错误'
+    success: '成功'
+    updated_success: 更新成功。
+    updated_error: 更新时出错
+    created_success: 创建成功
+    created_error: 创建时出错 ！
+    deleted_success: 成功删除
+    deleted_error: 删除时出错
+    reordered_error: 重新排序时出错
+    reordered_success: 成功重排顺序
+  error_view:
+    title: Woops! Something went wrong.
+    subtitle: 很不幸
+    exp: Try refreshing the page
+    cta: Try to go home
+  home:
+    welcome: 欢迎来到
+    welcome_site: Chaskiq
+    tagline: 找到您当前的应用程序
+    create_new: Create New App
+    choose_lang: Choose Language
+    edit_profile: Edit Profile
+    edit_credentials: Edit User Credentials
+    go_to_doc: Go To Documentation
+  dashboard:
+    hey: "👋 Hey!, 你正在查看 <strong>%{name} 的</strong> 仪表板！ <br /> 为网页设置获取安装代码 <br />"
+    response_avg: Average Response Time
+    new_conversations: New Conversations
+    resolutions: 解决方案
+    incoming_messages: 收到的消息
+    visit_activity: Visit Activity
+    users_browser: Users Browser
+    lead_os: Lead OS
+    user_os: User OS
+    mac_os: Mac OS
+    user_country: User Country
+    snippet: 放置以下脚本到您的 html <body> 标签的末端
+    status: 在线聊天状态
+    status_running: 运行中
+    status_paused: 已暂停
+    guides: Chaskiq 指南
+  navigator:
+    dashboard: 仪表板
+    platform: 工作台
+    conversations: 会话
+    campaigns: 营销活动 Campaigns
+    routing_bots: Routing Bots
+    help_center: Help Center
+    settings: 设置
+    childs:
+      conversations: 会话
+      conversations_new: Compose
+      assignment_rules: 作业规则
+      mailing_campaigns: 邮件营销活动
+      in_app_messages: 应用内消息
+      banners: 横幅
+      guided_tours: Guided Tours
+      for_leads: 为线索客户
+      for_users: 为用户
+      bot_settings: Bot任务
+      outbound: Outbound
+      new_conversations: New Conversations
+      articles: 文章
+      collections: 文档集
+      article_settings: 设置
+      app_settings: App 设置
+      team: 团队
+      messenger_settings: Messenger 设置
+      integrations: 集成 Integrations
+      webhooks: Webhooks
+      api_access: API Access
+      billing: 账单
+    user_menu:
+      create_app: Create New App
+      create_app_description: 创建您公司的 Chaskiq 应用
+      signout: Sign Out
+      title: User Menu
+  profile:
+    no_name: No name
+    name: Full name
+    area_of_expertise: Area of expertise
+    specialization: Specialization
+    phone_number: Phone number
+    address: Address
+    availability: 可用性
+  login:
+    title: 连接到您的账户
+    email: 您的电子邮箱
+    password: 您的密码
+    remember_me: 记住我
+    forgot_password: Forgot your password?
+    sign_in: 连接
+    continue_with: 继续用
+  invitation:
+    title: 创建您的账户
+    password: 请输入密码
+    password_confirmation: 请确认密码
+    button: 保存
+    built_with_love: 由团队爱心建设
+  conversations:
+    start_conversation: 开始会话
+    title: 会话
+    menu:
+      conversations: 会话
+      all: 全部对话
+      assignment_rules: 代理路由规则
+      tags: 标签
+      unassigned: 未分配
+      assigned_to_me: Assigned to me
+    states:
+      opened: 已打开
+      closed: 已关闭
+    sorts:
+      newest: 最新的
+      oldest: 最早的
+      waiting: 等待
+      updated: Recently Updated
+      priority_first: 已优先处理
+      all: 全部
+      unfiltered: 全部
+    empty:
+      title: 没有对话
+      text: 选择侧边的对话
+    app_package_panel:
+      title: Send App Package
+      send_app: Send App
+      preview: 预览
+    assignment_rules:
+      title: 标题
+      hint: This is the rule name
+      select_agent: Select Agent
+  conversation:
+    with: 与“%”对话。
+    tag_modal_title: Manage conversation tags
+    actions:
+      priorize: Priorize Conversation
+      remove_priority: Remove Priority
+      close: 关闭
+      reopen: 重新打开
+      start_call: Start Videocall
+      end_call: 结束通话
+      assign_agent: 分配代理
+      tag_conversation: Tag Conversation
+    messages:
+      seen: 已查看
+      not_seen: 未查看
+      note: 私有备注
+      reply: 回复
+    sidebar:
+      customize: Customize
+      show_profile: 显示个人资料
+      location: 定位
+      browser: 用户浏览器
+      latest_user_visible_comment_at: 最新评论
+      created_at: 创建于：
+      assignee: 指定人
+      first_agent_reply: 第一个代理回复
+      app_inserter:
+        title: Add apps to inbox sidebar
+        add_app: 添加应用
+    editor:
+      panels:
+        bot:
+          title: 启动Bot任务
+          confirm: 确认 %{title} 触发器
+          confirm_msg: 此Bot任务将会在用户当前对话中传递，如果用户离开聊天室，则会在新对话中传递。
+          empty: 没有Bot可用
+          choose_another: 选择另一个
+        quick_reply:
+          title: 快速回复
+          confirm: Confirm send %{title}?
+          confirm_msg: 此回复将在用户当前对话中发送。
+          empty: 没有可用的快速回复
+          choose_another: 选择另一个
+  assignment_rules:
+    title: 分配规则
+    create_button: 创建规则
+    success_message: 已成功创建作业规则
+  campaigns:
+    title: 营销活动
+    home:
+      title: 营销活动
+      text: 这是营销活动项，您可以创建Newsletters、popup messages 和 guided tours。
+    remove_success: 已移除活动
+    remove_hint: 我们将销毁任何内容和相关数据
+    delete_campaign: 删除营销活动 %{name}
+    create_new: Create New Campaign
+    empty:
+      title: 未找到任何活动
+    mailing: 邮件营销活动
+    in_app: 应用内消息
+    cloned_success: 复制成功
+    cloned_error: 复制记录时出错
+    campaign_updated: 活动已更新
+    updated_error: 更新出错
+    error_purge: 清除计量指标时出错
+    purge_description: 促销活动指标
+    purge_title: 清除指标
+    deliver_title: 送达
+    deliver_description: 发送该营销活动
+    pause_title: 暂停
+    pause_description: 暂停此活动
+    clone_title: 复制
+    clone_description: 克隆此活动
+    activate: 激活活动
+    enables: 启用活动
+    disables: 禁用活动
+    state:
+      enabled: 启用
+      disabled: 关闭
+      send: sent
+      delivering: delivering
+      sent: sent
+    tabs:
+      stats: 统计
+      settings: 设置
+      audience: 受众
+      editor: 编辑者
+    banners:
+      settings: 设置
+      action: 行为
+      style: 样式
+      top: 热门
+      bottom: 底部
+      inline: inline
+      floating: 浮动
+  campaign:
+    edit: 编辑营销活动设置
+    create: 创建营销活动
+    preview: 这是预览
+    preview_hint: 这是您的电子邮件应该如何显示。如果您使用的变量像 {{name}} ，它应该显示在这里。
+    stats:
+      title: 营销活动统计
+      refresh_data: 刷新数据
+    unsubscribe:
+      status: 你已经是 %{state}
+      success: 成功, %{ email } 将不再收到此发送者的电子邮件。这是一个错误吗？
+      resubscribe: 从列表取消订阅
+      cancel: 取消订阅
+  task_bots:
+    type_filters:
+      title_visitors: 访客
+      description_visitors: 平台上的访客数
+      title_leads: 线索
+      description_leads: 进行操作的访客数量
+      title_users: 用户
+      description_users: "平台注册用户"
+    state_filters:
+      enabled_title: 已启用
+      enabled_description: Enabled bot tasks
+      disabled_title: 已停用
+      disabled_description: 已停用的机器人任务
+    title: Bot任务
+    reply_soon: 您好， %{name} 会尽快回复。
+    reply_agent: 您将从我们的代理人中获得回复
+    email_support: 您可以发送电子邮件到 %{email} 以获得支持
+    outbound: '🏓 出站'
+    new_conversations: '👋 New Conversations'
+    new_conversations_notice: 这是用户在开始新对话时会看到的
+    options:
+      add_message: 添加消息泡
+      wait_user_input: 等待用户输入
+      add_app_package: 添加应用
+    path_title_hint: 路径名称
+    delete_path: 删除路径
+    add_path: 添加新会话部分
+    continue_bot_with: 继续机器人与
+    continue_with_reply_button: 使用回复按钮继续机器人
+    end_bot_with: 终结机器人为
+    end_with_follow: 通过以下动作结束Bot
+    reply_button: 回复按钮
+    follow_actions: 跟随动作
+    add_data_option: + 添加数据选项
+    save_data: 保存数据
+    close_conversation: 关闭对话
+    assign_agent: 指派代理
+    add_follow_action: 添加新动作
+    assignee_agent: 分配代理
+    email_requirement:
+      message: 给团队一条联系您的方式
+      input_label: 通过电子邮件得到通知
+      placeholder: 输入邮箱地址
+      ack: 谢谢。
+    support:
+      ask: Are you an existing %{name} customer?
+      options:
+        op1: 是的，我是客户
+        op2: 不，我还不是你们的客户
+      reply:
+        op1: 欢迎回来！
+        op2: 好的，让我们知道您是否需要某些帮助，代理将尽快回复
+    settings:
+      leads:
+        tab: 为潜在客户
+        start_conversation: 当线索开始对话
+        delay: 在办公时间触发任务机器人之前请留出2分钟的延迟
+        share_time: 分享您通常的回复时间
+        route: 引导到现有的客户支持
+        route_desc: 当开始一个新会话时，引导线索客户确认是否是已有客户。
+        route_costumer: 当他们选择"是的，我是客户"时，你要做什么？
+        assign: 分配会话
+        close: 关闭会话
+        ask: 询问联系人的详细信息
+        ask_hint: 如果我们还没有他们的联系详细信息， Bot将建议客户留下他们的电子邮件地址或电话号码，以随时收到通知。
+        dont_ask_email: 不要给我发送邮件
+        ask_email_phone: 索取邮件或手机号码
+        email_only: 仅电子邮件
+        override:
+          label: 用您自己的 Bot 任务覆盖默认行为
+          hint: 当您这样做时，下面的默认行为将不会发生，任务将在每个新的对话中被触发
+      users:
+        tab: 为用户
+        start_conversation: 当用户开始对话
+        delay: 在办公时间触发任务机器人之前请留出2分钟的延迟
+        override:
+          label: 用您自己的 Bot 任务覆盖默认行为
+          hint: 提示
+      settings_title: Bot 任务设置
+      specific_times_title: 设置特定时间向您的听众显示此Bot。
+      tz_hint: 您的应用时区是 %{timezone} 。请查看您的办公时间。
+      office_hours: 在工作时间
+      outside_office: 工作时间以外
+      custom_time: 自定义时间
+      enable_title: 启用 Bot 任务
+      enable_hint: 启用后，Bot 任务将开始运行
+    new: Create New Task
+    remove_success: 机器人已删除
+    empty:
+      title: 未发现 Bot 任务
+      create_new: 创建一个新的
+    delete:
+      title: 删除 Bot "%{name}"
+      hint: 我们将销毁任何内容和相关数据
+    create:
+      title: 创建 Bot 任务
+  email_forwarding:
+    title: 邮件转发中
+    subtitle: 默认入站地址
+    ex: 从您的普通支持电子邮件地址(例如help@mycompany.com)转发到Chaskiq ，以便您可以回复代理面板的电子邮件
+  identified_users:
+    title: 已验证用户设置
+    hint1: 要配置身份验证，您需要在您的服务器上为每个登录用户生成一个 HMAC，并将其提交给Chaskiq。
+    lang: 您为您的应用生成HMAC的代码是
+    hint2: '在哪里你上传用户数据并有一个Chaskiq代码片段 添加一个名为 <span className="font-bold">identifier_key</span> 的新属性并通过 <span className="font-bold">email</span> 并给予它登录用户的 HMAC标签：'
+    encryption_key_label: 身份验证
+    dont_share_code: "不分享此代码"
+    hmac_hint1: 要配置身份验证，您需要在您的服务器上为每个登录用户生成一个 HMAC，并将其提交给Chaskiq。
+  quick_replies:
+    title: 快捷回复
+    search: 搜索快速回复
+    will_send: '"%{lang}"版本将被发送到对话中。'
+    empty:
+      title: 没有快速回复
+      create_new: 新建
+    delete:
+      title: 删除快速回复 %{name}
+      hint: 我们将销毁任何内容和相关数据，对话将保持内容通过
+    create:
+      success: 分类已成功创建
+      error: 创建快速回复出错
+    update:
+      success: 分类已成功创建
+      error: 创建快速回复出错
+    add_as_dialog:
+      title: 将此消息添加为快速回复
+  new_app:
+    title: 创建您公司的 Chaskiq 应用
+    text: 为您的团队和客户设置Chaskiq基本信息。
+    hint: 创建您公司的 Chaskiq 应用
+  settings:
+    api:
+      title: OAuth 应用程序
+      tabs:
+        apps: OAuth 应用程序
+        authorized: 已授权的 Oauth 应用
+      oauth_information: Oauth 应用信息
+      details: Oauth认证细节和凭据。
+      delete_app: 删除 Oauth 应用程序？
+      create_app: 创建 Oauth应用程序
+      hint: 我们将销毁所有内容和相关数据
+      invite:
+        title: 添加新用户代理
+        text: 发送激活邀请
+    app:
+      app_settings: App 设置
+      security: 安全
+      messenger_settings: Messenger 设置
+      appearance: 外观
+      contact_avatars: Contact Avatars
+      appearance_title: Appearance Settings
+      privacy: 隐私
+      privacy_title: Privacy Settings
+      translations: 翻译
+      availability: 可用性
+      email_requirement: 请填写邮箱地址。
+      inbound_settings: Inbound Settings
+      messenger_style: Messenger 样式
+      user_data: User Data
+      tags: 标签
+      quick_replies: 快捷回复
+      email_forwarding: 邮件转发中
+    app_packages:
+      create_success: 软件包创建成功
+      create_error: 创建软件包出错
+      update_success: 更新成功
+      update_error: 更新出错
+      remove_success: 已正确删除软件包
+      remove_error: 移除软件包出错
+      create_integration: 创建新的软件包
+    app_inserter:
+      title: 将应用添加到您的Messenger信使中
+      subtitle: 在您的客户开始对话之前帮助他们。
+      action: 添加应用
+    integrations:
+      title: 第三方集成
+      create_success: 集成创建成功
+      create_error: 连接集成时出错
+      update_success: 集成更新成功
+      update_error: 更新集成时出错
+      remove_success: 已正确删除集成
+      remove_error: 删除集成时出错
+      create_integration: 创建新的集成
+      active:
+        title: 开启的集成
+        text: API 集成
+      available:
+        title: 可用的API
+        text: 可用的API服务
+      yours:
+        title: 集成应用
+        text: 您创建的集成应用
+      hints:
+        hook_url: 这个集成将在 webhook
+      delete_dialog:
+        title: Delete "%{name}" integration?
+        text: 与 %{name} 服务的集成将立即禁用
+      empty:
+        title: 暂无通告
+        text: 搜索可用的 Api 服务
+    availability:
+      title: 设定状态
+      hint: 设定团队办公时间和回复时间
+      title2: 设置工作时间
+      hint2: 在这几个小时之外，顾客会在相对于他们的时区返回时看到。
+      timezone: 您的应用程序时区为 %{tz}
+      reply_time:
+        title: 设置回复时间
+        hint: 在办公时间内，让您的顾客知道他们何时可以得到答复。
+        options:
+          - 
+            value: '自动'
+            label: '自动回复时间。'
+          - 
+            value: '分钟'
+            label: '团队通常在几分钟内回复。'
+          - 
+            value: '小时'
+            label: '团队通常在小时内回复。'
+          - 
+            value: '1 天'
+            label: '团队通常在一天内回复。'
+        hint2: '注意：访客将收到您团队可用的自动回复。在您的超时或长时间回复。'
+    email_requirement:
+      title: 新对话需要请求访客电子邮件地址
+      hint: 所以您总是可以回到您的网站访问者上
+      ask: '要求访客留下一个电子邮件地址，在开启新会话之前。'
+      options:
+        - 
+          label: 工作时间以外
+          hint: 平均减少5%的会话量
+          value: 办公
+        - 
+          label: 始终
+          hint: 平均减少30%的会话量
+          value: 始终
+        - 
+          label: 从不
+          value: 从不
+          hint: 将允许网站访问者在任何时候开始对话
+    languages:
+      add: 添加语言
+      title: 语言
+    inbound:
+      title: 新对话按钮
+      checkbox: 让访客开始新的入站对话
+      hint: 关闭后，只能回复您发送的出站消息。
+      title2: 公开范围
+      hint2: 控制谁可以在你的网站上看到标准的Messenger 启动器。
+      note2: 你发送的任何信息仍将被送达。
+      note3: '在网页上显示标准的Messenger 启动器：'
+      closed_replies_title: 禁止回复已关闭的对话 %{name}
+      closed_replies_enabled: 允许用户随时回复已关闭的消息。
+      closed_replies_disabled: 防止用户在之后回复已关闭的会话。
+      idle_sessions_title: Reset sessions on idle sessions for %{name}
+      idle_sessions_enabled: Allow idle sessions on messenger.
+      idle_sessions_disabled: Resets sessions on idle time after.
+      filters:
+        users:
+          label: 用户
+          all: 全部用户
+          some: 匹配特定数据的用户
+        leads:
+          label: 线索
+          all: 所有访客
+          some: 匹配特定数据的访客
+        hint: 这并不影响您发送的出站消息。
+    team:
+      title: 团队
+      invitations: Invitations
+      agents: Agents 代理人
+      invitation_success: Invitation sent!
+      invitatin_error: Invitation not sent!
+      action_button: 添加用户
+      title_content: 添加新代理
+      content_text: 发送激活邀请
+      hint: The new team member will be notified by it's email
+      send_invitation: 发送邀请
+      resend_invitation: 重新发送邀请
+      add_new: 添加团队成员
+      update_agent_title: 更新Agent代理信息
+      updated_agent: 已成功上传信息
+      destroyed_agent: Agent 已成功删除
+      destroy_agent_title: 删除Agent
+      destroy_agent: 删除
+      destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
+      update_agent: 更新
+      participants: Manage participants
+      updated_team: Team updated
+      created_team: Team created
+      deleted_team: Team deleted
+      confirm_team_delete: Are you sure you want to delete this team?
+      new:
+        action_button: Add Team
+        title_content: Add a new Team
+        content_text: Create a new Team
+      edit:
+        action_button: Edit Team
+        title_content: Edit Team
+        content_text: Edit Team
+      delete:
+        action_button: Delete Team
+        title_content: Delete Team
+        content_text: Delete Team
+    agent_teams:
+      action_button: Add Team member
+      title_content: 添加新代理
+      content_text: 发送激活邀请
+      search_placeholder: "Search for an agent"
+      delete_success: Agent deleted from team
+      added_success: Agent added to team
+      add_team: Add Team
+      updated_team: Team updated successfully
+      created_team: Team created successfully
+    webhooks:
+      title: Webhooks
+      create_success: Webhook已创建
+      create_error: 添加Webhook 出错
+      update_success: Webhook已更新
+      update_error: 更新Webhook失败
+      delete_success: Webhooks 已正确的删除
+      delete_error: 移除 Webhook 出错
+      outgoing_webhooks: 传出的 Webhooks
+      new_webhook: New Webhook
+      active_webhooks: 活动的 Webhoks
+      disabled_webhooks: 已禁用的 Webhooks
+      empty:
+        title: 您还没有任何活动的 Webhooks
+        desc: 搜索 webhooks 在
+        disabled_webhooks: 禁用的 Webhooks
+      delete:
+        title: Delete webhook?
+        text: 包含 %{name} 服务的Webhook 将被立即禁用
+    tags:
+      title: Tags
+      modal:
+        title: 创建应用程序标签
+        hint: Looking for more tags? Look at
+        link: 帐户设置
+      inputs:
+        name: 字段名称
+        color: 字段颜色
+    contact_avatars:
+      title: 联系人头像风格
+      hint: 选择由 https://boringavatars.com/提供的 6 个头像样式。
+      choose_color: 选择颜色
+    user_data:
+      title: 自定义字段
+      default_fields: 默认属性
+      non_editable: 该字段不可编辑
+      modal:
+        title: 创建用户数据字段
+      inputs:
+        name: 字段名称
+        type: 字段类型
+        validation: 验证
+        validation_hint: 验证是可选的
+      attr_types:
+        date: 日期
+        integer: 整数
+        string: 字符串
+  articles:
+    title: 文章
+    all: 全部
+    published: 已发布
+    draft: 草稿
+    visit: 访问帮助中心
+    new: New Article
+    add: Add Item
+    collections: 文档集
+    help_center: Help Center
+    description_placeholder: 描述集合以帮助你找到它。
+    title_placeholder: 填写该章节的标题
+    new_section: New Section
+    new_collection: New Collection
+    edit_collection: 编辑文档集
+    create_article:
+      placeholder: 填写文章的标题
+      description_placeholder: 添加摘要以便以后找到文章
+    create:
+      title: 新建文档集的文章
+      placeholder: 输入文档集的标题。
+      description: 添加文档集描述
+    deleted_success: Article deleted
+    new_article: 新建文章
+    settings_updated_success: Article settings updated
+    settings_updated_error: Article settings failed
+    activate_help_center: 激活帮助中心
+    delete_article: Delete article "%{title}?
+    delete_article_exp: 我们将销毁任何内容和相关数据
+    square_preferred: 首选方形图像 (最小 200x200px)
+    square_preferred_hint: 平方图像将是最佳调整大小
+    reordered_success: Reordered correctly
+    reordered_error: Reordered error
+    add_articles: Add Articles
+    updated_success: Article updated
+    updated_error: Article error on save
+    delete_section: 删除章节
+    author: 作者
+    written_by: 作者
+    created_on: 创建于
+    base_section: Base Section
+    state:
+      published: 已发布
+      published_desc: '在帮助中心显示文章'
+      draft: 草稿
+      draft_desc: '在帮助中心显示文章'
+    settings:
+      title: Help Center 设置
+      add_language: 添加语言
+      select_lang: 选择语言
+      add_language_to_help: 添加新语言到 Help Center
+      delete:
+        title: 删除翻译 "%{name}"
+        text: 我们将销毁翻译并隐藏任何带有语言的文章 "%{name}"
+      appearance: 外观
+      appearance_settings: 外观设置
+      lang: 语言
+      lang_title: 查找您的 Help Center
+      lang_desc: 管理支持的语言并自定义您的 Help Center 标题
+      basic: 基本设置
+      general_app: 应用程序概述
+  contact_manager:
+    create: 创建用户&线索
+    import_csv: 导入CSV
+    success_message: 正在处理文件导入，您将很快收到状态提醒
+    import_contacts: 导入联系人
+    import_exp: 您可以上传 csv 或 excel 文件来导入联系人
+    import_type: 导入类型
+    import_choose: 选择您要导入哪种联系人
+    select_file: 选择文件
+    definitions:
+      app_user: 已验证用户
+      lead: 线索
+      phone: 电话
+      company_name: 企业名称
+  segment_manager:
+    add_filters: 添加过滤器
+    select_fields: '选择字段'
+    create_segment: 创建新脚本
+    save_changes_to: 保存更改到 <b>%{name}</b>{' '} 部分。
+    changes_notice: 更改将被保存到应用中。
+    delete_segment: '删除片段'
+    save_segment: 保存 Segment
+    match: 符合
+    all: 全部
+    any: 任何
+    criteria: 标准
+    days_ago: 天前
+    filter_for: Select filter for %{name}
+    date_filter_for: Select the date filter for %{name}
+    integer_filter_for: 选择 %{name} 的整数过滤器
+    match_criteria_for: 匹配 %{name} 的标准选项
+    apply: 应用
+    is: 是
+    is_not: 不是
+    starts_with: 开始于
+    ends_with: 结束于
+    contains: 包含
+    does_not_contain: 不包含
+    is_unknown: 未知的
+    has_any_value: 有任何值
+    exactly: 精确
+    less_than: 小于
+    less_than_eq: 小于等于
+    more_than: 大于
+    more_than_eq: 大于等于
+    match_any: 匹配任意
+    match_all: 匹配全部
+    missing_value: 数值缺失
+  full_contact:
+    inbox:
+      name: 名称
+      first_name: First name
+      last_name: Last name
+      twitter: Twitter
+      facebook: Facebook
+      linkedin: Linkedin
+      organization: Organization
+      job_title: Job title
+  contact_fields:
+    inbox:
+      first_name: First name
+      last_name: Last name
+      email: Email
+      company: Company
+      phone: 电话
+  twilio_phone:
+    buttons:
+      holdOn: Put on hold
+      holdOff: Remove hold
+      pickUp: Pick up
+      hangUp: Hang up
+      join: Join
+      leave: Leave
+      goToConversation: Go to conversation
+      open_call_window: Open Call Window
+    messages:
+      inProgress: In-progress
+      incoming: Incoming call...
+      error: "ERROR: %{message}"
+      noConversations: No active conversations
+      noAgentsInCall: NO AGENTS IN THE CALL
+      agentsInCall: "AGENTS IN THE CALL:"
+    conversations:
+      message_header: New Phone Call
+    status:
+      onHold: ON HOLD
+    labels:
+      title: "Call with %{subject}"
+      status: Status
+      'client:Anonymous': Anonymous client
+      'client:agent': Agent
+      'client:support_agent': Agent

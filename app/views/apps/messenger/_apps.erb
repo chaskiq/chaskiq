@@ -1,0 +1,72 @@
+<%= form_for @app, url: app_messenger_path(@app.key, :apps) do |f| %>
+	<div class="inline-flex mt-4">
+
+		<% user_apps_class = !params[:kind] ? 
+			"bg-indigo-600 text-gray-100
+			border-indigo-600 pointer-events-none
+			focus:outline-none focus:shadow-outline-gray
+			outline-none	border bg-white
+			dark:bg-gray-900 dark:text-gray-100 font-light
+			py-2 px-4 rounded-l-lg" : 
+			
+			"focus:outline-none focus:shadow-outline-gray 
+			 outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
+       font-light py-2 px-4 rounded-l-lg"
+		%>
+
+		<a 
+			href="<%= edit_app_messenger_path(@app.key, 'apps') %>"
+			class="<%= user_apps_class %>">
+			users
+		</a>
+
+
+		<% visitor_class = params[:kind] == 'visitors' ? 
+							 "bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none
+                focus:outline-none 
+                focus:shadow-outline-gray 
+                outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
+                font-light py-2 px-4
+                rounded-r-lg
+                " : "focus:outline-none focus:shadow-outline-gray 
+                outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
+                font-light py-2 px-4
+                rounded-r-lg" 
+		%>
+		<a 
+			href="<%= edit_app_messenger_path(@app.key, 'apps', kind: :visitors) %>"
+			class="<%= visitor_class %>">
+			visitors
+		</a>
+	</div>
+
+	<div class="my-4">
+		<div class="flex justify-around items-center">
+			<div>
+				<h2 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+					Add apps to your Messenger
+				</h2>
+
+				<p>Help your customers before they start a conversation</p>
+			</div>
+
+			<div class="flex justify-end my-8">
+				<%= link_to "Add app", 
+					capabilities_app_packages_path(@app.key, kind: 'home', category: params[:kind]),
+					data: {
+						'turbo-frame': 'modal'
+					},
+					class: "btn btn-success"
+				%>
+			</div>
+		</div>
+
+
+		<%= turbo_frame_tag 'home-sortable', src: app_home_packages_path(@app.key, kind: params[:kind]) do %>
+			loading
+		<% end %>
+
+	</div>
+
+
+<% end %>

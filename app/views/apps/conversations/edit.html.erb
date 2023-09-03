@@ -1,0 +1,16 @@
+<%= render "shared/modal" do %>
+
+	<%= form_for @conversation, url: app_conversation_path(
+		@app.key, @conversation.key, step: params[:mode]) do |f| %>
+		
+		<%=  case params[:mode]
+				when 'tags' then render 'apps/conversations/fields/tags', f: f
+				when 'assignee' then render 'apps/conversations/fields/assignee', f: f
+				else
+				end
+		%>
+
+
+		<%= f.submit(t("common.submit"), class: "btn btn-success py-4") %>
+	<% end %>
+<% end %>

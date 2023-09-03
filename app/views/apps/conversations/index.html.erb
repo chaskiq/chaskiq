@@ -1,0 +1,143 @@
+   <div class="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
+      <button class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150">
+         <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+         </svg>
+      </button>
+   </div>
+
+
+   <% 
+      filter_items = I18n.t("conversations.states").map do |k,v| 
+      { 
+            title: v, 
+            href: "#",
+            checked: false,
+            data: {
+               controller: "attribute-clone",
+               "clone-to": "#conversation_search_service_filter",
+               value: "#{k}",
+               action: "click->attribute-clone#cloneTo"
+            }
+         }
+      end 
+
+      sorts_items = I18n.t("conversations.sorts").map do |k,v| 
+         { 
+            title: v, 
+            href: "#",
+            checked: false,
+            data: {
+               controller: "attribute-clone",
+               "clone-to": "#conversation_search_service_sort",
+               value: "#{k}",
+               action: "click->attribute-clone#cloneTo"
+            }
+         }
+      end 
+   %>
+
+
+   <div class="flex">
+
+      <div data-controller="infinite-scroll" 
+         class="<%= params[:id] ? 'hidden' : '' %> w-full md:w-4/12 h-screen md:border-r sm:block border-gray-200 dark:border-gray-900">
+         
+         <div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
+            
+            <div class="relative inline-block text-left">
+               <div class="flex">
+                  <%= render FilterMenu::Component.new(
+                     label: "select lang", 
+                     items: filter_items,
+                     orientation: 'left',
+                     variant: 'outlined',
+                     size: 'sm'
+                  )%>
+               </div>
+            </div>
+
+            <div class="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1- mx-2">
+               <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M14.5 14.5l-4-4m-4 2a6 6 0 110-12 6 6 0 010 12z" stroke="currentColor"></path></svg>
+               <input 
+                  class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" 
+                  placeholder="<%= t('conversations.menu.search') %>"
+                  value=""
+                  data-controller="attribute-clone"
+			         data-clone-to="#conversation_search_service_term"
+			         data-value=""
+			         data-action="input->attribute-clone#cloneTo"
+               >
+            </div>
+
+            <div class="relative inline-block text-left">
+               <div class="flex">
+                  <%= render FilterMenu::Component.new(
+                     label: "Newest", 
+                     items: sorts_items,
+                     orientation: 'right',
+                     variant: 'outlined',
+                     size: 'sm'
+                  )%>
+               </div>
+            </div>
+         </div>
+
+         <%= turbo_stream_from @app, :conversations %>
+
+         <div class="hidden">
+            <%= form_for @search_service, 
+               url: search_app_conversations_path(@app.key), 
+               method: :post,
+               data: {
+                  controller: 'search-conversations',
+                  action: "item:add->cart#refreshTotal"
+               } do |f| %>
+               <%= f.text_field :term, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.text_field :tag, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.text_field :agent_id, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.text_field :filter, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.text_field :sort, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.submit %>
+            <% end %>
+         </div>
+
+         <div 
+            class="overflow-scroll" 
+            style="height: calc(100vh - 60px);"
+            data-infinite-scroll-target="entries"
+            >
+            <%= render 'collection' %>
+            <div class="invisible h-1" data-infinite-scroll-target="pagination">
+               <%= render partial: 'apps/conversations/pagination' %>
+            </div>
+         </div>
+
+		
+			<% #= turbo_frame_tag dom_id(@next_conversations), loading: :lazy, src: app_conversations_path(@app, page: @next_page]) if @next_page.present? %>
+
+      </div>
+
+      <%= turbo_frame_tag 'conversation',
+         data: { controller: 'conversation' },
+         src: @conversation ? app_conversation_path(@app.key, @conversation.key ) : nil,
+         class: "hidden- w-full flex flex-grow sm:block- bg-gray-50 dark:bg-black h-screen border-r-0 w-1/12-" do %>
+         <div class="w-full bg-white dark:bg-black overflow-hidden  rounded-lg py-5 h-full">
+            <div class="flex flex-col px-4 py-5 sm:p-6 items-center">
+               <h2 class="text-2xl tracking-tight
+                     font-extrabold text-gray-900 dark:text-white sm:text-3xl
+                     sm:leading-none md:text-4xl">
+                     <%= t("conversations.empty.title")%>
+               </h2>
+               <div class="py-4 mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                  <%= t("conversations.empty.text")%>
+               </div>
+               <%= image_tag 'empty-icon8.png', 
+                  class: "h-56 w-56",
+                  alt: t("conversations.empty.title")
+               %>
+            </div>
+         </div>
+      <% end %>
+      
+   </div>

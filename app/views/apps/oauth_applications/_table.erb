@@ -1,0 +1,23 @@
+<%= render Table::Component.new(
+		data: @oauth_applications, 
+		config: {
+			columns: [
+				{name: :name,	render: lambda{|record| 
+						raw(%{
+							<div class="flex items-center">
+								<div class="text-sm leading-5 font-medium text-gray-900">
+									#{ link_to record.name , app_oauth_application_path(@app.key, record), data: {
+										'turbo-frame': 'app-settings', 'turbo-action': 'replace'
+									} }
+								</div>
+							</div>
+						}) 
+					}
+				},
+				{name: :redirect_uri},
+				{name: :confidential},
+				{name: :created_at }
+			]
+		},
+		paginate: paginate(@oauth_applications)
+)%>

@@ -1,0 +1,10 @@
+<%= turbo_frame_tag 'dashboard_app_packages' do %>
+	<div
+		class="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4"
+	>
+		<% @dashboard.each do |d| %>
+			<%= render AppPackageChart::Component.new( d )%>
+		<% end %>
+	</div>
+
+<% end %>

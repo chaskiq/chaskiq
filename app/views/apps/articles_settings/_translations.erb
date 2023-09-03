@@ -1,0 +1,38 @@
+<div class="flex justify-between py-3 items-center">
+	<div class="flex-col">
+		<p
+			class="text-lg leading-6 font-medium
+			text-gray-900"
+		>
+			<%= I18n.t('articles.settings.lang') %>
+		</p>
+
+		<p class="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4">
+			<%= I18n.t("articles.settings.lang_desc") %>
+		</p>
+	</div>
+
+	<div class="flex items-center">
+
+		<button class="btn btn-flat-dark btn-md">
+			<%= I18n.t('articles.settings.add_language') %>
+		</button>
+
+		<% options = I18n.available_locales - @article_setting.translations.map(&:locale)  %>
+		<% labeled_options = options.map{|o| {label: o, value: o}} %>
+		
+		<%= form_for @article_setting, url: app_articles_setting_path(@app.key, :translations) do |f| %>
+			<%= f.select :new_language, options_for_select(options.map{|o| [o,o]}, nil), {}, {
+				data: {
+					'select-target': 'select', 
+					options: labeled_options.to_json 
+				},
+				label: I18n.t('definitions.settings.languages.select_lang')
+			} 
+			%>
+			<%= f.submit("submit") %>
+		<% end %>
+	</div>
+</div>
+
+<%= render 'translations_table' %>

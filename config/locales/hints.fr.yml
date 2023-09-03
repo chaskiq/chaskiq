@@ -1,0 +1,54 @@
+fr:
+  hints:
+    platform:
+      title: Ici vous pouvez gérer votre liste de contacts via des segments
+      description: Les segments permettent de filtrer des contacts spécifiques à travers plusieurs filtres
+    #link: {  href: '/', title: 'Learn how filters works on our knowledge base
+    webhooks:
+      title: Webhooks actifs
+      description: "La fonctionnalité des Webhooks consiste à envoyer des notifications d'événements chaskiq"
+    #link: { href: '/', text: 'Learn how webhooks works on our knowledge base'}
+    integrations:
+      title:
+      description: Ceci est la section des intégrations d'API de tiers.
+    #link: { href: '/',text: 'Learn how API integrations works on Chaskiq from the inside out'}
+    team:
+    app_config:
+    security:
+      title: Sécurité
+      description: Ceci est la clé de chiffrement pour identifier les utilisateurs enregistrés sur votre service
+    #link: { href: '/', text: 'Learn how Encryption & security settings works on Chaskiq'
+    appearance:
+    languages:
+    availability:
+      title: Paramètres de disponibilité de l'équipe
+      description: Les paramètres de disponibilité permettent à votre équipe de définir les heures de bureau et les heures de réponse.
+    #link: {href: '/', text: 'Learn how Availability settings works on Chaskiq'}
+    email_requirement:
+      title: Exiger un email pour les nouvelles conversations
+      description: Ainsi, vous pouvez toujours revenir aux visiteurs de votre site web
+    #link: {href: '/',text: 'Learn how Email requirement works on Chaskiq'}
+    inbound_settings:
+      title: Contrôler les conversations entrantes et le lanceur
+      description: Contrôlez qui peut vous envoyer des messages et où ils voient le lanceur
+    #link: { href: '/',text: 'Learn how Inbound settings works on Chaskiq'}
+    user_data:
+      title: Gérer les attributs de l'utilisateur
+      description: Les attributs de l'utilisateur fournissent un moyen de personnaliser les données pour le filtrage des segments
+    #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+    tags:
+      title: Gérer les tags de l'application
+      description: Les attributs des tags fournissent un moyen de personnaliser les données pour le filtrage des segments et d'organiser les conversations
+    #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+    quick_replies:
+      title: Gérer les réponses rapides
+      description: Les réponses rapides fournissent un moyen d'organiser des réponses communs pour votre bussiness
+    #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
+    articles:
+      title: Plateforme HelpCenter de Chaskiq
+      description: Ici vous pouvez gérer les articles de Chaskiq
+    #link: { href: '/', text: 'Learn how to configure & manage the helpcenter system on Chaskiq'}
+    bots:
+    mailing_campaigns:
+    in_app:
+    guided_tours:

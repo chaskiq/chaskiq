@@ -1,0 +1,36 @@
+<%= render Table::Component.new(
+		data: @custom_fields, 
+		config: {
+			columns: [
+				{name: :name},
+				{name: :type},
+				{name: :actions,
+					render: lambda{|record| 
+						raw(%{
+							<div class="flex items-center">
+								<div class="text-sm leading-5 font-medium text-gray-900 flex space-x-3">
+									#{ 
+
+										link_to( I18n.t('common.edit'), 
+														edit_app_user_datum_path(@app.key, record.name), 
+														data: {
+														'turbo-frame': 'modal'
+														}, 
+														class: "btn btn-outlined sm")
+									}
+
+									#{
+										button_to( I18n.t('common.delete'), 
+														app_user_datum_path(@app.key, record.name), 
+														class: "btn btn-flat-dark sm", 
+														method: :delete) 
+									}
+								</div>
+							</div>
+						}) 
+					}
+				}
+			]
+		},
+		paginate: nil #paginate(@webhooks)
+)%>

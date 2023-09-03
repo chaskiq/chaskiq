@@ -1,0 +1,9 @@
+Description:
+    This command generates an integrated chaskiq plugin
+
+Example:
+    bin/rails generate chaskiq_plugin Thing
+
+    This will create:
+        app/message_apis/thing/api.rb
+        app/message_apis/thing/presenter.rb

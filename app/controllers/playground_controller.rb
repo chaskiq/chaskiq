@@ -1,0 +1,2 @@
+class PlaygroundController < ApplicationController
+end

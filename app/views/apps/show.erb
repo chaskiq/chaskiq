@@ -1,0 +1,55 @@
+<%= render Content::Component.new do %>
+
+  <div class="space-y-2">
+    <p class="text-4xl leading-2 text-gray-900 dark:text-gray-100 font-bold">
+      <%= I18n.t('dashboard.hey', name: @app.name).html_safe %>
+    </p>
+
+    <div class="py-3 flex space-x-3 justify-end">
+      <% #= render 'web_setup' %>
+
+      <%= link_to "Chat tester", "/tester/#{@app.key}", target: "_blank", class: "btn btn-outlined" %>
+      
+      <%= link_to "Playground", "/playground", class: "btn btn-outlined" %>
+    </div>
+  </div>
+
+  <div class="space-y-2">
+    
+    <div class="mt-5 rounded-lg bg-gray-200 dark:bg-gray-900 overflow-hidden shadow divide-y divide-gray-200 dark:divide-gray-600 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
+      <% @actions.each_with_index do |action, actionIdx| %>
+        <div class="<%= get_action_classes(actionIdx, @actions.length) %>">
+          <div>
+            <% if action[:icon] %>
+              <span class="<%= action[:icon_background] %> <%= action[:icon_foreground] %> rounded-lg inline-flex p-3 ring-4 ring-white">
+              </span>
+            <% end %>
+          </div>
+
+          <div class="mt-8">
+            <h3 class="text-lg font-medium">
+              <% if action[:external_link] %>
+                <%= link_to action[:title], action[:external_link], rel: "noopener noreferrer", class: "focus:outline-none" %>
+              <% else %>
+                <%= link_to action[:title], action[:href], class: "focus:outline-none" %>
+              <% end %>
+            </h3>
+
+            <% if action[:render] %>
+              <%= action[:render].call %>
+            <% end %>
+
+            <% if action[:text] %>
+              <p class="mt-2 text-sm text-gray-500"><%= action[:text] %></p>
+            <% end %>
+          </div>
+
+          <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
+            <!-- SVG icon goes here -->
+          </span>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+<% end %>

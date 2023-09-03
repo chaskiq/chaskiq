@@ -1,0 +1,4 @@
+web: bin/rails server -e test -p 5002 -b 0.0.0.0
+js: node esbuild.config.mjs --watch
+css: bin/rails tailwindcss:watch
+cypress: yarn cypress:open

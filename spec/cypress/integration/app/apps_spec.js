@@ -1,0 +1,85 @@
+
+import {
+  login,
+  findButtonByName,
+  findElementByName
+} from '../../support'
+
+describe('Login Spec', function () {
+  beforeEach(() => {
+  })
+
+  it('Sign in view + dashboard view', function () {
+    login()
+    cy.visit('/apps')
+
+    cy.get('body').should('contain', 'my app').then(() => {
+      // findButtonByName("View app").click()
+      cy.get('a').contains('my app').click().then(() => {
+        cy.get('body').should('contain', 'Hey!, you are viewing the')
+        //cy.get('body').should('contain', 'New conversations')
+        //cy.get('body').should('contain', 'Resolutions')
+        //cy.get('body').should('contain', 'Incoming Messages')
+
+        // cy.xpath('//*[@id="main-page"]/div/div[1]/nav/div/div/ul/button')
+        cy.visit('/apps/new')
+        //cy.get('#user_menu')
+        //  .click().then(() => {
+            // findElementByName('button', 'Create new app').click().then(() => {
+              cy.get('body').should('contain', 'Create your company’s Chaskiq app')
+
+              cy.get('input[name="app[name]"]')
+                .type('test test')
+                .should('have.value', 'test test')
+
+              cy.get('input[name="app[domainUrl]"]')
+                .type('http://test.cl')
+                .should('have.value', 'http://test.cl')
+
+              findButtonByName('Save').click().then(() => {
+                //cy.get('body').should('contain', 'Visit activity')
+                //cy.get('body').should('contain', 'New conversations')
+                //cy.get('body').should('contain', 'Resolutions')
+                //cy.get('body').should('contain', 'Incoming Messages')
+
+                cy.get("a[aria-label='Platform']")
+                  .click({ force: true }).then(() => {
+                    cy.get('body').should('contain', 'All Users')
+                    cy.get('body').should('contain', 'All Leads')
+                    cy.get('body').should('contain', 'Active Users')
+                    cy.get('body').should('contain', 'Slipping Away')
+                  })
+
+                cy.get("a[aria-label='Conversations']")
+                  .click({ force: true }).then(() => {
+                    cy.get('body').should('contain', 'Conversations')
+                    cy.get('body').should('contain', 'Assignment Rules')
+                  })
+
+                cy.get("a[aria-label='Campaigns']")
+                  .click({ force: true }).then(() => {
+                    cy.get('body').should('contain', 'Mailing Campaigns')
+                    cy.get('body').should('contain', 'In App Messages')
+                    cy.get('body').should('contain', 'Guided Tours')
+                  })
+
+                cy.get("a[aria-label='Routing Bots']")
+                  .click({ force: true }).then(() => {
+                    cy.get('body').should('contain', 'Outbound')
+                    cy.get('body').should('contain', 'New Conversations')
+                    cy.get('body').should('contain', 'Bot Tasks')
+                  })
+
+                cy.get("a[aria-label='Settings']")
+                  .click({ force: true }).then(() => {
+                    cy.get('body').should('contain', 'App Settings')
+                    cy.get('body').should('contain', 'Team')
+                    cy.get('body').should('contain', 'Integrations')
+                  })
+              })
+            // })
+        //  })
+      })
+    })
+  })
+})

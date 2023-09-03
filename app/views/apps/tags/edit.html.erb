@@ -1,0 +1,12 @@
+<%= render "shared/modal" do %>
+	<%= form_for @tag, 
+		url: app_tag_path(@app.key, @tag.name), 
+		method: :patch,
+		data: {'turbo-frame': '_top' } do |f|%>
+
+		<%= f.text_field :name %>
+		<%= f.color_field :color %>
+
+		<%= f.submit(t("common.submit"), class: "btn btn-success")%>
+	<% end %>
+<% end %>

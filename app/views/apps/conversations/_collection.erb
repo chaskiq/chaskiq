@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "conversation-list-#{@app.key}" do %>
+		<%= render partial: 'apps/conversations/conversation', collection: @conversations, locals: {app: @app} %>
+<% end %>
