@@ -1,9 +1,0 @@
-/* Use component-local class names and add them to HTML via #class_for(name) helper */
-
-.padder {
-  @apply py-3 px-4;
-
-  &.sm {
-    @apply py-1 px-2;
-  }
-}
