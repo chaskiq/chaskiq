@@ -26,7 +26,6 @@ TODO.md
   + show
 + reports
   + display reports
-+ playground
 + app packages edit now working for custom definitions, make a service form
 + quick replies display in lang
 + assignment_rules

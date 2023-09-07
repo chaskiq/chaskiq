@@ -18,6 +18,15 @@ class Apps::BotsController < ApplicationController
     @bot = @app.bot_tasks.find(params[:id])
     @collection = @bot.metrics.page(params[:page]).per(params[:per])
 
+    if params[:tab] == "audience"
+      @segment_manager = SegmentManagerService.new(
+        app: @app, 
+        predicates: @bot.segments 
+      )
+      @collection = @segment_manager.results(params)  #resource_params["segment_predicate"]
+    end
+
+
     case params[:mode]
     when "new-step"
       render "new_step" and return
@@ -26,6 +35,21 @@ class Apps::BotsController < ApplicationController
 
   def update
     @bot = @app.bot_tasks.find(params[:id])
+
+    if params[:tab] == "audience"
+      segment_predicate = segment_params[:segments][:segment_predicate]
+      segment_predicates = segment_predicate.keys.sort.map { |key| segment_predicate[key] }
+      unless params[:new_segment].present?
+        if params[:force_save] == "true"
+          @bot.update(segments: segment_predicates)
+        else
+          @bot.assign_attributes(segments: segment_predicates)
+        end
+      end
+      audience_handler
+      @tab =  params[:tab]
+      return
+    end
 
     case params[:mode]
     when "add-path"
@@ -86,6 +110,19 @@ class Apps::BotsController < ApplicationController
 
   private
 
+  def segment_params
+    params.require(:bot_task).permit(
+    segments: {
+      segment_predicate: [
+        :type,
+        :attribute,
+        :comparison,
+        { value: [] }, # This permits the value as an array
+        :value # This permits the value as a scalar (e.g., string)
+      ]
+    })
+  end
+
   def handle_bot_tasks_filters(filters, collection)
     return collection if filters["users"].blank?
 
@@ -105,5 +142,19 @@ class Apps::BotsController < ApplicationController
     collection = @app.bot_tasks.for_outbound if mode == "outbound"
     collection = collection.where(state: filters["state"]) if filters["state"].present?
     @collection = handle_bot_tasks_filters(filters, collection).ordered
+  end
+
+  def audience_handler
+    @segment_manager = SegmentManagerService.new(
+      app: @app,
+      predicates: @bot.segments
+    )
+
+    @segment_manager.handle_new_segment = params["new_segment"] if params["new_segment"].present?
+
+    @collection = @segment_manager.results({
+                                             page: params[:page],
+                                             per: 5
+                                           })
   end
 end

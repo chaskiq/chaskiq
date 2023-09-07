@@ -6,7 +6,9 @@ helo
     Compose a new message
   </div>
   <div>
-    To: <%= @app_user.display_name%>
+    <% if @app_user %>
+      To: <%= @app_user.display_name%>
+    <% end %>
     <div
       className="relative rounded-lg border
       border-gray-300 bg-white

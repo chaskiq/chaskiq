@@ -138,7 +138,7 @@ class Segment < ApplicationRecord
       query_string = "%#{predicate['value']}%"
       field.does_not_match(query_string)
     else
-      field.send(predicate["comparison"], predicate["value"])
+      field.send(predicate["comparison"] || "not_eq", predicate["value"])
     end
   end
 

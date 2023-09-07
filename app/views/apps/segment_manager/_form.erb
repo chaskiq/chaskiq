@@ -12,13 +12,13 @@
 		local_assigns[:url_form] : app_segment_managers_path(@app.key) 
 	%>
 
-	AAAA
 	<%= form_for segment_manager, url: form_url, data: {controller: 'segment-manager'}  do |f| %>
 		<%= render "apps/segment_manager/form_fields", f: f, 
 			segment_manager: segment_manager, 
 			url_form: local_assigns[:url_form],
 			changed: changed,
-			incomplete: incomplete
+			incomplete: incomplete,
+			btn_proc: local_assigns[:btn_proc]
 		%>
 	<% end %>
 <% end %>

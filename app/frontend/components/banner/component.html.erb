@@ -1,0 +1,42 @@
+<% 
+  #= content_tag :banner_wrapp, data: { font_options: font_options, placement: placement, bg_color: bg_color, mode: mode } do 
+%>
+<div class="banner-wrapp" 
+  style="<%= style_string %>">
+  <div class="w mode-<%= placement %>">
+    <div class="color" style="background-color: <%= bg_color %>">
+      <div class="content-wrapp">
+        <div class="content-centered">
+          <% if show_sender && sender_data && sender_data[:avatar_url] %>
+            <%= image_tag sender_data[:avatar_url], class: 'avatar' %>
+          <% end %>
+
+          <div class="content-text">
+            <%= content %>
+          </div>
+        </div>
+
+        <div class="action-wrapper">
+          <% if action_text && url %>
+            <%= button_to action_text, url, method: :put, class: 'link', remote: true %>
+          <% end %>
+        </div>
+
+        <div class="button-wrapper">
+          <% if dismiss_button %>
+            button
+            <% 
+              #= button_to "Dismiss", "aaa", class: "dismiss-button", method: :delete, remote: true do 
+            %>
+              <% 
+                #= tag.svg ... 
+                %> <!-- Insert SVG details here -->
+            <% 
+              # end 
+            %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

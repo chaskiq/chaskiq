@@ -43,6 +43,14 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def datetime(attribute, options = {})
+    @template.tag.div(class: "w-full sm:w-full py-2") do
+      @template.label_tag(tr(options[:label] || attribute), nil, class: "block text-gray-700 dark:text-white text-sm font-bold mb-2") +
+        super(attribute, options.reverse_merge(class: "input")) +
+        field_details(attribute, object, options)
+    end
+  end
+
   def select(object_name, method_name, template_object, options = {})
     @template.tag.div(class: "w-full sm:w-full py-2", "data-controller": "select") do
       @template.label_tag(tr(options[:label] || object_name), nil, class: "block text-gray-700 dark:text-white text-sm font-bold mb-2") +

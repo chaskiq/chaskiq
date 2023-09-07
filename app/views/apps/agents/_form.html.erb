@@ -43,5 +43,6 @@
 <%= turbo_frame_tag "agent-properties" do %>
   <%= form_for @agent, url: app_agent_path(@app.key, @agent) do |form| %>
     <%= render FieldRenderer::Component.new(form: form, definitions: definitions) %>
+    <%= form.submit %>
   <% end %>
 <% end%>

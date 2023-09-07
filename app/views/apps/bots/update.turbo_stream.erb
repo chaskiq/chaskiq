@@ -1,0 +1,9 @@
+
+
+
+
+<% if params[:tab] == "audience" %>
+  <%= turbo_stream.replace("bot-audience") do %>
+    <%= render "apps/bots/audience" %>
+  <% end %>
+<% end %>

@@ -103,21 +103,14 @@
         </div>
 
         <div class="w-full">
-          segment manager
-            AAAAA
-
-          <div id="segment-predicates">
-            <%= segment_manager.predicates %>
-          </div>
-
           <div id="segment-form-fields">
             <%= render 'apps/segment_manager/form_fields', 
               f: form, 
               segment_manager: segment_manager, 
               url_form: update_segment_app_inbound_setting_path(@app.key, namespace), 
               incomplete: false, 
-              changed: false,
-              disable_deletion: true 
+              changed: @changed,
+              disable_deletion: true
             %>
           </div>
 

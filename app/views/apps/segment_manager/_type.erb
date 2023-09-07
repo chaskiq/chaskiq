@@ -1,5 +1,6 @@
 
 <% f = locals[:f] %>
+<%= puts locals[:segment].as_json %>
 <div>
 	<div class="relative inline-block text-left">
 		<div class="flex">
@@ -37,9 +38,9 @@
 
 					</div>
 
-					<div class="css-1d4ndkk">
+					<div class="flex m-2 justify-between">
 						
-						<%= f.submit "apply" %>
+						<%= f.submit "apply", class: "btn xs btn-default" %>
 
 					</div>
 				</div>

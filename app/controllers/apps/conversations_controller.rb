@@ -152,8 +152,10 @@ class Apps::ConversationsController < ApplicationController
   end
 
   def new
-    @app_user = @app.app_users.find(params[:app_user_id])
-    @conversation = @app.conversations.new(main_participant_id: @app_user.id)
+    @app_user = @app.app_users.find(params[:app_user_id]) if params[:app_user_id]
+    @conversation = @app.conversations.new(
+      main_participant_id: @app_user&.id
+    )
   end
 
   private

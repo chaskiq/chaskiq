@@ -48,21 +48,22 @@ class Banner < Message
 
   def config_fields
     [
-      { name: "name", type: "string", grid: { xs: "w-full", sm: "w-3/4" } },
+      { name: "name", type: "string", grid: { xs: "w-full", sm: "w-3/4" }, col: "sm:col-span-4" },
       # { name: 'subject', type: 'string', grid: { xs: 'w-full', sm: 'w-3/4' } },
       # { name: 'url', type: 'string', grid: { xs: 'w-full', sm: 'w-1/4' } },
-      { name: "description", type: "text", grid: { xs: "w-full", sm: "w-full" } },
-      { name: "scheduledAt", label: "Scheduled at", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
-      { name: "scheduledTo", label: "Scheduled to", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
-      { name: "hiddenConstraints", label: "Hidden constraints", type: "select",
+      { name: "description", type: "text", grid: { xs: "w-full", sm: "w-full" }, col: "sm:col-span-6" },
+      { name: "scheduled_at", label: "Scheduled at", type: "datetime", col: "sm:col-span-3", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "scheduled_to", label: "Scheduled to", type: "datetime", col: "sm:col-span-3", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "hidden_constraints", label: "Hidden constraints", type: "select",
         options: [
-          { label: "open", value: "open" },
-          { label: "close", value: "close" },
-          { label: "click", value: "click" }
+          %w[open open],
+          %w[close close],
+          %w[click click]
         ],
         multiple: true,
         default: "open",
-        grid: { xs: "w-full", sm: "w-full" } }
+        grid: { xs: "w-full", sm: "w-full" },
+        col: "sm:col-span-6" }
 
     ]
   end

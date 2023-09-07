@@ -16,10 +16,10 @@ class Tour < Message
 
       { name: "description", type: "text", grid: { xs: "w-full", sm: "w-full" } },
 
-      { name: "scheduledAt", label: "Scheduled at", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
-      { name: "scheduledTo", label: "Scheduled to", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "scheduled_at", label: "Scheduled at", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "scheduled_to", label: "Scheduled to", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
 
-      { name: "hiddenConstraints", label: "Hidden constraints", type: "select",
+      { name: "hidden_constraints", label: "Hidden constraints", type: "select",
         options: [
           { label: "open", value: "open" },
           { label: "close", value: "close" },

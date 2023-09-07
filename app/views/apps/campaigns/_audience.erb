@@ -1,6 +1,6 @@
 
-<%= turbo_frame_tag "bot-audience" do %>
-  <%= form_for @bot, url: app_bot_path(@app.key, @bot, tab: "audience"), 
+<%= turbo_frame_tag "campaign-audience" do %>
+  <%= form_for @campaign, url: app_campaign_path(@app.key, @campaign, tab: "audience"), 
     data: {controller: 'segment-manager'} do |f| %>
 
     <%= f.fields_for :segments do |ff|%>
@@ -18,7 +18,7 @@
             segment_manager: @segment_manager, 
             url_form: "", #update_segment_app_inbound_setting_path(@app.key, namespace), 
             incomplete: false, 
-            changed: @bot.segments_changed?,
+            changed: @campaign.segments_changed?,
             disable_deletion: true,
             btn_proc: -> (){
               "

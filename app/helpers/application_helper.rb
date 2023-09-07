@@ -279,19 +279,19 @@ module ApplicationHelper
       {
         label: t("campaigns.tabs.settings"),
         href: edit_app_bot_path(app.key, bot, tab: "settings"),
-        active: false,
+        active: params[:tab] == "stats" || params[:tab].blank?,
         turbo_frame: "_top"
       },
       {
         label: t("campaigns.tabs.audience"),
         href: edit_app_bot_path(app.key, bot, tab: "audience"),
-        active: false,
+        active: params[:tab] == "audience",
         turbo_frame: "_top"
       },
       {
         label: t("campaigns.tabs.editor"),
         href: edit_app_bot_path(app.key, bot, tab: "editor"),
-        active: false,
+        active: params[:tab] == "editor",
         turbo_frame: "_top"
       }
     ]
@@ -357,7 +357,7 @@ module ApplicationHelper
     end
   end
 
-  def articles_collection_menu_data(app:, article_setting:)
+  def articles_collection_menu_data(app:, article_setting:, article_collection:)
     locale_param = params[:locale] || I18n.locale.to_s
     return [] if article_setting.blank?
 

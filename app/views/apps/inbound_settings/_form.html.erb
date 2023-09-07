@@ -1,18 +1,19 @@
 <%= turbo_frame_tag "inbound-settings-form" do %>
 
-  pupu
-	<%= form_for @app, url: app_inbound_setting_path(@app.key, :users), 
+  namespace <%= @namespace %>
+	<%= form_for @app, url: app_inbound_setting_path(@app.key, @namespace), 
 		data: {controller: 'segment-manager', turbo: "true"} do |f| %>
 
 		<%= render Hints::Component.new(type: 'inbound_settings') %>
 
 		<div class="inline-flex mt-4">
 			<a 
-				href="<%= edit_app_messenger_path(@app.key, 'apps') %>"
+				href="<%= app_inbound_setting_path(@app.key, 'users') %>"
 				data-tab="users"
 				class="tab-default-left"
-				data-action="click->simple-tabs#changeTab" 
+				data-actionno="click->simple-tabs#changeTab" 
 				data-simple-tabs-target="tab"
+				data-turbo-frame="inbound-settings-form"
 				data-selected-class="tab-active-left"
 				data-unselected-class="tab-default-left"
 				>
@@ -20,13 +21,14 @@
 			</a>
 
 			<a 
-				href="<%= edit_app_messenger_path(@app.key, 'apps', kind: :visitors) %>"
+				href="<%= app_inbound_setting_path(@app.key, 'visitors') %>"
 				class="tab-default-right"
 				data-tab="visitors"
-				data-action="click->simple-tabs#changeTab" 
+				data-actionno="click->simple-tabs#changeTab" 
 				data-simple-tabs-target="tab"
 				data-selected-class="tab-active-right"
 				data-unselected-class="tab-default-right"
+				data-turbo-frame="inbound-settings-form"
 				>
 				visitors
 			</a>
