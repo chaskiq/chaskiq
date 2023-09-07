@@ -1,19 +1,11 @@
 
+
+	<%= @integration[:paths] %>
+
 <%= render Content::Component.new do %>
-  <div class="flex flex-wrap -mx-4">
-    <div>
-      <div className="flex flex-wrap -mx-4">
-      </div>
-    </div>
-
-    <div class='w-full p-4'>
-      <%= turbo_frame_tag 'dashboard_app_packages', src: app_dashboard_path(@app.key, 'app_packages') do %>
-        loading...
-      <% end %>
-    </div>
-
+  <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
     <% @integration[:paths].each do |path| %>
-      <div class='lg:w-1/4 w-1/2 p-4'>
+      <div class='<%= path[:classes] %>'>
         <div class="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
           <%= turbo_frame_tag "dashboard_#{path[:kind]}", 
             src: app_dashboard_path(@app.key, path[:kind], package: @integration[:package], integration_id: @integration[:id] ) do %>
@@ -22,7 +14,6 @@
         </div>
       </div>
     <% end %>
-
   </div>
 <% end %>
 

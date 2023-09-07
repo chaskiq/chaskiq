@@ -14,7 +14,9 @@ class Banner::Component < ApplicationViewComponent
   option :serialized_content, default: -> { { content: [] }.to_json }
 
   def text_component
+    # rubocop:disable Rails/OutputSafety
     raw Dante::Renderer.new(raw: JSON.parse(serialized_content).deep_symbolize_keys).render
+    # rubocop:enable Rails/OutputSafety
   end
 
   def placement_option

@@ -7,11 +7,15 @@ class Apps::InboundSettingsController < ApplicationController
   end
 
   def update
-    unless params[:new_segment].present?
+    if params[:new_segment].blank?
 
       segment_predicate = resource_params[:inbound_settings_objects][:segment_predicate]
-      segment_predicates = segment_predicate.keys.sort.map { |key| segment_predicate[key].to_h } rescue []
-      
+      segment_predicates = begin
+        segment_predicate.keys.sort.map { |key| segment_predicate[key].to_h }
+      rescue StandardError
+        []
+      end
+
       current_segments = @app.inbound_settings
       current_segments[@namespace]["predicates"] = segment_predicates
 
@@ -22,10 +26,10 @@ class Apps::InboundSettingsController < ApplicationController
         @app.assign_attributes(inbound_settings: current_segments)
       end
     end
-    
+
     audience_handler
 
-    #@collection = @segment_manager.results(params) unless @segment_manager.predicates.find { |o| o.value.nil? }
+    # @collection = @segment_manager.results(params) unless @segment_manager.predicates.find { |o| o.value.nil? }
   end
 
   def audience_handler
@@ -47,7 +51,7 @@ class Apps::InboundSettingsController < ApplicationController
   end
 
   def resource_params
-    return params.require(:app).permit(
+    params.require(:app).permit(
       inbound_settings_objects: {
         segment_predicate: [
           :type,

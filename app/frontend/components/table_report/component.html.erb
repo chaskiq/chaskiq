@@ -2,59 +2,21 @@
 	
 		<div class="table min-w-full">
 			<div class="table-header-group <%= 'hidden' if @headless %> border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
-				<% if @sortable %>
-					<div class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-							sortable
-					</div>
-				<% end %>
 				<% @config[:columns].each do |c|%>
 					<div class="table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-						<%= c[:name] %>
+						<%= c[:field] %>
 					</div>
 				<% end %>
 			</div>
 
-			<div class="table-row-group bg-white dark:bg-black"
-				
-				<% if @sortable%>
-					data-controller="sortable" 
-					data-handle=".cursor-move"
-					data-url="<%= @sortable %>"
-					<% if @sortable_group %>
-					data-group="<%= @sortable_group %>"
-					<% end %>
-				<% end %>
-			>
+			<div class="table-row-group bg-white dark:bg-black">
 
 				<% @data.each_with_index do |record, index| %>
 					<div 
-						data-id="<%= record.try(:id) || index %>"
-						id="<%= "#{record.class.table_name}-#{record.try(:id) || index}" %>" 
 						class="table-row hover:bg-gray-50 dark:hover:bg-gray-600">
-								
-						<% if @sortable %>
-							<div class="table-cell align-middle px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-								<div class="cursor-move btn btn-dark-flat">
-									<svg class="w-6 h-6" 
-										fill="none" stroke="currentColor" 
-										viewBox="0 0 24 24">
-										<path stroke-linecap="round" 
-											stroke-linejoin="round" 
-											stroke-width="2" 
-											d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4">
-										</path>
-									</svg>
-								</div>
-							</div>
-						<% end %>
-								
 						<% @config[:columns].each do |c| %>
 							<div class="table-cell align-middle px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-								<% if c[:render] %>
-									<%= c[:render].call(record) %>
-								<% else %>
-									<%= record.send(c[:name].to_sym) %>
-								<% end %>
+								<%= record[c[:field]] %>
 							</div>
 						<% end %>
 					</div>

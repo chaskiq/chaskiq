@@ -35,21 +35,21 @@ class Apps::CampaignsController < ApplicationController
 
   def update
     @campaign = @app.messages.find(params[:id])
-    if params[:tab] = "audience"
+    if (params[:tab] = "audience")
       segment_predicate = resource_params[:segments][:segment_predicate]
       segment_predicates = segment_predicate.keys.sort.map { |key| segment_predicate[key] }
-      
-      unless params[:new_segment].present?
+
+      if params[:new_segment].blank?
         if params[:force_save] == "true"
           @campaign.update(segments: segment_predicates)
         else
           @campaign.assign_attributes(segments: segment_predicates)
         end
       end
-      
+
       audience_handler
-      @tab =  params[:tab]
-      
+      @tab = params[:tab]
+
     else
       @tab = "editor"
       @campaign.update(resource_params)
@@ -110,7 +110,7 @@ class Apps::CampaignsController < ApplicationController
     if params.keys.include?("banner")
       @namespace = "banner"
       return params.require(:banner).permit(
-        :dismiss_button, :serialized_content, :show_sender, :sender_id, :url, 
+        :dismiss_button, :serialized_content, :show_sender, :sender_id, :url,
         :action_text, :font_options, :bg_color, :placement,
         segments: {
           segment_predicate: [
@@ -127,16 +127,16 @@ class Apps::CampaignsController < ApplicationController
 
     if params.keys.include?("user_auto_message")
       @namespace = "userautomessage"
-      return params.require(:user_auto_message).permit(:serialized_content, 
-        segments: {
-          segment_predicate: [
-            :type,
-            :attribute,
-            :comparison,
-            { value: [] }, # This permits the value as an array
-            :value # This permits the value as a scalar (e.g., string)
-          ]
-        })
+      return params.require(:user_auto_message).permit(:serialized_content,
+                                                       segments: {
+                                                         segment_predicate: [
+                                                           :type,
+                                                           :attribute,
+                                                           :comparison,
+                                                           { value: [] }, # This permits the value as an array
+                                                           :value # This permits the value as a scalar (e.g., string)
+                                                         ]
+                                                       })
     end
 
     if params.keys.include?("campaign")

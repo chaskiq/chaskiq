@@ -2,16 +2,16 @@ class Apps::DashboardsController < ApplicationController
   before_action :find_app
 
   def show
-    range = { from: 10.days.ago.to_s, to: Time.zone.now.to_s }
+    @range = { from: 10.days.ago.to_s, to: Time.zone.now.to_s }
 
     @dashboard =
       if params[:integration_id].present?
         # package = @app.app_package_integrations.find(params[:integration_id])
         AppPackageDashboard
-          .new(app: @app, range: range, package: params[:package])
+          .new(app: @app, range: @range, package: params[:package])
           .report_for(params[:id])
       else
-        Dashboard.new(app: @app, range: range).send(params[:id])
+        Dashboard.new(app: @app, range: @range).send(params[:id])
       end
 
     resolve_partial
@@ -20,7 +20,7 @@ class Apps::DashboardsController < ApplicationController
       render turbo_stream: [
         turbo_stream.replace(
           "dashboard_#{params[:id]}",
-          partial: resolve_partial[:type],
+          partial: "app_packages",
           locals: {
             app: @app,
             props: @dashboard
@@ -31,7 +31,7 @@ class Apps::DashboardsController < ApplicationController
       render turbo_stream: [
         turbo_stream.replace(
           "dashboard_#{params[:id]}",
-          partial: resolve_partial[:type],
+          partial: resolve_partial[:type].underscore,
           locals: {
             app: @app,
             props: @partial_data
@@ -49,10 +49,10 @@ class Apps::DashboardsController < ApplicationController
 
   def chart_data
     {
-      app_packages: {
-        label: I18n.t("dashboard.user_country"),
-        type: "app_packages"
-      },
+      # app_packages: {
+      #  label: I18n.t("dashboard.user_country"),
+      #  type: "app_packages"
+      # },
       first_response_time: {
         type: "count",
         label: I18n.t("dashboard.response_avg"),

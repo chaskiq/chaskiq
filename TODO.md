@@ -11,14 +11,10 @@ TODO.md
   + sidebar plugins
 + bots:
   + editor
-  + audience
 + campaigns:
   + stats
-  + audience
   + form
   + editor
-+ inbound settings
-  + audience form submit
 + app settings:
   + avatars
 + billing view

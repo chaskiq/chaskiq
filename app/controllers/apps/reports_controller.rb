@@ -76,46 +76,51 @@ class Apps::ReportsController < ApplicationController
 
   def chart_data
     {
-      app_packages: {
-        label: I18n.t("dashboard.user_country"),
-        type: "app_packages"
-      },
       first_response_time: {
         type: "count",
         label: I18n.t("dashboard.response_avg"),
-        append_label: "Hrs"
+        append_label: "Hrs",
+        classes: "col-span-3"
+      },
+      incoming_messages: {
+        type: "count",
+        label: I18n.t("dashboard.incoming_messages"),
+        classes: "col-span-3"
       },
       opened_conversations: {
         type: "count",
-        label: I18n.t("dashboard.new_conversations")
+        label: I18n.t("dashboard.new_conversations"),
+        classes: "col-span-3"
       },
       solved_conversations: {
         type: "count",
         label: I18n.t("dashboard.resolutions"),
-        append_label: ""
-      },
-      incoming_messages: {
-        type: "count",
-        label: I18n.t("dashboard.incoming_messages")
+        append_label: "",
+        classes: "col-span-3"
       },
       visits: {
-        type: "heatMap"
+        type: "heatMap",
+        classes: "col-span-6"
       },
       browser: {
         type: "pie",
-        label: I18n.t("dashboard.browser")
+        label: I18n.t("dashboard.browser"),
+        classes: "col-span-3"
       },
       lead_os: {
         type: "pie",
-        label: I18n.t("dashboard.lead_os")
+        label: I18n.t("dashboard.lead_os"),
+        classes: "col-span-3"
       },
       user_os: {
         type: "pie",
-        label: I18n.t("dashboard.user_os")
+        label: I18n.t("dashboard.user_os"),
+        classes: "col-span-3"
       },
       user_country: {
         type: "pie",
-        label: I18n.t("dashboard.user_country")
+        label: I18n.t("dashboard.user_country"),
+        classes: "col-span-3"
       }
     }
   end

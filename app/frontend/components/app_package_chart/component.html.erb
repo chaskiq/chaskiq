@@ -18,15 +18,28 @@
 	<hr class="my-4 border-gray-200" />
 
 	<div class="flex">
-		<% @data[:values].each do |v| %>
-		  <div class="w-1/4">
-				<%= render CountChart::Component.new(
-					data: v[:value],
-					label: v[:label],
-					subtitle: v[:value2],
-					append_label: nil
-				)%>
-			</div>
+		<% if @data[:values].present? %>
+			<% @data[:values].each do |v| %>
+				<div class="w-1/4">
+					<%= render CountChart::Component.new(
+						data: v[:value],
+						label: v[:label],
+						subtitle: v[:value2],
+						append_label: nil
+					)%>
+				</div>
+			<% end %>
+		<% end %>
+
+		<% if @data[:collection].present? %>
+			<%= render TableReport::Component.new(
+					data: @data[:collection], 
+					config: {
+						columns: @data[:columns]
+					},
+					pagination_meta: @data[:meta]
+				)
+			%>
 		<% end %>
 	</div>
 </div>

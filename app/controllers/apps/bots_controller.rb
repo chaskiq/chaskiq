@@ -20,12 +20,11 @@ class Apps::BotsController < ApplicationController
 
     if params[:tab] == "audience"
       @segment_manager = SegmentManagerService.new(
-        app: @app, 
-        predicates: @bot.segments 
+        app: @app,
+        predicates: @bot.segments
       )
-      @collection = @segment_manager.results(params)  #resource_params["segment_predicate"]
+      @collection = @segment_manager.results(params) # resource_params["segment_predicate"]
     end
-
 
     case params[:mode]
     when "new-step"
@@ -39,7 +38,7 @@ class Apps::BotsController < ApplicationController
     if params[:tab] == "audience"
       segment_predicate = segment_params[:segments][:segment_predicate]
       segment_predicates = segment_predicate.keys.sort.map { |key| segment_predicate[key] }
-      unless params[:new_segment].present?
+      if params[:new_segment].blank?
         if params[:force_save] == "true"
           @bot.update(segments: segment_predicates)
         else
@@ -47,7 +46,7 @@ class Apps::BotsController < ApplicationController
         end
       end
       audience_handler
-      @tab =  params[:tab]
+      @tab = params[:tab]
       return
     end
 
@@ -112,15 +111,16 @@ class Apps::BotsController < ApplicationController
 
   def segment_params
     params.require(:bot_task).permit(
-    segments: {
-      segment_predicate: [
-        :type,
-        :attribute,
-        :comparison,
-        { value: [] }, # This permits the value as an array
-        :value # This permits the value as a scalar (e.g., string)
-      ]
-    })
+      segments: {
+        segment_predicate: [
+          :type,
+          :attribute,
+          :comparison,
+          { value: [] }, # This permits the value as an array
+          :value # This permits the value as a scalar (e.g., string)
+        ]
+      }
+    )
   end
 
   def handle_bot_tasks_filters(filters, collection)
