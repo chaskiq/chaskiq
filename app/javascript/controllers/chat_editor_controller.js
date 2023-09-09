@@ -28,7 +28,7 @@ import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/dant
 export default class extends Controller {
   static targets = ['wrapper', 'sendMode'];
 
-  connect() {
+  initialize() {
     this.actionPath = this.element.dataset.editorActionPath;
 
     console.log('INIT EDITOR FOR', this.actionPath);

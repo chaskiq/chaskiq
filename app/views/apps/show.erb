@@ -22,6 +22,7 @@
           <div>
             <% if action[:icon] %>
               <span class="<%= action[:icon_background] %> <%= action[:icon_foreground] %> rounded-lg inline-flex p-3 ring-4 ring-white">
+                <%= heroicon action[:icon] %>
               </span>
             <% end %>
           </div>

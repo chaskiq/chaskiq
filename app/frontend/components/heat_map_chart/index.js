@@ -12,7 +12,7 @@ import './index.css'
 // import { Controller as BaseController } from "stimulus";
 //
 export default class extends Controller {
-  connect() {
+  initialize() {
     const root = createRoot(this.element);
     root.render(
       <HeatMap 

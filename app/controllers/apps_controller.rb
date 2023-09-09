@@ -29,7 +29,7 @@ class AppsController < ApplicationController
       {
         title: I18n.t("navigator.conversations"),
         href: "/apps/#{@app.key}/conversations",
-        icon: "ConversationChatIcon",
+        icon: "chat-bubble-oval-left",
         icon_foreground: "text-sky-700",
         icon_background: "bg-sky-50",
         allowed: allowed_access_to(@app, "conversations")
@@ -37,7 +37,7 @@ class AppsController < ApplicationController
       {
         title: "Reports",
         href: "/apps/#{@app.key}/reports",
-        icon: "ChartsIcons",
+        icon: "presentation-chart-line",
         icon_foreground: "text-purple-700",
         icon_background: "bg-purple-50",
         allowed: allowed_access_to(@app, "reports")
@@ -45,7 +45,7 @@ class AppsController < ApplicationController
       {
         title: I18n.t("navigator.childs.messenger_settings"),
         href: "/apps/#{@app.key}/messenger",
-        icon: "AppSettingsIcon",
+        icon: "cog-8-tooth",
         icon_foreground: "text-teal-700",
         icon_background: "bg-teal-50",
         allowed: allowed_access_to(@app, "messenger_settings")
@@ -53,7 +53,7 @@ class AppsController < ApplicationController
       {
         title: I18n.t("navigator.childs.app_settings"),
         href: "/apps/#{@app.key}/settings",
-        icon: "SettingsIcon",
+        icon: "adjustments-vertical",
         icon_foreground: "text-teal-700",
         icon_background: "bg-teal-50",
         allowed: allowed_access_to(@app, "app_settings")
@@ -61,7 +61,7 @@ class AppsController < ApplicationController
       {
         title: I18n.t("navigator.campaigns"),
         href: "/apps/#{@app.key}/campaigns",
-        icon: "CampaignsIcon",
+        icon: "flag",
         icon_foreground: "text-sky-700",
         icon_background: "bg-sky-50",
         allowed: allowed_access_to(@app, "campaigns")
@@ -69,7 +69,7 @@ class AppsController < ApplicationController
       {
         title: I18n.t("dashboard.guides"),
         external_link: "https://dev.chaskiq.io",
-        icon: "HelpCenterIcon",
+        icon: "lifebuoy",
         icon_foreground: "text-sky-700",
         icon_background: "bg-sky-50",
         text: I18n.t("navigator.help_center"),

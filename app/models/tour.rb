@@ -10,25 +10,29 @@ class Tour < Message
 
   def config_fields
     [
-      { name: "name", type: "string", grid: { xs: "w-full", sm: "w-3/4" } },
-      { name: "subject", type: "string", grid: { xs: "w-full", sm: "w-3/4" } },
-      { name: "url", type: "string", grid: { xs: "w-full", sm: "w-1/4" } },
+      { name: "name", type: "string", col: "col-span-6", grid: { xs: "w-full", sm: "w-3/4" } },
+      { name: "subject", type: "string", col: "col-span-6",grid: { xs: "w-full", sm: "w-3/4" } },
+      { name: "url", type: "string", col: "col-span-6", grid: { xs: "w-full", sm: "w-1/4" } },
 
-      { name: "description", type: "text", grid: { xs: "w-full", sm: "w-full" } },
+      { name: "description", type: "text", col: "col-span-6", grid: { xs: "w-full", sm: "w-full" } },
 
-      { name: "scheduled_at", label: "Scheduled at", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
-      { name: "scheduled_to", label: "Scheduled to", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "scheduled_at", label: "Scheduled at", type: "datetime", col: "col-span-3", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "scheduled_to", label: "Scheduled to", type: "datetime", col: "col-span-3", grid: { xs: "w-full", sm: "w-1/2" } },
 
-      { name: "hidden_constraints", label: "Hidden constraints", type: "select",
+      { name: "hidden_constraints", 
+        label: "Hidden constraints", 
+        type: "select",
         options: [
-          { label: "open", value: "open" },
-          { label: "close", value: "close" },
-          { label: "finish", value: "finish" },
-          { label: "skip", value: "skip" }
+          ["open", "open"],
+          ["close", "close"],
+          ["finish", "finish"],
+          ["skip", "skip"]
         ],
         multiple: true,
         default: "open",
-        grid: { xs: "w-full", sm: "w-full" } }
+        col: "col-span-6",
+        grid: { xs: "w-full", sm: "w-full" } 
+      }
 
     ]
   end

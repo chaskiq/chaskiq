@@ -74,6 +74,8 @@ class Apps::PackagesController < ApplicationController
     @location = params[:kind]
     @category = params[:category]
     @conversation_key = params[:conversation_key]
+    @bot_id = params[:bot_id]
+    @bot_step_id = params[:bot_step_id]
 
     @packages = @app.app_package_integrations
                     .joins(:app_package)
@@ -89,6 +91,9 @@ class Apps::PackagesController < ApplicationController
 
     @category = params[:category] || params.dig(:ctx, :category)
     @location = params[:location] || params.dig(:ctx, :location)
+
+    @bot_id = params[:bot_id] || params.dig(:ctx, :bot_id)
+    @bot_step_id = params[:bot_step_id] || params.dig(:ctx, :bot_step_id)
 
     @blocks = @package.call_hook({
                                    kind: "configure",
@@ -133,7 +138,7 @@ class Apps::PackagesController < ApplicationController
     @package = get_app_package
     @package_name = params[:id]
     @conversation_key = params[:ctx][:conversation_key]
-
+    
     @blocks = @package.call_hook({
                                    kind: "submit",
                                    ctx: {
@@ -152,6 +157,9 @@ class Apps::PackagesController < ApplicationController
   def process_initialize
     @location = params.dig(:ctx, :location) || params[:location]
 
+    @bot_id = params.dig(:ctx, :bot_id)
+    @bot_step_id = params.dig(:ctx, :bot_step_id)
+
     case @location
 
     when "home"
@@ -167,7 +175,7 @@ class Apps::PackagesController < ApplicationController
 
       render turbo_stream: [
         turbo_stream.replace("home-sortable", partial: "apps/home_packages/sorts"),
-        turbo_stream.replace("modal")
+        turbo_stream.update("modal")
       ]
 
     when "inbox"
@@ -180,7 +188,7 @@ class Apps::PackagesController < ApplicationController
           "inbox-sorts",
           partial: "apps/inbox_packages/inbox_sorts"
         ),
-        turbo_stream.replace("modal")
+        turbo_stream.update("modal")
       ]
 
     when "conversations"
@@ -206,6 +214,11 @@ class Apps::PackagesController < ApplicationController
       flash.now[:notice] = "Package added"
 
       render turbo_stream: [flash_stream]
+    when "bots"
+      @category = params.dig(:ctx, :category) || params[:category]
+      @bot = @app.bot_tasks.find(@bot_id)
+
+      render "apps/bots/editor/package"
     end
   end
 

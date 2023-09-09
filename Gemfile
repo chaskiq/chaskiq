@@ -25,6 +25,7 @@ gem "propshaft"
 gem "puma", "~> 6.0"
 gem "sassc"
 gem "tailwindcss-rails"
+gem "rails_heroicon"
 
 gem "devise" # , "4.7.1" # github: "plataformatec/devise"
 # Use CoffeeScript for .coffee assets and views

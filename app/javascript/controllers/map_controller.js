@@ -210,7 +210,7 @@ class Mapa extends React.Component {
 }
 
 export default class extends Controller {
-  connect() {
+  initialize() {
     const root = createRoot(this.element);
 
     const data = JSON.parse(this.element.dataset.userData);

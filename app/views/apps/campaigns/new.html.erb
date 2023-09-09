@@ -1,0 +1,18 @@
+
+<%= render Content::Component.new do %>
+
+  <%= render PageHeader::Component.new(title: campaign_name(@namespace) ) %>
+
+  <%= turbo_frame_tag "campaign-settings-form" do %>
+    <%= form_for @campaign, url: app_campaigns_path(@app.key, @campaign) do |form| %>
+
+      <%= render FieldRenderer::Component.new(
+        form: form, 
+        definitions: @campaign.config_fields
+      ) %>
+
+      <%= form.submit %>
+
+    <% end %>
+  <% end %>
+<% end %>

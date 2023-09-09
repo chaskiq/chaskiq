@@ -1,5 +1,3 @@
-// https://github.com/gorails-screencasts/dynamic-nested-forms-with-stimulusjs/blob/master/app/javascript/controllers/nested_form_controller.js
-
 // Visit The Stimulus Handbook for more details
 // https://stimulusjs.org/handbook/introduction
 //
@@ -7,7 +5,7 @@
 //
 //  <h4>Tasks</h4>
 //  <div data-controller="nested-form">
-//    <template data-target="nested-form.template">
+//    <template data-nested-form-target="template">
 //      <%= form.fields_for :tasks, Task.new, child_index: 'NEW_RECORD' do |task| %>
 //        <%= render "task_fields", form: task %>
 //      <% end %>
@@ -17,7 +15,7 @@
 //      <%= render "task_fields", form: task %>
 //    <% end %>
 //
-//    <div class="mb-3" data-target="nested-form.links">
+//    <div class="mb-3" data-nested-form-target="links">
 //      <%= link_to "Add Task", "#", class: "btn btn-outline-primary", data: { action: "click->nested-form#add_association" } %>
 //    </div>
 //  </div>
@@ -36,21 +34,34 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = ['links', 'template'];
+  static targets = [ 'links', 'template', 'wrap' ];
 
   connect() {
     this.wrapperClass = this.data.get('wrapperClass') || 'nested-fields';
     console.log(this.wrapperClass);
   }
 
+  refreshSortable(){
+    const event = new CustomEvent("sortable:refresh", { detail: "eventData" })
+    document.dispatchEvent(event)
+  }
+
   add_association(event) {
     event.preventDefault();
 
-    var content = this.templateTarget.innerHTML.replace(
-      /NEW_RECORD/g,
-      new Date().getTime()
-    );
-    this.linksTarget.insertAdjacentHTML('beforebegin', content);
+    let doc = this.templateTarget
+    if(event.currentTarget.dataset.templateId){
+      doc = document.querySelector(event.currentTarget.dataset.templateId)
+    }
+
+    var content = doc.innerHTML.replace(/NEW_RECORD/g, new Date().getTime());
+    
+    if(this.hasWrapTarget){
+      this.wrapTarget.insertAdjacentHTML('beforeend', content);
+    }else{
+      this.linksTarget.insertAdjacentHTML('beforebegin', content);
+    }
+    
   }
 
   remove_association(event) {

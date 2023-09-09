@@ -55,16 +55,20 @@ Rails.application.routes.draw do
 
   post "/auth0/authenticate", to: "agents/auth0#create"
 
-
-
   resources :apps do
-    resources :campaigns , controller: "apps/campaigns"
-    resources :agents , controller: "apps/agents"
+    resources :campaigns , controller: "apps/campaigns" do
+      member do
+        get :purge_metrics
+        get :deliver
+        get :clone
+        get :pause
+      end
+    end
 
+    resources :agents , controller: "apps/agents"
     resource :settings , controller: "apps/settings"
     resources :reports , controller: "apps/reports"
     resources :invitations , controller: "apps/invitations"
-
     resources :conversations , controller: "apps/conversations" do
       collection do
         get :sidebar
@@ -111,6 +115,13 @@ Rails.application.routes.draw do
         post :sort
         get :users
         get :leads
+      end
+
+      member do
+        get :purge_metrics
+        get :deliver
+        get :clone
+        get :pause
       end
     end
     

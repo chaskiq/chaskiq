@@ -3,7 +3,6 @@ class Apps::AgentsController < ApplicationController
 
   def show
     @agent = @app.agents.find(params[:id])
-
     @conversations = @agent.conversations.page(params[:page]).per(10) if params[:tab] == "conversations"
   end
 

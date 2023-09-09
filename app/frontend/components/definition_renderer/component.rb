@@ -11,6 +11,8 @@ class DefinitionRenderer::Component < ApplicationViewComponent
   option :size, default: -> { "sm" }
   option :theme, default: -> {}
   option :conversation_key, default: -> {}
+  option :bot_id, default: -> {}
+  option :bot_step_id, default: -> {}
   option :app, default: -> {}
   option :path, default: -> {}
   option :ctx, default: -> { {} }

@@ -508,6 +508,9 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
+    rails_heroicon (2.1.2)
+      actionview
+      railties
     railties (7.0.6)
       actionpack (= 7.0.6)
       activesupport (= 7.0.6)
@@ -771,6 +774,7 @@ DEPENDENCIES
   puma (~> 6.0)
   rack-cors (~> 1.0)
   rails (= 7.0.6)
+  rails_heroicon
   ransack
   redis (~> 4.0)
   redis-namespace (~> 1.8)

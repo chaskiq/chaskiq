@@ -1,1 +1,48 @@
-<div>Add TextAreaRenderer template here</div>
+<div class="input-wrapper <%= @size %>">
+
+
+  <label for="<%= @name%>"><%= @label %></label>
+
+	<% if @action %>
+		action
+	<% end %>
+
+	<textarea 
+		type="text" 
+		auto-complete="off"
+		value="<%= @value %>"
+		id="<%= @id %>"
+		name="ctx[values][<%= @name || @id %>]"
+	></textarea>
+
+	<!--
+	        {field.action && (
+          <TextInputButton
+            onClick={(e) => {
+              if (!isDisabled() && !isSaved()) handleAction(e, field)
+            }}
+            saved={field.save_state === 'saved'}
+            disabled={isDisabled()}
+          >
+            {field.save_state === 'saved' ? (
+              <CheckIcon />
+            ) : loading ? (
+              <Progress />
+            ) : (
+              <ArrowRight />
+            )}
+          </TextInputButton>
+        )}
+	-->
+
+	<% if @errors %>
+		<span class="error"><%= @errors %></span>
+	<% end %>
+
+	<% if @hint %>
+	<span class="helper-text">
+		<%= @hint %>
+	</span>
+	<% end %>
+
+</div>

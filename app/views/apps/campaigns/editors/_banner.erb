@@ -20,7 +20,8 @@
 
             <div 
               data-controller="dante-editor" 
-              data-content="<%= @campaign.serialized_content %>">
+              data-content="<%= @campaign.serialized_content %>"
+              data-theme="dark">
               <div data-dante-editor-target="container"></div>
 
               <%= f.hidden_field :serialized_content, 

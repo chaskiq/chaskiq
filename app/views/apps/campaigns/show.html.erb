@@ -1,6 +1,56 @@
+<% dropdown_options = [
+  {
+    title: t('campaigns.pause_title'),
+    description: t('campaigns.pause_description'),
+    href: pause_app_campaign_path(@app.key, @campaign),
+    icon: heroicon("pause"),
+    id: 'disabled',
+    state: 'disabled'
+  },
+  {
+    title: t('campaigns.clone_title'),
+    description: t('campaigns.clone_description'),
+    icon: heroicon("document-duplicate"),
+    id: 'enabled',
+    state: 'enabled',
+    href: clone_app_campaign_path(@app.key, @campaign)
+  },
+  {
+    title: t('common.delete'),
+    description: t('campaigns.delete_campaign', name: @campaign.name),
+    icon: heroicon("x-circle"),
+    href: pause_app_campaign_path(@app.key, @campaign),
+    data: {turbo_confirm: t("common.confirm_deletion_ready"), turbo_method: :delete}
+  },
+  { title: t('campaigns.deliver_title'),
+    description: t('campaigns.deliver_description'),
+    icon: heroicon("paper-airplane"),
+    id: 'deliver',
+    href: deliver_app_campaign_path(@app.key, @campaign),
+  }
+]
+%>
+
 <%= render Content::Component.new do %>
 
   <%= render PageHeader::Component.new(title: I18n.t('campaigns.title') ) do %>
+  
+    <%= render Toggle::Component.new(
+      id: 'away-mode', 
+      label: I18n.t('campaigns.enables'), 
+      checked: true, 
+      disabled: false, 
+      on_change: '')
+    %>
+
+    <%= render FilterMenu::Component.new( label: 'Add filters', 
+                variant: 'outlined',
+                orientation: 'right',
+                items: dropdown_options, 
+                size: 'sm',
+                label: t("common.actions")
+              )
+    %>
   <% end %>
 
   <%= render Tabs::Component.new(	items: campaigns_menu_data(app: @app, campaign: @campaign ) ) do %>

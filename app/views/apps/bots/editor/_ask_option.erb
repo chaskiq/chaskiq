@@ -1,0 +1,20 @@
+
+<div class="p-2 border nested-fields">
+  <%= form.hidden_field :id %>
+  <%= form.hidden_field :element %>
+  <%= form.hidden_field :_destroy %>
+
+  <div class="flex space-x-2">
+    <%= form.text_field :label %>
+    <%= form.select :next_step_uuid, @bot.paths.map{|o| 
+      [o["title"], o["id"] ] 
+    }, {} %>
+
+    <button class="btn btn-icon"
+      data-action="click->nested-form#remove_association"
+      type="button">
+      <%= heroicon("x-circle") %>
+    </button>
+
+  </div>
+</div>

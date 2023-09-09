@@ -24,8 +24,19 @@ import { DirectUpload } from '@rails/activestorage';
 export default class extends Controller {
   static targets = ['serializedInput', 'htmlInput', 'container'];
 
-  connect() {
+  initialize() {
     const serializedContent = this.element.dataset.content;
+    let editorOptions = this.element.dataset.editorOptions
+    if (editorOptions){
+      editorOptions = JSON.parse(editorOptions)
+    } else {
+      editorOptions = {}
+    }
+
+    let theme = "light"
+    if(this.element.dataset.theme){
+      theme = this.element.dataset.theme
+    }
 
     console.log(serializedContent);
 
@@ -37,6 +48,8 @@ export default class extends Controller {
         ctx={this}
         initialValue={serializedContent ? JSON.parse(serializedContent) : null}
         callback={this.updateContent}
+        editorOptions={editorOptions}
+        theme={theme}
       ></EditorComponent>
     );
   }
@@ -48,10 +61,18 @@ export default class extends Controller {
   }
 }
 
-function EditorComponent({ ctx, callback, upload, initialValue }) {
+function EditorComponent({ ctx, callback, upload, initialValue, editorOptions, theme }) {
   const [val, setValue] = React.useState(initialValue);
   const valRef = React.useRef(null);
   const editorRef = React.useRef(null);
+
+  const defaultOptions = {
+    menuPlacement: "up",
+    addButtonFixed: false,
+    menuBarFixed: false
+  }
+
+  const editorOptionsConfig = {...defaultOptions, ...editorOptions}
 
   React.useEffect(() => {
     valRef.current = val;
@@ -61,15 +82,15 @@ function EditorComponent({ ctx, callback, upload, initialValue }) {
   return (
     <Dante
       //theme={darkTheme}
-      theme={defaultTheme}
+      theme={theme == "dark" ? darkTheme : defaultTheme}
       content={initialValue}
       tooltips={[
         AddButtonConfig({
-          fixed: true,
+          fixed: editorOptionsConfig.addButtonFixed,
         }),
         MenuBarConfig({
-          placement: 'up',
-          fixed: true,
+          placement: editorOptionsConfig.menuPlacement,
+          fixed: editorOptionsConfig.menuBarFixed,
         }),
       ]}
       widgets={[

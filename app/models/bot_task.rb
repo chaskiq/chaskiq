@@ -236,13 +236,24 @@ class BotTask < Message
     result[:id] = id.to_s
     result
   end
+
 end
 
 class BotPath
   include ActiveModel::AttributeAssignment
   include ActiveModel::Model
+  include ActiveModel::Validations
+
   attr_accessor :id, :title, :follow_actions
   attr_reader :steps
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
+  end
 
   def steps=(attrs)
     @steps = attrs ? attrs.map { |o| BotPathStep.new(o) } : []
@@ -256,56 +267,79 @@ end
 class BotPathStep
   include ActiveModel::AttributeAssignment
   include ActiveModel::Model
-  attr_accessor :type, :step_uid
+  include ActiveModel::Validations
 
-  def messages=(attrs)
-    @messages = attrs ? attrs.map { |o| BotPathStepMessage.new(o) } : []
-  end
+  attr_accessor :id, :type, :step_uid
 
   def messages
     @messages || []
   end
 
-  def controls
-    @controls || []
+  def messages_attributes=(attrs)
+    @messages = attrs ? attrs.map { |o| BotPathStepMessage.new(o) } : []
   end
 
-  def controls=(attrs)
+  alias :messages= :messages_attributes=
+
+  def controls
+    @controls || nil
+  end
+
+  def controls_attributes=(attrs)
     @controls = BotPathStepControl.new(attrs)
+  end
+
+  alias :controls= :controls_attributes=
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
   end
 end
 
 class BotPathStepControl
   include ActiveModel::AttributeAssignment
   include ActiveModel::Model
-  attr_accessor :type, :wait_for_input, :label, :app_package
+  include ActiveModel::Validations
 
+  attr_accessor :type, :label, :app_package, :_destroy, :wait_for_input, :position
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
+  end
+  
   def schema
     @schema || []
   end
 
-  def schema=(attrs)
+  def schema_attributes=(attrs)
+    return if attrs.blank?
     @schema = attrs.map { |o| BotPathStepSchema.new(o) }
   end
 
-  def messages
-    @messages ||= []
-  end
-
-  def messages=(attrs)
-    @messages = attrs.map { |o| BotPathStepMessage.new(o) }
-  end
+  alias :schema= :schema_attributes=
 end
 
 class BotPathStepSchema
   include ActiveModel::AttributeAssignment
   include ActiveModel::Model
+  include ActiveModel::Validations
+
   attr_accessor :id,
                 :label,
                 :text,
                 :element,
                 :next_step_uuid,
-                :type,
+                #:type,
+                :hint,
+                :placeholder,
                 :style,
                 :value,
                 :size,
@@ -313,15 +347,42 @@ class BotPathStepSchema
                 :action,
                 :variant,
                 :app_package,
-                :controls,
-                :messages,
-                :step_uid
-  #              :,
-  #              :messages
+                #:controls,
+                #:messages,
+                :step_uid,
+                :name,
+                :_destroy
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
+  end
 end
 
 class BotPathStepMessage
   include ActiveModel::AttributeAssignment
   include ActiveModel::Model
-  attr_accessor :app_user, :html_content, :serialized_content
+  include ActiveModel::Validations
+  attr_accessor :type, :app_user, :html_content, :serialized_content, :_destroy, :position
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
+  end
+
+  def controls
+    @controls || nil
+  end
+
+  def controls_attributes=(attrs)
+    @controls = BotPathStepControl.new(attrs)
+  end
+
+  alias :controls= :controls_attributes=
 end

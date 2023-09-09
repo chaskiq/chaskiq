@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { ResponsivePie } from '@nivo/pie';
 
 export default class extends Controller {
-   connect() {
+   initialize() {
     const root = createRoot(this.element);
 
     root.render(

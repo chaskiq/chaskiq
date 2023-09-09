@@ -1,14 +1,91 @@
+
 <%= f.fields_for :steps do |fff| %>
 
-	<%= fff.text_field :type %>
-	<% #= ff.text_field :wait_for_input %>
-	<% #= fff.text_field :id, label: 'step id' %>
+	<div class="border border-red-600">
+		<%= fff.hidden_field :type %>
+		<% #= fff.text_field :wait_for_input %>
+		<% #= fff.text_field :id, label: 'step id' %> 
+		<%= fff.text_field :step_uid, label: 'step id' %>
 
-	<p class="text-lg">CONTROLS</p>
+		<%= fff.object.type %>
 
-	<%
+		<div 
+			data-controller="nested-form" 
+			data-new-record="<%= true %>">
+			<% if fff.object.type == "messages" %>
+				<div data-nested-form-target="wrap" 
+					id="bot-nested-fields" 
+					data-controller="sortable"
+					data-handle=".cursor-move"
+					class="bot-nested-fields">
+					<template 
+						data-nested-form-target="template" 
+						id="messagesTemplate">
+						<%= f.fields_for :messages, BotPathStepMessage.new(), child_index: 'NEW_RECORD' do |ff| %>
+							<%= render "apps/bots/editor/message", form: ff %>
+						<% end %>
+					</template>
+
+					<template 
+						data-nested-form-target="template" 
+						id="waitTemplate">
+						<%= f.fields_for :controls, BotPathStepControl.new(type: "wait_for_reply"), child_index: 'NEW_RECORD' do |ff| %>
+							<%= render "apps/bots/editor/control", form: ff %>
+						<% end %>
+					</template>
+
+
+					M: <%= fff.object.messages.size %>
+					C: <%= fff.object.controls.present? ? fff.object.controls.type : "NONO" %>
+
+					<%= fff.fields_for :messages, fff.object.messages, include_id: true do |fm| %>
+						<% if fm.object.present? %>
+							<%= render "apps/bots/editor/message", form: fm %>
+						<% end %>
+					<% end %>
+
+					<%= fff.fields_for :controls, fff.object.controls do |fm| %>
+						<% if fm.object.present? %>
+							<% #= fm.object.as_json %>
+							<%= render "apps/bots/editor/control", form: fm %>
+						<% end %>
+					<% end %>
+				</div>
+			<% end %>
+
+			<div class="mb-3" data-nested-form-target="links">
+				<%= link_to "Add message", "#", 
+				class: "btn btn-outlined", 
+				data: { 
+					action: "click->nested-form#add_association click->nested-form#refreshSortable",
+					template_id: "#messagesTemplate"
+				} 
+				%>
+
+				<%= link_to "Add wait for input", "#", 
+					class: "btn btn-outlined", 
+					data: { 
+						action: "click->nested-form#add_association click->nested-form#refreshSortable",
+						template_id: "#waitTemplate"
+					} 
+				%>
+
+				<%= link_to "Add App", 
+					capabilities_app_packages_path(
+						@app.key, 
+						kind: "bots",
+						bot_step_id: fff.object.step_uid,
+						bot_id: @bot.id
+					), 
+					class: "btn btn-outlined", 
+					data: { turbo_frame: "modal" }
+				%>
+			</div>
+		</div>
+
+<%
 =begin
- fff.fields_for fff.object.controls do |ffff| %>
+fff.fields_for fff.object.controls do |ffff| %>
 
 		<%= ffff.text_field :type %>
 		<%= ffff.text_field :wait_for_input %>
@@ -26,4 +103,5 @@
 	<% end 
 =end 
 %>
+	</div>
 <% end %>

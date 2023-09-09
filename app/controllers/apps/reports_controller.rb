@@ -26,6 +26,12 @@ class Apps::ReportsController < ApplicationController
   end
 
   def index
+    @integration = {
+      name: "overview",
+      icon: nil,
+      paths: chart_data.map { |k, v| v.merge({ kind: k }) }
+    }
+    render "report_overview"
     # @dashboard = AppPackageDashboard.app_packages_list(@app)
   end
 

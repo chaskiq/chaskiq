@@ -26,6 +26,17 @@ class Apps::BotsController < ApplicationController
       @collection = @segment_manager.results(params) # resource_params["segment_predicate"]
     end
 
+    if params[:path]
+      render "steps"
+
+      render turbo_stream: [
+        turbo_stream.replace(
+          "bot-steps",
+          partial: "apps/bots/editor"
+        )
+      ] and return
+    end
+
     case params[:mode]
     when "new-step"
       render "new_step" and return
@@ -58,7 +69,8 @@ class Apps::BotsController < ApplicationController
         turbo_stream.replace(
           "bot-task-editor",
           partial: "apps/bots/editor"
-        )
+        ),
+        turbo_stream.update("modal")
       ]
     else
       resource_params = params.require(:bot_task).permit! # (:name, :scheduling)

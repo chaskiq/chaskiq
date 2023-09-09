@@ -2,9 +2,25 @@ class Apps::CampaignsController < ApplicationController
   before_action :find_app
 
   def index
-    namespace = params[:namespace] || "campaigns"
-    @collection = @app.send(namespace) if Message.allowed_types.include?(namespace)
+    @namespace = params[:namespace] || "campaigns"
+    @collection = @app.send(@namespace) if Message.allowed_types.include?(@namespace)
     @collection = @collection.page(params[:page]).per(20)
+  end
+
+  def new
+    @namespace = params[:namespace] || "campaigns"
+    @campaign = @app.send(@namespace).new if Message.allowed_types.include?(@namespace)
+  end
+
+  def create
+    @namespace = params[:namespace] || "campaigns"
+    @campaign = @app.send(@namespace).new if Message.allowed_types.include?(@namespace)
+    @campaign.assign_attributes(resource_params)
+    if @campaign.save
+      redirect_to app_campaign_path(@app.key, @campaign)
+    else
+      render "new"
+    end
   end
 
   def show
@@ -54,6 +70,38 @@ class Apps::CampaignsController < ApplicationController
       @tab = "editor"
       @campaign.update(resource_params)
     end
+  end
+
+  def clone
+    #authorize! message, to: :can_manage_campaigns?, with: AppPolicy, context: {
+    #  app: app
+    #}
+
+    new_message = @campaign.dup
+    new_message.name = "#{new_message.name} (copy)"
+    new_message.state = "disabled"
+    new_message.save
+
+    redirect_to app_campaign_path(@app.key, new_message)
+  end
+
+  def deliver
+    #authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+    #  app: @app
+    #}
+    @campaign.send_newsletter
+    flash.now[:notice] = "Place was updated!"
+    render "show"
+  end
+
+  def purge_metrics
+    #set_campaign(id)
+    #authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+    #  app: @app
+    #}
+    @campaign.metrics.destroy_all
+    flash.now[:notice] = "Place was updated!"
+    render "show"
   end
 
   private
@@ -142,6 +190,22 @@ class Apps::CampaignsController < ApplicationController
     if params.keys.include?("campaign")
       @namespace = "campaign"
       params.require(:campaign).permit(
+        :serialized_content, :timezone, :name, :from_name, :subject, :description, :scheduled_to, :scheduled_at,
+        segments: {
+          segment_predicate: [
+            :type,
+            :attribute,
+            :comparison,
+            { value: [] }, # This permits the value as an array
+            :value # This permits the value as a scalar (e.g., string)
+          ]
+        }
+      )
+    end
+
+    if params.keys.include?("tour")
+      @namespace = "tour"
+      params.require(:tour).permit(
         :serialized_content, :timezone, :name, :from_name, :subject, :description, :scheduled_to, :scheduled_at,
         segments: {
           segment_predicate: [

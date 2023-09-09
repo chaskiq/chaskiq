@@ -9,7 +9,7 @@
 	<div class="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 ">
 		<div class="flex items-center">
 				<div class="flex-shrink-0 h-10 w-10">
-					<%= image_tag conversation.main_participant.avatar_url, class: "h-10 w-10 rounded-full" %>
+					<%= render(Avatar::Component.new(src: conversation.main_participant.avatar_url, app: @app, size: 10)) %>
 				</div>
 				<div class="ml-4 truncate w-full">
 					<div class="flex justify-between">

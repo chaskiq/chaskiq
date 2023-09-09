@@ -25,6 +25,15 @@
 		<% if @conversation_key %>
 			<input type="hidden" name="ctx[conversation_key]" value="<%= @conversation_key %>">
 		<% end %>
+
+		<% if @bot_id %>
+			<input type="hidden" name="ctx[bot_id]" value="<%= @bot_id %>">
+		<% end %>
+
+		<% if @bot_step_id %>
+			<input type="hidden" name="ctx[bot_step_id]" value="<%= @bot_step_id %>">
+		<% end %>
+
 		<input type="hidden" name="ctx[location]" value="<%= @location %>">
 		<input type="hidden" name="ctx[category]" value="<%= @category %>">
 
@@ -88,13 +97,37 @@
 							size: @size || item['size'] 
 						)
 					end
+				when "textarea"
+					render PadderRenderer::Component.new(size: @size  ) do
+						render TextAreaRenderer::Component.new(
+							id: item['id'],
+							placeholder: item['placeholder'],
+							errors: item['errors'],
+							label: item['label'],
+							save_state: item['save_state'],
+							value: item['value'],   
+							disabled: item['disabled'],
+							loading: item['loading'], 
+							name: item['name'],   
+							hint: item['hint'],
+							size: @size || item['size'] 
+						)
+					end
+				when "hidden"
+					render PadderRenderer::Component.new(size: @size) do
+						render HiddenFieldRenderer::Component.new(
+							id: item['id'],
+							value: item['value'],
+							name: item['name']
+						)
+					end
 				when "spacer"
 					render SpacerRenderer::Component.new(size: item["size"])
 				when "separator"
 					render SeparatorRenderer::Component.new()
 				else 
 				
-				"---- no definition for #{item["type"]}--- \n"
+				"---- no definition for #{item["type"]} #{item}--- \n"
 					
 				end %>
 

@@ -445,4 +445,15 @@ module ApplicationHelper
     classes << "rounded-bl-lg rounded-br-lg sm:rounded-bl-none" if action_idx == total_length - 1
     classes.join(" ")
   end
+
+  def campaign_name(name)
+    case name
+    when 'campaigns'
+      I18n.t('campaigns.mailing')
+    when 'user_auto_messages'
+      I18n.t('campaigns.in_app')
+    else
+      name
+    end
+  end
 end

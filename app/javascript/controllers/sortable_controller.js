@@ -5,7 +5,9 @@ import { post } from '@rails/request.js';
 //import axios from 'axios'
 
 export default class extends Controller {
-  connect() {
+  static targets = ["item"]
+
+  initialize() {
     console.log('sortable!');
 
     let group = null;
@@ -16,6 +18,8 @@ export default class extends Controller {
       };
     }
 
+    this.refresh()
+
     this.sortable = Sortable.create(this.element, {
       onEnd: this.end.bind(this),
       group: group,
@@ -24,9 +28,14 @@ export default class extends Controller {
       connectWith: ['.item-list'],
       animation: 150,
     });
+
+    document.addEventListener('sortable:refresh', (event) => {
+      this.refresh()
+    });
   }
 
   async sendData(data, cb) {
+    if(!this.element.dataset.url) return
     const response = await post(this.element.dataset.url, {
       body: JSON.stringify(data),
       responseKind: 'turbo-stream',
@@ -47,6 +56,8 @@ export default class extends Controller {
     //	parentSectionId = e.item.parents(e.item.dataset.lookFor).dataset.id
     //}
 
+    if(!itemUrl) return
+
     this.sendData(
       {
         section: {
@@ -62,31 +73,15 @@ export default class extends Controller {
       }
     );
 
-    /*
-		axios({
-			method: 'patch',
-			url: itemUrl,
-			headers: {
-				'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-			},
-			data: { section: {
-				id: item,
-				parent_section_id: parentSectionId,
-				position: e.newIndex + 1
-			} },
-			onUploadProgress: e => {
-				console.log(e)
-				//return this.updateProgressBar(e)
-			}
-		}).then(result => {
-			console.log("good!")
-			//this.setState({collection: result.data.collection})
-			//console.log(result.data.map((o)=> o.id))
-		}).catch(error => {
-			debugger
-			//console.log(`ERROR: got error uploading file ${ error }`)
-		})
-		*/
     console.log('end!');
+  }
+
+  refresh() {
+    this.itemTargets.forEach((item, index) => {
+      const positionInput = item.querySelector('.position')
+      if (positionInput) {
+        positionInput.value = index + 1 // The position is 1-indexed
+      }
+    })
   }
 }

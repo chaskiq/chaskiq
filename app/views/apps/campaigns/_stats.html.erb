@@ -2,7 +2,7 @@
 
 <% counts = @campaign.metrics.group(:action).count(:trackable_id) %>
 
-<div class="flex space-x py-4">
+<div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
   <% @campaign.stats_fields.each do |field| %>
     <% data = field[:keys].map do |o|
       {
@@ -14,7 +14,7 @@
     end 
     %>
 
-    <div class="">
+    <div class="sm:col-span-1">
       <%= render PieChart::Component.new(
           data: data,
           label: field[:name]
@@ -38,7 +38,11 @@
       {
         name: 'action',
         title: I18n.t('definitions.stats.actions.label'),
-        render: ->(row) { "this.renderBadgeKind(row)"} 
+        render: ->(row) {
+          render Badge::Component.new() do 
+            row.action
+          end
+        } 
       },
       {
         name: 'host',

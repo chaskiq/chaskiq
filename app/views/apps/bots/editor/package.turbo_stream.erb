@@ -1,0 +1,27 @@
+
+<%= form_for @bot, url: "" do |f| %>
+	<%= f.fields_for :bot_paths_objects, [@bot.bot_paths_objects.first], child_index: SecureRandom.uuid do |ff| %>
+    <%= ff.fields_for :steps, ff.object.steps.first, child_index: SecureRandom.uuid do |fff| %>
+      
+      <%= turbo_stream.append("bot-nested-fields") do %>
+        <div data-sortable-target="item">
+        <%= fff.fields_for :messages, BotPathStepMessage.new(), child_index: SecureRandom.uuid do |ff| %>
+          HOLAAAA <%= fff.object.class %>
+          <%= ff.text_field :position, class: "position" %>
+          <%= render "apps/bots/editor/package", 
+            package_name: @package_name,
+            blocks: @blocks.with_indifferent_access,
+            type: "app_package",
+            category: @category,
+            bot_id: @bot_id,
+            bot_step_id: @bot_step_id
+          %>
+
+        <% end %>
+        </div>
+      <% end %>
+
+    <% end %>
+  <% end %>
+<% end %>
+

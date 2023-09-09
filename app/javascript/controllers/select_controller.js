@@ -21,7 +21,7 @@ const MultiValueLabel = (props) => {
 };
 
 export default class extends Controller {
-  connect() {
+  initialize() {
     const wrapper = this.element;
     const selectWrapper = wrapper.querySelector('.select-wrapper');
 
