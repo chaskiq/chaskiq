@@ -138,7 +138,7 @@ class Apps::PackagesController < ApplicationController
     @package = get_app_package
     @package_name = params[:id]
     @conversation_key = params[:ctx][:conversation_key]
-    
+
     @blocks = @package.call_hook({
                                    kind: "submit",
                                    ctx: {

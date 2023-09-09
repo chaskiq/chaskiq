@@ -26,16 +26,16 @@ export default class extends Controller {
 
   initialize() {
     const serializedContent = this.element.dataset.content;
-    let editorOptions = this.element.dataset.editorOptions
-    if (editorOptions){
-      editorOptions = JSON.parse(editorOptions)
+    let editorOptions = this.element.dataset.editorOptions;
+    if (editorOptions) {
+      editorOptions = JSON.parse(editorOptions);
     } else {
-      editorOptions = {}
+      editorOptions = {};
     }
 
-    let theme = "light"
-    if(this.element.dataset.theme){
-      theme = this.element.dataset.theme
+    let theme = 'light';
+    if (this.element.dataset.theme) {
+      theme = this.element.dataset.theme;
     }
 
     console.log(serializedContent);
@@ -61,18 +61,25 @@ export default class extends Controller {
   }
 }
 
-function EditorComponent({ ctx, callback, upload, initialValue, editorOptions, theme }) {
+function EditorComponent({
+  ctx,
+  callback,
+  upload,
+  initialValue,
+  editorOptions,
+  theme,
+}) {
   const [val, setValue] = React.useState(initialValue);
   const valRef = React.useRef(null);
   const editorRef = React.useRef(null);
 
   const defaultOptions = {
-    menuPlacement: "up",
+    menuPlacement: 'up',
     addButtonFixed: false,
-    menuBarFixed: false
-  }
+    menuBarFixed: false,
+  };
 
-  const editorOptionsConfig = {...defaultOptions, ...editorOptions}
+  const editorOptionsConfig = { ...defaultOptions, ...editorOptions };
 
   React.useEffect(() => {
     valRef.current = val;
@@ -82,7 +89,7 @@ function EditorComponent({ ctx, callback, upload, initialValue, editorOptions, t
   return (
     <Dante
       //theme={darkTheme}
-      theme={theme == "dark" ? darkTheme : defaultTheme}
+      theme={theme == 'dark' ? darkTheme : defaultTheme}
       content={initialValue}
       tooltips={[
         AddButtonConfig({

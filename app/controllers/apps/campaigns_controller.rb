@@ -73,9 +73,9 @@ class Apps::CampaignsController < ApplicationController
   end
 
   def clone
-    #authorize! message, to: :can_manage_campaigns?, with: AppPolicy, context: {
+    # authorize! message, to: :can_manage_campaigns?, with: AppPolicy, context: {
     #  app: app
-    #}
+    # }
 
     new_message = @campaign.dup
     new_message.name = "#{new_message.name} (copy)"
@@ -86,19 +86,19 @@ class Apps::CampaignsController < ApplicationController
   end
 
   def deliver
-    #authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+    # authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
     #  app: @app
-    #}
+    # }
     @campaign.send_newsletter
     flash.now[:notice] = "Place was updated!"
     render "show"
   end
 
   def purge_metrics
-    #set_campaign(id)
-    #authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+    # set_campaign(id)
+    # authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
     #  app: @app
-    #}
+    # }
     @campaign.metrics.destroy_all
     flash.now[:notice] = "Place was updated!"
     render "show"

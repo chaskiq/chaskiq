@@ -11,7 +11,7 @@ class Tour < Message
   def config_fields
     [
       { name: "name", type: "string", col: "col-span-6", grid: { xs: "w-full", sm: "w-3/4" } },
-      { name: "subject", type: "string", col: "col-span-6",grid: { xs: "w-full", sm: "w-3/4" } },
+      { name: "subject", type: "string", col: "col-span-6", grid: { xs: "w-full", sm: "w-3/4" } },
       { name: "url", type: "string", col: "col-span-6", grid: { xs: "w-full", sm: "w-1/4" } },
 
       { name: "description", type: "text", col: "col-span-6", grid: { xs: "w-full", sm: "w-full" } },
@@ -19,20 +19,19 @@ class Tour < Message
       { name: "scheduled_at", label: "Scheduled at", type: "datetime", col: "col-span-3", grid: { xs: "w-full", sm: "w-1/2" } },
       { name: "scheduled_to", label: "Scheduled to", type: "datetime", col: "col-span-3", grid: { xs: "w-full", sm: "w-1/2" } },
 
-      { name: "hidden_constraints", 
-        label: "Hidden constraints", 
+      { name: "hidden_constraints",
+        label: "Hidden constraints",
         type: "select",
         options: [
-          ["open", "open"],
-          ["close", "close"],
-          ["finish", "finish"],
-          ["skip", "skip"]
+          %w[open open],
+          %w[close close],
+          %w[finish finish],
+          %w[skip skip]
         ],
         multiple: true,
         default: "open",
         col: "col-span-6",
-        grid: { xs: "w-full", sm: "w-full" } 
-      }
+        grid: { xs: "w-full", sm: "w-full" } }
 
     ]
   end

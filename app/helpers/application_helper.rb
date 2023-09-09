@@ -448,10 +448,10 @@ module ApplicationHelper
 
   def campaign_name(name)
     case name
-    when 'campaigns'
-      I18n.t('campaigns.mailing')
-    when 'user_auto_messages'
-      I18n.t('campaigns.in_app')
+    when "campaigns"
+      I18n.t("campaigns.mailing")
+    when "user_auto_messages"
+      I18n.t("campaigns.in_app")
     else
       name
     end

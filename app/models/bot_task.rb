@@ -236,7 +236,6 @@ class BotTask < Message
     result[:id] = id.to_s
     result
   end
-
 end
 
 class BotPath
@@ -279,7 +278,7 @@ class BotPathStep
     @messages = attrs ? attrs.map { |o| BotPathStepMessage.new(o) } : []
   end
 
-  alias :messages= :messages_attributes=
+  alias messages= messages_attributes=
 
   def controls
     @controls || nil
@@ -289,7 +288,7 @@ class BotPathStep
     @controls = BotPathStepControl.new(attrs)
   end
 
-  alias :controls= :controls_attributes=
+  alias controls= controls_attributes=
 
   def marked_for_destruction?
     false
@@ -314,17 +313,18 @@ class BotPathStepControl
   def new_record?
     true
   end
-  
+
   def schema
     @schema || []
   end
 
   def schema_attributes=(attrs)
     return if attrs.blank?
+
     @schema = attrs.map { |o| BotPathStepSchema.new(o) }
   end
 
-  alias :schema= :schema_attributes=
+  alias schema= schema_attributes=
 end
 
 class BotPathStepSchema
@@ -337,7 +337,7 @@ class BotPathStepSchema
                 :text,
                 :element,
                 :next_step_uuid,
-                #:type,
+                # :type,
                 :hint,
                 :placeholder,
                 :style,
@@ -347,8 +347,8 @@ class BotPathStepSchema
                 :action,
                 :variant,
                 :app_package,
-                #:controls,
-                #:messages,
+                # :controls,
+                # :messages,
                 :step_uid,
                 :name,
                 :_destroy
@@ -384,5 +384,5 @@ class BotPathStepMessage
     @controls = BotPathStepControl.new(attrs)
   end
 
-  alias :controls= :controls_attributes=
+  alias controls= controls_attributes=
 end

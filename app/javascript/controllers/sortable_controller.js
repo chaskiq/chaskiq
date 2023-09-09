@@ -5,7 +5,7 @@ import { post } from '@rails/request.js';
 //import axios from 'axios'
 
 export default class extends Controller {
-  static targets = ["item"]
+  static targets = ['item'];
 
   initialize() {
     console.log('sortable!');
@@ -18,7 +18,7 @@ export default class extends Controller {
       };
     }
 
-    this.refresh()
+    this.refresh();
 
     this.sortable = Sortable.create(this.element, {
       onEnd: this.end.bind(this),
@@ -30,12 +30,12 @@ export default class extends Controller {
     });
 
     document.addEventListener('sortable:refresh', (event) => {
-      this.refresh()
+      this.refresh();
     });
   }
 
   async sendData(data, cb) {
-    if(!this.element.dataset.url) return
+    if (!this.element.dataset.url) return;
     const response = await post(this.element.dataset.url, {
       body: JSON.stringify(data),
       responseKind: 'turbo-stream',
@@ -56,7 +56,7 @@ export default class extends Controller {
     //	parentSectionId = e.item.parents(e.item.dataset.lookFor).dataset.id
     //}
 
-    if(!itemUrl) return
+    if (!itemUrl) return;
 
     this.sendData(
       {
@@ -78,10 +78,10 @@ export default class extends Controller {
 
   refresh() {
     this.itemTargets.forEach((item, index) => {
-      const positionInput = item.querySelector('.position')
+      const positionInput = item.querySelector('.position');
       if (positionInput) {
-        positionInput.value = index + 1 // The position is 1-indexed
+        positionInput.value = index + 1; // The position is 1-indexed
       }
-    })
+    });
   }
 }

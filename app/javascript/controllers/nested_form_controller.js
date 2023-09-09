@@ -34,34 +34,33 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = [ 'links', 'template', 'wrap' ];
+  static targets = ['links', 'template', 'wrap'];
 
   connect() {
     this.wrapperClass = this.data.get('wrapperClass') || 'nested-fields';
     console.log(this.wrapperClass);
   }
 
-  refreshSortable(){
-    const event = new CustomEvent("sortable:refresh", { detail: "eventData" })
-    document.dispatchEvent(event)
+  refreshSortable() {
+    const event = new CustomEvent('sortable:refresh', { detail: 'eventData' });
+    document.dispatchEvent(event);
   }
 
   add_association(event) {
     event.preventDefault();
 
-    let doc = this.templateTarget
-    if(event.currentTarget.dataset.templateId){
-      doc = document.querySelector(event.currentTarget.dataset.templateId)
+    let doc = this.templateTarget;
+    if (event.currentTarget.dataset.templateId) {
+      doc = document.querySelector(event.currentTarget.dataset.templateId);
     }
 
     var content = doc.innerHTML.replace(/NEW_RECORD/g, new Date().getTime());
-    
-    if(this.hasWrapTarget){
+
+    if (this.hasWrapTarget) {
       this.wrapTarget.insertAdjacentHTML('beforeend', content);
-    }else{
+    } else {
       this.linksTarget.insertAdjacentHTML('beforebegin', content);
     }
-    
   }
 
   remove_association(event) {
