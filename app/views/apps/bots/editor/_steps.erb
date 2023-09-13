@@ -2,17 +2,17 @@
 	<div>
 		<%= f.fields_for :steps, step, child_index: step.step_uid do |fff| %>
 
-			<div class="border border-red-600">
+			<div class="border-- border-red-600--">
 				<%= fff.hidden_field :type %>
 				<% #= fff.text_field :wait_for_input %>
 				<% #= fff.text_field :id, label: 'step id' %> 
-				<%= fff.text_field :step_uid, label: 'step id' %>
+				<%= fff.hidden_field :step_uid, label: 'step id' %>
 
-				<%= fff.object.type %>
+				<% #= fff.object.type %>
 
 				<div 
 					data-controller="nested-form" 
-					data-new-record="<%= true %>">
+					data-new-record="true">
 					<% #if fff.object.type == "messages" %>
 						<div data-nested-form-target="wrap" 
 							id="bot-nested-fields-<%= fff.object.step_uid %>" 
@@ -21,7 +21,7 @@
 							class="bot-nested-fields">
 							<template 
 								data-nested-form-target="template" 
-								id="messagesTemplate">
+								id="messagesTemplate-<%= fff.object.step_uid %>">
 								<%= fff.fields_for :messages, BotPathStepMessage.new(), child_index: 'NEW_RECORD' do |ff| %>
 									<%= render "apps/bots/editor/message", form: ff %>
 								<% end %>
@@ -29,15 +29,15 @@
 
 							<template 
 								data-nested-form-target="template" 
-								id="waitTemplate">
+								id="waitTemplate-<%= fff.object.step_uid %>">
 								<%= fff.fields_for :controls, BotPathStepControl.new(type: "wait_for_reply"), child_index: 'NEW_RECORD' do |ff| %>
 									<%= render "apps/bots/editor/control", form: ff %>
 								<% end %>
 							</template>
 
 
-							M: <%= fff.object.messages.size %>
-							C: <%= fff.object.controls.present? ? fff.object.controls.type : "NONO" %>
+							<% #= fff.object.messages.size %>
+							<% #= fff.object.controls.present? ? fff.object.controls.type : "NONO" %>
 
 							<%= fff.fields_for :messages, fff.object.messages, include_id: true do |fm| %>
 								<% if fm.object.present? %>
@@ -63,7 +63,7 @@
 							class: "btn btn-outlined", 
 							data: { 
 								action: "click->nested-form#add_association click->nested-form#refreshSortable",
-								template_id: "#messagesTemplate"
+								template_id: "#messagesTemplate-#{fff.object.step_uid}"
 							} 
 							%>
 
@@ -71,7 +71,7 @@
 							class: "btn btn-outlined", 
 							data: { 
 								action: "click->nested-form#add_association click->nested-form#refreshSortable",
-								template_id: "#waitTemplate"
+								template_id: "#waitTemplate-#{fff.object.step_uid}"
 							} 
 						%>
 

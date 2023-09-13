@@ -1,23 +1,19 @@
+<div 
+	data-controller="bots">
 <%= turbo_frame_tag 'bot-task-editor' do %>
 	<%= form_for @bot, url: app_bot_path(@app.key, @bot, tab: params[:tab]) do |f| %>
 
-		<%= f.text_field :name %>
-
-		<%= Time.now %>
-
+		<%= f.hidden_field :current_path, data: {bots_target: "currentPathField"} %>
+		
 		<div class="">
 
 			<p class="text-lg">PATHS</p>
 
-			<div 
-				data-controller="bots"
-				class="flex justify-between sm:my-4 border-1 border-gray-400 rounded-md shadow">
+			<div class="flex justify-between sm:my-4 border-1 border-gray-400 rounded-md shadow">
 				
 				<div class="hidden sm:w-2/4 bg-gray-50 dark:bg-gray-900 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5">
-					
-					<%= f.text_field :new_path_title, hint: t("doorkeeper.applications.help.name") %>
-					
-					<% @bot.bot_paths_objects.each do |path| %>
+										
+					<% @bot.bot_paths_objects.each_with_index do |path, index| %>
 						<button 
 							data-action="click->bots#pathClick"
 							data-bots-target="pathLink"
@@ -26,7 +22,7 @@
 										focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50
 										cursor-pointer w-full py-2 px-2 
 										bg-white dark:bg-gray-900 border-1 
-										shadow max-w-3xl break-all flex items-center">
+										shadow max-w-3xl break-all flex items-center <%= path.id == @bot.current_path ? "bg-green-500" : "" %>">
 							<%= path.title %>
 						</button>
 					<% end %>
@@ -44,17 +40,17 @@
 				<div class="w-full shadow">
 					<div class="top-0 sticky py-4">
 						<%= turbo_frame_tag "bot-steps" do %>
-							<%= f.object.bot_paths_objects.size %>
+							<% #= f.object.bot_paths_objects.size %>
 							<div>
-								<% @bot.bot_paths_objects.each do |path| %>
+								<% @bot.bot_paths_objects.each_with_index do |path, index| %>
 									<%= f.fields_for :bot_paths_objects, path, child_index: path.id do |ff| %>
 										<div 
 											data-bots-target="pathContainer"
 											id="bot-path-container-<%= ff.object.id %>"
-											class="border-green-600 border-2">
+											class="border-green-600-- border-2-- <%= path.id == @bot.current_path ? "" : "hidden" %>">
 											<div class="w-full p-6 border-b-2 border-gray-200">
-												<%= ff.text_field :id, label: "path id" %>
-												<%= ff.text_field :title, label: "path name" %>
+												<%= ff.hidden_field :id, label: "path id" %>
+												<%= ff.hidden_field :title, label: "path name" %>
 											</div>
 											<p class="text-lg">STEPS</p>
 											<%
@@ -63,7 +59,7 @@
 												end
 											%>
 
-											<div class="border-4 border-purple-600">
+											<div class="border-4-- border-purple-600--">
 												<%= render 'apps/bots/editor/steps', f: ff, items: without_ask_option %>
 											</div>
 
@@ -75,7 +71,7 @@
 												data-controller="nested-form" 
 												data-new-record="<%= true %>">
 
-													<div class="border-4 border-orange-600">
+													<div class="border-4-- border-orange-600--">
 														<%= render 'apps/bots/editor/follow_actions', 
 															f: ff, 
 															items: with_ask_option
@@ -156,7 +152,7 @@
 														<%= link_to "Reply button", "#", 
 															class: "btn btn-outlined", 
 															data: { 
-																action: "click->nested-form#add_association click->bots#hideFollowActionLinks",
+																action: " click->bots#hideFollowActionLinks click->nested-form#add_association",
 																template_id: "#askOptionTemplate"
 															} 
 														%>
@@ -166,7 +162,7 @@
 														<%= link_to "Follow Actions", "#", 
 															class: "btn btn-outlined", 
 															data: { 
-																action: "click->nested-form#add_association click->bots#hideFollowActionLinks",
+																action: "click->bots#hideFollowActionLinks click->nested-form#add_association",
 																template_id: "#followActionStep"
 															} 
 														%>
@@ -191,3 +187,4 @@
 
 	<% end %>
 <% end %>
+</div>

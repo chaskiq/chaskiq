@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="flex-grow">
-      <%= form.text_field :type %>
+      <%= form.hidden_field :type %>
       <%= form.hidden_field :position, class: "position" %>
 
       <% if form.object.type == "wait_for_reply" %>

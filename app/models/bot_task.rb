@@ -223,6 +223,8 @@ class BotTask < Message
     @bot_paths_objects ||= (paths.map { |o| BotPath.new(o) } || [])
   end
 
+  attr_accessor :current_path
+
   def bot_paths_objects=(attrs)
     @bot_paths_objects = attrs.map { |o| BotPath.new(o) }
   end

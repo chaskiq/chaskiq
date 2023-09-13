@@ -30,6 +30,10 @@ class Apps::BotsController < ApplicationController
       @collection = @segment_manager.results(params) # resource_params["segment_predicate"]
     end
 
+    if params[:tab] == "editor"
+      @bot.current_path = @bot.paths.first["id"]
+    end
+
     if params[:path]
       render "steps"
 
@@ -68,6 +72,8 @@ class Apps::BotsController < ApplicationController
     if params[:tab] == "editor"
       @bot.assign_attributes(params.require(:bot_task).permit!)
       @bot.save
+      @bot.current_path = params[:bot_task][:current_path]
+
       render turbo_stream: [
         turbo_stream.replace(
           "bot-task-editor",

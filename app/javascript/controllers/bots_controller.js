@@ -6,6 +6,7 @@ export default class extends Controller {
     'pathContainer',
     'followActionlinks',
     'followActionsLinksActions',
+    'currentPathField'
   ];
 
   initialize() {
@@ -42,6 +43,8 @@ export default class extends Controller {
     selectedPathElement.classList.remove('hidden');
     // Add 'selectedClass' to the clicked link
     e.currentTarget.classList.add(this.selectedClass);
+
+    this.currentPathFieldTarget.value = id
 
     console.log('ieek', this.pathLinkTargets);
   }

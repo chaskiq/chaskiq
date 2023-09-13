@@ -14,10 +14,7 @@
       <% end %>
     </template>
 
-    <% #= form.object.class %>
-    <% #= form.object.schema %>
-  --
-    <%= form.text_field :type %>
+    <%= form.hidden_field :type %>
 
     <%= form.fields_for :schema, form.object.schema do |f| %>
       <%= render "apps/bots/editor/ask_option_fields", form: f %>

@@ -1,40 +1,34 @@
 <%= f.fields_for :steps, items do |fff| %>
 
-	<div class="border border-red-600" id="bot-step-<%= fff.object.step_uid %>">
+	<div class="border-- border-red-600--" id="bot-step-<%= fff.object.step_uid %>">
 		<%= fff.hidden_field :type %>
-		<% #= fff.text_field :wait_for_input %>
-		<% #= fff.text_field :id, label: 'step id' %> 
-		<%= fff.text_field :step_uid, label: 'step id' %>
-		<%= fff.object.type %>
+		<%= fff.hidden_field :step_uid, label: 'step id' %>
+		<% # fff.object.type %>
 
 		<div 
 			data-controller="nested-form" 
 			data-new-record="<%= true %>">
-			<% #if fff.object.type == "messages" %>
-				<div data-nested-form-target="wrap" 
-					id="bot-nested-fields-<%= fff.object.step_uid %>" 
-					data-controller="sortable"
-					data-handle=".cursor-move"
-					data-new-record="true"
-					class="bot-nested-fields">
+			<div data-nested-form-target="wrap" 
+				id="bot-nested-fields-<%= fff.object.step_uid %>" 
+				data-controller="sortable"
+				data-handle=".cursor-move"
+				data-new-record="true"
+				class="bot-nested-fields">
 
-					M: <%= fff.object.messages.size %>
-					C: <%= fff.object.controls.present? ? fff.object.controls.type : "NONO" %>
+				<% #= fff.object.messages.size %>
+				<% #= fff.object.controls.present? ? fff.object.controls.type : "NONO" %>
 
-					<%= fff.fields_for :controls, fff.object.controls, child_index: 'NEW_RECORD' do |ff| %>
-						<%= render "apps/bots/editor/ask_option", form: ff, bot_step: fff.object.step_uid  %>
-					<% end %>
-				</div>
-			<% #end %>
+				<%= fff.fields_for :controls, fff.object.controls, child_index: 'NEW_RECORD' do |ff| %>
+					<%= render "apps/bots/editor/ask_option", form: ff, bot_step: fff.object.step_uid  %>
+				<% end %>
+			</div>
+		</div>
 	</div>
 <% end %>
-
-
 
 <div 
   data-controller="nested-form" 
   data-new-record="<%= true %>">
-
 
     <%= f.fields_for :follow_actions, f.object.follow_actions do |fff| %>
       <%= fff.object %>

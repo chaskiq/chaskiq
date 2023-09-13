@@ -8,8 +8,8 @@
   </div>
   <div class="flex-grow shadow border border-gray-400 rounded p-6 relative dark:bg-gray-800 bg-gray-100 max-w-sm">
     
-    <%= bot_id%>
-    <%= bot_step_id %>
+    <% #= bot_id%>
+    <% #= bot_step_id %>
     <% o = form.object.as_json.with_indifferent_access %>
     <%= render DefinitionRenderer::Component.new(
         schema: o["schema"],
