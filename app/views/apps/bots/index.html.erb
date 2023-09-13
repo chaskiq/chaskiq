@@ -7,7 +7,7 @@
 		) do %>
 			
 			<%= link_to( t('task_bots.new'), 
-				new_app_bot_path(@app.key), 
+				new_app_bot_path(@app.key, kind: controller.action_name ), 
 				data: {
 				'turbo-frame': 'modal',
 				}, 

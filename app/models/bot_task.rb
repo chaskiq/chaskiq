@@ -217,13 +217,11 @@ class BotTask < Message
     create(record.dup)
   end
 
-  attr_accessor :new_path_title
+  attr_accessor :new_path_title, :current_path
 
   def bot_paths_objects
     @bot_paths_objects ||= (paths.map { |o| BotPath.new(o) } || [])
   end
-
-  attr_accessor :current_path
 
   def bot_paths_objects=(attrs)
     @bot_paths_objects = attrs.map { |o| BotPath.new(o) }
@@ -232,6 +230,7 @@ class BotTask < Message
   def bot_paths_objects_attributes=(attributes)
     bot_paths ||= []
     attributes.each do |_i, params|
+      params["follow_actions"] = params.delete("followActions") unless params["follow_actions"].present?
       bot_paths.push(BotPath.new(params))
     end
     self.paths = bot_paths.as_json
@@ -254,7 +253,7 @@ class BotPath
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_accessor :id, :title, :followActions
+  attr_accessor :id, :title, :follow_actions
 
   def marked_for_destruction?
     false
@@ -269,7 +268,9 @@ class BotPath
   end
 
   def steps=(attrs)
-    @steps = attrs ? attrs.map { |o| BotPathStep.new(o) } : []
+    @steps = attrs ? attrs.map { |o| 
+      BotPathStep.new(o) 
+    } : []
   end
 
   def steps_attributes=(attrs)
@@ -375,10 +376,14 @@ class BotPathStepControl
   def schema=(attrs)
     return if attrs.blank?
 
-    @schema = attrs.map { |o|
+    # hack for malformed data on json :P
+    attrs = attrs.filter{|o| o["type"] != "messages"}
+    # end of hack
+
+    @schema = attrs.map do |o|
       o.delete("errors")
-      BotPathStepSchema.new(o) 
-    }
+      BotPathStepSchema.new(o)
+    end
   end
 
   def schema_attributes=(attrs)

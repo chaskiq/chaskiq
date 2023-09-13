@@ -14,7 +14,7 @@
       <% end %>
     </template>
 
-    <%= form.text_field :wait_for_input %>
+    <%= form.hidden_field :wait_for_input %>
     <%= form.hidden_field :type %>
 
     <%= form.fields_for :schema, form.object.schema do |f| %>

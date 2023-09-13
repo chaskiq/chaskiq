@@ -56,10 +56,8 @@ export default class extends Controller {
     //	parentSectionId = e.item.parents(e.item.dataset.lookFor).dataset.id
     //}
 
- 
     const event = new CustomEvent('sortable:end', { detail: 'eventData' });
     document.dispatchEvent(event);
-    
 
     this.sendData(
       {

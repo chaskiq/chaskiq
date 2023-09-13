@@ -1,4 +1,7 @@
-<% steps = @bot.paths.map{|o| {title: o["title"], step_uid: o["steps"].first["step_uid"] } } %>
+<% steps = @bot.paths.map{|o|
+  {title: o["title"], step_uid: o["steps"].first["step_uid"] } 
+  } rescue [] 
+%>
 
 <div class="p-2 border nested-fields" data-new-record="true">
   <%= form.hidden_field :id %>
@@ -9,7 +12,7 @@
     
     <%= form.select :next_step_uuid, steps.map{|o| 
       [o[:title], o[:step_uid] ] 
-    }, {} %>
+    }, {}, label: "go to"  %>
 
     <button class="btn btn-icon"
       data-action="click->nested-form#remove_association"

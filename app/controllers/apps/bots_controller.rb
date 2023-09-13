@@ -10,16 +10,16 @@ class Apps::BotsController < ApplicationController
   end
 
   def new
-    @bot = @app.bot_tasks.new
+    @bot = @app.bot_tasks.new(bot_type: params[:kind])
     # params.permit(:title, :paths, :bot_type)
   end
 
   def create
     @bot = @app.bot_tasks.create({
-      title: params[:bot_task][:title], 
-      paths: [],
-      bot_type: params[:bot_task][:bot_type] || "outbound"
-    })
+                                   title: params[:bot_task][:title],
+                                   paths: [],
+                                   bot_type: params[:bot_task][:bot_type] || "outbound"
+                                 })
     # params.permit(:title, :paths, :bot_type)
     redirect_to app_bot_path(@app.key, @bot.id)
   end
@@ -40,11 +40,10 @@ class Apps::BotsController < ApplicationController
       @collection = @segment_manager.results(params) # resource_params["segment_predicate"]
     end
 
-    if params[:tab] == "editor"
-      @bot.current_path = @bot.paths.first["id"] if @bot.paths.any?
-    end
+    @bot.current_path = @bot.paths.first["id"] if params[:tab] == "editor" && @bot.paths.any?
 
     if params[:path]
+      @tab = "editor"
       render "steps"
 
       render turbo_stream: [
@@ -63,7 +62,8 @@ class Apps::BotsController < ApplicationController
 
   def update
     @bot = @app.bot_tasks.find(params[:id])
-
+    @tab = params[:tab]
+    
     if params[:tab] == "audience"
       segment_predicate = segment_params[:segments][:segment_predicate]
       segment_predicates = segment_predicate.keys.sort.map { |key| segment_predicate[key] }
@@ -83,7 +83,7 @@ class Apps::BotsController < ApplicationController
       @bot.assign_attributes(params.require(:bot_task).permit!)
       @bot.save
       @bot.current_path = params[:bot_task][:current_path]
-
+      
       render turbo_stream: [
         turbo_stream.replace(
           "bot-task-editor",
@@ -190,7 +190,7 @@ class Apps::BotsController < ApplicationController
     collection = @app.bot_tasks.for_outbound if mode == "outbound"
     collection = collection.where(state: filters["state"]) if filters["state"].present?
     @collection = handle_bot_tasks_filters(filters, collection).ordered
-    .page(params[:page]).per(3)
+                                                               .page(params[:page]).per(3)
   end
 
   def audience_handler

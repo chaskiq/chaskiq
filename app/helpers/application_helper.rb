@@ -463,11 +463,9 @@ module ApplicationHelper
 
   def user_subscription_variant(state)
     case state
-    when "passive" then "gray"
+    when "passive", "archived", "blocked" then "gray"
     when "subscribed" then "green"
     when "unsubscribed" then "black"
-    when "archived" then "gray"
-    when "blocked" then "gray"
     end
   end
 

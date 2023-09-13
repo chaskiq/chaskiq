@@ -9,9 +9,9 @@
         <%= heroicon "arrows-up-down" %>
       </div>
     </div>
-    <div class="flex-grow">
+    <div class="flex-grow flex justify-center">
       <%= form.hidden_field :type %>
-      <%= form.text_field :wait_for_input %>
+      <%= form.hidden_field :wait_for_input %>
 
 			<% if form.object.type == "wait_for_reply" %>
         <% #= from.hidden_field :wait_for_input %>
@@ -30,13 +30,13 @@
 
       <% #= form.object.as_json %>
     </div>
+  
+    <button class="btn btn-icon"
+      data-remove-container=".step-container"
+      data-action="click->nested-form#remove_association click->bots#showFollowActionLinks"
+      type="button">
+      <%= heroicon("x-circle") %>
+    </button>
   </div>
-
-  <button class="btn btn-icon"
-    data-remove-container=".step-container"
-    data-action="click->nested-form#remove_association click->bots#showFollowActionLinks"
-    type="button">
-    <%= heroicon("x-circle") %>
-  </button>
     
 </div>

@@ -70,10 +70,10 @@ export default class extends Controller {
   remove_association(event) {
     //event.preventDefault();
 
-    const removeContainer = event.currentTarget.dataset.removeContainer
+    const removeContainer = event.currentTarget.dataset.removeContainer;
 
-    if(removeContainer){
-      event.currentTarget.closest(removeContainer).remove()
+    if (removeContainer) {
+      event.currentTarget.closest(removeContainer).remove();
     }
 
     let wrapper = event.currentTarget.closest('.' + this.wrapperClass);

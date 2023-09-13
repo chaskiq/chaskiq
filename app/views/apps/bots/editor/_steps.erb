@@ -25,9 +25,6 @@
 		</div>
 	<% end %>
 
-	<%= f.object.class %>
-	<%= f.object.id %>
-
 	<template 
 		data-nested-form-target="template" 
 		id="messagesTemplate-<%= f.object.id %>">
@@ -37,7 +34,6 @@
 					<%= fff.hidden_field :type %>
 					<%= fff.hidden_field :step_uid, value: "NEW_RECORD" %>
 					<%= fff.hidden_field :position, class: "position border" %>
-					<%= fff.object.type %>
 					<%= fff.fields_for :messages, fff.object.messages, child_index: 'NEW_RECORD' do |ff| %>
 						<%= render "apps/bots/editor/message", form: ff %>
 					<% end %>

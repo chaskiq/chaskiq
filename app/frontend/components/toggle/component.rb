@@ -2,7 +2,7 @@
 
 class Toggle::Component < ApplicationViewComponent
   option :id
-  option :url, default: -> {""}
+  option :url, default: -> { "" }
   option :label
   option :checked
   option :disabled
