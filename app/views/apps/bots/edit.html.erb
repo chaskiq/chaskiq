@@ -43,7 +43,7 @@
 		<% end %>
 
 		<%= render Tabs::Component.new(	items: bot_menu_data(app: @app, bot: @bot) ) do %>
-			<%= case params[:tab]
+			<%= case @tab
 					when 'stats' then  render('stats')
 					when 'settings' then  render('form')
 					when 'editor' then render('editor')

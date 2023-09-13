@@ -1,0 +1,31 @@
+
+  <%= fc.hidden_field :type %>
+  <%= fc.hidden_field :app_package %>
+  <%= fc.fields_for :schema, fc.object.schema do |fs| %>
+    <%= fs.hidden_field :id %>
+    <%= fs.hidden_field :align %>
+    <%= fs.hidden_field :name %>
+    <%= fs.hidden_field :text %>
+    <%= fs.hidden_field :label %>
+    <%= fs.hidden_field :size %>
+    <%= fs.hidden_field :type %>
+    <%= fs.hidden_field :variant %>
+    <%= fs.hidden_field :value %>
+    <%= fs.hidden_field :style %>
+
+    <%= fs.fields_for :action, fs.object.action do |a| %>
+      <%= a.hidden_field :type %>
+      <%= a.hidden_field :url %>
+    <% end %>
+  <% end %>
+
+  <%= render "apps/bots/editor/package", 
+    package_name: fc.object.app_package,
+    blocks: fc.object.schema,
+    type: "app_package",
+    category: @category,
+    bot_id: @bot_id,
+    bot_step_id: @bot_step_id,
+    bot_path_id: @bot_path_id,
+    form: fc
+  %>

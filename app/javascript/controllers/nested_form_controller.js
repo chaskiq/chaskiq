@@ -66,7 +66,7 @@ export default class extends Controller {
   remove_association(event) {
     event.preventDefault();
 
-    let wrapper = event.target.closest('.' + this.wrapperClass);
+    let wrapper = event.currentTarget.closest('.' + this.wrapperClass);
 
     // New records are simply removed from the page
     if (wrapper.dataset.newRecord == 'true') {

@@ -21,7 +21,7 @@
 					raw(
 						%{
 							#{
-								render Badge::Component.new do 
+								render Badge::Component.new(variant: record.enabled? ? "green" : "gray") do 
 									record.state
 								end
 							}

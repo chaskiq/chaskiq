@@ -76,6 +76,7 @@ class Apps::PackagesController < ApplicationController
     @conversation_key = params[:conversation_key]
     @bot_id = params[:bot_id]
     @bot_step_id = params[:bot_step_id]
+    @bot_path_id = params[:bot_path_id]
 
     @packages = @app.app_package_integrations
                     .joins(:app_package)
@@ -94,6 +95,7 @@ class Apps::PackagesController < ApplicationController
 
     @bot_id = params[:bot_id] || params.dig(:ctx, :bot_id)
     @bot_step_id = params[:bot_step_id] || params.dig(:ctx, :bot_step_id)
+    @bot_path_id = params[:bot_path_id] || params.dig(:ctx, :bot_path_id)
 
     @blocks = @package.call_hook({
                                    kind: "configure",
@@ -159,6 +161,7 @@ class Apps::PackagesController < ApplicationController
 
     @bot_id = params.dig(:ctx, :bot_id)
     @bot_step_id = params.dig(:ctx, :bot_step_id)
+    @bot_path_id = params.dig(:ctx, :bot_path_id)
 
     case @location
 

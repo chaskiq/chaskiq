@@ -40,9 +40,10 @@
 							<div class="flex flex-wrap space-y-1"></div>
 						</td>
 						<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-							<span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-5
-								bg-green-300 text-green-800
-								"><%= user.subscription_state %></span>
+						
+							<%= render Badge::Component.new(variant: user_subscription_variant(user.subscription_state)) do %>
+								<%= user.subscription_state %>
+							<% end %>
 						</td>
 						<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
 							<%= user.web_sessions %>
@@ -50,7 +51,7 @@
 						<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50"></td>
 						<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50"></td>
 						<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-							<time datetime="1624397532000"><%= user.last_visited_at %></time>
+							<time datetime="<%= user.last_visited_at %>"><%= user.last_visited_at %></time>
 						</td>
 					</tr>
 				<% end %>

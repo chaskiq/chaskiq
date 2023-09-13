@@ -13,6 +13,7 @@ class DefinitionRenderer::Component < ApplicationViewComponent
   option :conversation_key, default: -> {}
   option :bot_id, default: -> {}
   option :bot_step_id, default: -> {}
+  option :bot_path_id, default: -> {}
   option :app, default: -> {}
   option :path, default: -> {}
   option :ctx, default: -> { {} }

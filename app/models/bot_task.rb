@@ -103,6 +103,14 @@ class BotTask < Message
     false
   end
 
+  def enabled?
+    state == "enabled"
+  end
+
+  def disabled?
+    enabled?
+  end
+
   def self.send_chain(methods)
     methods.inject(self, :send)
   end
@@ -220,10 +228,11 @@ class BotTask < Message
   end
 
   def bot_paths_objects_attributes=(attributes)
-    # binding.pry
-    # array = attributes.keys.map { |o| attributes[o] }
-    # self.paths = JSON.parse(array.map { |o| ScheduleRecord.new(o) }.to_json)
-    # array.map{|o| ScheduleRecord.new(o) }
+    bot_paths ||= []
+    attributes.each do |_i, params|
+      bot_paths.push(BotPath.new(params))
+    end
+    self.paths = bot_paths.as_json
   end
 
   def as_json(options = nil)
@@ -243,8 +252,7 @@ class BotPath
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_accessor :id, :title, :follow_actions
-  attr_reader :steps
+  attr_accessor :id, :title, :followActions
 
   def marked_for_destruction?
     false
@@ -254,12 +262,43 @@ class BotPath
     true
   end
 
+  def steps
+    @steps || []
+  end
+
   def steps=(attrs)
     @steps = attrs ? attrs.map { |o| BotPathStep.new(o) } : []
   end
 
   def steps_attributes=(attrs)
-    @steps = attrs ? attrs.map { |o| BotPathStep.new(o) } : []
+    @steps ||= []
+    attrs.each do |_i, params|
+      @steps.push(BotPathStep.new(params))
+    end
+    @steps
+    # @steps = attrs ? attrs.map { |o| BotPathStep.new(o) } : []
+  end
+
+  attr_reader :follow_actions
+
+  def follow_actions=(attrs)
+    @follow_actions = attrs ? attrs.map { |o| FollowAction.new(o) } : []
+  end
+end
+
+class FollowAction
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  include ActiveModel::Validations
+
+  attr_accessor :key, :name, :value, :_destroy
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
   end
 end
 
@@ -274,21 +313,34 @@ class BotPathStep
     @messages || []
   end
 
-  def messages_attributes=(attrs)
+  def messages=(attrs)
     @messages = attrs ? attrs.map { |o| BotPathStepMessage.new(o) } : []
   end
 
-  alias messages= messages_attributes=
+  def messages_attributes=(attrs)
+    @messages ||= []
+    attrs.each do |_i, params|
+      @messages.push(BotPathStepMessage.new(params))
+    end
+    @messages
+  end
 
   def controls
     @controls || nil
   end
 
-  def controls_attributes=(attrs)
+  def controls=(attrs)
     @controls = BotPathStepControl.new(attrs)
   end
 
-  alias controls= controls_attributes=
+  def controls_attributes=(attrs)
+    @controls = BotPathStepControl.new(attrs)
+    # attrs.each do |i, params|
+    #  binding.pry
+    # @controls.push(BotPathStepControl.new(params))
+    # end
+    # @controls
+  end
 
   def marked_for_destruction?
     false
@@ -318,13 +370,19 @@ class BotPathStepControl
     @schema || []
   end
 
-  def schema_attributes=(attrs)
+  def schema=(attrs)
     return if attrs.blank?
 
     @schema = attrs.map { |o| BotPathStepSchema.new(o) }
   end
 
-  alias schema= schema_attributes=
+  def schema_attributes=(attrs)
+    @schema ||= []
+    attrs.each do |_i, params|
+      @schema.push(BotPathStepSchema.new(params))
+    end
+    @schema
+  end
 end
 
 class BotPathStepSchema
@@ -337,14 +395,13 @@ class BotPathStepSchema
                 :text,
                 :element,
                 :next_step_uuid,
-                # :type,
+                :type,
                 :hint,
                 :placeholder,
                 :style,
                 :value,
                 :size,
                 :align,
-                :action,
                 :variant,
                 :app_package,
                 # :controls,
@@ -360,6 +417,24 @@ class BotPathStepSchema
   def new_record?
     true
   end
+
+  attr_reader :action
+
+  def action=(attrs)
+    @action = BotPathStepSchemaAction.new(attrs)
+  end
+
+  def action_attributes=(attrs)
+    @action = BotPathStepSchemaAction.new(attrs)
+  end
+end
+
+class BotPathStepSchemaAction
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  include ActiveModel::Validations
+
+  attr_accessor :url, :type
 end
 
 class BotPathStepMessage
@@ -380,9 +455,11 @@ class BotPathStepMessage
     @controls || nil
   end
 
-  def controls_attributes=(attrs)
+  def controls=(attrs)
     @controls = BotPathStepControl.new(attrs)
   end
 
-  alias controls= controls_attributes=
+  def controls_attributes=(attrs)
+    @controls = BotPathStepControl.new(attrs)
+  end
 end

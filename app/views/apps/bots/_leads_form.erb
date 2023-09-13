@@ -6,9 +6,11 @@
 		<%= form_for @app, url: app_settings_path(@app.key, redirect: leads_app_bots_path(@app.key) ) do |f|  %>
 			<%= f.fields_for @app.lead_tasks_settings_objects do |ff|%>
 
-				<%= ff.check_box :delay, label: I18n.t('task_bots.settings.leads.delay')  %>
-				<%= ff.check_box :share_typical_time, label: I18n.t('task_bots.settings.leads.share_time') %>
-
+				<div class="flex flex-col space-y-2">
+					<%= ff.check_box :delay, label: I18n.t('task_bots.settings.leads.delay')  %>
+					<%= ff.check_box :share_typical_time, label: I18n.t('task_bots.settings.leads.share_time') %>
+				</div>
+				
 				<hr class="mt-8" />
 
 				<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 py-4">
@@ -25,13 +27,13 @@
 
 				<div class="flex items-center justify-start">
 					<%= ff.radio_button :routing, 'assign', label: I18n.t('task_bots.settings.leads.assign'), checked: ff.object.routing == 'assign' %>
-					<div class="w-1/4 sm:w-full- py-2">
+					<div class="ml-2 w-1/4 sm:w-full- py-2">
 						<% # if ff.object.routing === "assign" %>
 							<% tags = @app.agents %>
 							<%= ff.select :assignee, options_for_select(
 								tags.map { |o| [ (o.name || o.email), o.id.to_s ] }, ff.object.assignee.to_s ), 
-								{}, {
-
+								{label: nil}, {
+									label: false,
 									data: {
 										'select-target': 'select', 
 										options: tags.map{|o| {label: (o.name || o.email), value: o.id.to_s } }.to_json 
@@ -49,14 +51,14 @@
 				<hr class="my-5" />
 
 				<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 py-4">
-					<%= I18n.t('task_bots.settings.leads.ask') %>"
+					<%= I18n.t('task_bots.settings.leads.ask') %>
 				</p>
 
 				<p class="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4">
 					<%= I18n.t('task_bots.settings.leads.ask_hint') %>
 				</p>
 
-				<div class="flex flex-col">
+				<div class="flex flex-col space-y-2">
 					<%= ff.radio_button :email_requirement, 'never', label: I18n.t('task_bots.settings.leads.dont_ask_email') %>
 					<%= ff.radio_button :email_requirement, 'email_or_phone', label: I18n.t('task_bots.settings.leads.ask_email_phone') %>
 					<%= ff.radio_button :email_requirement, 'email_only', label: I18n.t('task_bots.settings.leads.email_only') %>

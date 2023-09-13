@@ -273,13 +273,13 @@ module ApplicationHelper
       {
         label: t("campaigns.tabs.stats"),
         href: edit_app_bot_path(app.key, bot, tab: "stats"),
-        active: false,
+        active: params[:tab] == "stats" || params[:tab].blank?,
         turbo_frame: "_top"
       },
       {
         label: t("campaigns.tabs.settings"),
         href: edit_app_bot_path(app.key, bot, tab: "settings"),
-        active: params[:tab] == "stats" || params[:tab].blank?,
+        active: params[:tab] == "settings",
         turbo_frame: "_top"
       },
       {
@@ -444,6 +444,31 @@ module ApplicationHelper
     classes << "sm:rounded-bl-lg" if action_idx == total_length - 2
     classes << "rounded-bl-lg rounded-br-lg sm:rounded-bl-none" if action_idx == total_length - 1
     classes.join(" ")
+  end
+
+  def bot_action_data(action)
+    label = action.gsub("bot_tasks.", "")
+    variant = case label
+              when "delivered" then "purple"
+              when "sent" then "green"
+              else
+                "gray"
+              end
+
+    {
+      label: label,
+      variant: variant
+    }
+  end
+
+  def user_subscription_variant(state)
+    case state
+    when "passive" then "gray"
+    when "subscribed" then "green"
+    when "unsubscribed" then "black"
+    when "archived" then "gray"
+    when "blocked" then "gray"
+    end
   end
 
   def campaign_name(name)

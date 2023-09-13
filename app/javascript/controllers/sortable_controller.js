@@ -49,14 +49,12 @@ export default class extends Controller {
     console.log('DRAGABBLE END', e);
 
     const item = e.item.dataset.id;
-    const itemUrl = e.item.dataset.url;
+    // const itemUrl = e.item.dataset.url;
     let parentSectionId = null;
 
     //if(e.item.dataset.lookFor){
     //	parentSectionId = e.item.parents(e.item.dataset.lookFor).dataset.id
     //}
-
-    if (!itemUrl) return;
 
     this.sendData(
       {
@@ -77,6 +75,7 @@ export default class extends Controller {
   }
 
   refresh() {
+    if (!this.hasItemTargets) return;
     this.itemTargets.forEach((item, index) => {
       const positionInput = item.querySelector('.position');
       if (positionInput) {

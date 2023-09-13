@@ -18,6 +18,10 @@ class Apps::BotsController < ApplicationController
     @bot = @app.bot_tasks.find(params[:id])
     @collection = @bot.metrics.page(params[:page]).per(params[:per])
 
+    @tab = params[:tab] || "stats"
+
+    @metrics = @bot.metrics.group(:action).count(:trackable_id) if @tab == "stats"
+
     if params[:tab] == "audience"
       @segment_manager = SegmentManagerService.new(
         app: @app,
@@ -61,9 +65,26 @@ class Apps::BotsController < ApplicationController
       return
     end
 
+    if params[:tab] == "editor"
+      @bot.assign_attributes(params.require(:bot_task).permit!)
+      @bot.save
+      render turbo_stream: [
+        turbo_stream.replace(
+          "bot-task-editor",
+          partial: "apps/bots/editor"
+        )
+      ] and return
+    end
+
     case params[:mode]
     when "add-path"
-      bot_path = BotPath.new title: params[:bot_path][:title]
+      bot_path = BotPath.new(
+        id: SecureRandom.hex(8),
+        title: params[:bot_path][:title],
+        steps: [
+          { step_uid: SecureRandom.hex(8), messages: [], type: "messages" }
+        ]
+      )
       @bot.paths = @bot.paths << bot_path.as_json
       render turbo_stream: [
         turbo_stream.replace(

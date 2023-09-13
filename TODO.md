@@ -13,7 +13,7 @@ TODO.md
   + editor
 + campaigns:
   + enable/disable toggle
-  + editor fix dante for each one
+  + editor tour manager
 + app settings:
   + avatars
 + billing view
