@@ -35,22 +35,25 @@
 
   <%= render PageHeader::Component.new(title: I18n.t('campaigns.title') ) do %>
   
-    <%= render Toggle::Component.new(
-      id: 'away-mode', 
-      label: I18n.t('campaigns.enables'), 
-      checked: true, 
-      disabled: false, 
-      on_change: '')
-    %>
+    <div class="flex space-x-2">
+      <%= render Toggle::Component.new(
+        id: 'campaign-toggle', 
+        label: I18n.t('campaigns.enables'), 
+        checked: @campaign.state == "enabled", 
+        disabled: false, 
+        url: app_campaign_path(@app.key, @campaign.id, toggle: "toggle"),
+        on_change: '')
+      %>
 
-    <%= render FilterMenu::Component.new( label: 'Add filters', 
-                variant: 'outlined',
-                orientation: 'right',
-                items: dropdown_options, 
-                size: 'sm',
-                label: t("common.actions")
-              )
-    %>
+      <%= render FilterMenu::Component.new( label: 'Add filters', 
+                  variant: 'outlined',
+                  orientation: 'right',
+                  items: dropdown_options, 
+                  size: 'sm',
+                  label: t("common.actions")
+                )
+      %>
+    </div>
   <% end %>
 
   <%= render Tabs::Component.new(	items: campaigns_menu_data(app: @app, campaign: @campaign ) ) do %>

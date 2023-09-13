@@ -309,7 +309,7 @@ class BotPathStep
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_accessor :id, :type, :step_uid
+  attr_accessor :id, :type, :step_uid, :position
 
   def messages
     @messages || []
@@ -375,12 +375,16 @@ class BotPathStepControl
   def schema=(attrs)
     return if attrs.blank?
 
-    @schema = attrs.map { |o| BotPathStepSchema.new(o) }
+    @schema = attrs.map { |o|
+      o.delete("errors")
+      BotPathStepSchema.new(o) 
+    }
   end
 
   def schema_attributes=(attrs)
     @schema ||= []
     attrs.each do |_i, params|
+      params.delete("errors")
       @schema.push(BotPathStepSchema.new(params))
     end
     @schema

@@ -61,10 +61,20 @@ export default class extends Controller {
     } else {
       this.linksTarget.insertAdjacentHTML('beforebegin', content);
     }
+
+    // to resort bots steps
+    const e = new CustomEvent('sortable:end', { detail: 'eventData' });
+    document.dispatchEvent(e);
   }
 
   remove_association(event) {
-    event.preventDefault();
+    //event.preventDefault();
+
+    const removeContainer = event.currentTarget.dataset.removeContainer
+
+    if(removeContainer){
+      event.currentTarget.closest(removeContainer).remove()
+    }
 
     let wrapper = event.currentTarget.closest('.' + this.wrapperClass);
 
@@ -77,5 +87,9 @@ export default class extends Controller {
       wrapper.querySelector("input[name*='_destroy']").value = 1;
       wrapper.style.display = 'none';
     }
+
+    // to resort bots steps
+    const e = new CustomEvent('sortable:end', { detail: 'eventData' });
+    document.dispatchEvent(e);
   }
 }

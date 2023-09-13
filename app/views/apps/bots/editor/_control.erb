@@ -11,22 +11,20 @@
     </div>
     <div class="flex-grow">
       <%= form.hidden_field :type %>
-      <%= form.hidden_field :position, class: "position" %>
+      <%= form.text_field :wait_for_input %>
 
-      <% if form.object.type == "wait_for_reply" %>
-        <%= form.hidden_field :wait_for_input %>
+			<% if form.object.type == "wait_for_reply" %>
+        <% #= from.hidden_field :wait_for_input %>
         <%= render "apps/bots/editor/wait", form: form %>
       <% end %>
 
-			<% if form.object.is_a?(BotPathStepMessage) && form.object.controls.present? && form.object.controls.type != "wait_for_reply" %>
-        <%= form.fields_for :controls, form.object.controls do |fc|%>
-          <%= render "apps/bots/editor/package_fields", 
-            fc: fc,
-            bot_id: @bot.id,
-            bot_step_id: "1",
-            bot_path_id: "2"
-          %>
-        <% end %>
+			<% if form.object.type == "app_package" %>
+        <%= render "apps/bots/editor/package_fields", 
+          fc: form,
+          bot_id: @bot.id,
+          bot_step_id: "1",
+          bot_path_id: "2"
+        %>
       <% end %>
 
 
@@ -35,7 +33,8 @@
   </div>
 
   <button class="btn btn-icon"
-    data-action="click->nested-form#remove_association  click->bots#showFollowActionLinks"
+    data-remove-container=".step-container"
+    data-action="click->nested-form#remove_association click->bots#showFollowActionLinks"
     type="button">
     <%= heroicon("x-circle") %>
   </button>

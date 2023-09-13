@@ -51,6 +51,13 @@ class Apps::CampaignsController < ApplicationController
 
   def update
     @campaign = @app.messages.find(params[:id])
+
+    if params[:toggle]
+      @campaign.update(state: @campaign.state == "disabled" ? "enabled" : "disabled")
+      flash.now[:notice] = "Campaign was updated!"
+      render turbo_stream: [flash_stream] and return
+    end
+
     if (params[:tab] = "audience")
       segment_predicate = resource_params[:segments][:segment_predicate]
       segment_predicates = segment_predicate.keys.sort.map { |key| segment_predicate[key] }

@@ -14,6 +14,16 @@ class Apps::BotsController < ApplicationController
     # params.permit(:title, :paths, :bot_type)
   end
 
+  def create
+    @bot = @app.bot_tasks.create({
+      title: params[:bot_task][:title], 
+      paths: [],
+      bot_type: params[:bot_task][:bot_type] || "outbound"
+    })
+    # params.permit(:title, :paths, :bot_type)
+    redirect_to app_bot_path(@app.key, @bot.id)
+  end
+
   def edit
     @bot = @app.bot_tasks.find(params[:id])
     @collection = @bot.metrics.page(params[:page]).per(params[:per])
@@ -31,7 +41,7 @@ class Apps::BotsController < ApplicationController
     end
 
     if params[:tab] == "editor"
-      @bot.current_path = @bot.paths.first["id"]
+      @bot.current_path = @bot.paths.first["id"] if @bot.paths.any?
     end
 
     if params[:path]
@@ -82,8 +92,15 @@ class Apps::BotsController < ApplicationController
       ] and return
     end
 
+    if params[:toggle]
+      @bot.update(state: @bot.state == "disabled" ? "enabled" : "disabled")
+      flash.now[:notice] = "Bot was updated!"
+      render turbo_stream: [flash_stream] and return
+    end
+
     case params[:mode]
     when "add-path"
+      @tab = "editor"
       bot_path = BotPath.new(
         id: SecureRandom.hex(8),
         title: params[:bot_path][:title],
@@ -104,14 +121,6 @@ class Apps::BotsController < ApplicationController
       @bot.update(resource_params)
       render "edit"
     end
-  end
-
-  def create
-    @bot = @app.bot_tasks.create(
-      params.require(:bot_task).permit(:title, :paths, :bot_type)
-    )
-    redirect_to app_bots_path(@app.key)
-    # params.permit(:title, :paths, :bot_type)
   end
 
   def sort
@@ -181,6 +190,7 @@ class Apps::BotsController < ApplicationController
     collection = @app.bot_tasks.for_outbound if mode == "outbound"
     collection = collection.where(state: filters["state"]) if filters["state"].present?
     @collection = handle_bot_tasks_filters(filters, collection).ordered
+    .page(params[:page]).per(3)
   end
 
   def audience_handler

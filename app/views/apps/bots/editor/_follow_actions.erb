@@ -17,9 +17,13 @@
 
 				<% #= fff.object.messages.size %>
 				<% #= fff.object.controls.present? ? fff.object.controls.type : "NONO" %>
-
+				<% # fff.object.as_json %>
 				<%= fff.fields_for :controls, fff.object.controls, child_index: 'NEW_RECORD' do |ff| %>
-					<%= render "apps/bots/editor/ask_option", form: ff, bot_step: fff.object.step_uid  %>
+					<%= render "apps/bots/editor/ask_option", 
+						form: ff, 
+						bot_step: fff.object.step_uid,
+						disable_delete: local_assigns[:disable_delete]
+					%>
 				<% end %>
 			</div>
 		</div>

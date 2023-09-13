@@ -24,22 +24,25 @@
 
 		<%= render PageHeader::Component.new(title: @bot.name ) do %>
 
-			<%= render Toggle::Component.new(
-				id: 'away-mode', 
-				label: I18n.t('campaigns.enables'), 
-				checked: true, 
-				disabled: false, 
-				on_change: '')
-			%>
+			<div class="flex space-x-2">
+				<%= render Toggle::Component.new(
+					id: 'away-mode', 
+					label: I18n.t('campaigns.enables'), 
+					checked: @bot.state == "enabled", 
+					disabled: false, 
+					url: app_bot_path(@app.key, @bot.id, toggle: "toggle"),
+					on_change: '')
+				%>
 
-			<%= render FilterMenu::Component.new( label: 'Add filters', 
-					variant: 'outlined',
-					orientation: 'right',
-					items: dropdown_options, 
-					size: 'sm',
-					label: t("common.actions")
-				)
-			%>
+				<%= render FilterMenu::Component.new( label: 'Add filters', 
+						variant: 'outlined',
+						orientation: 'right',
+						items: dropdown_options, 
+						size: 'sm',
+						label: t("common.actions")
+					)
+				%>
+			</div>
 		<% end %>
 
 		<%= render Tabs::Component.new(	items: bot_menu_data(app: @app, bot: @bot) ) do %>

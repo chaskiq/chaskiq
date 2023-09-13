@@ -14,6 +14,9 @@
 						}.html_safe
 					} 
 				},
+				{
+					name: :bot_type
+				},
 				{ 
 					name: :state, 
 					label: I18n.t('definitions.bot_tasks.name.label'),
@@ -56,6 +59,6 @@
 			]
 		},
 		sortable: sort_app_bots_path(@app.key, mode: controller.action_name),
-		paginate: nil
+		paginate: paginate(@collection)
 	)%>
 <% end %>

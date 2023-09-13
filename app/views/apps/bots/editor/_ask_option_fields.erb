@@ -1,11 +1,14 @@
+<% steps = @bot.paths.map{|o| {title: o["title"], step_uid: o["steps"].first["step_uid"] } } %>
+
 <div class="p-2 border nested-fields" data-new-record="true">
   <%= form.hidden_field :id %>
   <%= form.hidden_field :element %>
 
   <div class="flex space-x-2">
     <%= form.text_field :label %>
-    <%= form.select :next_step_uuid, @bot.paths.map{|o| 
-      [o["title"], o["id"] ] 
+    
+    <%= form.select :next_step_uuid, steps.map{|o| 
+      [o[:title], o[:step_uid] ] 
     }, {} %>
 
     <button class="btn btn-icon"
