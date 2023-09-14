@@ -1,9 +1,9 @@
 <%= f.fields_for :steps, items do |fff| %>
 
-	<div class="border-- border-red-600--" id="bot-step-<%= fff.object.step_uid %>">
+	<div class="follow-action-item border-- border-red-600--" 
+		id="bot-step-<%= fff.object.step_uid %>">
 		<%= fff.hidden_field :type %>
 		<%= fff.hidden_field :step_uid, label: 'step id' %>
-		<% # fff.object.type %>
 
 		<div 
 			data-controller="nested-form" 
@@ -30,28 +30,29 @@
 	</div>
 <% end %>
 
+<% # f.object.follow_actions.as_json %>
+
 <div 
-  data-controller="nested-form" 
+  data-controller="nested-form"
   data-new-record="<%= true %>">
 
     <%= f.fields_for :follow_actions, f.object.follow_actions do |fff| %>
-      <%= fff.object %>
+			<% if f.object.follow_actions %>
+				<% unless local_assigns[:disable_delete] %>
+					<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 py-4">
+						End bot with follow actions
+					</p>
+				<% end %>
+			<% end %>
+
+			<% if fff.object.key == "close_conversation"%>
+				<%= render "apps/bots/editor/close_conversation", form: fff %>
+			<% end %>
+
+			<% if fff.object.key == "assign_agent"%>
+				<%= render "apps/bots/editor/assign_agent", form: fff %>
+			<% end %>
     <% end %>
 
-    <template 
-      data-nested-form-target="template" id="assignAgentTemplate">
-      <%= f.fields_for :follow_actions, FollowAction.new({key: "assign_agent"}), 
-        child_index: 'NEW_RECORD' do |fff| %>
-        <%= render "apps/bots/editor/assign_agent", form: fff %>
-      <% end %>
-    </template>
-
-    <template 
-      data-nested-form-target="template" id="closeConversationTemplate">
-      <%= f.fields_for :follow_actions, FollowAction.new({key: "close_conversation"}), 
-        child_index: 'NEW_RECORD' do |fff| %>
-        <%= render "apps/bots/editor/close_conversation", form: fff %>
-      <% end %>
-    </template>
-
 </div>
+

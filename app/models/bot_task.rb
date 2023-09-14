@@ -230,7 +230,7 @@ class BotTask < Message
   def bot_paths_objects_attributes=(attributes)
     bot_paths ||= []
     attributes.each do |_i, params|
-      params["follow_actions"] = params.delete("followActions") unless params["follow_actions"].present?
+      # params["follow_actions_attributes"] = params.delete("followActions") if params["follow_actions_attributes"].blank?
       bot_paths.push(BotPath.new(params))
     end
     self.paths = bot_paths.as_json
@@ -253,7 +253,8 @@ class BotPath
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_accessor :id, :title, :follow_actions
+  attr_accessor :id, :title
+  attr_reader :follow_actions
 
   def marked_for_destruction?
     false
@@ -268,9 +269,13 @@ class BotPath
   end
 
   def steps=(attrs)
-    @steps = attrs ? attrs.map { |o| 
-      BotPathStep.new(o) 
-    } : []
+    @steps = if attrs
+               attrs.map do |o|
+                 BotPathStep.new(o)
+               end
+             else
+               []
+             end
   end
 
   def steps_attributes=(attrs)
@@ -282,10 +287,12 @@ class BotPath
     # @steps = attrs ? attrs.map { |o| BotPathStep.new(o) } : []
   end
 
-  attr_reader :follow_actions
-
   def follow_actions=(attrs)
     @follow_actions = attrs ? attrs.map { |o| FollowAction.new(o) } : []
+  end
+
+  def follow_actions_attributes=(attrs)
+    @follow_actions = attrs.keys.map{|o| FollowAction.new(attrs[o]) }
   end
 end
 
@@ -359,7 +366,7 @@ class BotPathStepControl
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_accessor :type, :label, :app_package, :_destroy, :wait_for_input, :position
+  attr_accessor :type, :label, :app_package, :_destroy, :wait_for_input
 
   def marked_for_destruction?
     false
@@ -376,8 +383,8 @@ class BotPathStepControl
   def schema=(attrs)
     return if attrs.blank?
 
-    # hack for malformed data on json :P
-    attrs = attrs.filter{|o| o["type"] != "messages"}
+    # HACK: for malformed data on json :P
+    attrs = attrs.filter { |o| o["type"] != "messages" }
     # end of hack
 
     @schema = attrs.map do |o|
@@ -452,7 +459,7 @@ class BotPathStepMessage
   include ActiveModel::AttributeAssignment
   include ActiveModel::Model
   include ActiveModel::Validations
-  attr_accessor :type, :app_user, :html_content, :serialized_content, :_destroy, :position
+  attr_accessor :type, :app_user, :html_content, :serialized_content, :_destroy
 
   def marked_for_destruction?
     false

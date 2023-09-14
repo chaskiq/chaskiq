@@ -63,7 +63,7 @@ class Apps::BotsController < ApplicationController
   def update
     @bot = @app.bot_tasks.find(params[:id])
     @tab = params[:tab]
-    
+
     if params[:tab] == "audience"
       segment_predicate = segment_params[:segments][:segment_predicate]
       segment_predicates = segment_predicate.keys.sort.map { |key| segment_predicate[key] }
@@ -83,7 +83,7 @@ class Apps::BotsController < ApplicationController
       @bot.assign_attributes(params.require(:bot_task).permit!)
       @bot.save
       @bot.current_path = params[:bot_task][:current_path]
-      
+
       render turbo_stream: [
         turbo_stream.replace(
           "bot-task-editor",

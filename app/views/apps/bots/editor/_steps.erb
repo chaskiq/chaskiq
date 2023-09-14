@@ -7,7 +7,6 @@
 				<div class="border-- border-red-600--">
 					<%= fff.hidden_field :type %>
 					<%= fff.hidden_field :step_uid, label: 'step id' %>
-					<%= fff.hidden_field :position, class: "position border" %>
 
 					<%= fff.fields_for :controls, fff.object.controls do |fm| %>
 						<%= render "apps/bots/editor/control", form: fm %>
@@ -33,7 +32,6 @@
 				<div class="border-- border-red-600--">
 					<%= fff.hidden_field :type %>
 					<%= fff.hidden_field :step_uid, value: "NEW_RECORD" %>
-					<%= fff.hidden_field :position, class: "position border" %>
 					<%= fff.fields_for :messages, fff.object.messages, child_index: 'NEW_RECORD' do |ff| %>
 						<%= render "apps/bots/editor/message", form: ff %>
 					<% end %>
@@ -52,7 +50,6 @@
 				<div class="border-- border-red-600--">
 					<%= fff.hidden_field :type %>
 					<%= fff.hidden_field :step_uid, value: "NEW_RECORD" %>
-					<%= fff.hidden_field :position, class: "position border" %>
 					<%= fff.object.type %>
 					<%= fff.fields_for :controls, fff.object.controls , child_index: 'NEW_RECORD' do |ff| %>
 						<%= render "apps/bots/editor/control", form: ff %>

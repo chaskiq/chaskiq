@@ -3,30 +3,21 @@
 	<%= f.fields_for :bot_paths_objects, [@bot.bot_paths_objects.first], child_index: @bot_path_id do |ff| %>
     <%= turbo_stream.append("bot-path-step-container-#{@bot_path_id}") do %>
 
-      <%= ff.fields_for :steps, ff.object.steps.first, child_index: @bot_step_id do |fff| %>
-        <div data-sortable-target="item" 
-          class="border p-2 sm:p-4 sm:mt-8 mt:2 nested-fields"
-          data-new-record="true">
-          <%= fff.fields_for :messages, BotPathStepMessage.new(
+      <% id = SecureRandom.uuid
+        items = [
+          BotPathStep.new(
+            step_uid: id,
             controls: {
               type: "app_package",
               app_package: @package_name,
               schema: @blocks.with_indifferent_access["definitions"]
             }
-          ), child_index: SecureRandom.uuid do |ff| %>
-            HOLAAAA <%= fff.object.class %>
-            <%= ff.text_field :position, class: "position" %>
-            <%= ff.fields_for :controls, ff.object.controls do |fc|%>
-              <%= render "apps/bots/editor/package_fields", 
-                fc: fc,
-                bot_id: @bot_id,
-                bot_step_id: @bot_step_id,
-                bot_path_id: @bot_path_id
-              %>
-            <% end %>
-          <% end %>
-        </div>
-      <% end %>
+          )
+        ]
+      %>
+
+     	<%= render 'apps/bots/editor/steps', f: ff, items: items %>
+
     <% end %>
   <% end %>
 <% end %>

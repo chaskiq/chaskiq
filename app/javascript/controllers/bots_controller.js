@@ -61,6 +61,7 @@ export default class extends Controller {
   }
 
   hideFollowActionLinks() {
+    debugger
     this.followActionlinksTarget.classList.add('hidden');
   }
 
@@ -87,6 +88,48 @@ export default class extends Controller {
     const botStep = e.currentTarget.dataset.botStep;
     document.getElementById(botStep).remove();
     this.showFollowActionLinks();
+  }
+
+  hideThis(e){
+    e.currentTarget.classList.add("!hidden")
+  }
+
+  handleFollowActionOption(e){
+
+    
+    const nestedFieldWrapper = e.currentTarget.closest(".follow-actions-wrapper")
+    
+    
+    if(nestedFieldWrapper){
+      nestedFieldWrapper.querySelector(".followActionlinks").classList.add("hidden")
+      const nestedField = nestedFieldWrapper.querySelector(".followActionLinksWrapper")
+      if(nestedField) {
+        nestedField.classList.remove("hidden")
+        e.stopImmediatePropagation()
+      }
+    }
+  }
+
+  displayFollowActionOption(e){
+    const nestedFieldWrapper = e.currentTarget.closest(".follow-actions-wrapper")
+    const btn = nestedFieldWrapper.querySelector(e.currentTarget.dataset.display)
+    btn.classList.remove("!hidden")
+  }
+
+  remove_association(e){
+    console.log(e)
+    const nestedFieldWrapper = e.currentTarget.closest(".follow-actions-wrapper")
+    this.displayFollowActionOption(e)
+    e.currentTarget.closest(".nested-fields").remove()
+
+    const nestedFields = nestedFieldWrapper.querySelectorAll(".follow-action-item")
+    if(nestedFields.length == 0){
+      this.showFollowActionLinks()
+      nestedFieldWrapper.querySelector(".followActionLinksWrapper").remove()
+    }
+
+    //.querySelectorAll(".nested-fields")
+    console.log(nestedFields)
   }
 
   togglefollowActionsLinksActions() {
