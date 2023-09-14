@@ -14,7 +14,7 @@
 	data-location="<%= @location %>"
 
 	<% if @app_package %>
-	data-path="<%= app_package_path(@app.key, @app_package) %>">
+	data-path="<%= app_package_path(@app.key, @app_package, frame: @frame) %>">
 	<% end %>
 	<form 
 		data-definition-renderer-target="form"

@@ -122,7 +122,7 @@ class Apps::PackagesController < ApplicationController
     @package = get_app_package
     @package_name = params[:id]
     @conversation_key = params[:conversation_key] || params.dig(:ctx, :conversation_key)
-
+    @location = params[:location]
     @blocks = @package.call_hook({
                                    kind: "content",
                                    ctx: {
@@ -140,7 +140,7 @@ class Apps::PackagesController < ApplicationController
     @package = get_app_package
     @package_name = params[:id]
     @conversation_key = params[:ctx][:conversation_key]
-
+    @location = params.dig(:ctx, :location)
     @blocks = @package.call_hook({
                                    kind: "submit",
                                    ctx: {

@@ -41,6 +41,11 @@ namespace :packages do
     Plugin.save_all_plugins
   end
 
+  task restore: :environment do
+    Rails.logger = Logger.new($stdout)
+    Plugin.restore_plugins_from_fs
+  end
+
   # rake packages:freeze['your_package_name']
   desc "Freeze an AppPackage by name"
   task :freeze, [:pkg_name] => :environment do |_task, args|

@@ -15,6 +15,7 @@ class DefinitionRenderer::Component < ApplicationViewComponent
   option :bot_step_id, default: -> {}
   option :bot_path_id, default: -> {}
   option :app, default: -> {}
+  option :frame, default: -> {}
   option :path, default: -> {}
   option :ctx, default: -> { {} }
 end

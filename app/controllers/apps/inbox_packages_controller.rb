@@ -44,6 +44,6 @@ class Apps::InboxPackagesController < ApplicationController
   end
 
   def find_conversation
-    # @conversation = @app.conversations.find_by(key: params[:conversation_id])
+    @conversation = @app.conversations.find_by(key: params[:conversation_key])
   end
 end

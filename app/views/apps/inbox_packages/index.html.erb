@@ -18,7 +18,7 @@
 	</div>
 
 	<div class="space-y-3">
-		<% @inbox_packages.each do |d| %>
+		<% @inbox_packages.each_with_index do |d, index| %>
 				
 				<div class="rounded-md border border-gray-200 bg-white dark:bg-black dark:border-gray-800 w-full p-2--">
 					<p class="hidden text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
@@ -26,19 +26,21 @@
 					</p>
 
 					<% #= d %>
-
-					<%= render DefinitionRenderer::Component.new(
-							schema: d["definitions"],
-							blocks: d,
-							size: d["sm"],
-							app_package: d["name"],
-							location: "inbox",
-							values: d["values"],
-							conversation_key: params[:conversation_key],
-							path: app_inbox_package_path(@app.key, d["name"]),
-							app: @app,
-							ctx: {conversation_key: params[:conversation_key] } #locals[:ctx]
-					)%>
+					<div id="inbox-<%= params[:conversation_key] %>-<%= d["name"] %>">
+						<%= render DefinitionRenderer::Component.new(
+								schema: d["definitions"],
+								blocks: d,
+								size: d["sm"],
+								app_package: d["name"],
+								location: "inbox",
+								values: d["values"],
+								conversation_key: params[:conversation_key],
+								path: app_inbox_package_path(@app.key, d["name"], frame: "inbox-package-index-#{index}" ),
+								app: @app,
+								frame: "inbox-package-index-#{index}",
+								ctx: {conversation_key: params[:conversation_key], location: "inbox" } #locals[:ctx]
+						)%>
+					</div>
 				</div>
 		<% end %>
 	</div>

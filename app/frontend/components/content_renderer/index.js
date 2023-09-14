@@ -7,8 +7,8 @@ import './index.css'
 import { Controller as BaseController } from '@hotwired/stimulus'
 import { post } from '@rails/request.js'
 
-export class Controller extends BaseController {
-  connect() {
+export default class Controller extends BaseController {
+  initialize() {
     console.log('ajajajaja')
     this.sendData()
   }
@@ -21,14 +21,9 @@ export class Controller extends BaseController {
       responseKind: 'html', //'turbo-stream'
     })
 
-    debugger
-
     if (response.ok) {
       const body = await response.html
-      // this.element.innerHTML = body
-      this.element.closest(
-        "[data-controller='definition_renderer']"
-      ).outerHTML = body
+      this.element.closest('.definition-renderer').outerHTML = body
       console.log('response!')
     }
   }

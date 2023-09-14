@@ -4,7 +4,7 @@
 			<div class="">
 					<div class="flex justify-between border-b border-gray-200 mt-3 pb-2">
 						<div class="w-full flex justify-between">
-								<%= button_to app_inbox_packages_path(@app.key, conversation_key: params[:conversation_key]), method: :get do %>
+								<%= link_to app_inbox_packages_path(@app.key, conversation_key: @conversation.key) do %>
 									cancel
 								<% end %>
 
