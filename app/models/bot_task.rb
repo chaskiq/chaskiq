@@ -220,7 +220,8 @@ class BotTask < Message
   attr_accessor :new_path_title, :current_path
 
   def bot_paths_objects
-    return @bot_paths_objects = [] unless paths.present?
+    return @bot_paths_objects = [] if paths.blank?
+
     @bot_paths_objects ||= (paths.map { |o| BotPath.new(o) } || [])
   end
 
