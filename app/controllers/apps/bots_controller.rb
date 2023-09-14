@@ -40,7 +40,7 @@ class Apps::BotsController < ApplicationController
       @collection = @segment_manager.results(params) # resource_params["segment_predicate"]
     end
 
-    @bot.current_path = @bot.paths.first["id"] if params[:tab] == "editor" && @bot.paths.any?
+    @bot.current_path = @bot.paths.first["id"] if params[:tab] == "editor" && @bot.paths.present?
 
     if params[:path]
       @tab = "editor"
@@ -108,6 +108,7 @@ class Apps::BotsController < ApplicationController
           { step_uid: SecureRandom.hex(8), messages: [], type: "messages" }
         ]
       )
+      @bot.paths = [] if @bot.paths.nil?
       @bot.paths = @bot.paths << bot_path.as_json
       render turbo_stream: [
         turbo_stream.replace(

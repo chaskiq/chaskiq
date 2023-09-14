@@ -10,9 +10,7 @@ TODO.md
   + sidebar plugins
   + conversation fix sort append
 + bots:
-  + editor 
-    + new_conversations editor
-    + update sorts when params sent
+  + clone
 + campaigns:
   + editor tour manager
 + app settings:
