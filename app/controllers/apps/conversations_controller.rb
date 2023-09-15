@@ -2,8 +2,9 @@ class Apps::ConversationsController < ApplicationController
   before_action :find_app
 
   def index
+    @filter = "opened"
+    @sort = "newest"
     @conversations = search_service.search
-    @conversations = @conversations
                      .includes(:main_participant)
                      .page(params[:page]).per(10)
 
@@ -30,6 +31,9 @@ class Apps::ConversationsController < ApplicationController
   end
 
   def search
+    @filter = params.dig(:conversation_search_service, :filter).presence || "opened"
+    @sort = params.dig(:conversation_search_service, :sort).presence || "newest"
+
     @conversations = search_service.search
     @conversations = @conversations
                      .includes(:main_participant)
@@ -43,6 +47,15 @@ class Apps::ConversationsController < ApplicationController
       ),
 
       turbo_stream.replace(
+        "conversation-search-fields",
+        partial: "apps/conversations/search_filters",
+        locals: {
+          sort: @sort, 
+          filter: @filter
+        }
+      ),
+
+      turbo_stream.replace(
         "conversation-list-pagination",
         partial: "apps/conversations/pagination"
       )
@@ -50,6 +63,8 @@ class Apps::ConversationsController < ApplicationController
   end
 
   def show
+    @filter = "opened"
+    @sort = "newest"
     @conversation = @app.conversations.find_by(key: params[:id])
     @conversations = search_service.search
     @conversations = @conversations

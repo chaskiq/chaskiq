@@ -6,14 +6,17 @@
 
       <%= @button.call( {
         size: @size, 
-        variant: @variant, data: { action: "click->dropdown#toggle" }
+        variant: @variant, 
+        data: { action: "click->dropdown#toggle" }
       }) 
       %>
 
     <% else %>
       <%= render Button::Component.new(
         size: @size, 
-        variant: @variant, data: { action: "click->dropdown#toggle" }) do %>
+        variant: @variant,
+        classes: @btn_classes, 
+        data: { action: "click->dropdown#toggle" }) do %>
         <%= @label %>
       <% end %>
     <% end %>

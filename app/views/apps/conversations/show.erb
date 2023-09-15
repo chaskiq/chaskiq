@@ -1,90 +1,92 @@
 <%= turbo_frame_tag 'conversation',
 	data: { controller: 'conversation' },
-	class: "hidden- w-full flex flex-grow sm:block- bg-gray-50 dark:bg-black h-screen border-r-0 w-1/12-" do %>
+	class: "flex w-full" do %>
 
-	<div
-		class="w-full flex-1 flex flex-col h-screen conversation-bg">
-		<div class="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-black dark:border-gray-900">
-			<div class="flex items-center">
-				<a class="block md:hidden" href="/apps/GPi9haWV1ocbr4My_Q8xPw/conversations">
-					<svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
-						<path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"></path>
-					</svg>
-				</a>
-				<%= image_tag @conversation.main_participant.avatar_url, class: "h-9 w-9 rounded-full mr-2 cursor-pointer" %>
-				<h3 class="mb-1 text-xs text-grey-darkest hidden md:block">
-					<%= t("conversation.with") %> <br>
-					<span class="font-extrabold hover:text-underline">
-						<%= link_to @conversation.main_participant.display_name, app_contact_path(@app.key, @conversation.main_participant), "data-turbo-frame": "_top" %>
-					</span>
-				</h3>
+	<div class="md:w-0 md:flex-grow w-full bg-gray-200 dark:bg-gray-900 h-screen border-r dark:border-black">
+		<div
+			class="w-full flex-1 flex flex-col h-screen conversation-bg">
+			<div class="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-black dark:border-gray-900">
+				<div class="flex items-center">
+					<%= link_to app_conversation_path(@app.key, @conversation.key) do %>
+						<svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
+							<path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"></path>
+						</svg>
+					<% end %>
+					<%= image_tag @conversation.main_participant.avatar_url, class: "h-9 w-9 rounded-full mr-2 cursor-pointer" %>
+					<h3 class="mb-1 text-xs text-grey-darkest hidden md:block">
+						<%= t("conversation.with") %> <br>
+						<span class="font-extrabold hover:text-underline">
+							<%= link_to @conversation.main_participant.display_name, app_contact_path(@app.key, @conversation.main_participant), "data-turbo-frame": "_top" %>
+						</span>
+					</h3>
+				</div>
+				
+				<%= render 'header_top' %>
 			</div>
-			
-			<%= render 'header_top' %>
-		</div>
 
-		<div class="hidden">
-			<div class="flex bg-gray-900- h-44 justify-center items-center shadow-lg text-black" style="backdrop-filter: blur(4px);">
-				<div id="callStatus" class="css-i698ao"></div>
-				<div class="flex" style="visibility: hidden;">
-					<div id="call-wrapper" class="flex" style="visibility: hidden;">
-						<div class="flex justify-between w-full items-center lg:space-x-10 space-x-2">
-								<div id="callButtons" class="space-x-4 css-12du1so">
-									<div></div>
-								</div>
-								<div id="localVideo" class="bg-black overflow-hidden lg:h-32 lg:w-32 h-20 w-20 rounded-full border-2 border-green-600">
-									<div>
-											<div id="local-video-wrapper">
-												<video id="local-video" autoplay=""></video>
-											</div>
+			<div class="hidden">
+				<div class="flex bg-gray-900- h-44 justify-center items-center shadow-lg text-black" style="backdrop-filter: blur(4px);">
+					<div id="callStatus" class="css-i698ao"></div>
+					<div class="flex" style="visibility: hidden;">
+						<div id="call-wrapper" class="flex" style="visibility: hidden;">
+							<div class="flex justify-between w-full items-center lg:space-x-10 space-x-2">
+									<div id="callButtons" class="space-x-4 css-12du1so">
+										<div></div>
 									</div>
-								</div>
-								<div id="remoteVideo" class="bg-black overflow-hidden h-32 w-32 rounded-full border-2 border-green-600">
-									<div>
-											<div id="remote-video-container"></div>
+									<div id="localVideo" class="bg-black overflow-hidden lg:h-32 lg:w-32 h-20 w-20 rounded-full border-2 border-green-600">
+										<div>
+												<div id="local-video-wrapper">
+													<video id="local-video" autoplay=""></video>
+												</div>
+										</div>
 									</div>
-								</div>
-								<div id="callInitiator" class="flex flex-col justify-center items-center space-y-5 css-i698ao">
-									<div></div>
-								</div>
-								<div id="status-information" class="hidden lg:block">
-									<div id="info">
-											<div></div>
+									<div id="remoteVideo" class="bg-black overflow-hidden h-32 w-32 rounded-full border-2 border-green-600">
+										<div>
+												<div id="remote-video-container"></div>
+										</div>
 									</div>
-								</div>
-						</div>
-						<div id="status-information" class="block lg:hidden">
-							<div id="info"></div>
-						</div>
-						<div class="justify-end hidden">
-								<button class="expand-viewer">
-									<svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" title="Fullscreen" class="css-13s0wde">
-											<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
-									</svg>
-								</button>
+									<div id="callInitiator" class="flex flex-col justify-center items-center space-y-5 css-i698ao">
+										<div></div>
+									</div>
+									<div id="status-information" class="hidden lg:block">
+										<div id="info">
+												<div></div>
+										</div>
+									</div>
+							</div>
+							<div id="status-information" class="block lg:hidden">
+								<div id="info"></div>
+							</div>
+							<div class="justify-end hidden">
+									<button class="expand-viewer">
+										<svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" title="Fullscreen" class="css-13s0wde">
+												<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
+										</svg>
+									</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div
-			id="conversation-overflow"
-			class="overflow-y-scroll" style="height: calc(100vh - 220px);">
-				<%= turbo_frame_tag 'conversation-messages', 
-					src: app_conversation_conversation_messages_path(
-						@app.key, 
-						@conversation.key
-					) do %>
-					loading....
-				<% end %>
-		</div>
+			<div
+				id="conversation-overflow"
+				class="overflow-y-scroll" style="height: calc(100vh - 220px);">
+					<%= turbo_frame_tag 'conversation-messages', 
+						src: app_conversation_conversation_messages_path(
+							@app.key, 
+							@conversation.key
+						) do %>
+						loading....
+					<% end %>
+			</div>
 
-		<div class="bg-gray-100 m-2 rounded-sm shadow-md">
-			<%= render 'editor' %>
-		</div>
+			<div class="bg-gray-100 m-2 rounded-sm shadow-md">
+				<%= render 'editor' %>
+			</div>
 
-		<div>
+			<div>
+			</div>
 		</div>
 	</div>
 

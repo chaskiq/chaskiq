@@ -8,6 +8,14 @@
 <div 
 	data-turbo="false" 
 	data-controller="chat-editor"
+	data-quick-replies="<%= app_editor_quick_replies_path(@app.key) %>"
+	data-bot-tasks="<%= app_editor_bot_tasks_path(@app.key) %>"
+	data-capabilities="<%= capabilities_app_packages_path(
+			@app.key, 
+			kind: 'conversations', 
+			conversation_key: @conversation.key
+		)
+	%>"
 	data-editor-action-path="<%= path %>" 
 	class="">
   
@@ -49,18 +57,5 @@
 			</div>
 		</div>
 	</div>
-
-
-	<%= link_to "Add app", 
-		capabilities_app_packages_path(
-			@app.key, 
-			kind: 'conversations', 
-			conversation_key: @conversation.key
-		),
-		data: {
-			'turbo-frame': 'modal',
-		},
-		class: "btn btn-success"
-	%>
 
 </div>

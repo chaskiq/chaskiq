@@ -9,6 +9,8 @@ TODO.md
   + search consversionations button fix
   + sidebar plugins
   + conversation fix sort append
+  + editor_quick reply add to conversation
+    + search items
 + bots:
   + clone
 + campaigns:

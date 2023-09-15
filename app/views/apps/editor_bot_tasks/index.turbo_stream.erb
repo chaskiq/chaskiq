@@ -1,0 +1,53 @@
+<%= turbo_stream.replace "modal" do %>
+  <%=  render "shared/modal" do %>
+    
+
+    <div class="mt-3 sm:mt-0 text-left">
+      <h3 class="text-xl leading-6 font-semibold text-gray-900 dark:text-gray-100">
+        Reply with a conversational bot task
+      </h3>
+      <div class="mt-2">
+        <div>
+          <div class="my-4">
+            <div class="mt-1 flex rounded-md shadow-sm">
+              <div class="relative flex-grow focus-within:z-10">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg fill="currentColor" viewBox="0 0 20 20" class="css-1dhg8p7">
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                  </svg>
+                </div>
+                <input id="email" autocomplete="off" class="dark:bg-gray-800 py-3 border border-r-none block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5" placeholder="Search Quick replies" value="">
+              </div>
+              <button class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-r-md text-gray-700 bg-gray-50 hover:text-gray-500 hover:bg-white focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-900 dark:text-gray-200">
+                <span class="ml-2">Submit</span>
+              </button>
+            </div>
+          </div>
+          <div class="mt-2 bg-white shadow overflow-hidden sm:rounded-md overflow-y-auto" style="max-height: 16rem;">
+            <ul>
+              <% @bot_tasks.each do |q|%>
+                <li class="border-t border-gray-200">
+                  <a href="#" class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+                    <div class="flex items-center px-4 py-4 sm:px-6">
+                      <div class="min-w-0 flex-1 flex items-center">
+                        <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+                          <div>
+                            <div class="text-sm leading-5 font-medium text-indigo-600 truncate">
+                              <%= q.title %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+<% end %>

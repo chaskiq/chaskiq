@@ -77,6 +77,9 @@ Rails.application.routes.draw do
       resources :conversation_messages, controller: "apps/conversation_messages"
     end
 
+    resources :editor_quick_replies, controller: "apps/editor_quick_replies"
+    resources :editor_bot_tasks, controller: "apps/editor_bot_tasks"
+
     resources :inbox_packages, controller: 'apps/inbox_packages' do
       collection do
         post :sort
