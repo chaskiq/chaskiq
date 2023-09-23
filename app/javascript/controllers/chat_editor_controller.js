@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { getTheme } from "./dark_mode_controller";
+import { getTheme } from './dark_mode_controller';
 
 import Dante, {
   defaultTheme,
@@ -181,7 +181,6 @@ export default class extends Controller {
       this.scrollToBottom();
     }, 400);
   }
-
 }
 
 class AppPackage extends React.Component {
@@ -330,8 +329,8 @@ function EditorComponent({
   const valRef = React.useRef(val); // Add this ref
   const editorRef = React.useRef(null);
   const [theme, setTheme] = React.useState(
-    getTheme() == "dark" ? darkTheme : defaultTheme
-  )
+    getTheme() == 'dark' ? darkTheme : defaultTheme
+  );
 
   const widgets = [
     ImageBlockConfig({
@@ -389,14 +388,14 @@ function EditorComponent({
   }, [val]);
 
   React.useEffect(() => {
-    console.log("CHANGED THEME", theme) // Update the ref whenever `val` changes
+    console.log('CHANGED THEME', theme); // Update the ref whenever `val` changes
   }, [theme]);
 
   React.useEffect(() => {
     // Function to handle the custom event
     const handleThemeChanged = (event) => {
       console.log('New theme is:', event.detail.theme);
-      setTheme(event.detail.theme == "dark" ? darkTheme : defaultTheme)
+      setTheme(event.detail.theme == 'dark' ? darkTheme : defaultTheme);
     };
 
     // Add custom event listener

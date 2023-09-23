@@ -15,23 +15,21 @@ export default class extends Controller {
 
     // Dispatch custom event with new theme value
     const themeChangedEvent = new CustomEvent('themeChanged', {
-      detail: { theme: newTheme }
+      detail: { theme: newTheme },
     });
     window.dispatchEvent(themeChangedEvent);
   }
 
   setCookie(cname, cvalue, exdays) {
     const d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    const expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    const expires = 'expires=' + d.toUTCString();
+    document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
   }
-
-
 }
 
 export function getCookie(cname) {
-  const name = cname + "=";
+  const name = cname + '=';
   const ca = document.cookie.split(';');
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
@@ -42,12 +40,10 @@ export function getCookie(cname) {
       return c.substring(name.length, c.length);
     }
   }
-  return "";
+  return '';
 }
 
 export function getTheme() {
   const themeCookie = getCookie('darkmode');
   return themeCookie ? themeCookie : 'light';
 }
-
-

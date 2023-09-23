@@ -126,15 +126,15 @@ class ConversationPart < ApplicationRecord
     # )
 
     broadcast_prepend_later_to conversation.app,
-                              :conversations,
-                              # action: "append",
-                              target: "conversation-messages-list-#{conversation.key}",
-                              partial: "apps/conversation_messages/part",
-                              locals: {
-                                app: conversation.app,
-                                message: self,
-                                notified: true
-                              }
+                               :conversations,
+                               # action: "append",
+                               target: "conversation-messages-list-#{conversation.key}",
+                               partial: "apps/conversation_messages/part",
+                               locals: {
+                                 app: conversation.app,
+                                 message: self,
+                                 notified: true
+                               }
 
     conversation.notify_conversation_list
   end
