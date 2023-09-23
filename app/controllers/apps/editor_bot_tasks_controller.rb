@@ -1,5 +1,4 @@
 class Apps::EditorBotTasksController < ApplicationController
-
   before_action :find_app
 
   def index

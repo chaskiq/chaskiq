@@ -9,7 +9,7 @@
 	</div>
 
 	<%= turbo_frame_tag "conversation-messages-list-#{@conversation.key}", 
-		class: 'flex flex-col' do %>
+		class: 'flex flex-col-reverse' do %>
 		<%= render 'apps/conversation_messages/messages' %>
 	<% end %>
 </div>

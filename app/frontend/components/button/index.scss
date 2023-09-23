@@ -57,7 +57,9 @@
 		border-transparent 
 		rounded 
 		text-gray-100 
-		bg-gray-900 
+		bg-gray-900
+		dark:bg-black
+		dark:hover:bg-gray-900 
 		hover:bg-gray-800 
 		focus:outline-none 
 		focus:border-gray-700;
@@ -90,6 +92,7 @@
 			justify-center 
 			border 
 			border-gray-300 
+			dark:border-gray-800 
 			shadow-sm 
 			text-sm 
 			font-medium 

@@ -125,7 +125,7 @@ class ConversationPart < ApplicationRecord
     #  data: as_json
     # )
 
-    broadcast_append_later_to conversation.app,
+    broadcast_prepend_later_to conversation.app,
                               :conversations,
                               # action: "append",
                               target: "conversation-messages-list-#{conversation.key}",

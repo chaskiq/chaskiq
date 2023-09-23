@@ -5,7 +5,7 @@
 				{name: :name,	render: lambda{|record| 
 						raw(%{
 							<div class="flex items-center">
-								<div class="text-sm leading-5 font-medium text-gray-900">
+								<div class="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
 									#{ link_to record.name , app_oauth_application_path(@app.key, record), data: {
 										'turbo-frame': 'app-settings', 'turbo-action': 'replace'
 									} }

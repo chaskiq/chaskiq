@@ -31,7 +31,7 @@
 									#{
 										button_to( I18n.t('common.delete'), 
 														app_tag_path(@app.key, record.name), 
-														class: "btn btn-flat-dark", 
+														class: "btn btn-danger", 
 														data: { turbo_confirm: t("common.confirm_deletion")},
 														method: :delete) 
 									}

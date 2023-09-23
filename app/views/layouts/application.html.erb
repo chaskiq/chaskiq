@@ -42,7 +42,7 @@
   <body>
     <%= render partial: "shared/flash" %>
 
-    <div class="page antialiased" id="main-page" 
+    <div class="page antialiased <%= cookies[:darkmode] %>" id="main-page" 
       data-controller="modal-- slide-modal dark-mode" 
       data-modal-allow-background-close="false">
 
@@ -50,11 +50,13 @@
 
       <% if @app.present? && @app.persisted? %>
         <% #= turbo_frame_tag "content" , data: {'history-target': 'contentframe'} do %>
-          <div class="h-screen flex overflow-hidden bg-white dark:bg-black dark:text-white">
+          <div class="h-screen flex overflow-hidden bg-white dark:bg-gray-900 dark:text-white">
             <%= render "shared/nav" %>
             <div class="flex flex-col w-0 flex-1 overflow-auto">
               <%= yield %>
-            </div>	
+            </div>
+            <%= render "apps/packages/fixed" %>
+          
           </div>
         <% #end %>
       <% else %>

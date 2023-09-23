@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Apps::EditorQuickReplies", type: :request do
   describe "GET /index" do

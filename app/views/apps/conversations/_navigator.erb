@@ -1,27 +1,9 @@
-<%= link_to new_app_conversation_path(@app.key), class: "
-		bg-gray-200 dark:bg-gray-900 
-		bg-white hover:text-gray-600 hover:bg-gray-100 
-		dark:hover:text-gray-100 dark:hover:bg-gray-700
-		dark:bg-black dark:text-gray-100 dark:focus:bg-black
-		focus:outline-none focus:bg-gray-200
-		group flex items-center 
-		px-2 py-2 
-		text-sm leading-5 font-medium text-gray-900 
-		rounded-md transition ease-in-out duration-150" do %>
+<%= link_to new_app_conversation_path(@app.key), class: "navigator-item", data: {turbo_frame: "modal"} do %>
 		<svg class="text-lg mr-3 h-6 w-6 dark:text-gray-100 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
 		<%= t("conversations.menu.compose") %>
 <% end %>
 
-<%= link_to app_conversations_path(@app.key), class: "
-		bg-gray-200 dark:bg-gray-900 
-		bg-white hover:text-gray-600 hover:bg-gray-100 
-		dark:hover:text-gray-100 dark:hover:bg-gray-700
-		dark:bg-black dark:text-gray-100 dark:focus:bg-black
-		focus:outline-none focus:bg-gray-200
-		group flex items-center 
-		px-2 py-2 
-		text-sm leading-5 font-medium text-gray-900 
-		rounded-md transition ease-in-out duration-150" do %>
+<%= link_to app_conversations_path(@app.key), class: "navigator-item" do %>
 		<div class="text-lg mr-3 h-6 w-6 dark:text-gray-100 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
 			<svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
 					<path d="M3.5 11.493H4v-.5h-.5v.5zm0 2.998H3a.5.5 0 00.8.4l-.3-.4zm4-2.998v-.5h-.167l-.133.1.3.4zm-3-7.496H4v1h.5v-1zm6 1h.5v-1h-.5v1zm-6 1.998H4v1h.5v-1zm4 1H9v-1h-.5v1zM3 11.493v2.998h1v-2.998H3zm.8 3.398l4-2.998-.6-.8-4 2.998.6.8zm3.7-2.898h6v-1h-6v1zm6 0c.829 0 1.5-.67 1.5-1.5h-1c0 .277-.223.5-.5.5v1zm1.5-1.5V1.5h-1v8.994h1zM15 1.5c0-.83-.671-1.5-1.5-1.5v1c.277 0 .5.223.5.5h1zM13.5 0h-12v1h12V0zm-12 0C.671 0 0 .67 0 1.5h1c0-.277.223-.5.5-.5V0zM0 1.5v8.993h1V1.5H0zm0 8.993c0 .83.671 1.5 1.5 1.5v-1a.499.499 0 01-.5-.5H0zm1.5 1.5h2v-1h-2v1zm3-6.996h6v-1h-6v1zm0 2.998h4v-1h-4v1z" fill="currentColor"></path>
@@ -31,14 +13,7 @@
 <% end %>
 
 <%= link_to app_assignment_rules_path(@app.key), 
-	class: "bg-white hover:text-gray-600 hover:bg-gray-100 
-		dark:hover:text-gray-100 dark:hover:bg-gray-700
-		dark:bg-black dark:text-gray-100 dark:focus:bg-black
-		focus:outline-none focus:bg-gray-200
-		group flex items-center 
-		px-2 py-2 
-		text-sm leading-5 font-medium text-gray-900 
-		rounded-md transition ease-in-out duration-150" do %>
+	class: "navigator-item" do %>
 		<div class="text-lg mr-3 h-6 w-6 dark:text-gray-100 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
 			<svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
 					<path d="M2.5 1.5a1 1 0 11-2 0 1 1 0 012 0zm0 0h2a3 3 0 013 3v6a3 3 0 003 3h2m0 0a1 1 0 102 0 1 1 0 00-2 0z" stroke="currentColor"></path>

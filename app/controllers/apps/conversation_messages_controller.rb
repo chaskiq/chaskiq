@@ -24,7 +24,7 @@ class Apps::ConversationMessagesController < ApplicationController
 
     if params[:page]
       render turbo_stream: [
-        turbo_stream.prepend(
+        turbo_stream.append(
           "conversation-messages-list-#{@conversation.key}",
           partial: "apps/conversation_messages/part",
           collection: @messages,

@@ -10,6 +10,7 @@
     @apply block w-full transition ease-in-out duration-150 sm:text-sm sm:leading-5;
 
     margin: 0px !important;
+    @apply dark:bg-black;
 
     @apply p-3 m-0 pr-10 focus:shadow-outline sm:text-sm sm:leading-5;
   
@@ -67,7 +68,5 @@
 }
 
 
-.input, input[type=datetime-local] {
-  @apply py-2 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-500 border rounded-md;
-}
+
 

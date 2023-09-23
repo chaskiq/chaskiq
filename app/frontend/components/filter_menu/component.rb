@@ -8,5 +8,5 @@ class FilterMenu::Component < ApplicationViewComponent
   option :orientation, default: -> {}
   option :origin, default: -> {}
   option :button, default: -> {}
-  option :btn_classes, default: -> {""}
+  option :btn_classes, default: -> { "" }
 end

@@ -5,8 +5,8 @@ class Apps::ConversationsController < ApplicationController
     @filter = "opened"
     @sort = "newest"
     @conversations = search_service.search
-                     .includes(:main_participant)
-                     .page(params[:page]).per(10)
+                                   .includes(:main_participant)
+                                   .page(params[:page]).per(10)
 
     if request.headers["Turbo-Frame"].present?
       render turbo_stream: [
@@ -37,6 +37,7 @@ class Apps::ConversationsController < ApplicationController
     @conversations = search_service.search
     @conversations = @conversations
                      .includes(:main_participant)
+                     .order("id desc")
                      .page(params[:page]).per(10)
 
     render turbo_stream: [
@@ -50,7 +51,7 @@ class Apps::ConversationsController < ApplicationController
         "conversation-search-fields",
         partial: "apps/conversations/search_filters",
         locals: {
-          sort: @sort, 
+          sort: @sort,
           filter: @filter
         }
       ),
@@ -80,9 +81,9 @@ class Apps::ConversationsController < ApplicationController
     else
       # use a lazy frame on index template to avoid this call
       @collection = @conversation.messages
-                                 .order("id desc")
+                                 .order("id asc")
                                  .page(params[:page])
-                                 .per(params[:per] || 2)
+                                 .per(10)
 
       render "index"
     end

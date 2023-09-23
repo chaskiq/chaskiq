@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   include PackageIframeBehavior
   # protect_from_forgery with: :null_session
   before_action :set_locale
+  before_action :set_darkmode
 
   layout :layout_by_resource
 
@@ -106,6 +107,10 @@ class ApplicationController < ActionController::Base
     added_attrs = %i[email first_name last_name]
     devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
+  end
+
+  def set_darkmode
+    cookies[:darkmode] ||= "light"
   end
 
   def set_locale
