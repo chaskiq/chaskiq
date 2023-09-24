@@ -58,8 +58,7 @@ class Apps::ConversationMessagesController < ApplicationController
                                               partial: "apps/conversation_messages/part",
                                               locals: {
                                                 message: @message,
-                                                app: @app,
-                                                notified: false # since we are creating a record to be seend for the agent we don't need to makr thid notified
+                                                app: @app
                                               })
   end
 

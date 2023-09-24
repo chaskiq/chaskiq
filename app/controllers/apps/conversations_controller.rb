@@ -143,11 +143,11 @@ class Apps::ConversationsController < ApplicationController
 
   def create
     author = @app.agents.where("agents.email =?", current_user.email).first
-    participant = @app.app_users.find(params[:app_user_id])
-    initiator_channel = params[:initiator_channel]
-    initiator_block = params[:initiator_block]
+    participant = @app.app_users.find(params[:conversation][:main_participant])
+    initiator_channel = params[:conversation][:initiator_channel]
+    initiator_block = params[:conversation][:initiator_block]
     sanitized_html = ""
-    subject = params[:subject]
+    subject = params[:conversation][:subject]
 
     options = {
       from: author,

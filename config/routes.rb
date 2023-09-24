@@ -133,7 +133,11 @@ Rails.application.routes.draw do
         post :edit_segment
       end
     end
-    resources :contacts, controller: "apps/contacts"
+    resources :contacts, controller: "apps/contacts" do
+      collection do
+        get :search
+      end
+    end
     resources :segment_managers, controller: "apps/segment_manager"
     resources :dashboards, controller: "apps/dashboards"
     resources :assignment_rules, controller: "apps/assignment_rules"

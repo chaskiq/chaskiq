@@ -111,6 +111,7 @@
                                     description: I18n.t(
                                       'navigator.user_menu.create_app_description'
                                     ),
+                                    icon: "plus",
                                     id: 'new-app',
                                     href: '/apps/new',
                                   },
@@ -118,6 +119,7 @@
                                   {
                                     id: 'choose-lang',
                                     title: I18n.t('home.choose_lang'),
+                                    icon: "globe-alt",
                                     href: "/languages",
                                     data: {
                                       'turbo-frame': 'modal'
@@ -126,11 +128,13 @@
                                   {
                                     id: 'edit-profile',
                                     title: I18n.t('home.edit_profile'),
+                                    icon: "user-circle",
                                     href: '/agents/edit'
                                   },
                                   {
                                     id: 'toggle-dark-mode',
                                     title: ( 'toggle theme' ),
+                                    icon: "paint-brush",
                                     data: {
                                       action: "click->dark-mode#toggle"
                                     }
@@ -140,7 +144,23 @@
                                     id: 'sign-out',
                                     render: lambda{|o| 
                                       %{
-                                        #{button_to I18n.t('navigator.user_menu.signout'), destroy_agent_session_path, method: :delete, form: {"data-turbo": false} }
+                                        #{button_to destroy_agent_session_path, 
+                                          method: :delete, 
+                                          form: {"data-turbo": false, 
+                                          class: "w-full group flex items-center
+                                            px-4 py-2 text-sm leading-5 
+                                            text-gray-700 dark:text-gray-200
+                                            hover:bg-gray-100 hover:text-gray-900
+                                            focus:outline-none focus:bg-gray-100
+                                            focus:text-gray-900
+                                            dark:hover:bg-gray-700 dark:hover:text-gray-100
+                                            dark:focus:bg-gray-800"} do
+                                              content_tag :div, class: "flex items-center space-x-2" do
+                                                content_tag( :div, heroicon("arrow-left-on-rectangle"), class: "flex") +
+                                                content_tag( :div, I18n.t('navigator.user_menu.signout'), class: "flex")
+                                              end
+                                          end
+                                        }
                                       }
                                     }
                                   }

@@ -4,11 +4,13 @@
 	data: {
 		controller: "conversation-part-wrapper",
 		read: message.read?,
-		notified: notified,
+		viewer_type: current_agent.class,
+		author: "#{message.authorable.class}",
 		path: app_conversation_conversation_message_path(
 			app.key, message.conversation.key, message.key
 		)
 	} do %>
+<%= local_assigns[:viewer_type] %>
 
 <%= case message.messageable_type
 		when 'ConversationPartContent'

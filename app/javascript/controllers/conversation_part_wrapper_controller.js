@@ -7,8 +7,7 @@ export default class extends Controller {
     this.pling = new Audio('/sounds/BLIB.wav');
 
     if (
-      this.element.dataset.read == 'false' &&
-      this.element.dataset.notified === 'true'
+      this.element.dataset.read == 'false'
     ) {
       this.playSound();
       this.chatEditorController.scrollToBottom();
@@ -16,10 +15,8 @@ export default class extends Controller {
     }
 
     if (
-      this.element.dataset.read === 'false' &&
-      this.element.dataset.notified === 'false'
+      this.element.dataset.read === 'false'
     ) {
-      console.log('NEEDS READ REQ');
       this.markAsRead();
     }
   }
@@ -30,6 +27,9 @@ export default class extends Controller {
   }
 
   async markAsRead() {
+
+    if(this.element.dataset.author == this.element.dataset.viewerType) return
+
     const response = await patch(this.element.dataset.path, {
       body: JSON.stringify({
         read: true,

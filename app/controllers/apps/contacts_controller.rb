@@ -16,6 +16,21 @@ class Apps::ContactsController < ApplicationController
     end
   end
 
+  def search
+    if Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true" && @app.searchkick_enabled?
+      @collection = AppUser.search(
+        params[:term],
+        fields: %i[name last_name first_name email phone],
+        where: { app_id: @app.id }
+      )
+    else
+      query_term = :last_name_or_first_name_or_name_or_email_or_phone_i_cont_any
+      @collection = @app.app_users.limit(10).ransack(
+        query_term => params[:term]
+      ).result
+    end
+  end
+
   def show
     @app_user = @app.app_users.find(params[:id])
     @user_data = { id: @app_user.id, lat: @app_user.lat,
