@@ -83,6 +83,14 @@ class Apps::PackagesController < ApplicationController
                     .where(
                       app_package_id: @app.app_packages.tagged_with(params[:kind], on: "capabilities")
                     ).order("app_packages.name desc")
+    
+    if @location == "fixed_sidebar"
+      render "apps/packages/fixed_capabilities", layout: false and return
+    end
+  end
+
+  def open_sidebar
+    render "apps/packages/open_sidebar", layout: false and return
   end
 
   def configure

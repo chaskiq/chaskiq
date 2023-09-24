@@ -150,6 +150,7 @@ Rails.application.routes.draw do
       collection do
         post :sort
         get :capabilities
+        get :open_sidebar
       end
     end
 

@@ -4,8 +4,8 @@
 	data: {
 		controller: "conversation-part-wrapper",
 		read: message.read?,
-		viewer_type: current_agent.class,
-		author: "#{message.authorable.class}",
+		viewer_type: current_agent.class.to_s,
+		author: message.authorable.class.to_s,
 		path: app_conversation_conversation_message_path(
 			app.key, message.conversation.key, message.key
 		)

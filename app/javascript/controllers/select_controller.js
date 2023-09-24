@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import Select, { components } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import AsyncCreatable from 'react-select/async-creatable';
-import { get, FetchRequest } from "@rails/request.js";
+import { get, FetchRequest } from '@rails/request.js';
 
 import { Controller } from '@hotwired/stimulus';
 
@@ -39,7 +39,7 @@ export default class extends Controller {
       if (selectElement.multiple) {
         updateSelectOptions(data);
       } else {
-        if(selectElement.dataset.remote){
+        if (selectElement.dataset.remote) {
           let newOption = new Option(data.label, data.value, true);
           newOption.selected = true; //option.selected
           selectElement.add(newOption);
@@ -87,17 +87,16 @@ export default class extends Controller {
     console.log(getDefaultValues());
 
     async function loadAsyncOptions(inputValue, callback) {
-      const url = selectElement.getAttribute("data-url");
-      const request = new FetchRequest('get', `${url}?term=${inputValue}`)
-      const response = await request.perform()
-      if(response.ok){
-        
-        const json = await response.json
-        const arr = json.collection.map((o)=> ({
-          value: o.id, 
-          label: `${o.email} ${o.display_name}`
-        }))
-        console.log(arr)
+      const url = selectElement.getAttribute('data-url');
+      const request = new FetchRequest('get', `${url}?term=${inputValue}`);
+      const response = await request.perform();
+      if (response.ok) {
+        const json = await response.json;
+        const arr = json.collection.map((o) => ({
+          value: o.id,
+          label: `${o.email} ${o.display_name}`,
+        }));
+        console.log(arr);
         callback(arr);
       } else {
         console.error('Error fetching data', error);
@@ -106,19 +105,19 @@ export default class extends Controller {
 
     root.render(
       <div>
-      
-      {!selectElement.dataset.remote && <Select
-          //value={selectedOption}
-          defaultValue={getDefaultValues()}
-          components={{ MultiValueLabel }}
-          options={convertOptionsToMap()}
-          onChange={handleChange}
-          closeMenuOnSelect={false}
-          className="my-react-select-container"
-          classNamePrefix="my-react-select"
-          isMulti={this.selectElement.multiple}
-        />}
-
+        {!selectElement.dataset.remote && (
+          <Select
+            //value={selectedOption}
+            defaultValue={getDefaultValues()}
+            components={{ MultiValueLabel }}
+            options={convertOptionsToMap()}
+            onChange={handleChange}
+            closeMenuOnSelect={false}
+            className="my-react-select-container"
+            classNamePrefix="my-react-select"
+            isMulti={this.selectElement.multiple}
+          />
+        )}
 
         {selectElement.dataset.remote && (
           <div>

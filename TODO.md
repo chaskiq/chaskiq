@@ -1,5 +1,5 @@
 TODO.md
-
++ pemissions
 + layout:
   + sidebar
   + sidebar for fixed app packages
@@ -8,9 +8,6 @@ TODO.md
 
 + conversations:
   + open video conversation
-  + fix layout height
-  + search consversionations button fix
-  + conversation fix sort append
   + editor_quick reply add to conversation
     + search items
 + bots:

@@ -6,17 +6,9 @@ export default class extends Controller {
     // console.log("Listening for notifications", this.element.dataset)
     this.pling = new Audio('/sounds/BLIB.wav');
 
-    if (
-      this.element.dataset.read == 'false'
-    ) {
+    if (this.element.dataset.read == 'false') {
       this.playSound();
       this.chatEditorController.scrollToBottom();
-      this.markAsRead();
-    }
-
-    if (
-      this.element.dataset.read === 'false'
-    ) {
       this.markAsRead();
     }
   }
@@ -27,8 +19,7 @@ export default class extends Controller {
   }
 
   async markAsRead() {
-
-    if(this.element.dataset.author == this.element.dataset.viewerType) return
+    if (this.element.dataset.author == this.element.dataset.viewerType) return;
 
     const response = await patch(this.element.dataset.path, {
       body: JSON.stringify({

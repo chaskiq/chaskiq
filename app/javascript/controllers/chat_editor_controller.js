@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { getTheme } from './dark_mode_controller';
-import serialize from 'form-serialize'
+import serialize from 'form-serialize';
 
 import Dante, {
   defaultTheme,
@@ -71,16 +71,18 @@ export default class extends Controller {
   handleSubmit(value) {
     const { html, serialized } = value;
     // when conversation is new a form is provided with options
-    let data = {conversation: {}}
-    if(this.element.dataset.form){
-      data = serialize(document.getElementById("new_conversation"), { hash: true })
+    let data = { conversation: {} };
+    if (this.element.dataset.form) {
+      data = serialize(document.getElementById('new_conversation'), {
+        hash: true,
+      });
     }
 
-    this.insertComment(
-      { html, 
-        serialized: JSON.stringify(serialized),
-        conversation: data.conversation
-      });
+    this.insertComment({
+      html,
+      serialized: JSON.stringify(serialized),
+      conversation: data.conversation,
+    });
     return true;
   }
 
@@ -455,9 +457,7 @@ function EditorComponent({
   return (
     <Dante
       //theme={darkTheme}
-      theme={
-        {...theme, dante_editor_font_size: "1em" }
-      }
+      theme={{ ...theme, dante_editor_font_size: '1em' }}
       content={val}
       tooltips={[
         AddButtonConfig({

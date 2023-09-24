@@ -1,0 +1,33 @@
+<div class="overflow-y-auto h-full">
+
+	<ul data-turbo="true">
+		<%= link_to "open", open_sidebar_app_packages_path(@app.key), data: {turbo_frame: "fixed-app-packages"}  %>
+
+		<% @packages.each do |pkg| %>
+
+			<li class="">
+				<button
+					aria-label="<%= pkg.name %>"
+					class="text-gray-700 dark:text-white
+					rounded-md flex 
+					justify-center 
+					cursor-pointer bg-gray-50 dark:bg-black
+					hover:bg-gray-100 dark:hover:bg-gray-800 
+					h-10 w-full 
+					items-center 
+					text-2xl font-semibold 
+					my-5 overflow-hidden"
+					>
+						<img
+							src="{logos[o.name.toLocaleLowerCase()]}"
+							height=20
+							width=20
+						/>
+					</button>
+
+			</li>
+		<% end %>
+		pkg here
+	</ul>
+		
+</div>

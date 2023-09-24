@@ -1,10 +1,13 @@
-  <%= turbo_frame_tag "fixed-app-packages", data: {turbo_permanent: true}, class: "md:block 
+
+<%= turbo_frame_tag "fixed-app-packages", data: {turbo_permanent: true} do %>
+  <div class="md:block 
     bg-gray-100 dark:bg-black
     text-purple-lighter 
     flex-none w-23 
     p-2 
-    border-r border-gray-300 dark:border-gray-900 border-l" do %>
-    <div class="cursor-pointer mb-4">
+    border-r border-gray-300 dark:border-gray-900 border-l h-screen">
+	
+	  <div class="cursor-pointer mb-4">
       <div class="bg-white dark:bg-gray-900 dark:text-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
         <a href="/apps/GPi9haWV1ocbr4My_Q8xPw/integrations">
           <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
@@ -15,13 +18,10 @@
     </div>
     <div class="overflow-y-auto h-full">
       <%= rand(50) %>
-      <%
-      #= turbo_frame_tag "fixed_packages", 
-      #  src: capabilities_app_packages_path(
-      #    @app.key, 
-      #    kind: "fixed_sidebar"
-      #  ) do %>
-        loading
-      <% # end %>
+
+			<%= turbo_frame_tag "fixed_packages" do %>
+				<%= render "apps/packages/fixed_capabilities" %>
+			<% end %>
     </div>
-  <% end %>
+	</div>
+<% end %>

@@ -55,7 +55,14 @@
             <div class="flex flex-col w-0 flex-1 overflow-auto">
               <%= yield %>
             </div>
-            <%= render "apps/packages/fixed" %>
+
+            <%= turbo_frame_tag "fixed-app-packages", 
+              src: capabilities_app_packages_path(
+                @app.key, 
+                kind: "fixed_sidebar"
+              ) do %>
+              loading
+            <%  end %>
           
           </div>
         <% #end %>
