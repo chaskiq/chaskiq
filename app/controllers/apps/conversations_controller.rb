@@ -90,6 +90,12 @@ class Apps::ConversationsController < ApplicationController
   end
 
   def sidebar
+    session[:conversation_sidebar] = params[:open] || "false"
+
+    @conversation = @app.conversations.find_by(key: params[:id])
+
+    render "apps/conversations/sidebar", layout: false and return
+
     if params[:q] == "cancel"
       render turbo_stream: turbo_stream.replace(
         "conversation-sidebar-packages",

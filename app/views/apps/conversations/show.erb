@@ -91,7 +91,13 @@
 	</div>
 
 	<!-- sidebar -->
-	<%= render 'sidebar' %>
+	<%= turbo_frame_tag "conversation-sidebar", 
+		src: sidebar_app_conversation_path(@app.key, 
+			@conversation.key, 
+			open: session[:conversation_sidebar]
+		) 
+	%>
+	<% #= render 'sidebar' %>
 
 <%end%>
 

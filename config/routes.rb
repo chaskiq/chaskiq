@@ -71,8 +71,10 @@ Rails.application.routes.draw do
     resources :invitations , controller: "apps/invitations"
     resources :conversations , controller: "apps/conversations" do
       collection do
-        get :sidebar
         post :search
+      end
+      member do
+        get :sidebar
       end
       resources :conversation_messages, controller: "apps/conversation_messages"
     end

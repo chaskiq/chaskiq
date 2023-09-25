@@ -4,7 +4,6 @@
 		<%= link_to "open", open_sidebar_app_packages_path(@app.key), data: {turbo_frame: "fixed-app-packages"}  %>
 
 		<% @packages.each do |pkg| %>
-
 			<li class="">
 				<button
 					aria-label="<%= pkg.name %>"
@@ -27,7 +26,6 @@
 
 			</li>
 		<% end %>
-		pkg here
 	</ul>
 		
 </div>

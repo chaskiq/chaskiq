@@ -6,11 +6,10 @@
                <div class="flex-1 space-y-8 break-all">
                   <div class="space-y-8 sm:space-y-0 sm:flex sm:justify-between sm:items-center xl:block xl:space-y-2">
                      <div class="px-2">
-                        
-                        <%= turbo_frame_tag 'conversation-sidebar-packages', src: app_inbox_packages_path(@app.key, conversation_key: @conversation.key) do %>
+                        <%= turbo_frame_tag 'conversation-sidebar-packages', 
+                           src: app_inbox_packages_path(@app.key, conversation_key: @conversation.key) do %>
                            loading sidebar packages...
                         <% end %>
-                        <% #= render 'apps/packages/', locals: {ctx: { conversation_key: @conversation.key }} %>
                      </div>
                   </div>
                </div>
