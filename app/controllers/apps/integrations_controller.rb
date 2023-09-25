@@ -32,23 +32,15 @@ class Apps::IntegrationsController < ApplicationController
   def update
     @integration = @app.app_package_integrations.find(params[:id])
     resource_params = params[:app_package_integration].permit!
-    if @integration.update(resource_params)
-      flash.now[:notice] = "Place was updated!"
-      redirect_to app_integrations_path(@app.key)
-    else
-      render "edit", status: :unprocessable_entity
-    end
+    flash.now[:notice] = "Place was updated!" if @integration.update(settings: resource_params)
   end
 
   def create
     resource_params = params[:app_package_integration].permit!
-    @integration = @app.app_package_integrations.new
-    if @integration.update(resource_params)
-      flash.now[:notice] = "Place was updated!"
-      redirect_to app_integrations_path(@app.key)
-    else
-      render "new", status: :unprocessable_entity
-    end
+    @app_package = AppPackage.find(params[:app_package])
+    @integration = @app.app_package_integrations.new(app_package: @app_package)
+
+    flash.now[:notice] = "Place was updated!" if @integration.update(settings: resource_params)
   end
 
   def destroy
