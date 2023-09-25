@@ -7,6 +7,7 @@ class ButtonRenderer::Component < ApplicationViewComponent
   option :label
   option :align, default: -> { "left" }
   option :action, default: -> {}
+  option :frame, default: -> {}
 
   def json_data
     { label: @label, id: @id, action: @action }.to_json
@@ -14,7 +15,7 @@ class ButtonRenderer::Component < ApplicationViewComponent
 
   def action_method
     case @action["type"]
-    when "submit" then "click->definition-renderer#sendForm"
+    when "submit", "url" then "click->definition-renderer#sendForm"
     when "link" then "click->definition-renderer#visitLink"
     end
   end

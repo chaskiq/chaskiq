@@ -128,17 +128,22 @@ class Apps::PackagesController < ApplicationController
     @package = get_app_package
     @package_name = params[:id]
     @conversation_key = params[:conversation_key] || params.dig(:ctx, :conversation_key)
-    @location = params[:location]
+    @location = params[:ctx][:location]
     @blocks = @package.call_hook({
                                    kind: "content",
                                    ctx: {
+                                     location: @location,
                                      values: params[:values],
                                      lang: I18n.locale,
                                      current_user: current_agent,
                                      conversation_key: params[:conversation_key]
                                    }.with_indifferent_access
                                  })
-
+    if @location == "fixed_sidebar"
+      @identifier = "fixed-app-packages"
+    else                             
+      @identifier = "#{@location}-#{@conversation_key}-#{@package_name}"  
+    end                            
     render template: "apps/packages/content", layout: false
   end
 
@@ -151,6 +156,7 @@ class Apps::PackagesController < ApplicationController
                                    kind: "submit",
                                    ctx: {
                                      # values: params[:values],
+                                     location: @location,
                                      lang: I18n.locale,
                                      current_user: current_agent,
                                      field: params[:ctx][:field],
@@ -159,6 +165,11 @@ class Apps::PackagesController < ApplicationController
                                    }.with_indifferent_access
                                  })
 
+    if @location == "fixed_sidebar"
+      @identifier = "fixed_packages"
+    else                             
+      @identifier = "#{@location}-#{@conversation_key}-#{@package_name}"  
+    end                             
     render template: "apps/packages/content", layout: false
   end
 

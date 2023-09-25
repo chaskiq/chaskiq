@@ -1,7 +1,6 @@
 TODO.md
 + pemissions
 + fixed sidebar packages render work.
-+ app packages custom fields does not allow to add them to account
 + layout:
   + sidebar
   + sidebar for fixed app packages
@@ -9,8 +8,12 @@ TODO.md
   + no sidebar
 
 + conversations:
+  + editor: handle enter
+  + editor: handle private message display: styles
   + open video conversation
   + editor_quick reply add to conversation
+    + search items
+  + bot tasks reply add to conversation
     + search items
 + bots:
   + clone

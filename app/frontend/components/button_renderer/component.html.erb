@@ -1,11 +1,20 @@
 <div class="button-wrapper <%= @align %>">
-	<button id="<%= @id %>" 
-		class="<%= @variant %> <%= @size %>"
-		data-field-json="<%= json_data %>"
-		<%= @action.present? && @action['url'] ? "data-action-url=#{@action['url']}" : '' %>
-		data-action="<%= action_method %>">
-		<%= @label%>
-	</button>
+	<%= @action["type"] %>
+	<% if true %>
+		<button id="<%= @id %>" 
+			class="<%= @variant %> <%= @size %>"
+			data-field-json="<%= json_data %>"
+			<%= @action.present? && @action['url'] ? "data-action-url=#{@action['url']}" : '' %>
+			data-action="<%= action_method %>">
+			<%= @label%>
+		</button>
+	<% else %>
+		<a class="<%= @variant %> <%= @size %>" 
+			href="<%= @action['url'] + "&frame=#{@frame}" %>" 
+			data-turbo-frame="<%= @frame %>">
+			<%= @label%>
+		</a>
+	<% end %>
 </div>
 
 

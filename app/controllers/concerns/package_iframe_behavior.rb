@@ -56,6 +56,14 @@ module PackageIframeBehavior
 
     # rubocop:disable Rails/OutputSafety
     response.headers.delete "X-Frame-Options"
+    if(params[:frame])
+      render turbo_stream: [
+        turbo_stream.replace(
+          params[:frame],
+          inline: html.html_safe
+        )
+      ] and return
+    end
     render html: html.html_safe, layout: false
     # rubocop:enable Rails/OutputSafety
   end

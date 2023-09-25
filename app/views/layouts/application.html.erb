@@ -60,7 +60,7 @@
               src: capabilities_app_packages_path(
                 @app.key, 
                 kind: "fixed_sidebar"
-              ) do %>
+              ), data: {turbo_permanent: true} do %>
               loading
             <%  end %>
           

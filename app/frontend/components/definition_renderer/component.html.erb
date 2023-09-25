@@ -70,7 +70,8 @@
 							label: item['label'],
 							action: item['action'],
 							size: @size || item['size'],
-							align: item['align']
+							align: item['align'],
+							frame: @frame
 						) 
 					end
 				when "data-table" 
@@ -130,6 +131,8 @@
 					render SpacerRenderer::Component.new(size: item["size"])
 				when "separator"
 					render SeparatorRenderer::Component.new()
+				when "frame"
+					render FrameRenderer::Component.new(url: item["url"])
 				else 
 				
 				"---- no definition for #{item["type"]} #{item}--- \n"
