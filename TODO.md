@@ -30,6 +30,8 @@ TODO.md
 # MESSENGER WIDGET
 
 + widget script
++ cookie habdling
++ user get
 
 + conversation: 
 + scrollable initialize scroll down

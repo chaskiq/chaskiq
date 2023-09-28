@@ -2,13 +2,13 @@ import { Controller } from '@hotwired/stimulus';
 import { patch } from '@rails/request.js';
 
 export default class extends Controller {
-  connect() {
+  initialize() {
     // console.log("Listening for notifications", this.element.dataset)
     this.pling = new Audio('/sounds/BLIB.wav');
-
     if (this.element.dataset.read == 'false') {
       this.playSound();
-      this.chatEditorController.scrollToBottom();
+      this.chatEditorController?.scrollToBottom();
+      this.chatMessengerController?.scrollToBottom();
       this.markAsRead();
     }
   }
@@ -30,6 +30,13 @@ export default class extends Controller {
     if (response.ok) {
       console.log('seems ok!');
     }
+  }
+
+  get chatMessengerController(){
+    return this.application.getControllerForElementAndIdentifier(
+      document.querySelector('[data-controller=messenger]'),
+      'messenger'
+    );
   }
 
   get chatEditorController() {

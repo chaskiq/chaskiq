@@ -126,15 +126,15 @@ class ConversationPart < ApplicationRecord
     # )
 
     broadcast_prepend_to conversation.app,
-                               :conversations,
-                               # action: "append",
-                               target: "conversation-messages-list-#{conversation.key}",
-                               partial: "apps/conversation_messages/part",
-                               locals: {
-                                 app: conversation.app,
-                                 message: self,
-                                 notified: true
-                               }
+                         :conversations,
+                         # action: "append",
+                         target: "conversation-messages-list-#{conversation.key}",
+                         partial: "apps/conversation_messages/part",
+                         locals: {
+                           app: conversation.app,
+                           message: self,
+                           notified: true
+                         }
 
     conversation.notify_conversation_list
   end
@@ -152,17 +152,16 @@ class ConversationPart < ApplicationRecord
         data: conversation.main_participant.new_messages.value }
     )
 
-
     broadcast_prepend_to conversation.app,
-      conversation.main_participant,
-      # action: "append",
-      target: "conversation-#{conversation.key}",
-      partial: "messenger/messages/conversation_part",
-      locals: {
-        app: conversation.app,
-        message: self,
-        notified: true
-      }
+                         conversation.main_participant,
+                         # action: "append",
+                         target: "conversation-#{conversation.key}",
+                         partial: "messenger/messages/conversation_part",
+                         locals: {
+                           app: conversation.app,
+                           message: self,
+                           notified: true
+                         }
   end
 
   def enqueue_channel_notification
