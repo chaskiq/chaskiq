@@ -1,12 +1,9 @@
 TODO.md
 + pemissions
-+ fixed sidebar packages render work.
 + layout:
   + sidebar
-  + sidebar for fixed app packages
 + dashboard:
   + no sidebar
-
 + conversations:
   + editor: handle enter
   + editor: handle private message display: styles
@@ -32,4 +29,24 @@ TODO.md
 
 # MESSENGER WIDGET
 
-+ ALL
++ widget script
+
++ conversation: 
++ scrollable initialize scroll down
++ submit message
++ submit image
++ submit document
++ emoji
++ gif
++ send message read
++ receive messages
+  + auto scroll
+  + un read red
+  + pling
+
++ settings for:
+  +  render buttons
+  + close conversation
+
++ behaviors for:
+  + tabs

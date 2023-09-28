@@ -1,7 +1,7 @@
 <%= render "shared/modal" do %>
 	<%= form_for @bot, url: app_bots_path(@app.key) do |f| %>
 		
-		<p class="text-md font-bold">
+		<p class="text-md font-bold dark:text-gray-100">
 			<%= t('task_bots.create.title') %>
 		</p>
 

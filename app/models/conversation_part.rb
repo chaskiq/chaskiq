@@ -125,7 +125,7 @@ class ConversationPart < ApplicationRecord
     #  data: as_json
     # )
 
-    broadcast_prepend_later_to conversation.app,
+    broadcast_prepend_to conversation.app,
                                :conversations,
                                # action: "append",
                                target: "conversation-messages-list-#{conversation.key}",
@@ -151,6 +151,18 @@ class ConversationPart < ApplicationRecord
       { type: "conversations:unreads",
         data: conversation.main_participant.new_messages.value }
     )
+
+
+    broadcast_prepend_to conversation.app,
+      conversation.main_participant,
+      # action: "append",
+      target: "conversation-#{conversation.key}",
+      partial: "messenger/messages/conversation_part",
+      locals: {
+        app: conversation.app,
+        message: self,
+        notified: true
+      }
   end
 
   def enqueue_channel_notification

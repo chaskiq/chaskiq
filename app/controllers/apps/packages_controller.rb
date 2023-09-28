@@ -139,11 +139,11 @@ class Apps::PackagesController < ApplicationController
                                      conversation_key: params[:conversation_key]
                                    }.with_indifferent_access
                                  })
-    if @location == "fixed_sidebar"
-      @identifier = "fixed-app-packages"
-    else                             
-      @identifier = "#{@location}-#{@conversation_key}-#{@package_name}"  
-    end                            
+    @identifier = if @location == "fixed_sidebar"
+                    "fixed-app-packages"
+                  else
+                    "#{@location}-#{@conversation_key}-#{@package_name}"
+                  end
     render template: "apps/packages/content", layout: false
   end
 
@@ -165,11 +165,11 @@ class Apps::PackagesController < ApplicationController
                                    }.with_indifferent_access
                                  })
 
-    if @location == "fixed_sidebar"
-      @identifier = "fixed_packages"
-    else                             
-      @identifier = "#{@location}-#{@conversation_key}-#{@package_name}"  
-    end                             
+    @identifier = if @location == "fixed_sidebar"
+                    "fixed_packages"
+                  else
+                    "#{@location}-#{@conversation_key}-#{@package_name}"
+                  end
     render template: "apps/packages/content", layout: false
   end
 

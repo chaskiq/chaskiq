@@ -1,0 +1,67 @@
+<%= turbo_stream_from app, user %>
+
+
+<main id="main-content" 
+  aria-labelledby="conversation" 
+  style="position: absolute; inset: 0px;">
+  <div style="overflow-y: auto; height: 100%;">
+    <div class="cache-emo-p1xoxt">
+      <div class="cache-emo-1prjld7"
+        id="conversation-<%= conversation.key %>" 
+        data-messenger-target="conversationScrollArea">
+
+        <% messages.each do |message| %>
+
+          <% #= message.id %>
+          <%= render "messenger/messages/conversation_part", 
+            message: message,
+            app: app
+          %>
+
+        <% end %>
+      </div>
+
+      <div class=" cache-emo-1c9rau9">
+        <div class="cache-emo-1ndl2to">
+          <div class="cache-emo-dddhpq">
+            <textarea
+              data-action="input->messenger#handleChatInput keydown.enter->messenger#handleEnter"
+              data-messenger-target="chatField"
+              placeholder="Send message..." 
+              data-cy="messenger-editor"
+              data-url="<%= messenger_conversation_messages_path(app.key, conversation.key) %>" 
+              class="cache-emo-168wfpv"></textarea>
+
+            <div class="cache-emo-1px880n">
+
+              <button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                  <path d="M6 8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm6 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-3 5.5c2.14 0 3.92-1.5 4.38-3.5H4.62c.46 2 2.24 3.5 4.38 3.5zM9 1C4.57 1 1 4.58 1 9s3.57 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S5.41 2.5 9 2.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z"></path>
+                </svg>
+              </button>
+
+              <button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M11.5 9H13v6h-1.5zM9 9H6c-.6 0-1 .5-1 1v4c0 .5.4 1 1 1h3c.6 0 1-.5 1-1v-2H8.5v1.5h-2v-3H10V10c0-.5-.4-1-1-1zm10 1.5V9h-4.5v6H16v-2h2v-1.5h-2v-1z"></path>
+                </svg>
+              </button>
+
+              <button data-action="messenger#handleFileUpload">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                  <path d="M13 14c0 2.21-1.79 4-4 4s-4-1.79-4-4V3c0-1.66 1.34-3 3-3s3 1.34 3 3v9c0 1.1-.9 2-2 2s-2-.9-2-2V4h1v8c0 .55.45 1 1 1s1-.45 1-1V3c0-1.1-.9-2-2-2s-2 .9-2 2v11c0 1.66 1.34 3 3 3s3-1.34 3-3V4h1v10z"></path>
+                </svg>
+                <input
+                  data-messenger-target="uploadField"
+                  data-action="messenger#handleFileUploadChange"
+                  type="file" 
+                  accept="text/plain, text/markdown, text/x-markdown, image/jpg, image/gif, image/jpeg, image/png, application/pdf, application/csv, application/xls, application/xlsx" 
+                  style="display: none;">
+              </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

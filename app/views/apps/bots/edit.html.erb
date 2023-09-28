@@ -3,7 +3,7 @@
   {
     title: t('campaigns.clone_title'),
     description: t('campaigns.clone_description'),
-    icon: heroicon("document-duplicate"),
+    icon: "document-duplicate",
     id: 'enabled',
     state: 'enabled',
     href: clone_app_bot_path(@app.key, @bot)
@@ -11,7 +11,7 @@
   {
     title: t('common.delete'),
     description: t('campaigns.delete_campaign', name: @bot.name),
-    icon: heroicon("x-circle"),
+    icon: "x-circle",
     href: pause_app_bot_path(@app.key, @bot),
     data: {turbo_confirm: t("common.confirm_deletion_ready"), turbo_method: :delete}
   }

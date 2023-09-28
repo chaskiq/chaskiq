@@ -14,6 +14,12 @@ class ConversationPartContent < ApplicationRecord
     JSON.parse(serialized_content)
   end
 
+  def html_from_serialized
+    json = JSON.parse(serialized_content)
+    data = ActiveSupport::HashWithIndifferentAccess.new(json)
+    Dante::Renderer.new(raw: data).render
+  end
+
   def text_from_serialized
     Dante::Utils.extract_plain_text(parsed_content["content"])
     # parsed_content["blocks"].map { |o| o["text"] }.join(" ")

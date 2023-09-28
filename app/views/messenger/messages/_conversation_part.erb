@@ -4,7 +4,7 @@
 	data: {
 		controller: "conversation-part-wrapper",
 		read: message.read?,
-		viewer_type: "Agent",
+		viewer_type: "AppUser",
 		author: message.authorable.class.to_s,
 		path: app_conversation_conversation_message_path(
 			app.key, message.conversation.key, message.key
@@ -14,7 +14,8 @@
 
 <%= case message.messageable_type
 		when 'ConversationPartContent'
-			render ConversationPart::Component.new(message: message, app: app)
+      render "messenger/messages/conversation_part_content", message: message, app: app
+			# render ConversationPart::Component.new(message: message, app: app)
 		when 'ConversationPartBlock'
 			case message.messageable.blocks["type"]
 			when "app_package"

@@ -1,0 +1,19 @@
+<div class="<%= message.authorable.is_a?(Agent) ? "admin" : "user" %> cache-emo-1xkvrxu">
+  <div class="cache-emo-1pycdun">
+    <%= image_tag message.authorable.avatar_url %>
+  </div>
+
+  <div class="message-content-wrapper">
+    <div class="cache-emo-11y878r">
+      <div>
+        <%= raw message.messageable.html_from_serialized %>
+      </div>
+    </div>
+    <span class="status">
+      <time datetime="<%= message.created_at %>">
+        2 days ago
+      </time>
+    </span>
+  </div>
+</div>
+
