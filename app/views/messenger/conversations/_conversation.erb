@@ -29,12 +29,38 @@
               data-messenger-target="chatField"
               placeholder="Send message..." 
               data-cy="messenger-editor"
-              data-url="<%= messenger_conversation_messages_path(app.key, conversation.key) %>" 
+              data-url="<%= conversation.persisted? ? messenger_conversation_messages_path(app.key, conversation.key) : messenger_conversations_path(app.key) %>" 
               class="cache-emo-168wfpv"></textarea>
 
             <div class="cache-emo-1px880n">
 
-              <button action-data="messenger#renderEmojiMart">
+
+
+              <div id="dda">
+              </div>
+
+              <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js" onload="initEmojiMart()"></script>
+              <script>
+                function initEmojiMart() {
+                  const pickerOptions = {
+                    onEmojiSelect: (w)=>{
+                      console.log(w)
+                    },
+                    onClickOutside: (a)=>{
+                      console.log("click outside");
+                    }
+                  }
+                  const picker = new window.EmojiMart.Picker(pickerOptions)
+
+           
+
+                  document.getElementById("dda").appendChild(picker)
+                }
+              </script>
+
+            
+
+              <button data-action="messenger#renderEmojiMart">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                   <path d="M6 8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm6 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-3 5.5c2.14 0 3.92-1.5 4.38-3.5H4.62c.46 2 2.24 3.5 4.38 3.5zM9 1C4.57 1 1 4.58 1 9s3.57 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S5.41 2.5 9 2.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z"></path>
                 </svg>
@@ -45,6 +71,8 @@
                   <path d="M11.5 9H13v6h-1.5zM9 9H6c-.6 0-1 .5-1 1v4c0 .5.4 1 1 1h3c.6 0 1-.5 1-1v-2H8.5v1.5h-2v-3H10V10c0-.5-.4-1-1-1zm10 1.5V9h-4.5v6H16v-2h2v-1.5h-2v-1z"></path>
                 </svg>
               </button>
+
+              <div data-messenger-target="emojiPicker"></div>
 
               <button data-action="messenger#handleFileUpload">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">

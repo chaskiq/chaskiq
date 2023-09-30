@@ -9,21 +9,19 @@ const percentage = (partialValue, totalValue) => {
   return (100 * partialValue) / totalValue;
 };
 
-import { Picker } from 'emoji-mart'
-
-
 export default class extends Controller {
   static targets = [
     'header',
     'chatField',
     'uploadField',
     'conversationScrollArea',
+    'emojiPicker'
   ];
   static values = ['url'];
 
   connect() {
-    window.oli = this
-    window.pupu = document.getElementById("main-content")
+    window.oli = this;
+    window.pupu = document.getElementById('main-content');
     console.log('MESSENGER INITIALIZED');
   }
 
@@ -129,19 +127,21 @@ export default class extends Controller {
   }
 
   scrollToBottom() {
-    const overflow = this.conversationScrollAreaTarget
+    const overflow = this.conversationScrollAreaTarget;
     overflow.scrollTop = overflow.scrollHeight;
   }
 
-  renderEmojiMart(){
-    new Picker({
+  renderEmojiMart() {
+    /*const picker = new EmojiMart({
       data: async () => {
         const response = await fetch(
-          'https://cdn.jsdelivr.net/npm/@emoji-mart/data',
-        )
-    
-        return response.json()
-      }
-    })
+          'https://cdn.jsdelivr.net/npm/@emoji-mart/data'
+        );
+
+        return response.json();
+      },
+    });
+
+    this.emojiPickerTarget.appendChild(picker)*/
   }
 }

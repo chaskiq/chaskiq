@@ -32,7 +32,7 @@ export default class extends Controller {
     }
   }
 
-  get chatMessengerController(){
+  get chatMessengerController() {
     return this.application.getControllerForElementAndIdentifier(
       document.querySelector('[data-controller=messenger]'),
       'messenger'

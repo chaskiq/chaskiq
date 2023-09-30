@@ -19,7 +19,7 @@ TODO.md
 + app settings:
   + avatars
 + billing view
-+ app packages edit now working for custom definitions, make a service form
++ app packages edit not showing values. now working for custom definitions, make a service form
 + quick replies display in lang
 + assignment_rules
 
@@ -32,22 +32,23 @@ TODO.md
 + widget script
 + cookie habdling
 + user get
++ new conversation
+
 
 + conversation: 
 + scrollable initialize scroll down
-+ submit message
 + submit image
 + submit document
 + emoji
 + gif
 + send message read
++ send message update
 + receive messages
-  + auto scroll
   + un read red
   + pling
 
 + settings for:
-  +  render buttons
+  + render buttons
   + close conversation
 
 + behaviors for:
