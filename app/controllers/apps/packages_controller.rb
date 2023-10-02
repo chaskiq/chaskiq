@@ -158,7 +158,8 @@ class Apps::PackagesController < ApplicationController
                                      # values: params[:values],
                                      location: @location,
                                      lang: I18n.locale,
-                                     current_user: current_agent,
+                                     current_user: @app.app_users.first,
+                                     # current_user: current_agent,
                                      field: params[:ctx][:field],
                                      values: params[:ctx][:values],
                                      conversation_key: params[:ctx][:conversation_key]

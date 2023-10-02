@@ -38,6 +38,10 @@ export default class Controller extends BaseController {
       responseKind: 'turbo-stream'
     })
 
+    // outer conversation-part-wrapper
+    let outerElement = this.element.closest('[data-controller="conversation-part-wrapper"]');
+    let outerController = this.application.getControllerForElementAndIdentifier(outerElement, "conversation-part-wrapper");
+
     if (response.ok) {
     
       if (response.isTurboStream ){
@@ -46,6 +50,9 @@ export default class Controller extends BaseController {
           const closeEvent = new Event('modal-close')
           document.dispatchEvent(closeEvent)
         }
+
+        // informs step complete, ask for new step
+        if(outerController) outerController.sendEvent({submit: data})
   
         return
       }

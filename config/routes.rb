@@ -24,6 +24,9 @@ Rails.application.routes.draw do
 
     resources :conversations, controller: "messenger/conversations" do
       resources :messages, controller: "messenger/messages"
+      member do
+        post :events
+      end
     end
     
   end

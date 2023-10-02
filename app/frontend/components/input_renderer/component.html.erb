@@ -1,19 +1,30 @@
 <div class="input-wrapper <%= @size %>">
 
 
-  <label for="<%= @name%>"><%= @label %></label>
-
-	<% if @action %>
-		action
-	<% end %>
+  <label for="<%= @name %>"><%= @label %></label>
 
 	<input 
 		type="text" 
 		auto-complete="off"
 		value="<%= @value %>"
 		id="<%= @id %>"
-		name="ctx[values][<%= @name || @id %>]"
+		name="ctx[values][<%= @id || @name %>]"
 	></input>
+
+	<% if @action %>
+
+		<%= render ButtonRenderer::Component.new(
+			id: @id, 
+			label: nil, 
+			action: {"type"=>'submit'}
+			) do %>
+			<div>
+				<%= heroicon("arrow-small-right")%>
+			</div>
+		<% end %>
+
+	
+	<% end %>
 
 	<!--
 	        {field.action && (

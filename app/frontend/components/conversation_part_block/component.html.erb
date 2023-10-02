@@ -1,4 +1,4 @@
-<div 
+<div
 	style="opacity: 0.96" 
 	class="w-full bg-white dark:bg-black opacity-75 border border-gray-400 shadow-lg
         flex overflow-hidden p-2 rounded-md mx-auto text-gray-600">
@@ -16,18 +16,20 @@
 
 				<br />
 
-				<%= render DefinitionRenderer::Component.new(
-					schema: blocks["schema"],
-					blocks: blocks,
-					size: "sm",
-					app_package: blocks["app_package"],
-					location: "conversations",
-					values: blocks["values"],
-					conversation_key: @message.key,
-					path: app_inbox_package_path(@app.key, blocks["app_package"]),
-					app: @app,
-					ctx: {conversation_key: @message.key } #locals[:ctx]
-				)%>
+				<div id="<%= @frame%>">
+					<%= render DefinitionRenderer::Component.new(
+						schema: blocks["schema"],
+						blocks: blocks,
+						size: "sm",
+						app_package: blocks["app_package"],
+						location: "conversations",
+						values: blocks["values"],
+						conversation_key: @message.key,
+						path: app_inbox_package_path(@app.key, blocks["app_package"]),
+						app: @app,
+						ctx: {conversation_key: @message.key } #locals[:ctx]
+					)%>
+				</div>
 			</div>
 		</div>
 

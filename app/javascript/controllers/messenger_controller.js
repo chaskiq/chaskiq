@@ -1,5 +1,11 @@
 import { Controller } from '@hotwired/stimulus';
 import { post } from '@rails/request.js';
+import { debounce } from 'lodash';
+
+const GIPHY_TREDING_ENDPOINT = "https://api.giphy.com/v1/gifs/trending";
+const GIPHY_ENDPOINT = "https://api.giphy.com/v1/gifs/search"
+const API_KEY = "97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"; // Replace with your Giphy API key
+
 
 const normalize = (val, max, min) => {
   return (val - min) / (max - min);
@@ -15,9 +21,17 @@ export default class extends Controller {
     'chatField',
     'uploadField',
     'conversationScrollArea',
-    'emojiPicker'
+    'emojiPicker',
+    'giphyList',
+    'giphyWrapper',
+    'giphySearchInput'
   ];
   static values = ['url'];
+
+  initialize() {
+    // Bind the debounced version to the instance
+    this.debouncedHandleGiphySeach = debounce(this.handleGiphySeach.bind(this), 300);
+  }
 
   connect() {
     window.oli = this;
@@ -131,17 +145,127 @@ export default class extends Controller {
     overflow.scrollTop = overflow.scrollHeight;
   }
 
-  renderEmojiMart() {
-    /*const picker = new EmojiMart({
-      data: async () => {
-        const response = await fetch(
-          'https://cdn.jsdelivr.net/npm/@emoji-mart/data'
-        );
+  hideEmojiContainer(){
+    this.emojiPickerTarget.classList.add("hidden")
+  }
 
-        return response.json();
-      },
+  showEmojiContainer(e){
+    e.stopPropagation()
+    this.emojiPickerTarget.classList.toggle("hidden")
+  }
+
+  // https://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
+  insertAtCursor(myValue) {
+    const myField = this.chatFieldTarget;
+    // IE support
+    if (document.selection) {
+      myField.focus();
+      const sel = document.selection.createRange();
+      sel.text = myValue;
+    } else if (myField.selectionStart || myField.selectionStart === '0') {
+      // MOZILLA and others
+      const startPos = myField.selectionStart;
+      const endPos = myField.selectionEnd;
+      myField.value =
+        myField.value.substring(0, startPos) +
+        myValue +
+        myField.value.substring(endPos, myField.value.length);
+    } else {
+      myField.value += myValue;
+    }
+  }
+
+  hideGiphyContainer(){
+    this.giphyWrapperTarget.classList.add("hidden")
+  }
+
+  async showGiphyContainer(e){
+    e.stopPropagation()
+    this.giphyWrapperTarget.classList.toggle("hidden")
+    if(!this.giphyWrapperTarget.classList.contains("hidden")){
+      const gifs = await this.fetchDefaultGifs()
+      this.displayGifs(gifs);
+    }
+  }
+
+  // Call this function on input change instead
+  async debouncedGiphySearch(e) {
+    await this.debouncedHandleGiphySeach(e);
+  }
+
+  async handleGiphySeach(e){
+    const gifs = await this.fetchGifs(e.target.value);
+    this.displayGifs(gifs);
+  }
+
+  async fetchGifs(term) {
+    const response = await fetch(`${GIPHY_ENDPOINT}?api_key=${API_KEY}&limit=10&q=${term}`);
+    const data = await response.json();
+    this.giphyListTarget.innerHTML = ""
+    return data.data;
+  }
+
+  async fetchDefaultGifs() {
+    const response = await fetch(`${GIPHY_TREDING_ENDPOINT}?api_key=${API_KEY}&limit=10`);
+    const data = await response.json();
+    return data.data;
+  }
+
+  pickGiphyImage(e){
+    console.log(e.target.src)
+    this.hideGiphyContainer()
+  }
+
+  displayGifs(gifs) {
+      const container = this.giphyListTarget
+      gifs.forEach(gif => {
+          const gifElement = document.createElement("img");
+          gifElement.src = gif.images.fixed_height.url;
+          gifElement.setAttribute("data-action", "click->messenger#pickGiphyImage");
+          container.appendChild(gifElement);
+      });
+  }
+
+
+  async handleStepControlClick(e){
+    
+    const data = {
+      reply: e.target.dataset.step,
+      trigger_id: e.target.dataset.triggerId,
+      step_id: e.target.dataset.stepId,
+    }
+
+    this.insertComment(this.chatFieldTarget.dataset.url, data);
+
+    console.log("handled", e.target.dataset)
+  }
+
+  async pushEvent(url, data){
+    const response = await post(url, {
+      body: data,
+      responseKind: 'turbo-stream',
     });
 
-    this.emojiPickerTarget.appendChild(picker)*/
+    this.chatFieldTarget.value = '';
+
+    if (response.ok) {
+      //const body = await response.html
+      //this.element.closest('.definition-renderer').outerHTML = body
+      console.log('response!');
+    }
+
+    /*this.props.pushEvent(
+      'receive_conversation_part',
+      Object.assign(
+        {},
+        {
+          conversation_key: this.props.conversation.key,
+          message_key: this.props.data.key,
+          step: this.props.stepId,
+          trigger: this.props.triggerId,
+        },
+        { email: this.props.email }
+      )
+    );*/
   }
 }

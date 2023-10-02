@@ -9,7 +9,8 @@ export default class extends Controller {
       this.playSound();
       this.chatEditorController?.scrollToBottom();
       this.chatMessengerController?.scrollToBottom();
-      this.markAsRead();
+      //this.markAsRead();
+      this.sendEvent({})
     }
   }
 
@@ -19,6 +20,7 @@ export default class extends Controller {
   }
 
   async markAsRead() {
+    if(!this.element.dataset.path) return
     if (this.element.dataset.author == this.element.dataset.viewerType) return;
 
     const response = await patch(this.element.dataset.path, {
@@ -30,6 +32,44 @@ export default class extends Controller {
     if (response.ok) {
       console.log('seems ok!');
     }
+  }
+
+  async sendEvent(results){
+
+    const {stepId, triggerId, path} = this.element.dataset
+
+    const data = {
+      event_type: "receive_conversation_part",
+      //conversation_key: this.props.conversation.key,
+      //message_key: this.props.data.key,
+      step: stepId,
+      trigger: triggerId,
+      ...results
+    }
+
+    //this.chatMessengerController().pushEvent(path, data)
+
+    const response = await patch(path, {
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      console.log('seems ok!');
+    }
+        
+    /*this.props.pushEvent(
+      'receive_conversation_part',
+      Object.assign(
+        {},
+        {
+          conversation_key: this.props.conversation.key,
+          message_key: this.props.data.key,
+          step: this.props.stepId,
+          trigger: this.props.triggerId,
+        },
+        { email: this.props.email }
+      )
+    );*/
   }
 
   get chatMessengerController() {

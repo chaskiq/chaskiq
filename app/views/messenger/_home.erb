@@ -86,7 +86,7 @@
     </div>
   </div>
   <% @home_apps.each_with_index do |d, index| %>
-    <div class="cache-emo-tcazp9">
+    <div class="cache-emo-tcazp9" id="home--<%= d["name"] %>">
       <%= render DefinitionRenderer::Component.new(
         schema: d["definitions"],
         size: d["sm"],

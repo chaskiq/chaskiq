@@ -1,4 +1,3 @@
-
 <% if @message.message.data %>
 
 	<div
@@ -44,6 +43,22 @@
 	</div>
 
 <% else %>
+
+
+	<div class="flex space-y-2 mx-4 my-1.5 flex-col justify-end">
+		<% @message.message.blocks["schema"].each do |a| %>
+			<% if a["element"] == "button"%>
+				<button type="button"
+					data-step="<%= a.to_json %>"
+					data-step-id="<%= @message.step_id %>"
+					data-trigger-id="<%= @message.trigger_id %>"
+					data-action="messenger#handleStepControlClick" 
+					class="btn sm btn-outlined">
+					<%= a["label"] %>
+				</button>
+			<% end %>
+		<% end %>
+	</div>
 
 	<p class="text-sm leading-5 font-medium text-gray-500 py-2 flex justify-center">
 		<a

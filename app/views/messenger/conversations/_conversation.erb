@@ -36,43 +36,56 @@
 
 
 
-              <div id="dda">
+              <div id="emojiPicker" class="dda hidden" data-messenger-target="emojiPicker">
+              </div>
+
+              <div id="giphyPicker" class="dda hidden rounded-md shadow-md" data-messenger-target="giphyWrapper">
+                <div class="p-2 mt-2">
+                  <input type="text"
+                    placeholder="search gifs in giphy" 
+                    class="block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    data-messenger-target="giphySearchInput" data-action="messenger#debouncedGiphySearch">
+                  </input>
+                  <div data-messenger-target="giphyList" 
+                    class="mx-2 mt-2 flex flex-col overflow-y-auto h-[268px]">
+                  </div>
+                </div>
               </div>
 
               <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js" onload="initEmojiMart()"></script>
               <script>
                 function initEmojiMart() {
+                  const element = document.querySelector('[data-controller="messenger"]');
+                  const controller = application.getControllerForElementAndIdentifier(element, "messenger");
+
                   const pickerOptions = {
-                    onEmojiSelect: (w)=>{
-                      console.log(w)
+                    onEmojiSelect: (e)=>{
+                      console.log(e)
+                      controller.insertAtCursor(e.native)
                     },
                     onClickOutside: (a)=>{
-                      console.log("click outside");
+                      controller.hideEmojiContainer()
                     }
                   }
                   const picker = new window.EmojiMart.Picker(pickerOptions)
 
-           
-
-                  document.getElementById("dda").appendChild(picker)
+                  document.getElementById("emojiPicker").appendChild(picker)
                 }
               </script>
 
             
 
-              <button data-action="messenger#renderEmojiMart">
+              <button data-action="messenger#showEmojiContainer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                   <path d="M6 8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm6 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-3 5.5c2.14 0 3.92-1.5 4.38-3.5H4.62c.46 2 2.24 3.5 4.38 3.5zM9 1C4.57 1 1 4.58 1 9s3.57 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S5.41 2.5 9 2.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z"></path>
                 </svg>
               </button>
 
-              <button>
+              <button data-action="messenger#showGiphyContainer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path d="M11.5 9H13v6h-1.5zM9 9H6c-.6 0-1 .5-1 1v4c0 .5.4 1 1 1h3c.6 0 1-.5 1-1v-2H8.5v1.5h-2v-3H10V10c0-.5-.4-1-1-1zm10 1.5V9h-4.5v6H16v-2h2v-1.5h-2v-1z"></path>
                 </svg>
               </button>
-
-              <div data-messenger-target="emojiPicker"></div>
 
               <button data-action="messenger#handleFileUpload">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">

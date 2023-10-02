@@ -787,10 +787,27 @@
     border-radius: 5px 5px 0px;
 }
 
-#dda{
+.dda{
     position: absolute;
     bottom: 466px;
     height: 30px;
     left: -266px;
+}
+
+#giphyPicker {
+  height: 334px;
+  width: 334px;
+  bottom: 36px;
+  background: #fff;
+}
+
+#giphyPicker::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 8px;
+  background: -webkit-linear-gradient(left, rgb(255, 243, 92), rgb(255, 243, 92), rgb(255, 102, 102), rgb(255, 102, 102), rgb(153, 51, 255), rgb(153, 51, 255), rgb(0, 204, 255), rgb(0, 204, 255), rgb(0, 255, 153), rgb(0, 255, 153)) rgb(196, 225, 127);
 }
 

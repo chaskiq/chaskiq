@@ -6,7 +6,7 @@
 			data-field-json="<%= json_data %>"
 			<%= @action.present? && @action['url'] ? "data-action-url=#{@action['url']}" : '' %>
 			data-action="<%= action_method %>">
-			<%= @label%>
+			<%= @label || content %>
 		</button>
 	<% else %>
 		<a class="<%= @variant %> <%= @size %>" 

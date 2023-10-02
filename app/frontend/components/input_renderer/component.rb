@@ -6,6 +6,7 @@ class InputRenderer::Component < ApplicationViewComponent
   option :placeholder
   option :save_state
   option :value, default: -> {}
+  option :action, default: -> {}
   option :disabled, default: -> { false }
   option :loading, default: -> { false }
   option :name

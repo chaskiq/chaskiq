@@ -5,10 +5,12 @@
 		controller: "conversation-part-wrapper",
 		read: message.read?,
 		viewer_type: "AppUser",
+		trigger_id: message.trigger_id,
+		step_id: message.step_id,
 		author: message.authorable.class.to_s,
-		path: app_conversation_conversation_message_path(
+		path: message.key.present? ? messenger_conversation_message_path(
 			app.key, message.conversation.key, message.key
-		)
+		) : nil
 	} do %>
 <%= local_assigns[:viewer_type] %>
 
@@ -19,7 +21,7 @@
 		when 'ConversationPartBlock'
 			case message.messageable.blocks["type"]
 			when "app_package"
-				render ConversationPartBlock::Component.new(message: message, app: app)
+				render ConversationPartBlock::Component.new(message: message, app: app, frame: "conversations-#{ message.key }-Qualifier")
 			when "ask_option", "data_retrieval"
 				render ConversationPartAskOption::Component.new(message: message, app: app)
 			else

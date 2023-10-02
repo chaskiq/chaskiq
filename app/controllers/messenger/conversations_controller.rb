@@ -53,6 +53,25 @@ class Messenger::ConversationsController < ApplicationController
     @current_user = @app.app_users.first
     @conversation = @app.conversations.new
 
+    # new_conversation_bots
+    availability = @app.in_business_hours?(Time.zone.now)
+    new_bot = @app.bot_tasks.get_welcome_bots_for_user(@current_user, availability)
+    
+    puts "OEOEOEOE"
+    puts new_bot.as_json
+
+    step = new_bot.settings["paths"].first["steps"].first
+
+    message = {
+      messageable: ConversationPartBlock.new(blocks: step["controls"]),
+      source: nil,
+      step_id: step["id"],
+      trigger_id: new_bot.id,
+      authorable: @app.agents.bots.first
+    }
+
+    @conversation.messages.new(message)
+
     render turbo_stream: [
       turbo_stream.replace("header-content",
                            partial: "messenger/conversations/conversation_header",
@@ -67,7 +86,7 @@ class Messenger::ConversationsController < ApplicationController
                             app: @app,
                             user: @current_user,
                             conversation: @conversation,
-                            messages: []
+                            messages: @conversation.messages
                           })
     ]
   end
@@ -76,6 +95,7 @@ class Messenger::ConversationsController < ApplicationController
     @app = App.find_by(key: params[:messenger_id])
     # TODO: check this, when permit multiple emails, check by different id
     author = @app.app_users.first # app.app_users.where(["email =?", current_user.email ]).first
+    app_user = author
     participant = nil
     initiator_block = nil
     subject = nil
@@ -87,7 +107,7 @@ class Messenger::ConversationsController < ApplicationController
     options = {
       from: author,
       participant: participant,
-      initiator_channel:  initiator_channel,
+      initiator_channel: initiator_channel,
       initiator_block: initiator_block,
       subject: subject,
       message: {
@@ -98,56 +118,52 @@ class Messenger::ConversationsController < ApplicationController
     }
 
     # in reply block will create convo without append message
-    #if message["reply"].present?
-    #  options = {
-    #    from: author,
-    #    participant: participant
-    #  }
-    #end
+    if params["reply"].present?
+      options = {
+        from: author,
+        participant: participant
+      }
+    end
 
     # creates conversation
     conversation = @app.start_conversation(options)
     # in reply mode we create separated message
     # maybe we could refactor this an put this into app.start_conversation method
-    #if message["reply"].present?
-    #  trigger = app.bot_tasks.find(message["trigger"])
-    #  message_reply = message["reply"]
-    #  first_step = trigger.paths[0]["steps"][0]
-    #  step_uid = first_step["step_uid"]
+    if params["reply"].present?
+      trigger = @app.bot_tasks.find(params["trigger_id"])
+      message_reply = params["reply"]
+      first_step = trigger.paths[0]["steps"][0]
+      step_uid = first_step["step_uid"]
 
-    #  message = conversation.add_message(
-    #    step_id: step_uid,
-    #    trigger_id: trigger.id,
-    #    from: app.agent_bots.first,
-    #    controls: first_step["controls"]
-    #  )
+      message = conversation.add_message(
+        step_id: step_uid,
+        trigger_id: trigger.id,
+        from: @app.agent_bots.first,
+        controls: first_step["controls"]
+      )
 
-    #  data = message_reply.permit(
-    #    :id, :label, :element, :next_step_uuid
-    #  ).to_h
+      data = JSON.parse(message_reply)
 
-    #  message.message.save_replied(data)
+      message.message.save_replied(data)
+      # initialize message
+      attributes = {
+        conversation_key: conversation.key,
+        message_key: message.key,
+        trigger: message.trigger_id,
+        step: message.messageable.data["next_step_uuid"],
+        reply: message.messageable.data
+      }.with_indifferent_access
 
-    #  # initialize message
+      ActionTrigger.trigger_step(
+        attributes,
+        @app,
+        app_user
+      )
+     end
 
-    #  attributes = {
-    #    conversation_key: conversation.key,
-    #    message_key: message.key,
-    #    trigger: message.trigger_id,
-    #    step: message.messageable.data["next_step_uuid"],
-    #    reply: message.messageable.data
-    #  }.with_indifferent_access
+    # track_event(conversation, author)
 
-    #  ActionTrigger.trigger_step(
-    #    attributes,
-    #    app,
-    #    app_user
-    #  )
-    #end
-
-    #track_event(conversation, author)
-
-    puts conversation.as_json
+    Rails.logger.debug conversation.as_json
 
     render turbo_stream: [
       turbo_stream.replace("header-content",
