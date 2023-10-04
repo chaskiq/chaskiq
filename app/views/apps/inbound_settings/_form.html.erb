@@ -34,10 +34,10 @@
 			</a>
 		</div>
 
-		<%= f.fields_for :inbound_settings_objects, @app.inbound_settings_objects do |ff|%>
+		<%= f.fields_for :inbound_settings_objects_attributes, @app.inbound_settings_objects do |ff|%>
       <%= render "apps/inbound_settings/form_fields", 
         form: ff, 
-        namespace: "users", 
+        namespace: @namespace, 
         segment_manager: segment_manager, 
         collection: collection %>
 			<% #= render "apps/inbound_settings/form", form: ff, namespace: "visitors" %>

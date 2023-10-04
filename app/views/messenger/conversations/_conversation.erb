@@ -3,22 +3,30 @@
 
 <main id="main-content" 
   aria-labelledby="conversation" 
+  data-controller="infinite-scroll"
   style="position: absolute; inset: 0px;">
   <div style="overflow-y: auto; height: 100%;" 
     data-messenger-target="conversationScrollArea">
-    <div class="cache-emo-p1xoxt">
+    <div class="cache-emo-p1xoxt" >
+      
+      <%= turbo_frame_tag "messages-list-pagination" do %>
+        <div data-infinite-scroll-target="pagination"
+            id="paginator-wrapper" class="invisible">
+          <%= render "messenger/messages/paginator", messages: messages %>
+        </div>
+      <% end %>
+      
       <div class="cache-emo-1prjld7"
+        data-infinite-scroll-target="entries" 
         id="conversation-<%= conversation.key %>">
 
-        <% messages.each do |message| %>
-
-          <% #= message.id %>
-          <%= render "messenger/messages/conversation_part", 
-            message: message,
-            app: app
-          %>
-
-        <% end %>
+          <% messages.each do |message| %>
+            <% #= message.id %>
+            <%= render "messenger/messages/conversation_part", 
+              message: message,
+              app: app
+            %>
+          <% end %>
       </div>
 
       <div class=" cache-emo-1c9rau9">

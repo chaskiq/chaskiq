@@ -10,7 +10,7 @@ export default class extends Controller {
       this.chatEditorController?.scrollToBottom();
       this.chatMessengerController?.scrollToBottom();
       //this.markAsRead();
-      this.sendEvent({})
+      this.sendEvent({});
     }
   }
 
@@ -20,7 +20,7 @@ export default class extends Controller {
   }
 
   async markAsRead() {
-    if(!this.element.dataset.path) return
+    if (!this.element.dataset.path) return;
     if (this.element.dataset.author == this.element.dataset.viewerType) return;
 
     const response = await patch(this.element.dataset.path, {
@@ -34,18 +34,21 @@ export default class extends Controller {
     }
   }
 
-  async sendEvent(results){
-
-    const {stepId, triggerId, path} = this.element.dataset
+  async sendEvent(results, options = {}) {
+    const { stepId, triggerId, path } = this.element.dataset;
 
     const data = {
-      event_type: "receive_conversation_part",
+      event_type: 'receive_conversation_part',
       //conversation_key: this.props.conversation.key,
       //message_key: this.props.data.key,
       step: stepId,
       trigger: triggerId,
-      ...results
-    }
+      ...results,
+    };
+
+    // do nothing if wait_for_input
+    if (!options.force && this.element.dataset.blockKind === 'wait_for_input')
+      return;
 
     //this.chatMessengerController().pushEvent(path, data)
 
@@ -56,20 +59,6 @@ export default class extends Controller {
     if (response.ok) {
       console.log('seems ok!');
     }
-        
-    /*this.props.pushEvent(
-      'receive_conversation_part',
-      Object.assign(
-        {},
-        {
-          conversation_key: this.props.conversation.key,
-          message_key: this.props.data.key,
-          step: this.props.stepId,
-          trigger: this.props.triggerId,
-        },
-        { email: this.props.email }
-      )
-    );*/
   }
 
   get chatMessengerController() {

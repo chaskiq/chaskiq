@@ -1,40 +1,62 @@
 class Messenger::ConversationsController < ApplicationController
-  def index
-    @app = App.find_by(key: params[:messenger_id])
-    @current_user = @app.app_users.first
-    @conversations = @current_user.conversations
+  before_action :authorize_messenger
 
-    render turbo_stream: [
+  def index
+    @conversations = @app_user.conversations
+                              .order("id desc")
+                              .page(params[:page])
+                              .per(5)
+
+    index_views = [
       turbo_stream.replace("header-content",
                            partial: "messenger/conversations/conversations_header",
-                           locals: { app: @app, user: @current_user }),
+                           locals: { app: @app, user: @app_user }),
+
       turbo_stream.update("bbbb",
                           partial: "messenger/conversations/conversations",
                           locals: {
                             app: @app,
                             conversations: @conversations,
-                            user: @current_user
+                            user: @app_user
                           })
     ]
+
+    if params[:page]
+      index_views = [
+        turbo_stream.append("conversations-list",
+                            partial: "messenger/conversations/conversation_row",
+                            collection: @conversations,
+                            as: :c,
+                            locals: {
+                              app: @app,
+                              user: @app_user
+                            }),
+        turbo_stream.update("paginator-wrapper",
+                            partial: "messenger/conversations/paginator",
+                            locals: {
+                              conversations: @conversations
+                            })
+      ]
+    end
+
+    render turbo_stream: index_views
   end
 
   def show
-    @app = App.find_by(key: params[:messenger_id])
-    @current_user = @app.app_users.first
-    @conversation = @current_user.conversations.find_by(key: params[:id])
+    @conversation = @app_user.conversations.find_by(key: params[:id])
 
     collection = @conversation.messages
                               .visibles
                               .order("id desc")
                               .page(params[:page])
-                              .per(10)
+                              .per(5)
 
-    render turbo_stream: [
+    show_views = [
       turbo_stream.replace("header-content",
                            partial: "messenger/conversations/conversation_header",
                            locals: {
                              app: @app,
-                             user: @current_user,
+                             user: @app_user,
                              conversation: @conversation
                            }),
       turbo_stream.update("bbbb",
@@ -43,48 +65,68 @@ class Messenger::ConversationsController < ApplicationController
                             app: @app,
                             conversation: @conversation,
                             messages: collection,
-                            user: @current_user
+                            user: @app_user
                           })
     ]
+
+    if params[:page]
+      show_views = [
+        turbo_stream.append("conversation-#{@conversation.key}",
+                            partial: "messenger/messages/conversation_part",
+                            collection: collection,
+                            as: :message,
+                            locals: {
+                              app: @app,
+                              user: @app_user
+                            }),
+        turbo_stream.update("paginator-wrapper",
+                            partial: "messenger/messages/paginator",
+                            locals: {
+                              messages: collection
+                            })
+      ]
+    end
+
+    render turbo_stream: show_views
   end
 
   def new
-    @app = App.find_by(key: params[:messenger_id])
-    @current_user = @app.app_users.first
     @conversation = @app.conversations.new
 
     # new_conversation_bots
     availability = @app.in_business_hours?(Time.zone.now)
-    new_bot = @app.bot_tasks.get_welcome_bots_for_user(@current_user, availability)
-    
-    puts "OEOEOEOE"
-    puts new_bot.as_json
+    new_bot = @app.bot_tasks.get_welcome_bots_for_user(@app_user, availability)
 
-    step = new_bot.settings["paths"].first["steps"].first
+    Rails.logger.debug "OEOEOEOE"
+    Rails.logger.debug new_bot.as_json
 
-    message = {
-      messageable: ConversationPartBlock.new(blocks: step["controls"]),
-      source: nil,
-      step_id: step["id"],
-      trigger_id: new_bot.id,
-      authorable: @app.agents.bots.first
-    }
+    if new_bot.present?
+      step = new_bot.settings["paths"].first["steps"].first
 
-    @conversation.messages.new(message)
+      message = {
+        messageable: ConversationPartBlock.new(blocks: step["controls"]),
+        source: nil,
+        step_id: step["id"],
+        trigger_id: new_bot.id,
+        authorable: @app.agents.bots.first
+      }
+
+      @conversation.messages.new(message)
+    end
 
     render turbo_stream: [
       turbo_stream.replace("header-content",
                            partial: "messenger/conversations/conversation_header",
                            locals: {
                              app: @app,
-                             user: @current_user,
+                             user: @app_user,
                              conversation: @conversation
                            }),
       turbo_stream.update("bbbb",
                           partial: "messenger/conversations/conversation",
                           locals: {
                             app: @app,
-                            user: @current_user,
+                            user: @app_user,
                             conversation: @conversation,
                             messages: @conversation.messages
                           })
@@ -92,9 +134,8 @@ class Messenger::ConversationsController < ApplicationController
   end
 
   def create
-    @app = App.find_by(key: params[:messenger_id])
     # TODO: check this, when permit multiple emails, check by different id
-    author = @app.app_users.first # app.app_users.where(["email =?", current_user.email ]).first
+    author = @app_user # app.app_users.where(["email =?", current_user.email ]).first
     app_user = author
     participant = nil
     initiator_block = nil
@@ -159,7 +200,7 @@ class Messenger::ConversationsController < ApplicationController
         @app,
         app_user
       )
-     end
+    end
 
     # track_event(conversation, author)
 

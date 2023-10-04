@@ -22,20 +22,21 @@ TODO.md
 + app packages edit not showing values. now working for custom definitions, make a service form
 + quick replies display in lang
 + assignment_rules
-
 + UpgradeButton UpgradeButton, search for upgrade button an implement those
 
+inbound settings
+  + not updating predicates
 
 
 # MESSENGER WIDGET
 
 + widget script
-+ cookie habdling
-+ user get
-+ new conversation
-
+  + behaviors for:
+    + tabs
+  + request triggers
 
 + conversation: 
+  + paginate conversation index
 + scrollable initialize scroll down
 + submit image
 + submit document
@@ -51,5 +52,3 @@ TODO.md
   + render buttons
   + close conversation
 
-+ behaviors for:
-  + tabs

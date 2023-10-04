@@ -14,7 +14,7 @@
 	data-location="<%= @location %>"
 
 	<% if @app_package %>
-	data-path="<%= app_package_path(@app.key, @app_package, frame: @frame) %>">
+	data-path="<%= app_package_path(@app.key, @app_package) %>">
 	<% end %>
 	<form 
 		data-definition-renderer-target="form"
@@ -22,8 +22,16 @@
 		data-location-nonon="<%= @location %>"
 		data-action="submit->definition-renderer#onSubmit">
 
+		<% if @frame %>
+			<input type="hidden" name="frame" value="<%= @frame %>">
+		<% end %>
+
 		<% if @conversation_key %>
 			<input type="hidden" name="ctx[conversation_key]" value="<%= @conversation_key %>">
+		<% end %>
+
+		<% if @message_key %>
+			<input type="hidden" name="ctx[message_key]" value="<%= @message_key %>">
 		<% end %>
 
 		<% if @bot_id %>

@@ -1,0 +1,30 @@
+<% m = c.latest_message %>
+
+<div class="cache-emo-23jgg8">
+  <%= link_to messenger_conversation_path(app.key, c.key), class: "cache-emo-gju6b1" do %>
+    <div class="cache-emo-1pycdun">
+      <%= image_tag m.authorable.avatar_url %>
+    </div>
+    <div class="cache-emo-mjirik">
+      <div class="cache-emo-1874v5t">
+        <div class="cache-emo-q9wuna">
+          <%= m.authorable.display_name %>
+        </div>
+        <time datetime="<%= m.updated_at.to_i %>" 
+          style="float: right; color: rgb(89, 89, 89); width: 115px; margin: 0px 10px; font-size: 0.8em; text-transform: unset; text-align: right; font-weight: 500;">
+          <%= m.updated_at %>
+        </time>
+      </div>
+      <div class="cache-emo-4pfvla">
+        <% if m.message.is_a?(ConversationPartContent)%>
+          <% #= m.id %>
+          <% if m.message&.serialized_content.nil? %>
+            <%= sanitize m.message.html_content %>
+          <% else %>
+            <%= sanitize Dante::Renderer.new(raw: JSON.parse(m.message&.serialized_content).deep_symbolize_keys).render %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

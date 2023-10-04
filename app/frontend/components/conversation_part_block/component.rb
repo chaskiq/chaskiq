@@ -3,5 +3,5 @@
 class ConversationPartBlock::Component < ApplicationViewComponent
   option :message
   option :app
-  option :frame, default: ->{}
+  option :frame, default: -> {}
 end

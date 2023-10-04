@@ -3,11 +3,13 @@
 	id: "conversation-part-#{ message.key }",
 	data: {
 		controller: "conversation-part-wrapper",
+		messenger_target: "conversationPart",
 		read: message.read?,
 		viewer_type: "AppUser",
 		trigger_id: message.trigger_id,
 		step_id: message.step_id,
 		author: message.authorable.class.to_s,
+		block_kind: message.messageable_type == "ConversationPartBlock" ? message.messageable.blocks["type"] : nil,
 		path: message.key.present? ? messenger_conversation_message_path(
 			app.key, message.conversation.key, message.key
 		) : nil
@@ -21,9 +23,15 @@
 		when 'ConversationPartBlock'
 			case message.messageable.blocks["type"]
 			when "app_package"
-				render ConversationPartBlock::Component.new(message: message, app: app, frame: "conversations-#{ message.key }-Qualifier")
+				render ConversationPartBlock::Component.new(
+					message: message, 
+					app: app, 
+					frame: "conversations-#{ message.key }-#{message.messageable["app_package"]}"
+				)
 			when "ask_option", "data_retrieval"
 				render ConversationPartAskOption::Component.new(message: message, app: app)
+			when "wait_for_reply"
+				# message.as_json
 			else
 				"no match for messageable: #{message.as_json}"
 			end

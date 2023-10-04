@@ -4,125 +4,158 @@
     <%= I18n.t('settings.inbound.title')%>
   </p>
 
-  <div>
-    <%= form.check_box :enabled, label: I18n.t('settings.inbound.checkbox'), hint: nil %>
-  </div>
+  <% #= form.object.as_json %>
 
-  <p class="my-2 max-w-xl text-ld font-medium leading-5 text-gray-500">
-    <%= I18n.t('settings.inbound.hint') %>
-  </p>
+  <%= form.fields_for :"#{namespace}_attributes", form.object.send(@namespace) do |fff| %>
 
-  <hr />
+    <%= fff.object.as_json %>
 
-  <div class="py-4">
-    <p class="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100 pb-2">
-      <%= I18n.t('settings.inbound.title2') %>
+    <div>
+      <%= fff.check_box :enabled, label: I18n.t('settings.inbound.checkbox'), hint: nil %>
+    </div>
+
+    <p class="my-2 max-w-xl text-ld font-medium leading-5 text-gray-500">
+      <%= I18n.t('settings.inbound.hint') %>
     </p>
 
-    <p class="text-md leading-5 font-medium text-gray-900 dark:text-gray-100 pb-2">
-      <%= I18n.t('settings.inbound.closed_replies_title', name: namespace ) %>
-    </p>
+    <hr />
 
-    <div data-controller="checkbox-toggler"
-      class="flex items-center space-x-1 h-24 py-3">
+    <div class="py-4">
+      <p class="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100 pb-2">
+        <%= I18n.t('settings.inbound.title2') %>
+      </p>
 
-      <% enabled_value = "aa"%>
-      <% enabled_kind = "aa" %>
+      <p class="text-md leading-5 font-medium text-gray-900 dark:text-gray-100 pb-2">
+        <%= I18n.t('settings.inbound.closed_replies_title', name: namespace ) %>
+      </p>
 
-      <div>
-        <%= check_box_tag 'input_name', enabled_value, enabled_value, 
-          data: {
-            "checkbox-toggler-target": "checkbox",
-            action: "input->checkbox-toggler#toggle"
-          }
-        %>
+      <div data-controller="checkbox-toggler"
+        class="flex items-center space-x-1 h-24 py-3">
 
-        <%= label_tag 'input_name', enabled_value ,
-          data: {
-            "checkbox-toggler-target": "hint",
-            "selected-hint": I18n.t('settings.inbound.closed_replies_enabled'),
-            "default-hint": I18n.t('settings.inbound.closed_replies_disabled')
-          }
+        <% enabled_value = "aa"%>
+        <% enabled_kind = "aa" %>
+
+        <div>
+          <%= check_box_tag 'input_name', enabled_value, enabled_value, 
+            data: {
+              "checkbox-toggler-target": "checkbox",
+              action: "input->checkbox-toggler#toggle"
+            }
           %>
-      </div>
 
-      <div data-checkbox-toggler-target="elementToToggle">
+          <%= label_tag 'input_name', enabled_value ,
+            data: {
+              "checkbox-toggler-target": "hint",
+              "selected-hint": I18n.t('settings.inbound.closed_replies_enabled'),
+              "default-hint": I18n.t('settings.inbound.closed_replies_disabled')
+            }
+            %>
+        </div>
+
+        <div data-checkbox-toggler-target="elementToToggle">
+          <div class="w-[10em] flex items-center space-2">
+            <%= fff.number_field :close_conversations_after,
+              min: 0,
+              class: "shadow appearance-none border border-gray-300 
+                dark:border-gray-700 rounded w-full py-2 px-3 text-gray-700 
+                dark:bg-gray-900 dark:border-gray-700 dark:text-white 
+                leading-tight focus:outline-none focus:shadow-outline",
+              data: {
+                controller: "your-stimulus-controller-if-any",
+                action: "input->your-stimulus-controller-if-any#handleChangeNumber"
+              }
+            %>
+            <label class="mx-3 py-2">
+              <%= I18n.t('common.days') %>
+            </label>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+
+
+    <% if @namespace == "visitors" && Chaskiq::Config.get("ALLOW_IDLE_SESSIONS") %>
+      
+      <div class="flex items-center space-x-2 my-4">
+        <%= fff.check_box :allow_idle_sessions %>
         <div class="w-[10em] flex items-center space-2">
-          <%= number_field_tag 'input_name', "dd",
+
+          <!--
+            I18n.t('settings.inbound.idle_sessions_enabled')
+            : I18n.t('settings.inbound.idle_sessions_disabled')
+          -->
+          <%= fff.number_field :idle_sessions_after,
             min: 0,
             class: "shadow appearance-none border border-gray-300 
               dark:border-gray-700 rounded w-full py-2 px-3 text-gray-700 
               dark:bg-gray-900 dark:border-gray-700 dark:text-white 
-              leading-tight focus:outline-none focus:shadow-outline",
-            data: {
-              controller: "your-stimulus-controller-if-any",
-              action: "input->your-stimulus-controller-if-any#handleChangeNumber"
-            }
+              leading-tight focus:outline-none focus:shadow-outline"
           %>
+
           <label class="mx-3 py-2">
-            <%= I18n.t('common.days') %>
+            <%= I18n.t('common.minutes') %>
           </label>
         </div>
       </div>
-    </div>
-   
-  </div>
+    <% end %>
 
-  <p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
-    <%= I18n.t('settings.inbound.hint2') %>
-  </p>
+    <p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
+      <%= I18n.t('settings.inbound.hint2') %>
+    </p>
 
-  <p class="text-sm leading-5 font-medium text-gray-400 dark:text-gray-300 pb-2">
-    <%= I18n.t('settings.inbound.note2') %>
-  </p>
+    <p class="text-sm leading-5 font-medium text-gray-400 dark:text-gray-300 pb-2">
+      <%= I18n.t('settings.inbound.note2') %>
+    </p>
 
-  <div class="py-4">
-    <p class="py-2"><%= I18n.t('settings.inbound.note3') %></p>
-
-    <hr />
-
-    <div >
-
-      <div class="py-6">
-        <div class="flex">
-          <div class="w-1/2">
-            <%= form.check_box :"#{namespace}_enabled" %>
-          </div>
-          <% title = namespace == :visitors ? "leads" : "users" %>
-
-          <div class="w-1/2">
-            <div class="mb-4">
-              <%= form.radio_button :"#{namespace}_segment", 'all' %>
-              <%= form.label :"#{namespace}_segment", I18n.t("settings.inbound.filters.#{title}.all") %>
-            </div>
-            <div class="mb-4">
-              <%= form.radio_button :"#{namespace}_segment", 'some' %>
-              <%= form.label :"#{namespace}_segment", I18n.t("settings.inbound.filters.#{title}.some") %>
-            </div>
-          </div>
-        </div>
-
-        <div class="w-full">
-          <div id="segment-form-fields">
-            <%= render 'apps/segment_manager/form_fields', 
-              f: form, 
-              segment_manager: segment_manager, 
-              url_form: update_segment_app_inbound_setting_path(@app.key, namespace), 
-              incomplete: false, 
-              changed: @changed,
-              disable_deletion: true
-            %>
-          </div>
-
-          <%= render 'apps/segment_manager/table', segment_manager: segment_manager, results: collection %>
-
-          <% #= render 'apps/segment_manager/form', segment_manager: segment_manager %>
-        </div>
-      </div>
+    <div class="py-4">
+      <p class="py-2"><%= I18n.t('settings.inbound.note3') %></p>
 
       <hr />
 
-    </div>
+      <div >
 
-  </div>
+        <div class="py-6">
+          <div class="flex">
+            <div class="w-1/2">
+              <%= fff.check_box :enabled %>
+            </div>
+            <% title = namespace == :visitors ? "leads" : "users" %>
+
+            <div class="w-1/2">
+              <div class="mb-4">
+                <%= fff.radio_button :segment, 'all' %>
+                <%= fff.label :segment, I18n.t("settings.inbound.filters.#{title}.all") %>
+              </div>
+              <div class="mb-4">
+                <%= fff.radio_button :segment, 'some' %>
+                <%= fff.label :segment, I18n.t("settings.inbound.filters.#{title}.some") %>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-full">
+            <div id="segment-form-fields">
+              <%= render 'apps/segment_manager/form_fields', 
+                f: form, 
+                segment_manager: segment_manager, 
+                url_form: update_segment_app_inbound_setting_path(@app.key, namespace), 
+                incomplete: false, 
+                changed: @changed,
+                disable_deletion: true
+              %>
+            </div>
+
+            <%= render 'apps/segment_manager/table', segment_manager: segment_manager, results: collection %>
+
+            <% #= render 'apps/segment_manager/form', segment_manager: segment_manager %>
+          </div>
+        </div>
+
+        <hr />
+
+      </div>
+
+    </div>
+  <% end %>
 </div>

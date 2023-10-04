@@ -189,5 +189,17 @@ class ApplicationController < ActionController::Base
     turbo_stream.replace("flash", partial: "shared/flash", locals: { flash: flash })
   end
 
+  # messenger auth. we could use another app controller to get rig of logic that we don't need
+
+  def authorize_messenger
+    @app = App.find_by(key: params[:messenger_id])
+    @app_user = @app.app_users.find_by(session_id: session[:messenger_session_id])
+  end
+
+  def messenger_user
+    @app_user
+  end
+
   helper_method :flash_stream
+  helper_method :messenger_user
 end

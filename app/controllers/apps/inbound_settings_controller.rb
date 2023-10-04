@@ -9,7 +9,7 @@ class Apps::InboundSettingsController < ApplicationController
   def update
     if params[:new_segment].blank?
 
-      segment_predicate = resource_params[:inbound_settings_objects][:segment_predicate]
+      segment_predicate = resource_params[:inbound_settings_objects_attributes]["#{@namespace}_attributes"][:segment_predicate]
       segment_predicates = begin
         segment_predicate.keys.sort.map { |key| segment_predicate[key].to_h }
       rescue StandardError
@@ -19,12 +19,14 @@ class Apps::InboundSettingsController < ApplicationController
       current_segments = @app.inbound_settings
       current_segments[@namespace]["predicates"] = segment_predicates
 
-      if params[:force_save] == "true"
-        @app.update(inbound_settings: current_segments)
-      else
-        @changed = true
-        @app.assign_attributes(inbound_settings: current_segments)
-      end
+      @app.update(resource_params)
+
+      # if params[:force_save] == "true"
+      #  @app.update(inbound_settings: current_segments)
+      # else
+      #  @changed = true
+      #  @app.assign_attributes(inbound_settings: current_segments)
+      # end
     end
 
     audience_handler
@@ -52,15 +54,35 @@ class Apps::InboundSettingsController < ApplicationController
 
   def resource_params
     params.require(:app).permit(
-      inbound_settings_objects: {
-        segment_predicate: [
-          :type,
-          :attribute,
-          :comparison,
-          { value: [] }, # This permits the value as an array
-          :value # This permits the value as a scalar (e.g., string)
+      inbound_settings_objects_attributes: {
+        users_attributes: %i[
+          enabled
+          close_conversations_after
+          segment
+        ],
+        visitors_attributes: %i[
+          allow_idle_sessions
+          idle_sessions_after
+          enabled
+          close_conversations_after
+          segment
         ]
       }
     )
+    # params.require(:app).permit(
+    #  inbound_settings_objects: [
+    #    :users_enabled,
+    #    :visitors_enabled,
+    #    :users_segment,
+    #    :visitors_segment,
+    #    segment_predicate: [
+    #      :type,
+    #      :attribute,
+    #      :comparison,
+    #      { value: [] }, # This permits the value as an array
+    #      :value # This permits the value as a scalar (e.g., string)
+    #    ]
+    #  ]
+    # )
   end
 end

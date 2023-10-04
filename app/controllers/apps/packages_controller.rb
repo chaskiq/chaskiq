@@ -95,6 +95,7 @@ class Apps::PackagesController < ApplicationController
     @package = get_app_package
     @package_name = params[:id]
     @conversation_key = params[:conversation_key] || params.dig(:ctx, :conversation_key)
+    @message_key = params[:message_key] || params.dig(:ctx, :message_key)
 
     @category = params[:category] || params.dig(:ctx, :category)
     @location = params[:location] || params.dig(:ctx, :location)
@@ -106,6 +107,8 @@ class Apps::PackagesController < ApplicationController
     @blocks = @package.call_hook({
                                    kind: "configure",
                                    ctx: {
+                                     conversation_key: @conversation_key,
+                                     message_key: @message_key,
                                      lang: I18n.locale,
                                      current_user: current_agent,
                                      field: params.dig(:ctx, :field),
@@ -128,7 +131,7 @@ class Apps::PackagesController < ApplicationController
     @package = get_app_package
     @package_name = params[:id]
     @conversation_key = params[:conversation_key] || params.dig(:ctx, :conversation_key)
-    @location = params[:ctx][:location]
+    @location = params[:location] || params[:ctx][:location]
     @blocks = @package.call_hook({
                                    kind: "content",
                                    ctx: {
@@ -151,6 +154,7 @@ class Apps::PackagesController < ApplicationController
     @package = get_app_package
     @package_name = params[:id]
     @conversation_key = params[:ctx][:conversation_key]
+    @message_key = params[:ctx][:message_key]
     @location = params.dig(:ctx, :location)
     @blocks = @package.call_hook({
                                    kind: "submit",
@@ -162,7 +166,8 @@ class Apps::PackagesController < ApplicationController
                                      # current_user: current_agent,
                                      field: params[:ctx][:field],
                                      values: params[:ctx][:values],
-                                     conversation_key: params[:ctx][:conversation_key]
+                                     message_key: @message_key,
+                                     conversation_key: @conversation_key
                                    }.with_indifferent_access
                                  })
 

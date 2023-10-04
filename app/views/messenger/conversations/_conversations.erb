@@ -1,24 +1,26 @@
 <main aria-labelledby="conversations" 
+  data-controller="infinite-scroll"
   style="position: absolute; inset: 0px;">
-  <div style="overflow-y: auto; height: 100%;">
-    <div class="cache-emo-jg5h0h" id="tata">
+  <div 
+    
+    style="overflow-y: auto; height: 100%;">
+    
+    <div class="cache-emo-jg5h0h" 
+      data-infinite-scroll-target="entries" 
+      id="tata">
 
-      <% conversations.each do |c| %>
-        <div class="cache-emo-23jgg8">
-          <%= link_to messenger_conversation_path(app.key, c.key), class: "cache-emo-gju6b1" do %>
-            <div class="cache-emo-1pycdun">
-              <img src="https://app.chaskiq.io/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdXdKIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--1e4bb37de70b822f55f05051b5f11730cf9b0963/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVdscGFRPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--285ee8d1047615771afef258f0db59a0c5726b2a/mich-square-profile.png">
-            </div>
-            <div class="cache-emo-mjirik">
-              <div class="cache-emo-1874v5t">
-                <div class="cache-emo-q9wuna">Miguel Michelson</div>
-                <time datetime="1695590328000" style="float: right; color: rgb(89, 89, 89); width: 115px; margin: 0px 10px; font-size: 0.8em; text-transform: unset; text-align: right; font-weight: 500;">2 days ago</time>
-              </div>
-              <div class="cache-emo-4pfvla">
-                <div class="cache-emo-laiv46">The white label license allows you to offer the software as a service (SAAS) ...</div>
-              </div>
-            </div>
-          <% end %>
+      <%= turbo_frame_tag "conversations-list" do %>
+
+        <% conversations.each do |c| %>
+          <%= render "messenger/conversations/conversation_row", {c: c, app: app} %>
+        <% end %>
+
+      <% end %>
+
+
+      <%= turbo_frame_tag "conversations-list-pagination" do %>
+        <div data-infinite-scroll-target="pagination" id="paginator-wrapper" class="invisible">
+          <%= render "messenger/conversations/paginator", conversations: conversations %>
         </div>
       <% end %>
       
@@ -30,4 +32,6 @@
       </div>
     </div>
   </div>
+
+
 </main>

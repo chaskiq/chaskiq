@@ -4,7 +4,7 @@
 		<button id="<%= @id %>" 
 			class="<%= @variant %> <%= @size %>"
 			data-field-json="<%= json_data %>"
-			<%= @action.present? && @action['url'] ? "data-action-url=#{@action['url']}" : '' %>
+			<% #= @action.present? && @action['url'] ? "data-action-url=#{@action['url']}" : '' %>
 			data-action="<%= action_method %>">
 			<%= @label || content %>
 		</button>

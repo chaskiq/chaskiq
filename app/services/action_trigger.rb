@@ -100,7 +100,7 @@ class ActionTrigger
 
     # m = next_step["messages"].first
 
-    if next_step["messages"].present? && m = next_step["messages"].first
+    if next_step["messages"].present? && (m = next_step["messages"].first)
       message = message.conversation.add_message(
         step_id: next_step[:step_uid],
         trigger_id: trigger.id,

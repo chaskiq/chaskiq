@@ -18,9 +18,12 @@ Rails.application.routes.draw do
   end
 
   resources :messenger do
-    collection do
+    member do
       get :tester
+      post :confirm_gdpr
     end
+
+    resource :auth, controller: "messenger/auth"
 
     resources :conversations, controller: "messenger/conversations" do
       resources :messages, controller: "messenger/messages"

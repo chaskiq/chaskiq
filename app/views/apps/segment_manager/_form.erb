@@ -16,8 +16,8 @@
 		<%= render "apps/segment_manager/form_fields", f: f, 
 			segment_manager: segment_manager, 
 			url_form: local_assigns[:url_form],
-			changed: changed,
-			incomplete: incomplete,
+			changed: local_assigns[:changed],
+			incomplete: local_assigns[:incomplete],
 			btn_proc: local_assigns[:btn_proc]
 		%>
 	<% end %>

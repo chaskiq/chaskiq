@@ -2,10 +2,9 @@ import { Controller } from '@hotwired/stimulus';
 import { post } from '@rails/request.js';
 import { debounce } from 'lodash';
 
-const GIPHY_TREDING_ENDPOINT = "https://api.giphy.com/v1/gifs/trending";
-const GIPHY_ENDPOINT = "https://api.giphy.com/v1/gifs/search"
-const API_KEY = "97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"; // Replace with your Giphy API key
-
+const GIPHY_TREDING_ENDPOINT = 'https://api.giphy.com/v1/gifs/trending';
+const GIPHY_ENDPOINT = 'https://api.giphy.com/v1/gifs/search';
+const API_KEY = '97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ'; // Replace with your Giphy API key
 
 const normalize = (val, max, min) => {
   return (val - min) / (max - min);
@@ -24,13 +23,17 @@ export default class extends Controller {
     'emojiPicker',
     'giphyList',
     'giphyWrapper',
-    'giphySearchInput'
+    'giphySearchInput',
+    'conversationPart',
   ];
   static values = ['url'];
 
   initialize() {
     // Bind the debounced version to the instance
-    this.debouncedHandleGiphySeach = debounce(this.handleGiphySeach.bind(this), 300);
+    this.debouncedHandleGiphySeach = debounce(
+      this.handleGiphySeach.bind(this),
+      300
+    );
   }
 
   connect() {
@@ -64,6 +67,13 @@ export default class extends Controller {
     }
   }
 
+  getPartWrapperController(id) {
+    return this.application.getControllerForElementAndIdentifier(
+      document.getElementById(id),
+      'conversation-part-wrapper'
+    );
+  }
+
   handleEnter(e) {
     console.log('HANDLE ENTER');
 
@@ -78,7 +88,17 @@ export default class extends Controller {
 
     console.log(this.chatFieldTarget.dataset.url, opts);
 
+    const lastMessage = this.conversationPartTargets[0];
+
     this.insertComment(this.chatFieldTarget.dataset.url, opts);
+
+    if (lastMessage && lastMessage.dataset.blockKind === 'wait_for_reply') {
+      console.log('REPLY THIS ON WAIT!');
+      this.getPartWrapperController(lastMessage.id).sendEvent(
+        {},
+        { force: true }
+      );
+    }
 
     /*
     this.props.insertComment(opts, {
@@ -145,13 +165,13 @@ export default class extends Controller {
     overflow.scrollTop = overflow.scrollHeight;
   }
 
-  hideEmojiContainer(){
-    this.emojiPickerTarget.classList.add("hidden")
+  hideEmojiContainer() {
+    this.emojiPickerTarget.classList.add('hidden');
   }
 
-  showEmojiContainer(e){
-    e.stopPropagation()
-    this.emojiPickerTarget.classList.toggle("hidden")
+  showEmojiContainer(e) {
+    e.stopPropagation();
+    this.emojiPickerTarget.classList.toggle('hidden');
   }
 
   // https://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
@@ -175,15 +195,15 @@ export default class extends Controller {
     }
   }
 
-  hideGiphyContainer(){
-    this.giphyWrapperTarget.classList.add("hidden")
+  hideGiphyContainer() {
+    this.giphyWrapperTarget.classList.add('hidden');
   }
 
-  async showGiphyContainer(e){
-    e.stopPropagation()
-    this.giphyWrapperTarget.classList.toggle("hidden")
-    if(!this.giphyWrapperTarget.classList.contains("hidden")){
-      const gifs = await this.fetchDefaultGifs()
+  async showGiphyContainer(e) {
+    e.stopPropagation();
+    this.giphyWrapperTarget.classList.toggle('hidden');
+    if (!this.giphyWrapperTarget.classList.contains('hidden')) {
+      const gifs = await this.fetchDefaultGifs();
       this.displayGifs(gifs);
     }
   }
@@ -193,54 +213,56 @@ export default class extends Controller {
     await this.debouncedHandleGiphySeach(e);
   }
 
-  async handleGiphySeach(e){
+  async handleGiphySeach(e) {
     const gifs = await this.fetchGifs(e.target.value);
     this.displayGifs(gifs);
   }
 
   async fetchGifs(term) {
-    const response = await fetch(`${GIPHY_ENDPOINT}?api_key=${API_KEY}&limit=10&q=${term}`);
+    const response = await fetch(
+      `${GIPHY_ENDPOINT}?api_key=${API_KEY}&limit=10&q=${term}`
+    );
     const data = await response.json();
-    this.giphyListTarget.innerHTML = ""
+    this.giphyListTarget.innerHTML = '';
     return data.data;
   }
 
   async fetchDefaultGifs() {
-    const response = await fetch(`${GIPHY_TREDING_ENDPOINT}?api_key=${API_KEY}&limit=10`);
+    const response = await fetch(
+      `${GIPHY_TREDING_ENDPOINT}?api_key=${API_KEY}&limit=10`
+    );
     const data = await response.json();
     return data.data;
   }
 
-  pickGiphyImage(e){
-    console.log(e.target.src)
-    this.hideGiphyContainer()
+  pickGiphyImage(e) {
+    console.log(e.target.src);
+    this.hideGiphyContainer();
   }
 
   displayGifs(gifs) {
-      const container = this.giphyListTarget
-      gifs.forEach(gif => {
-          const gifElement = document.createElement("img");
-          gifElement.src = gif.images.fixed_height.url;
-          gifElement.setAttribute("data-action", "click->messenger#pickGiphyImage");
-          container.appendChild(gifElement);
-      });
+    const container = this.giphyListTarget;
+    gifs.forEach((gif) => {
+      const gifElement = document.createElement('img');
+      gifElement.src = gif.images.fixed_height.url;
+      gifElement.setAttribute('data-action', 'click->messenger#pickGiphyImage');
+      container.appendChild(gifElement);
+    });
   }
 
-
-  async handleStepControlClick(e){
-    
+  async handleStepControlClick(e) {
     const data = {
       reply: e.target.dataset.step,
       trigger_id: e.target.dataset.triggerId,
       step_id: e.target.dataset.stepId,
-    }
+    };
 
     this.insertComment(this.chatFieldTarget.dataset.url, data);
 
-    console.log("handled", e.target.dataset)
+    console.log('handled', e.target.dataset);
   }
 
-  async pushEvent(url, data){
+  async pushEvent(url, data) {
     const response = await post(url, {
       body: data,
       responseKind: 'turbo-stream',

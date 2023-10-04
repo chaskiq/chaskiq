@@ -8,10 +8,14 @@
     </div>
   </header>
 
-  
   <div class="cache-emo-ngqrd3">
 
     <div id="bbbb">
+
+      <% if @needs_privacy_consent %>
+        <%= render "messenger/consent" %>
+      <% end %>
+
       <%= render "messenger/home"%>
       <% #= render "messenger/conversations" %>
     </div>

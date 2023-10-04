@@ -409,10 +409,25 @@ class App < ApplicationRecord
   def inbound_settings_objects
     return [] if inbound_settings.blank?
 
-    @inbound_settings_objects ||= InboundSettingsRecord.new(inbound_settings)
+    inbound = inbound_settings
+    inbound.delete("enabled")
+    @inbound_settings_objects ||= InboundSettingsObjects.new(inbound)
   end
 
-  def inbound_settings_attributes=(attributes)
+  def inbound_settings_objects_attributes=(attributes)
+    inbound = inbound_settings
+
+    if attributes["users_attributes"]
+      object = InboundSettingsUserRecord.new(attributes["users_attributes"])
+      inbound["users"] = object.as_json
+    end
+
+    if attributes["visitors_attributes"]
+      object = InboundSettingsVisitorRecord.new(attributes["visitors_attributes"])
+      inbound["visitors"] = object.as_json
+    end
+
+    self.inbound_settings = inbound
     # array = attributes.keys.map{|o| attributes[o] }
     # self.inbound_settings = JSON.parse(array.map{|o| ScheduleRecord.new(o) }.to_json)
     # array.map{|o| ScheduleRecord.new(o) }
@@ -506,26 +521,22 @@ class ScheduleRecord
   end
 end
 
-class InboundSettingsRecord
+class InboundSettingsObjects
   include ActiveModel::Model
 
-  attr_accessor :enabled,
-                :users_enabled,
-                :users_segment,
-                :users_predicates,
-                :visitors_enabled,
-                :visitors_segment,
-                :visitors_predicates
+  attr_reader :users, :visitors
 
   def initialize(options)
-    self.enabled = options["enabled"]
-    self.users_enabled = options.dig("users", "enabled")
-    self.users_segment = options.dig("users", "segment")
-    self.users_predicates = options.dig("users", "predicates") || []
+    self.users = options["users"]
+    self.visitors = options["visitors"]
+  end
 
-    self.visitors_enabled = options.dig("visitors", "enabled")
-    self.visitors_segment = options.dig("visitors", "segment")
-    self.visitors_predicates = options.dig("users", "predicates") || []
+  def users=(options)
+    @users = InboundSettingsUserRecord.new(options)
+  end
+
+  def visitors=(options)
+    @visitors = InboundSettingsVisitorRecord.new(options)
   end
 
   def marked_for_destruction?
@@ -534,6 +545,35 @@ class InboundSettingsRecord
 
   def new_record?
     true
+  end
+end
+
+class InboundSettingsVisitorRecord
+  include ActiveModel::Model
+
+  attr_accessor :enabled, :segment, :predicates,
+                :visitors_enable_inbound, :close_conversations_after,
+                :close_conversations_enabled, :allow_idle_sessions, :idle_sessions_after
+
+  def initialize(attributes = {})
+    attributes.each do |name, value|
+      send("#{name}=", value) if respond_to? name
+    end
+    self.enabled = ActiveModel::Type::Boolean.new.cast(attributes["enabled"]) if attributes["enabled"].present?
+  end
+end
+
+class InboundSettingsUserRecord
+  include ActiveModel::Model
+  attr_accessor :enabled, :segment, :predicates,
+                :users_enable_inbound, :close_conversations_after,
+                :close_conversations_enabled
+
+  def initialize(attributes = {})
+    attributes.each do |name, value|
+      send("#{name}=", value) if respond_to? name
+    end
+    self.enabled = ActiveModel::Type::Boolean.new.cast(attributes["enabled"]) if attributes["enabled"].present?
   end
 end
 

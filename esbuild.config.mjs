@@ -28,6 +28,7 @@ let ctx = await esbuild.context({
   inject: ['./esbuild/process-shim.js'],
   entryPoints: [
     "app/javascript/new_application.js",
+    "app/javascript/new_embed.js",
     "app/javascript/application.js", 
     "app/javascript/embed.js",
     "app/javascript/article.js",

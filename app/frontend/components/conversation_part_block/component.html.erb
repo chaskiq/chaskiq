@@ -24,10 +24,11 @@
 						app_package: blocks["app_package"],
 						location: "conversations",
 						values: blocks["values"],
-						conversation_key: @message.key,
+						conversation_key: @message.conversation.key,
+						message_key: @message.key,
 						path: app_inbox_package_path(@app.key, blocks["app_package"]),
 						app: @app,
-						ctx: {conversation_key: @message.key } #locals[:ctx]
+						ctx: {conversation_key: @message.conversation.key, message_key: @message.key } #locals[:ctx]
 					)%>
 				</div>
 			</div>

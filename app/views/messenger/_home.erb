@@ -3,84 +3,86 @@
   class="cache-emo-a8p4ui" data-turbo="true">
   <div in="in" class="cache-emo-mvqm3o" style="margin-top: 147px;">
     <div class="cache-emo-1t2ixeu">
-      <h2>Continue the conversation</h2>
+      <h2><%= t("messenger.continue_conversation") %></h2>
     </div>
 
 
-    <div class="cache-emo-23jgg8" data-turbo="true">
-      <% @current_user.conversations.limit(4).each do |conversation| %>
-        
-        <% m = conversation.public_latest_message %>
-        <a href="<%= messenger_conversation_path(@app.key, conversation.key) %>" class="cache-emo-gju6b1">
-          <div class="cache-emo-1pycdun">
-            <%= image_tag m.authorable.avatar_url %>
-          </div>
-          <div class="cache-emo-mjirik">
-
-            <div class="cache-emo-1874v5t">
-              <div class="cache-emo-q9wuna">
-                <%= m.authorable.display_name %>
-              </div>
-              <time datetime="<%= m.created_at.to_i %>" style="float: right; color: rgb(89, 89, 89); width: 115px; margin: 0px 10px; font-size: 0.8em; text-transform: unset; text-align: right; font-weight: 500;">
-                a month ago
-              </time>
+    <% @app_user.conversations.limit(4).order("id desc").each do |conversation| %>
+      <div class="cache-emo-23jgg8" data-turbo="true">  
+        <div class="cache-emo-gju6b1">
+          <% m = conversation.public_latest_message %>
+          <% if m.present? %>
+          <a href="<%= messenger_conversation_path(@app.key, conversation.key) %>" class="cache-emo-gju6b1">
+            <div class="cache-emo-1pycdun">
+              <%= image_tag m.authorable.avatar_url %>
             </div>
-        
-            <div class="cache-emo-4pfvla">
-              <div class="cache-emo-laiv46">
-                <% #= m.messageable.serialized_content %>
+            <div class="cache-emo-mjirik">
 
-                <% if m.message.is_a?(ConversationPartContent)%>
-                  <% #= m.id %>
-                  <% if m.message&.serialized_content.nil? %>
-                    <%= sanitize m.message.html_content %>
-                  <% else %>
-                  <%= sanitize Dante::Renderer.new(raw: JSON.parse(m.message&.serialized_content).deep_symbolize_keys).render %>
+              <div class="cache-emo-1874v5t">
+                <div class="cache-emo-q9wuna">
+                  <%= m.authorable.display_name %>
+                </div>
+                <time datetime="<%= m.created_at.to_i %>" style="float: right; color: rgb(89, 89, 89); width: 115px; margin: 0px 10px; font-size: 0.8em; text-transform: unset; text-align: right; font-weight: 500;">
+                  a month ago
+                </time>
+              </div>
+          
+              <div class="cache-emo-4pfvla">
+                <div class="cache-emo-laiv46">
+                  <% #= m.messageable.serialized_content %>
+
+                  <% if m.message.is_a?(ConversationPartContent)%>
+                    <% #= m.id %>
+                    <% if m.message&.serialized_content.nil? %>
+                      <%= sanitize m.message.html_content %>
+                    <% else %>
+                    <%= sanitize Dante::Renderer.new(raw: JSON.parse(m.message&.serialized_content).deep_symbolize_keys).render %>
+                    <% end %>
+                    <% #= JSON.parse(m.message&.serialized_content)["blocks"].map{|o| o["text"] }.compact.join(", ") rescue %>
                   <% end %>
-                  <% #= JSON.parse(m.message&.serialized_content)["blocks"].map{|o| o["text"] }.compact.join(", ") rescue %>
-                <% end %>
 
-                <% if m.message.is_a?(ConversationPartBlock)%>
-                sent a block!
-                <% end %>
+                  <% if m.message.is_a?(ConversationPartBlock)%>
+                  sent a block!
+                  <% end %>
 
 
 
 
+                </div>
               </div>
+
             </div>
-
-          </div>
-        </a>
-
-      <% end %>
-    </div>
+          </a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
     
     <div class="cache-emo-0">
       <div class="cache-emo-qwyttr">
-        <%= link_to "view all conversations", messenger_conversations_path(@app.key) %>
+        <%= link_to t("messenger.view_all_conversations"), messenger_conversations_path(@app.key) %>
       </div>
     </div>
   </div>
 
   <div in="in" class="cache-emo-mvqm3o" style="margin-top: 0px;">
     <div class="cache-emo-1t2ixeu">
-      <h2>Start a conversation</h2>
+      <h2><%= t("messenger.start_conversation") %></h2>
       <div class="cache-emo-zoxij">
         <p>we'll be back in approximately 10 hrs</p>
       </div>
       <p class="cache-emo-aqe3rj">The team will respond as soon as possible</p>
       <div class="cache-emo-0">
         <div class="cache-emo-17xgiok">
-          <% @app.agents.each do |agent| %>
+          <% @agents.each do |agent| %>
           <div class="cache-emo-7w49yp">
             <%= image_tag agent.avatar_url, alt: agent.display_name %>
           </div>
           <% end %>
         </div>
         <div class="cache-emo-3d3066">
-          <%= link_to "Start a conversation", new_messenger_conversation_path(@app.key), class: "cache-emo-1kn0l3e" %>
-          <%= link_to "See previous", messenger_conversations_path(@app.key) %>
+          <%= link_to t("messenger.start_conversation"), new_messenger_conversation_path(@app.key), class: "cache-emo-1kn0l3e" %>
+          <%= link_to t("messenger.see_previous"), messenger_conversations_path(@app.key) %>
         </div>
       </div>
     </div>
@@ -107,5 +109,7 @@
 
 <div class="cache-emo-jjffot">
   <a href="https://chaskiq.io" target="blank">
-    <img alt="https://chaskiq.io" src="https://app.chaskiq.io/logo-gray.png">We run on Chaskiq </a>
+    <img alt="https://chaskiq.io" src="https://app.chaskiq.io/logo-gray.png">
+    <%= t("messenger.run_on")%>
+  </a>
 </div>

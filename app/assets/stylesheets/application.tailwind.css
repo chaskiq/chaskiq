@@ -197,12 +197,6 @@
     padding: 6px;
   }
 
-  .cache-emo-1pycdun {
-    flex: 0 0 auto;
-    align-self: flex-end;
-    margin-left: 15px;
-  }
-
   .cache-emo-1t2ixeu > :not([hidden]) ~ :not([hidden]) {
     --tw-space-y-reverse: 0;
     margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
@@ -296,7 +290,7 @@
 
   .cache-emo-1pycdun {
     flex: 0 0 auto;
-    align-self: flex-end;
+    align-self: flex-start;
     margin-left: 15px;
   }
 
