@@ -1,6 +1,9 @@
 import { Controller } from '@hotwired/stimulus';
 import { post } from '@rails/request.js';
 import { debounce } from 'lodash';
+import UAParser from 'ua-parser-js';
+import { FetchRequest } from '@rails/request.js';
+
 
 const GIPHY_TREDING_ENDPOINT = 'https://api.giphy.com/v1/gifs/trending';
 const GIPHY_ENDPOINT = 'https://api.giphy.com/v1/gifs/search';
@@ -34,6 +37,78 @@ export default class extends Controller {
       this.handleGiphySeach.bind(this),
       300
     );
+
+    this.eventsHandler = function(event) {
+      console.log("Received custom event with data:", event.detail.data);
+    };
+
+    document.addEventListener("ChaskiqEvent", this.eventsHandler)
+    window.addEventListener('message',this.iframeEventsReceiver)
+
+    this.streamListener()
+  }
+
+  iframeEventsReceiver(event){
+      // Check the origin of the data!
+      //if (event.origin !== "http://example.com") { // replace with the parent's origin
+      //    return;
+      //}
+      console.log('Received message from parent:', event.data); 
+  }
+
+  streamListener(){
+    
+    const element = document.querySelector("#chaskiq-streams turbo-cable-stream-source");
+
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (mutation.type === "attributes" && mutation.attributeName === "connected") {
+          if (element.hasAttribute("connected")) {
+            console.log("Element is connected");
+            // Trigger your function here
+            this.registerVisit()
+          } else {
+            console.log("Element is disconnected");
+          }
+        }
+      });
+    });
+
+    observer.observe(element, {
+      attributes: true
+    });
+  }
+
+  registerVisit() {
+    const parser = new UAParser();
+
+    const results = parser.getResult();
+
+    const data = {
+      title: document.title,
+      url: document.location.href,
+      browser_version: results.browser.version,
+      browser_name: results.browser.name,
+      os_version: results.os.version,
+      os: results.os.name,
+    };
+    console.log("PUSH EVENT HERE", data)
+    this.pushEvent('send_message', {browser_data: data});
+    // this.App.events.perform('send_message', data);
+  }
+
+  async pushEvent(eventType, data){
+    const url = `${this.element.dataset.url}/events?event=${eventType}`
+
+    const request = new FetchRequest('post', url, {
+      body: JSON.stringify(data),
+    });
+    const response = await request.perform();
+    if (response.ok) {
+      console.log("send message ok")
+    } else {
+      console.error("error sending message")
+    }
   }
 
   connect() {
@@ -50,6 +125,11 @@ export default class extends Controller {
     return {
       text: value,
     };
+  }
+
+  disconnect(){
+    document.removeEventListener("ChaskiqEvent", this.eventsHandler)
+    window.removeEventListener('message', this.iframeEventsReceiver)
   }
 
   async insertComment(url, data) {
@@ -262,7 +342,7 @@ export default class extends Controller {
     console.log('handled', e.target.dataset);
   }
 
-  async pushEvent(url, data) {
+  async pushEventNOoo(url, data) {
     const response = await post(url, {
       body: data,
       responseKind: 'turbo-stream',

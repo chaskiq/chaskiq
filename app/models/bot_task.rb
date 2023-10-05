@@ -162,16 +162,20 @@ class BotTask < Message
       .each do |bot_task|
         next if bot_task.blank? || !bot_task.available_for_user?(user)
 
-        MessengerEventsChannel.broadcast_to(
-          key,
-          {
-            type: "triggers:receive",
-            data: {
-              trigger: bot_task,
-              step: bot_task.paths.first["steps"].first
-            }
-          }.as_json
-        )
+        data = {
+          type: "triggers:receive",
+          data: {
+            trigger: bot_task,
+            step: bot_task.paths.first["steps"].first
+          }
+        }.as_json
+
+        MessengerEventsChannel.broadcast_to(key, data)
+
+        bot_task.broadcast_update_to app, user,
+        target: "chaskiq-custom-events",
+        partial: "messenger/custom_event",
+        locals: { data: data }
 
         user.metrics.create(trackable: bot_task, action: "bot_tasks.delivered")
 
@@ -424,6 +428,7 @@ class BotPathStepSchema
                 :align,
                 :variant,
                 :app_package,
+                :width,
                 # :controls,
                 # :messages,
                 :step_uid,

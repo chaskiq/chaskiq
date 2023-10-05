@@ -98,10 +98,17 @@ class Banner < Message
     return if banner.blank? || !banner.available_for_user?(user)
 
     if banners.any?
-      MessengerEventsChannel.broadcast_to(key, {
+      data = {
         type: "banners:receive",
         data: banner.as_json(only: [:id], methods: %i[banner_data serialized_content html_content])
-      }.as_json)
+      }.as_json
+
+      MessengerEventsChannel.broadcast_to(key, data)
+
+      banner.broadcast_update_to app, user,
+      target: "chaskiq-custom-events",
+      partial: "messenger/custom_event",
+      locals: {  data: data }
 
       true
     end

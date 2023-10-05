@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     member do
       get :tester
       post :confirm_gdpr
+      post :events
     end
 
     resource :auth, controller: "messenger/auth"

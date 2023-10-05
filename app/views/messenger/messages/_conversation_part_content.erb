@@ -11,7 +11,7 @@
     </div>
     <span class="status">
       <time datetime="<%= message.created_at %>">
-        2 days ago
+        <%= time_ago_in_words message.created_at %>
       </time>
     </span>
   </div>

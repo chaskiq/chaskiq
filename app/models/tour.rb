@@ -70,10 +70,17 @@ class Tour < Message
     return if tour.blank? || !tour.available_for_user?(user)
 
     if tours.any?
-      MessengerEventsChannel.broadcast_to(key, {
+      data = {
         type: "tours:receive",
         data: tour.as_json(only: [:id], methods: %i[steps url])
-      }.as_json)
+      }.as_json
+      
+      MessengerEventsChannel.broadcast_to(key, data)
+
+      tour.broadcast_update_to app, user,
+        target: "chaskiq-custom-events",
+        partial: "messenger/custom_event",
+        locals: {  data: data }
     end
 
     tours.any?

@@ -103,6 +103,10 @@ class ConversationPart < ApplicationRecord
     end
   end
 
+  def was_created?
+    self.created_at == self.updated_at
+  end
+
   def notify_to_channels(opts = {})
     participant_socket_notify
     enqueue_channel_notification unless opts[:disable_api_notification]
@@ -119,22 +123,29 @@ class ConversationPart < ApplicationRecord
       { type: :conversation_part,
         data: as_json }
     )
-    # EventsChannel.broadcast_to(
-    #  conversation.app.key.to_s,
-    #  type: :conversation_part,
-    #  data: as_json
-    # )
 
-    broadcast_prepend_to conversation.app,
-                         :conversations,
-                         # action: "append",
-                         target: "conversation-messages-list-#{conversation.key}",
-                         partial: "apps/conversation_messages/part",
-                         locals: {
-                           app: conversation.app,
-                           message: self,
-                           notified: true
-                         }
+    # hotwire part
+    if was_created?
+      broadcast_prepend_to conversation.app,
+      :conversations,
+      target: "conversation-messages-list-#{conversation.key}",
+      partial: "apps/conversation_messages/part",
+      locals: {
+        app: conversation.app,
+        message: self,
+        notified: true
+      }
+    else
+      broadcast_update_to conversation.app,
+        :conversations,
+        target: "conversation-part-#{self.key}",
+        partial: "apps/conversation_messages/part",
+        locals: {
+          app: conversation.app,
+          message: self,
+          notified: true
+        }
+    end
 
     conversation.notify_conversation_list
   end
@@ -146,22 +157,39 @@ class ConversationPart < ApplicationRecord
         data: as_json }
     )
 
-    MessengerEventsChannel.broadcast_to(
-      broadcast_key,
-      { type: "conversations:unreads",
-        data: conversation.main_participant.new_messages.value }
-    )
+    data = { type: "conversations:unreads",
+      data: conversation.main_participant.new_messages.value }
 
-    broadcast_prepend_to conversation.app,
-                         conversation.main_participant,
-                         # action: "append",
-                         target: "conversation-#{conversation.key}",
-                         partial: "messenger/messages/conversation_part",
-                         locals: {
-                           app: conversation.app,
-                           message: self,
-                           notified: true
-                         }
+    MessengerEventsChannel.broadcast_to(broadcast_key, data)
+
+
+    broadcast_update_to conversation.app, conversation.main_participant,
+      target: "chaskiq-custom-events",
+      partial: "messenger/custom_event",
+      locals: {  data: data }
+
+    # hotwire part
+    if was_created?
+      broadcast_prepend_to conversation.app, conversation.main_participant,
+                          # action: "append",
+                          target: "conversation-#{conversation.key}",
+                          partial: "messenger/messages/conversation_part",
+                          locals: {
+                            app: conversation.app,
+                            message: self,
+                            notified: true
+                          }
+                          
+    else
+      broadcast_update_to conversation.app, conversation.main_participant,
+      target: "conversation-part-#{self.key}",
+      partial: "messenger/messages/conversation_part",
+      locals: {
+        app: conversation.app,
+        message: self,
+        notified: true
+      }
+    end
   end
 
   def enqueue_channel_notification

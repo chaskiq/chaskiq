@@ -84,19 +84,20 @@ class Conversation < ApplicationRecord
   end
 
   def notify_conversation_state_update
-    data = as_json(methods: [:assignee])
+    data = { type: "conversations:update_state",
+        data: as_json(methods: [:assignee]) }
 
-    EventsChannel.broadcast_to(
-      app.key,
-      { type: "conversations:update_state",
-        data: data }
-    )
+    EventsChannel.broadcast_to( app.key, data)
 
     MessengerEventsChannel.broadcast_to(
-      broadcast_key,
-      { type: "conversations:update_state",
-        data: data }
+      broadcast_key, data
     )
+
+    broadcast_update_to self.app, self.main_participant,
+      target: "chaskiq-custom-events",
+      partial: "messenger/custom_event",
+      locals: { data: data }
+
   end
 
   def add_reopened_event
@@ -235,7 +236,7 @@ class Conversation < ApplicationRecord
   def notify_typing(author = nil)
     author = app.agents.bots.first if author.blank?
     key = "#{app.key}-#{main_participant.session_id}"
-    MessengerEventsChannel.broadcast_to(key, {
+    data = {
       type: "conversations:typing",
       data: {
         conversation: self.key,
@@ -243,7 +244,14 @@ class Conversation < ApplicationRecord
           name: author.name
         }
       }
-    }.as_json)
+    }.as_json
+
+    MessengerEventsChannel.broadcast_to(key, data)
+
+    broadcast_update_to self.app, self.main_participant,
+      target: "chaskiq-custom-events",
+      partial: "messenger/custom_event",
+      locals: { data: data }
   end
 
   def notify_conversation_list

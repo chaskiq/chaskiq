@@ -35,8 +35,7 @@ inbound settings
     + tabs
   + request triggers
 
-+ conversation: 
-  + paginate conversation index
+
 + scrollable initialize scroll down
 + submit image
 + submit document
@@ -45,10 +44,15 @@ inbound settings
 + send message read
 + send message update
 + receive messages
-  + un read red
+  + unread red
   + pling
 
 + settings for:
   + render buttons
   + close conversation
+
++ inline conversations
++ tours retrieval
++ bots retrieval
++ banner retrieval
 

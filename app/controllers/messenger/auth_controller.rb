@@ -21,7 +21,8 @@ class Messenger::AuthController < ApplicationController
     # TODO: add idle_sessions_after: @app.
     render json: {
       token: token,
-      enabled_for_user: enabled_for_user
+      enabled_for_user: enabled_for_user,
+      inbound_settings: @app.inbound_settings
     }
   end
 
@@ -235,6 +236,7 @@ class Messenger::AuthController < ApplicationController
   end
 
   def enabled_for_user
+    return false unless ActiveModel::Type::Boolean.new.cast(@app.active_messenger)
     return false if @app.inbound_settings.blank?
 
     return false if @app_user.blank? || @app_user.blocked?

@@ -1,5 +1,3 @@
-<%= turbo_stream_from app, user %>
-
 
 <main id="main-content" 
   aria-labelledby="conversation" 
@@ -11,8 +9,11 @@
       
       <%= turbo_frame_tag "messages-list-pagination" do %>
         <div data-infinite-scroll-target="pagination"
-            id="paginator-wrapper" class="invisible">
-          <%= render "messenger/messages/paginator", messages: messages %>
+          id="paginator-wrapper" 
+          class="invisible">
+          <% if messages.respond_to?(:total_pages) %>
+            <%= render "messenger/messages/paginator", messages: messages %>
+          <% end %>
         </div>
       <% end %>
       

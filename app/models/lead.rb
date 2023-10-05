@@ -33,9 +33,18 @@ class Lead < AppUser
 
     key = app_user.session_key
 
-    MessengerEventsChannel.broadcast_to(key, {
+    data = {
       type: "user:refresh",
       data: app_user.as_json(only: [:session_id])
-    }.as_json)
+    }.as_json
+
+    MessengerEventsChannel.broadcast_to(key, data)
+
+
+    broadcast_update_to self.app, self,
+      target: "chaskiq-custom-events",
+      partial: "messenger/custom_event",
+      locals: { data: data }
+
   end
 end

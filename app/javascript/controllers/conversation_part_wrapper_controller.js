@@ -9,7 +9,7 @@ export default class extends Controller {
       this.playSound();
       this.chatEditorController?.scrollToBottom();
       this.chatMessengerController?.scrollToBottom();
-      //this.markAsRead();
+      this.markAsRead();
       this.sendEvent({});
     }
   }
@@ -35,6 +35,8 @@ export default class extends Controller {
   }
 
   async sendEvent(results, options = {}) {
+    
+    if(this.element.dataset.viewerType === "Agent") return
     const { stepId, triggerId, path } = this.element.dataset;
 
     const data = {

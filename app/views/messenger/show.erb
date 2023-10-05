@@ -1,7 +1,16 @@
-
-
-<div data-controller="messenger" id="chaskiq-messenger" class="justify-start overflow-hidden absolute inset-0 flex flex-col">
+<div data-controller="messenger" 
+  id="chaskiq-messenger"
+  data-url="<%= messenger_path(@app.key) %>"
+  class="justify-start overflow-hidden absolute inset-0 flex flex-col">
   
+  <div id="chaskiq-streams" data-turbo-permanent="true">
+    <% #= Time.now.to_i %>
+    <%= turbo_stream_from @app, @app_user %>
+    <div style="display:none;" id="chaskiq-custom-events">
+      <% #= render "messenger/custom_event", data: {a: 1}.to_json %>
+    </div>
+  </div>
+
   <header id="chaskiq-header" class="h-19 relative min-h-19 bg-gradient-to-br from-[rgb(3,23,2)] to-black text-[rgb(243,243,243)] transition-height ease-out duration-160">
     <div in="in" class="cache-emo-smxb2e">
       <%= render "messenger/header" %>

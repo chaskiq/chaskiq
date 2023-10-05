@@ -22,6 +22,38 @@ class MessengerController < ApplicationController
     ]
   end
 
+  def events
+    @app = App.find_by(key: params[:id])
+    @app_user = @app.app_users.find_by(session_id: session[:messenger_session_id])
+
+    case params[:event]
+    when "send_message" then register_visitor_ping
+    else
+    end
+
+    head :ok
+
+  end
+
+  # this is the same as message_event_channel#send_message
+  def register_visitor_ping
+    bundle = params.require(:browser_data).permit(
+      :browser_name,
+      :browser_version,
+      :os,
+      :os_version,
+      :title
+    )
+
+    VisitCollector.new(user: @app_user)
+                  .update_browser_data(bundle)
+
+    AppUserEventJob.perform_now(
+      app_key: @app.key,
+      user_id: @app_user.id
+    )
+  end
+
   def tester
     @app = App.find_by(key: params[:id])
     @sessionless = params[:sessionless]
@@ -34,6 +66,8 @@ class MessengerController < ApplicationController
                       else
                         @json_payload.to_json
                       end
+
+    render "tester", layout: false
   end
 
   def home_apps
