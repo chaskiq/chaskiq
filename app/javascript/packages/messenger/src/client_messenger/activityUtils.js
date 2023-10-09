@@ -1,5 +1,5 @@
 export function setLastActivity() {
-  console.log("SET LAST ACTIVITY", getUnixTime())
+  console.log('SET LAST ACTIVITY', getUnixTime());
   window.localStorage.setItem('chaskiqLastActivity', getUnixTime());
 }
 

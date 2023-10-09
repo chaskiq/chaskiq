@@ -35,8 +35,7 @@ export default class extends Controller {
   }
 
   async sendEvent(results, options = {}) {
-    
-    if(this.element.dataset.viewerType === "Agent") return
+    if (this.element.dataset.viewerType === 'Agent') return;
     const { stepId, triggerId, path } = this.element.dataset;
 
     const data = {

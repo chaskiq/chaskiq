@@ -80,18 +80,18 @@ class UserAutoMessage < Message
     if messages.any?
 
       data = { type: "messages:receive",
-        data: messages.as_json(only: %i[id
-                                        created_at
-                                        updated_at
-                                        serialized_content
-                                 theme]) }
+               data: messages.as_json(only: %i[id
+                                               created_at
+                                               updated_at
+                                               serialized_content
+                                               theme]) }
 
-      MessengerEventsChannel.broadcast_to(key, data )
-    
+      MessengerEventsChannel.broadcast_to(key, data)
+
       messages.first.broadcast_update_to app, user,
-        target: "chaskiq-custom-events",
-        partial: "messenger/custom_event",
-        locals: { data: data }
+                                         target: "chaskiq-custom-events",
+                                         partial: "messenger/custom_event",
+                                         locals: { data: data }
 
     end
 

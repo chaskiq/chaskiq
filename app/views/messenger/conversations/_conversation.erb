@@ -18,7 +18,9 @@
       <% end %>
       
       <div class="cache-emo-1prjld7"
-        data-infinite-scroll-target="entries" 
+        data-infinite-scroll-target="entries"
+        data-messenger-target="conversation"
+        data-conversation-key="<%= conversation.key %>"
         id="conversation-<%= conversation.key %>">
 
           <% messages.each do |message| %>

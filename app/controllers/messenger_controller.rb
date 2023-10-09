@@ -28,11 +28,10 @@ class MessengerController < ApplicationController
 
     case params[:event]
     when "send_message" then register_visitor_ping
-    else
+    when "request_trigger" then request_trigger
     end
 
     head :ok
-
   end
 
   # this is the same as message_event_channel#send_message
@@ -51,6 +50,15 @@ class MessengerController < ApplicationController
     AppUserEventJob.perform_now(
       app_key: @app.key,
       user_id: @app_user.id
+    )
+  end
+
+  def request_trigger
+    AppUserTriggerJob.perform_now(
+      app_key: @app.key,
+      user_id: @app_user.id,
+      conversation: params[:conversation],
+      trigger_id: params[:trigger]
     )
   end
 

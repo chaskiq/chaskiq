@@ -4,7 +4,6 @@ import { debounce } from 'lodash';
 import UAParser from 'ua-parser-js';
 import { FetchRequest } from '@rails/request.js';
 
-
 const GIPHY_TREDING_ENDPOINT = 'https://api.giphy.com/v1/gifs/trending';
 const GIPHY_ENDPOINT = 'https://api.giphy.com/v1/gifs/search';
 const API_KEY = '97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ'; // Replace with your Giphy API key
@@ -28,6 +27,7 @@ export default class extends Controller {
     'giphyWrapper',
     'giphySearchInput',
     'conversationPart',
+    'conversation'
   ];
   static values = ['url'];
 
@@ -38,44 +38,72 @@ export default class extends Controller {
       300
     );
 
-    this.eventsHandler = function(event) {
-      console.log("Received custom event with data:", event.detail.data);
+    this.eventsHandler = function (event) {
+      console.log('Received custom event with data:', event.detail.data);
+      const data = JSON.parse(event.detail.data)
+      
+      switch (data.type) {
+        case "triggers:receive":
+
+          this.pushEvent('request_trigger', {
+            conversation: this.currentConversationKey(), //this.state.conversation && this.state.conversation.key,
+            trigger: data.data.trigger.id,
+          });
+  
+          
+          break;
+      
+        default:
+          break;
+      }
     };
 
-    document.addEventListener("ChaskiqEvent", this.eventsHandler)
-    window.addEventListener('message',this.iframeEventsReceiver)
+    document.addEventListener('ChaskiqEvent', this.eventsHandler.bind(this));
+    window.addEventListener('message', this.iframeEventsReceiver.bind(this));
 
-    this.streamListener()
+    this.streamListener();
   }
 
-  iframeEventsReceiver(event){
-      // Check the origin of the data!
-      //if (event.origin !== "http://example.com") { // replace with the parent's origin
-      //    return;
-      //}
-      console.log('Received message from parent:', event.data); 
+  currentConversationKey(){
+    if(this.hasConversationTarget){
+      return this.conversationTarget.dataset.conversationKey
+    } else {
+      return null
+    }
   }
 
-  streamListener(){
-    
-    const element = document.querySelector("#chaskiq-streams turbo-cable-stream-source");
+  iframeEventsReceiver(event) {
+    // Check the origin of the data!
+    //if (event.origin !== "http://example.com") { // replace with the parent's origin
+    //    return;
+    //}
+    console.log('Received message from parent:', event.data);
+  }
 
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        if (mutation.type === "attributes" && mutation.attributeName === "connected") {
-          if (element.hasAttribute("connected")) {
-            console.log("Element is connected");
+  streamListener() {
+    const element = document.querySelector(
+      '#chaskiq-streams turbo-cable-stream-source'
+    );
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'connected'
+        ) {
+          if (element.hasAttribute('connected')) {
+            console.log('Element is connected');
             // Trigger your function here
-            this.registerVisit()
+            this.registerVisit();
           } else {
-            console.log("Element is disconnected");
+            console.log('Element is disconnected');
           }
         }
       });
     });
 
     observer.observe(element, {
-      attributes: true
+      attributes: true,
     });
   }
 
@@ -92,22 +120,22 @@ export default class extends Controller {
       os_version: results.os.version,
       os: results.os.name,
     };
-    console.log("PUSH EVENT HERE", data)
-    this.pushEvent('send_message', {browser_data: data});
+    console.log('PUSH EVENT HERE', data);
+    this.pushEvent('send_message', { browser_data: data });
     // this.App.events.perform('send_message', data);
   }
 
-  async pushEvent(eventType, data){
-    const url = `${this.element.dataset.url}/events?event=${eventType}`
+  async pushEvent(eventType, data) {
+    const url = `${this.element.dataset.url}/events?event=${eventType}`;
 
     const request = new FetchRequest('post', url, {
       body: JSON.stringify(data),
     });
     const response = await request.perform();
     if (response.ok) {
-      console.log("send message ok")
+      console.log('send message ok');
     } else {
-      console.error("error sending message")
+      console.error('error sending message');
     }
   }
 
@@ -127,9 +155,9 @@ export default class extends Controller {
     };
   }
 
-  disconnect(){
-    document.removeEventListener("ChaskiqEvent", this.eventsHandler)
-    window.removeEventListener('message', this.iframeEventsReceiver)
+  disconnect() {
+    document.removeEventListener('ChaskiqEvent', this.eventsHandler);
+    window.removeEventListener('message', this.iframeEventsReceiver);
   }
 
   async insertComment(url, data) {

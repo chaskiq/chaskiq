@@ -11,11 +11,11 @@ class Conversation < ApplicationRecord
   belongs_to :assignee, class_name: "Agent", optional: true
   belongs_to :main_participant, class_name: "AppUser", optional: true # , foreign_key: "user_id"
   # has_one :conversation_source, dependent: :destroy
-  has_many :messages, class_name: "ConversationPart", dependent: :destroy_async
+  has_many :messages, class_name: "ConversationPart", dependent: :destroy
 
   has_many :message_blocks, through: :messages, source: :message_block
 
-  has_many :conversation_channels, dependent: :destroy_async
+  has_many :conversation_channels, dependent: :destroy
   has_many :conversation_part_channel_sources, through: :messages
   has_one :latest_message, -> { order("id desc") },
           class_name: "ConversationPart", dependent: nil
@@ -85,19 +85,18 @@ class Conversation < ApplicationRecord
 
   def notify_conversation_state_update
     data = { type: "conversations:update_state",
-        data: as_json(methods: [:assignee]) }
+             data: as_json(methods: [:assignee]) }
 
-    EventsChannel.broadcast_to( app.key, data)
+    EventsChannel.broadcast_to(app.key, data)
 
     MessengerEventsChannel.broadcast_to(
       broadcast_key, data
     )
 
-    broadcast_update_to self.app, self.main_participant,
-      target: "chaskiq-custom-events",
-      partial: "messenger/custom_event",
-      locals: { data: data }
-
+    broadcast_update_to app, main_participant,
+                        target: "chaskiq-custom-events",
+                        partial: "messenger/custom_event",
+                        locals: { data: data }
   end
 
   def add_reopened_event
@@ -248,10 +247,10 @@ class Conversation < ApplicationRecord
 
     MessengerEventsChannel.broadcast_to(key, data)
 
-    broadcast_update_to self.app, self.main_participant,
-      target: "chaskiq-custom-events",
-      partial: "messenger/custom_event",
-      locals: { data: data }
+    broadcast_update_to app, main_participant,
+                        target: "chaskiq-custom-events",
+                        partial: "messenger/custom_event",
+                        locals: { data: data }
   end
 
   def notify_conversation_list

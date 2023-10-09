@@ -5,9 +5,11 @@ import {
   getCookie,
   deleteCookie,
 } from './packages/messenger/src/client_messenger/cookies';
-import {embedCss} from "./embedStyle"
-import { getDiff, setLastActivity } from './packages/messenger/src/client_messenger/activityUtils';
-
+import { embedCss } from './embedStyle';
+import {
+  getDiff,
+  setLastActivity,
+} from './packages/messenger/src/client_messenger/activityUtils';
 
 function getBrowserVisibilityProp() {
   if (typeof document.hidden !== 'undefined') {
@@ -54,12 +56,12 @@ const primeClosedHTML = `
 `;
 
 window.Chaskiq = window.Chaskiq || {
-  frameTemplate: function(url){
+  frameTemplate: function (url) {
     return `
       <div id="messenger-frame" class="css-13u6xjo">
         <iframe src="${url}" width="100%" height="100%" style="border:none"></iframe>
       </div>
-    `
+    `;
   },
   getTemplate: function (url) {
     return `
@@ -83,14 +85,14 @@ window.Chaskiq = window.Chaskiq || {
     this.options = options;
   },
   toggle: function (e) {
-    const frame = document.getElementById('messenger-frame')
-    
-    if(frame){
-      frame.remove()
+    const frame = document.getElementById('messenger-frame');
+
+    if (frame) {
+      frame.remove();
     } else {
-      const wrapper = document.querySelector("#frame-wrapper")
+      const wrapper = document.querySelector('#frame-wrapper');
       const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
-      wrapper.innerHTML = this.frameTemplate(url)
+      wrapper.innerHTML = this.frameTemplate(url);
     }
     console.log('TOGGLE');
 
@@ -121,7 +123,7 @@ window.Chaskiq = window.Chaskiq || {
     this.toggle();
   },
   setup: async function (cb) {
-    const url = `${this.options.domain}/messenger/${this.options.app_id}/auth`
+    const url = `${this.options.domain}/messenger/${this.options.app_id}/auth`;
     const request = new FetchRequest('post', url, {
       body: JSON.stringify({ name: 'Request.JS' }),
     });
@@ -145,10 +147,10 @@ window.Chaskiq = window.Chaskiq || {
   },
   initPopupWidget: function (dataObj) {
     this.ping();
-    this.addStyle()
+    this.addStyle();
     this.setup((data) => {
       console.log(data);
-      this.userData = data
+      this.userData = data;
 
       if (!data.enabled_for_user) {
         console.log('MESSENGER NOT ENABLED FOR USER');
@@ -160,7 +162,7 @@ window.Chaskiq = window.Chaskiq || {
       const parser = new DOMParser();
       const doc = parser.parseFromString(templateString, 'text/html');
       const chaskiqElement = doc.body.firstChild;
-      const selector = dataObj.selector || "ChaskiqMessengerRoot"
+      const selector = dataObj.selector || 'ChaskiqMessengerRoot';
 
       let g = document.querySelector(dataObj.selector);
       if (!g) {
@@ -175,14 +177,17 @@ window.Chaskiq = window.Chaskiq || {
     this.options = options;
     console.log('Chaskiq boot!');
     window.Chaskiq.initPopupWidget(options);
-    this.setTabId()
-    this.visibilityHandler()
-    this.listenForStorageChanges()
+    this.setTabId();
+    this.visibilityHandler();
+    this.listenForStorageChanges();
     setLastActivity();
-    this.checkActivityInterval = setInterval(this.checkActivity.bind(this), 1000); // Check every second
+    this.checkActivityInterval = setInterval(
+      this.checkActivity.bind(this),
+      1000
+    ); // Check every second
     this.unloadListener();
   },
-  reset: function(wipe_cookie = false, open = false) {
+  reset: function (wipe_cookie = false, open = false) {
     if (wipe_cookie) deleteCookie(this.cookieNamespace());
     this.setReady(false);
     //openOnLoad.current = open;
@@ -190,12 +195,12 @@ window.Chaskiq = window.Chaskiq || {
     //// send event to other tabs
     //// if(open) window.localStorage.setItem('chaskiqTabClosedAt', Math.random() + '');
   },
-  shutdown: function() {
+  shutdown: function () {
     deleteCookie(this.cookieNamespace());
     deleteCookie(this.sessionCookieNamespace());
     // setReady(false); // this will reset the session, but we really dont that dat to happen
     // what will happen is that the livechat will be still connected
-    
+
     // this.openOnLoad.current = open;
   },
   cookieNamespace: function () {
@@ -270,29 +275,30 @@ window.Chaskiq = window.Chaskiq || {
       this.state.appData?.inboundSettings?.visitors?.idle_sessions_after * 60
     );*/
   },
-  setTimer: function(timer, tabId) {
+  setTimer: function (timer, tabId) {
     this.timer = timer;
     // console.log(window.localStorage.getItem("chaskiqTabId"), tabId)
-    if ( window.localStorage.getItem('chaskiqTabId') === tabId) {
+    if (window.localStorage.getItem('chaskiqTabId') === tabId) {
       //this.props.reset(true);
       setTimeout(() => {
         // this.closeMessenger();
-        window.localStorage.setItem(
-          'chaskiqTabClosedAt',
-          Math.random() + ''
-        );
+        window.localStorage.setItem('chaskiqTabClosedAt', Math.random() + '');
       }, 200);
     }
   },
-  checkActivity: function(){
-    const idleSessionTime = 1
+  checkActivity: function () {
+    const idleSessionTime = 1;
     const timeoutLapse = idleSessionTime * 60;
 
     //if (!['Visitor', 'Lead'].includes(props.kind)) return;
     //if (!props?.inboundSettings?.visitors?.idle_sessions_enabled) return;
 
     if (getDiff() >= timeoutLapse) {
-      console.log('idle triggered by inactivity', this.tabId, window.localStorage.getItem('chaskiqTabId'));
+      console.log(
+        'idle triggered by inactivity',
+        this.tabId,
+        window.localStorage.getItem('chaskiqTabId')
+      );
       this.setTimer(this.timer, this.tabId);
     }
 
@@ -301,43 +307,47 @@ window.Chaskiq = window.Chaskiq || {
     }
 
     if (this.timer == 0) {
-       console.log('idle triggered on tab', this.tabId, window.localStorage.getItem('chaskiqTabId'));
+      console.log(
+        'idle triggered on tab',
+        this.tabId,
+        window.localStorage.getItem('chaskiqTabId')
+      );
       this.setTimer(this.timer, this.tabId);
       // window.localStorage.setItem('chaskiqTabId', props.tabId);
     }
   },
 
-  setTabId: function(){
-    this.tabId = Math.random() + ''
+  setTabId: function () {
+    this.tabId = Math.random() + '';
   },
-  storeTabIdToLocalStorage: function(){
-    console.log("STORING TAB", this.tabId)
+  storeTabIdToLocalStorage: function () {
+    console.log('STORING TAB', this.tabId);
     window.localStorage.setItem('chaskiqTabId', this.tabId);
   },
 
-  visibilityHandler: function(){
+  visibilityHandler: function () {
     this.isVisible = getIsDocumentHidden();
 
     const onVisibilityChange = () => {
       this.isVisible = getIsDocumentHidden();
-      if(this.isVisible){
-        console.log("STORED TAB", this.isVisible)
-        this.storeTabIdToLocalStorage()
+      if (this.isVisible) {
+        console.log('STORED TAB', this.isVisible);
+        this.storeTabIdToLocalStorage();
       }
-      console.log("VISIBILITY CHANGED", this.isVisible)
+      console.log('VISIBILITY CHANGED', this.isVisible);
     };
-  
+
     const visibilityChange = getBrowserVisibilityProp();
     document.addEventListener(visibilityChange, onVisibilityChange, false);
   },
-  storageListener: function(event){
-    console.log("STORAGE LISTENER CHANGED", event)
+  storageListener: function (event) {
+    console.log('STORAGE LISTENER CHANGED', event);
   },
-  listenForStorageChanges: function(){
+  listenForStorageChanges: function () {
     window.addEventListener('storage', this.storageListener);
   },
 
-  locationChangeListener: function() {
+  locationChangeListener: function () {
     /* These are the modifications: */
     window.history.pushState = ((f) =>
       function pushState() {
@@ -364,7 +374,7 @@ window.Chaskiq = window.Chaskiq || {
     });
   },
 
-  pushEvent: async function(eventType, data){
+  pushEvent: async function (eventType, data) {
     /*const url = `${this.options.domain}/messenger/${this.options.app_id}/events?event=${eventType}&token=${this.userData.token}`
 
     const request = new FetchRequest('post', url, {
@@ -377,30 +387,32 @@ window.Chaskiq = window.Chaskiq || {
       console.error("error sending message")
     }*/
     const iframeElement = document.querySelector('#messenger-frame iframe');
-    iframeElement.contentWindow.postMessage({eventType, data}, '*');
+    iframeElement.contentWindow.postMessage({ eventType, data }, '*');
   },
-  addStyle: function() {
+  addStyle: function () {
     const style = document.createElement('style');
     style.type = 'text/css';
-    if (style.styleSheet) {   // for IE
-        style.styleSheet.cssText = embedCss;
-    } else {                  // for other browsers
-        style.appendChild(document.createTextNode(embedCss));
+    if (style.styleSheet) {
+      // for IE
+      style.styleSheet.cssText = embedCss;
+    } else {
+      // for other browsers
+      style.appendChild(document.createTextNode(embedCss));
     }
     document.head.appendChild(style);
   },
-  onUnload: function(){
-    console.log("UNLOAD MESSENGER")
+  onUnload: function () {
+    console.log('UNLOAD MESSENGER');
     window.localStorage.removeItem('chaskiqTabId');
   },
-  unloadListener: function(){
+  unloadListener: function () {
     window.addEventListener('beforeunload', this.onUnload);
     //return () => {
     //  window.removeEventListener('beforeunload', onUnload);
     //};
   },
-  cleanup: function(){
+  cleanup: function () {
     //clean all the listeners here!
     // window.removeEventListener('beforeunload', onUnload);
-  }
+  },
 };

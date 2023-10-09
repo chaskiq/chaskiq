@@ -74,13 +74,13 @@ class Tour < Message
         type: "tours:receive",
         data: tour.as_json(only: [:id], methods: %i[steps url])
       }.as_json
-      
+
       MessengerEventsChannel.broadcast_to(key, data)
 
       tour.broadcast_update_to app, user,
-        target: "chaskiq-custom-events",
-        partial: "messenger/custom_event",
-        locals: {  data: data }
+                               target: "chaskiq-custom-events",
+                               partial: "messenger/custom_event",
+                               locals: { data: data }
     end
 
     tours.any?

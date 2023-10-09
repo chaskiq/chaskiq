@@ -65,4 +65,4 @@ export const embedCss = `
     border: none;
 }
 
-`
+`;

@@ -1,5 +1,5 @@
 // custom_event_controller.js
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
   connect() {
@@ -8,7 +8,7 @@ export default class extends Controller {
 
   sendCustomEvent() {
     const eventData = this.element.dataset.values;
-    const event = new CustomEvent("ChaskiqEvent", {
+    const event = new CustomEvent('ChaskiqEvent', {
       detail: { data: eventData },
       bubbles: true,
     });
