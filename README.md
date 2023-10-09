@@ -20,7 +20,9 @@
 <a href="https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/main" alt="Deploy to Heroku">
     <img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
 </a>
-
+<a href="https://elest.io/open-source/chaskiq" alt="Deploy to Elestio">
+    <img alt="Deploy on Elestio" src="https://pub-da36157c854648669813f3f76c526c2b.r2.dev/deploy-on-elestio-black.png" height="36"/>
+</a>
 
 
 ----
