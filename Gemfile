@@ -3,15 +3,15 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.2.0"
+ruby "3.2.2"
 
 # gem 'google-protobuf', git: 'https://github.com/google/protobuf'
 
 gem "grpc", force_ruby_platform: true
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "anycable-rails"
-gem "pg"
-gem "rails", "7.0.5.1" # , github: "rails/rails",
+gem "pg", "1.5.3"
+gem "rails", "7.1" # , github: "rails/rails",
 gem "uri", "0.10.0.1"
 
 # Use sqlite3 as the database for Active Record
@@ -56,7 +56,8 @@ gem "nokogiri", force_ruby_platform: true
 # gem 'tunable'
 gem "aasm"
 gem "acts_as_list", "~> 0.9.19"
-gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on"
+gem "acts-as-taggable-on", github: "aovertus/acts-as-taggable-on", branch: "support_rails_7-1"
+# github: "mbleigh/acts-as-taggable-on", branch: "support_rails_7-1"
 gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"
 gem "groupdate"
@@ -88,12 +89,12 @@ gem "oauth", "~> 0.5.5"
 gem "omniauth-oauth2"
 
 gem "image_processing", "~> 1.12"
-gem "sidekiq", "~> 6.5"
+gem "sidekiq" #, "~> 6.5"
 # gem "sidekiq-cron"
 
 gem "emoji_data", github: "chaskiq/emoji_data.rb"
 gem "roadie"
-gem "roadie-rails"
+gem "roadie-rails", github: "frederikspang/roadie-rails", branch: "master"
 gem "urlcrypt"
 
 gem "aws-sdk-rails"
@@ -125,7 +126,8 @@ gem "biz", "~> 1.8"
 # gem "i18n-js"
 gem "i18n-js", "~> 4.0.0.alpha1"
 
-gem "globalize", github: "globalize/globalize"
+gem "globalize", github: "willnet/globalize", branch: "support-ruby-3-2-rails-7-1"
+# github: "globalize/globalize"
 
 # To use Stripe, also include:
 gem "stripe", "~> 6.0"
@@ -146,7 +148,7 @@ end
 group :development do
   # gem "rack-mini-profiler", "~> 2.0"
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem "listen", ">= 3.0.5", "< 3.2"
+  gem "listen" #, ">= 3.0.5", "< 3.2"
   gem "web-console", ">= 3.3.0"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
