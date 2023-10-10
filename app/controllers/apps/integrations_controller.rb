@@ -32,7 +32,11 @@ class Apps::IntegrationsController < ApplicationController
   def update
     @integration = @app.app_package_integrations.find(params[:id])
     resource_params = params[:app_package_integration].permit!
-    flash.now[:notice] = "Place was updated!" if @integration.update(settings: resource_params)
+    external_id = params[:app_package_integration][:external_id]
+    flash.now[:notice] = "Place was updated!" if @integration.update(
+      settings: @integration.settings.merge!(resource_params),
+      external_id: external_id
+    )
   end
 
   def create

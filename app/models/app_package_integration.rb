@@ -20,6 +20,7 @@ class AppPackageIntegration < ApplicationRecord
     report_id
     access_token
     access_token_secret
+    refresh_token
     user_id
     user_token
     credentials

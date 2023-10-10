@@ -85,6 +85,8 @@ class Apps::PackagesController < ApplicationController
                     ).order("app_packages.name desc")
 
     render "apps/packages/fixed_capabilities", layout: false and return if @location == "fixed_sidebar"
+
+    render "apps/packages/capabilities", layout: false
   end
 
   def open_sidebar

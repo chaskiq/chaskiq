@@ -46,7 +46,7 @@ class AppUserTriggerJob < ApplicationJob
     author = @app.agent_bots.first
     step = trigger.paths.first&.with_indifferent_access["steps"]
                   .find do |o|
-      o.dig("messages") && o["messages"].any?
+      o["messages"]&.any?
     end
 
     message = step[:messages].first

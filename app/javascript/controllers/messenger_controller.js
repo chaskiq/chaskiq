@@ -27,7 +27,7 @@ export default class extends Controller {
     'giphyWrapper',
     'giphySearchInput',
     'conversationPart',
-    'conversation'
+    'conversation',
   ];
   static values = ['url'];
 
@@ -40,19 +40,17 @@ export default class extends Controller {
 
     this.eventsHandler = function (event) {
       console.log('Received custom event with data:', event.detail.data);
-      const data = JSON.parse(event.detail.data)
-      
-      switch (data.type) {
-        case "triggers:receive":
+      const data = JSON.parse(event.detail.data);
 
+      switch (data.type) {
+        case 'triggers:receive':
           this.pushEvent('request_trigger', {
             conversation: this.currentConversationKey(), //this.state.conversation && this.state.conversation.key,
             trigger: data.data.trigger.id,
           });
-  
-          
+
           break;
-      
+
         default:
           break;
       }
@@ -64,11 +62,11 @@ export default class extends Controller {
     this.streamListener();
   }
 
-  currentConversationKey(){
-    if(this.hasConversationTarget){
-      return this.conversationTarget.dataset.conversationKey
+  currentConversationKey() {
+    if (this.hasConversationTarget) {
+      return this.conversationTarget.dataset.conversationKey;
     } else {
-      return null
+      return null;
     }
   }
 
