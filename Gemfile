@@ -10,9 +10,10 @@ ruby "3.2.2"
 gem "grpc", force_ruby_platform: true
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "anycable-rails"
+
 gem "pg", "1.5.3"
 gem "rails", "7.1" # , github: "rails/rails",
-gem "uri", "0.10.0.1"
+gem "uri", "0.10.3"
 
 # Use sqlite3 as the database for Active Record
 # gem "sqlite3", group: "test"
