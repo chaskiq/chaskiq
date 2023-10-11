@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/aovertus/acts-as-taggable-on.git
-  revision: eba629ce541c3514285a42db3d58b0e83259cc01
+  revision: cc9992bc80a7d0a7a9e24b11ad44a45a6bd73f5a
   branch: support_rails_7-1
   specs:
     acts-as-taggable-on (9.0.1)
-      activerecord (>= 6.0, < 7.2)
+      activerecord (>= 6.0, < 8)
 
 GIT
   remote: https://github.com/chaskiq/emoji_data.rb.git
