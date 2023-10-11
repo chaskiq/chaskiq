@@ -11,7 +11,7 @@ gem "grpc", force_ruby_platform: true
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "anycable-rails"
 
-gem "pg", "1.5.3"
+gem "pg"
 gem "rails", "7.1" # , github: "rails/rails",
 gem "uri", "0.10.3"
 
