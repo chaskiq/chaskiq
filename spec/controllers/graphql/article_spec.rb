@@ -29,6 +29,10 @@ RSpec.describe GraphqlController, type: :controller do
     controller.stub(:api_authorize!).and_return(agent)
     allow_any_instance_of(Types::BaseObject).to receive(:current_user).and_return(agent)
 
+    allow_any_instance_of(Plan).to receive(
+      :allow_feature!
+    ).and_return(true)
+    
     Mutations::BaseMutation.any_instance
                            .stub(:current_user)
                            .and_return(agent)

@@ -22,6 +22,16 @@ GIT
       roadie (~> 5.0)
 
 GIT
+  remote: https://github.com/globalize/globalize.git
+  revision: 27b69064b87ec6bf8bd7d09a0c289977089b43e6
+  branch: main
+  specs:
+    globalize (6.2.1)
+      activemodel (>= 4.2, < 7.2)
+      activerecord (>= 4.2, < 7.2)
+      request_store (~> 1.0)
+
+GIT
   remote: https://github.com/michelson/nightfury.git
   revision: b9014eec30d94c52a63f724ef449a34d3b3f42c2
   specs:
@@ -45,16 +55,6 @@ GIT
   specs:
     faker (2.19.0)
       i18n (>= 1.8.11, < 2)
-
-GIT
-  remote: https://github.com/willnet/globalize.git
-  revision: 9e68a29e10b04698b101728e6e32ebd796d7b180
-  branch: support-ruby-3-2-rails-7-1
-  specs:
-    globalize (6.2.1)
-      activemodel (>= 4.2, < 7.2)
-      activerecord (>= 4.2, < 7.2)
-      request_store (~> 1.0)
 
 GEM
   remote: https://rubygems.org/

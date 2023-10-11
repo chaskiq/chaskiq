@@ -127,8 +127,7 @@ gem "biz", "~> 1.8"
 # gem "i18n-js"
 gem "i18n-js", "~> 4.0.0.alpha1"
 
-gem "globalize", github: "willnet/globalize", branch: "support-ruby-3-2-rails-7-1"
-# github: "globalize/globalize"
+gem "globalize", github: "globalize/globalize", branch: "main"
 
 # To use Stripe, also include:
 gem "stripe", "~> 6.0"

@@ -39,6 +39,10 @@ RSpec.describe GraphqlController, type: :controller do
   context "privileged" do
     before :each do
       stub_current_user(agent_role)
+
+      allow_any_instance_of(Plan).to receive(
+        :allow_feature!
+      ).and_return(true)
     end
 
     describe "add package" do
@@ -144,6 +148,7 @@ RSpec.describe GraphqlController, type: :controller do
         graphql_post(type: "APP_PACKAGES", variables: {
                        appKey: app.key
                      })
+
         expect(graphql_response.data.app.appPackages).to be_present
       end
     end
@@ -208,7 +213,6 @@ RSpec.describe GraphqlController, type: :controller do
 
     describe "queries app_packages" do
       it "will return list of app packages" do
-        pending("dont know about this")
         app_package
 
         graphql_post(type: "APP_PACKAGES", variables: {
