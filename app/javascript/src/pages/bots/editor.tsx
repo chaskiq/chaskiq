@@ -8,7 +8,7 @@ import Segment from './segment';
 import BotTaskSetting from './taskSettings';
 import I18n from '../../shared/FakeI18n';
 
-import TextEditor from '@chaskiq/components/src/components/textEditor';
+import TextEditor from '@chaskiq/components/src/components/danteEditor';
 import UpgradeButton from '@chaskiq/components/src/components/upgradeButton';
 import InplaceInputEditor from '@chaskiq/components/src/components/InplaceInputEditor';
 import SwitchControl from '@chaskiq/components/src/components/Switch';
@@ -1513,9 +1513,11 @@ const PathEditor = ({ step, message, path, updatePath }) => {
           fontSize: '1em',
         }}
         saveHandler={saveHandler}
-        updateState={({ _status, _statusButton, content }) => {
-          //console.log('get content', content);
-          saveContent(content);
+        updateState={(editor: any) => {
+          saveContent({
+            //html: editor.getHTML(),
+            serialized: JSON.stringify(editor.getJSON()),
+          });
         }}
       />
     </div>
@@ -1655,7 +1657,7 @@ const getListStyle = (_isDraggingOver) => ({
 });
 
 const getPathStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : 'transparent',
+  background: isDraggingOver ? 'sky' : 'transparent',
   padding: 2,
   // width: 250
 });

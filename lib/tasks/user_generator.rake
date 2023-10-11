@@ -35,7 +35,8 @@ task user_gen: :environment do
       email: Faker::Internet.unique.email,
       name: Faker::Name.name_with_middle,
       lat: (Random.rand * 180) - 90,
-      lng: (Random.rand * 90) - 45
+      lng: (Random.rand * 90) - 45,
+      phone: Faker::PhoneNumber.phone_number_with_country_code
     )
   end
 end

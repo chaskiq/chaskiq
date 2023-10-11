@@ -231,6 +231,21 @@ class Conversation < ApplicationRecord
     save
   end
 
+  # used for agents
+  def notify_typing(author = nil)
+    author = app.agents.bots.first if author.blank?
+    key = "#{app.key}-#{main_participant.session_id}"
+    MessengerEventsChannel.broadcast_to(key, {
+      type: "conversations:typing",
+      data: {
+        conversation: self.key,
+        author: {
+          name: author.name
+        }
+      }
+    }.as_json)
+  end
+
   private
 
   def handle_part_details(part, opts)

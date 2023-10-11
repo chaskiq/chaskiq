@@ -25,6 +25,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     )
   end
 
+  let(:serialized) do
+    {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "foobar" }] }]
+    }.to_json
+  end
+
   describe "triggers" do
     before do
       AppPackagesCatalog.update_all
@@ -54,9 +61,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
              .and_return(Time.zone.now)
 
       ConversationPartContent.any_instance.stub(:serialized_content)
-                             .and_return(
-                               '{"blocks": [{"key":"bl82q","text":"foobar","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'
-                             )
+                             .and_return(serialized)
 
       perform_enqueued_jobs do
         conversation
@@ -84,8 +89,11 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       # )
 
       @pkg = app.app_package_integrations.create(
-        api_secret: "sk-xxx",
-        app_package: app_package
+        app_package: app_package,
+        settings: {
+          main_prompt: "system prompt",
+          api_secret: "sk-xxx"
+        }
       )
     end
 
@@ -93,7 +101,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       it "receive message" do
         conversation.conversation_channels.create({
                                                     provider: "open_ai",
-                                                    provider_channel_id: conversation.id
+                                                    provider_channel_id: conversation.id,
+                                                    data: { prompt: "foofof" }
                                                   })
 
         channel = conversation.conversation_channels.find_by(provider: "open_ai")
@@ -102,16 +111,16 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         #  channel: channel.provider_channel_id)
         # )
 
-        serialized = "{\"blocks\":
-        [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
-        \"entityMap\":{}}"
+        # serialized = "{\"blocks\":
+        # [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+        # \"entityMap\":{}}"
 
         allow_any_instance_of(
           MessageApis::OpenAi::Api
         ).to receive(
           :get_gpt_response
         ).and_return(
-          { text: "yay", id: 1 }
+          { "id" => "xx", "choices" => [{ "message" => { "content" => "bla bla bla" } }] }
         )
 
         perform_enqueued_jobs do
@@ -125,8 +134,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         end
 
         expect(conversation.messages.last.authorable).to be_a(Agent)
-
-        expect(conversation.messages.last.messageable.html_content).to be == "yay"
+        expect(conversation.messages.last.messageable.html_content).to be == "bla bla bla"
       end
     end
   end

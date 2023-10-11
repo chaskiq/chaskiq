@@ -38,14 +38,14 @@ const SortableItem = SortableElement(
           key={`apps-${object.id}`}
           className="bg-gray-100 mb-2 p-4-- flex flex-col justify-between items-center"
         >
-          <div className="border-md bg-white p-3 shadow w-full mx-2 ">
+          <div className="border-md bg-white dark:bg-black p-3 shadow w-full mx-2 ">
             <div className="flex justify-between items-center">
               <div>
-                <p className="text-xs leading-4 font-bold text-gray-700">
+                <p className="text-xs leading-4 font-bold text-gray-700 dark:text-gray-300">
                   {object.name}
                 </p>
 
-                <p className="text-xs leading-6 font-medium text-gray-400">
+                <p className="text-xs leading-6 font-medium text-gray-400 dark:text-gray-600">
                   {JSON.stringify(object.values)}
                 </p>
               </div>

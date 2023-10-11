@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import DraftRenderer from './textEditor/draftRenderer';
+//import DraftRenderer from './textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
 import { EditorStylesExtend } from './textEditor/tourStyles';
 import theme from './textEditor/theme';
 import styled from '@emotion/styled';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import GlobalStyle from './tour/globalStyle';
 
@@ -114,7 +116,7 @@ class UserTour extends Component<UserTourProps, UserTourSteps> {
             maxHeight: '200px',
           }}
         >
-          <DraftRenderer
+          <Renderer
             domain={this.props.domain}
             raw={JSON.parse(o.serialized_content)}
           />

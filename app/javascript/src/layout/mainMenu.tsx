@@ -15,7 +15,7 @@ export function InnerMenu({ current_section, categories }) {
       return (
         <div
           key={`sidebar-section-${id}`}
-          className="h-0-- flex-1 flex flex-col pt-5 pb-4 overflow-y-auto"
+          className="h-[calc(100vh-145px)]  flex-1 flex flex-col pt-5 pb-4 overflow-y-auto"
         >
           {layout.mainSidebar.displaySectionTitle && (
             <div
@@ -87,7 +87,7 @@ export function MainMenu({
     return `text-gray-700 dark:text-white
     rounded-md flex 
     justify-center 
-    cursor-pointer bg-gray-50 dark:bg-black
+    cursor-pointer bg-gray-50 dark:bg-gray-900
     hover:bg-gray-100 dark:hover:bg-gray-800 
     h-10 w-full 
     items-center 

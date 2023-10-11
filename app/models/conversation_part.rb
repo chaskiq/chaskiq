@@ -15,6 +15,8 @@ class ConversationPart < ApplicationRecord
   belongs_to :authorable, polymorphic: true, optional: true
 
   belongs_to :message_block, class_name: "ConversationPartBlock", foreign_key: :messageable_id, optional: true
+  belongs_to :message_event, class_name: "ConversationPartEvent", foreign_key: :messageable_id, optional: true
+  belongs_to :message_content, class_name: "ConversationPartContent", foreign_key: :messageable_id, optional: true
 
   # has_one :conversation_part_content, dependent: :destroy
 
@@ -102,9 +104,13 @@ class ConversationPart < ApplicationRecord
   end
 
   def notify_to_channels(opts = {})
+    participant_socket_notify
+    enqueue_channel_notification unless opts[:disable_api_notification]
+  end
+
+  def participant_socket_notify
     notify_app_users unless private_note?
     notify_agents
-    enqueue_channel_notification unless opts[:disable_api_notification]
   end
 
   def notify_agents
@@ -199,9 +205,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def check_rules(serialized_content)
-    text = JSON.parse(serialized_content)["blocks"].map do |o|
-      o["text"]
-    end.join(" ")
+    text = Dante::Utils.extract_plain_text(JSON.parse(serialized_content)["content"])
 
     app = conversation.app
 

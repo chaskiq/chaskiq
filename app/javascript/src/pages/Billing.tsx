@@ -336,7 +336,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
         {app.subscriptionsEnabled && app.preferences.stripe_customer_id && (
           <div className="flex items-center justify-end">
             <button
-              className="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-gray-900 text-white hover:bg-gray-700"
+              className="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-gray-800 text-white hover:bg-gray-700"
               onClick={manageSubscription}
               disabled={customerPortalLoading}
             >
@@ -808,22 +808,22 @@ function Transactions({ app }) {
       <table className="min-w-full">
         <thead>
           <tr className="border-t border-gray-200">
-            <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 dark:bg-black text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               <span className="lg:pl-2">Status</span>
             </th>
-            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 dark:bg-black text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Date
             </th>
-            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 dark:bg-black text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Amount
             </th>
-            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 dark:bg-black text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
               Receipt
             </th>
           </tr>
         </thead>
 
-        <tbody className="bg-white divide-y divide-gray-100">
+        <tbody className="bg-white divide-y divide-gray-100 dark:divide-gray-900 dark:bg-black">
           {transactions.map((o) => (
             <tr key={`trx-${o.order_id}`}>
               <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
@@ -872,7 +872,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
   }
 
   return (
-    <div className="max-w-2xl mt-5 mx-auto bg-white dark:bg-gray-900 py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div className="max-w-2xl mt-5 mx-auto bg-white dark:bg-black py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       {/* xs to lg */}
       <div className="space-y-24 lg:hidden">
         {plans.map((plan) => (
@@ -928,7 +928,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
                 {subscriptionPlanListFeatures().map((k) => (
                   <tr
                     key={`mobile-feature-${k}`}
@@ -998,7 +998,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
               ))}
             </tr>
           </thead>
-          <tbody className="border-t border-gray-200 divide-y divide-gray-200">
+          <tbody className="border-t border-gray-200 divide-y divide-gray-200 dark:divide-gray-600">
             <tr>
               <th
                 className="py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 dark:text-gray-100 text-left"
@@ -1056,7 +1056,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
             <tr>
               <th
                 className="py-3 pl-6 bg-gray-50 dark:bg-black text-sm font-medium text-gray-900 dark:text-white text-left"
-                colSpan={4}
+                colSpan={plans ? plans?.length + 1 : 5}
                 scope="colgroup"
               >
                 Features

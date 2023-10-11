@@ -18,7 +18,7 @@ export default function definitions() {
     companyLogo: icon,
     verticalSidebar: {
       display: true,
-      itemClass: `text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden`,
+      itemClass: `text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden`,
       displayLabel: false,
       displayTooltip: true,
     },
@@ -175,12 +175,12 @@ export default function definitions() {
     mainSidebar: {
       displaySectionTitle: true,
       buttons: {
-        activeClass: `text-brand hover:text-brand bg-gray-200 dark:bg-black`,
+        activeClass: `text-brand hover:text-brand bg-gray-200 dark:bg-gray-900`,
         defaultClass: `
         hover:text-gray-600 
         hover:bg-gray-100
-        dark:bg-gray-800
-        dark:hover:bg-black
+        dark:bg-gray-900
+        dark:hover:bg-900
         dark:hover:text-gray-300 
         dark:text-gray-100
         dark:focus:bg-black

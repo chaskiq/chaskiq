@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Hints from '@chaskiq/components/src/components/Hints';
-import TextEditor from '@chaskiq/components/src/components/textEditor';
+import TextEditor from '@chaskiq/components/src/components/danteEditor';
 import Button from '@chaskiq/components/src/components/Button';
 import EmptyView from '@chaskiq/components/src/components/EmptyView';
 import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog';
@@ -185,7 +185,7 @@ function QuickReplies({ app, _update, dispatch }) {
 
   function isSelected(o) {
     if (!quickReply) return '';
-    return o.id === quickReply.id ? 'bg-blue-100' : '';
+    return o.id === quickReply.id ? 'dark:bg-gray-900 bg-gray-100' : '';
   }
 
   function uploadHandler({ serviceUrl, _signedBlobId, imageBlock }) {
@@ -205,7 +205,7 @@ function QuickReplies({ app, _update, dispatch }) {
               <input
                 ref={inputRef}
                 defaultValue={quickReply.title}
-                className="dark:bg-gray-900 outline-none my-2 p-2 border-b form-input block w-full sm:text-sm sm:leading-5"
+                className="dark:bg-gray-700 outline-none my-2 p-2 border-b form-input block w-full sm:text-sm sm:leading-5"
                 placeholder="Quick reply title"
                 onChange={updateStateFromInput}
               />
@@ -295,7 +295,7 @@ function QuickReplies({ app, _update, dispatch }) {
                       <div className="min-w-0 flex-1 flex items-center">
                         <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
                           <div>
-                            <div className="text-sm leading-5 font-medium text-brand truncate">
+                            <div className="text-sm leading-5 font-medium dark:text-white text-black truncate">
                               {o.title}
                             </div>
                           </div>
@@ -321,7 +321,7 @@ function QuickReplies({ app, _update, dispatch }) {
             </ul>
           </div>
 
-          <div className="w-2/3 relative z-0 p-6 shadow dark:bg-gray-900 rounded rounded-l-none">
+          <div className="w-2/3 relative z-0 p-6 shadow dark:bg-gray-800 rounded rounded-l-none">
             {quickReply && !quickReply.id && (
               <div className="flex justify-end">
                 <Button variant="success" className="mr-2" onClick={handleSave}>
@@ -423,7 +423,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
       statusButton: 'success',
       content: {
         html: content.html,
-        serialized: content.serialized,
+        serialized: JSON.stringify(content.serialized),
       },
     });
   };
@@ -457,9 +457,11 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
           lineHeight: '2em',
           fontSize: '1.2em',
         }}
-        updateState={({ _status, _statusButton, content }) => {
-          //console.log('get content', content);
-          this.saveContent(content);
+        updateState={(editor: any) => {
+          this.saveContent({
+            html: editor.getHTML(),
+            serialized: editor.getJSON(),
+          });
         }}
       />
     );

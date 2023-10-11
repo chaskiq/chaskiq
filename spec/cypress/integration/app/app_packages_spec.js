@@ -7,8 +7,7 @@ import {
 describe('AppPackages', function () {
   beforeEach(() => {
     cy.appEval(`
-      require 'app_packages_catalog'
-      AppPackagesCatalog.update_all 
+      Plugin.restore_plugins_from_fs
     `)
   })
 

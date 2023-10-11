@@ -2,7 +2,8 @@
 
 ActiveRecord::Base.connection_pool.with_connection do
   text = command_options.fetch("text") || "aaa"
-  serialized_content = "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+  serialized_content = MessageApis::BlockManager.serialized_text(text)
+  # "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
   app = App.find_by(key: command_options.fetch("app_key"))
 
   app.assignment_rules.create(

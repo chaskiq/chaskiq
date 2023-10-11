@@ -53,7 +53,7 @@ function App({ dispatch, loading }) {
   }, []);
 
   return (
-    <Container className="h-screen flex overflow-hidden bg-white dark:bg-gray-800">
+    <Container className="h-screen flex overflow-hidden bg-white dark:bg-gray-900">
       {loading || (!ready && <LoadingView />)}
 
       <div className="flex flex-col w-0 flex-1 overflow-hidden">

@@ -4,6 +4,9 @@ subscriptions:
       name: "free"
       id: <%= ENV['STRIPE_PLAN_1'] %>
       features:
+        - name: SearchIndex
+          active: false
+          count: unlimited
         - 
           name: Agents
           active: true
@@ -77,6 +80,9 @@ subscriptions:
       name: "rookie"
       id: <%= ENV['STRIPE_PLAN_2'] %>
       features:
+        - name: SearchIndex
+          active: false
+          count: unlimited
         - 
           name: Agents
           active: true
@@ -150,6 +156,9 @@ subscriptions:
       name: "super"
       id: <%= ENV['STRIPE_PLAN_3'] %>
       features:
+        - name: SearchIndex
+          active: true
+          count: unlimited
         - 
           name: Agents
           active: true
@@ -180,11 +189,11 @@ subscriptions:
           count: unlimited
         - 
           name: Campaigns
-          active: true
+          active: false
           count: unlimited
         - 
           name: Tours
-          active: true
+          active: false
           count: unlimited
         - 
           name: UserAutoMessages
@@ -192,11 +201,11 @@ subscriptions:
           count: unlimited
         - 
           name: OutgoingWebhooks
-          active: true
+          active: false
           count: unlimited
         - 
           name: OauthApplications
-          active: true
+          active: false
           count: unlimited
         - 
           name: Articles
@@ -216,12 +225,14 @@ subscriptions:
           count: unlimited
 
 
-
     - 
       name: "mega"
       id: <%= ENV['STRIPE_PLAN_4'] %>
 
       features:
+        - name: SearchIndex
+          active: true
+          count: unlimited
         - 
           name: Agents
           active: true
@@ -292,6 +303,9 @@ subscriptions:
       name: "free"
       id: 618560
       features:
+        - name: SearchIndex
+          active: false
+          count: unlimited
         -
           name: Segments
           active: true
@@ -357,6 +371,9 @@ subscriptions:
       name: "rookie"
       id: 616249
       features:
+        - name: SearchIndex
+          active: false
+          count: unlimited
         -
           name: Segments
           active: true
@@ -474,8 +491,9 @@ subscriptions:
           name: CustomAttributes
           active: true
           count: unlimited
-
-
-
+        - 
+          name: InboundMessages
+          active: true
+          count: unlimited
 
 

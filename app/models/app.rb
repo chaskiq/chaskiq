@@ -7,6 +7,7 @@ class App < ApplicationRecord
   include Tokenable
   include UserHandler
   include Notificable
+  include Subscribable
 
   store_accessor :preferences, %i[
     active_messenger
@@ -109,13 +110,24 @@ class App < ApplicationRecord
     agents.where("bot =?", true)
   end
 
+  def default_packages
+    %w[ContentShowcase ArticleSearch Qualifier InboxSections ContactFields]
+  end
+
   def attach_default_packages
-    default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections ContactFields]
     AppPackage.where(name: default_packages).find_each do |app_package|
       app_packages << app_package unless app_package_integrations.exists?(
         app_package_id: app_package.id
       )
     end
+  end
+
+  def packages_integrations_in_use
+    app_package_integrations.joins(:app_package).where.not("app_packages.name" => default_packages)
+  end
+
+  def disable_packages_in_use!
+    packages_integrations_in_use.delete_all
   end
 
   def encryption_enabled?
@@ -124,6 +136,10 @@ class App < ApplicationRecord
 
   def outgoing_email_domain
     preferences[:outgoing_email_domain].presence || Chaskiq::Config.get("DEFAULT_OUTGOING_EMAIL_DOMAIN")
+  end
+
+  def searchkick_enabled?
+    @searchkick_enabled ||= plan.enabled?("SearchIndex")
   end
 
   def config_fields
@@ -356,36 +372,6 @@ class App < ApplicationRecord
       ]
     else
       []
-    end
-  end
-
-  def plan
-    if stripe_subscription_status == "active" || stripe_subscription_status == "trialing"
-      @plan ||= Plan.new(
-        Plan.get_by_id(stripe_subscription_plan_id) || Plan.get("free")
-      )
-    elsif paddle_subscription_status == "active" || paddle_subscription_status == "trialing"
-      @plan ||= Plan.new(
-        Plan.get_by_id(paddle_subscription_plan_id.to_i) || Plan.get("free")
-      )
-    else
-      @plan = Plan.get("free")
-    end
-  end
-
-  def payment_service
-    if paddle_subscription_plan_id.present?
-      PaymentServices::Paddle
-    else
-      PaymentServices::StripeService
-    end
-  end
-
-  def payment_attribute(key)
-    if PaymentServices::StripeService == payment_service
-      send("stripe_#{key}".to_sym)
-    elsif PaymentServices::Paddle == payment_service
-      send("paddle_#{key}".to_sym)
     end
   end
 

@@ -160,7 +160,7 @@ function AppContainer({
       )}
 
       <div
-        className={` m-generalTop h-generalHeight flex overflow-hidden bg-white dark:bg-gray-800 dark:text-white`}
+        className={` m-generalTop h-generalHeight flex overflow-hidden bg-white dark:bg-gray-900 dark:text-white`}
       >
         {app && <Sidebar />}
 
@@ -213,7 +213,9 @@ function AppContainer({
               </button>
             </div>
 
-            {!isEmpty(upgradePages) && <UpgradePage page={upgradePages} />}
+            {!isEmpty(upgradePages) && (
+              <UpgradePage page={upgradePages} app={app} />
+            )}
 
             {app && isEmpty(upgradePages) && (
               <ErrorBoundary variant={'very-wrong'}>

@@ -1141,7 +1141,7 @@ class CampaignContainer extends Component<
 }
 
 function mapStateToProps(state) {
-  const { auth, app, campaigns } = state;
+  const { auth, app, campaigns, theme } = state;
   const { loading, isAuthenticated } = auth;
 
   return {
@@ -1149,6 +1149,7 @@ function mapStateToProps(state) {
     loading,
     isAuthenticated,
     campaigns,
+    theme,
   };
 }
 

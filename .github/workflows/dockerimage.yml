@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - main
       - stage
   release:
     types: [published]
@@ -29,7 +30,7 @@ jobs:
       - name: Build the Docker image
         run: |
           docker build --build-arg APP_ENV=production \
-               --build-arg RUBY_VERSION=3.2.0 \
+               --build-arg RUBY_VERSION=3.2.2 \
                --build-arg PG_MAJOR=11 \
                --build-arg NODE_MAJOR=16 \
                --build-arg YARN_VERSION=1.13.0 \
@@ -47,7 +48,7 @@ jobs:
           SHORT_SHA: ${{ steps.vars.outputs.short_sha }}
 
       - name: Tag LATEST and Push Docker image
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:latest
           docker push $GITHUB_REPOSITORY:latest

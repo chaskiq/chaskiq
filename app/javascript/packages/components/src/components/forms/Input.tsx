@@ -60,6 +60,20 @@ interface IWrapperComponent {
   dispatch?: any;
 }
 
+export function themeForSelect(theme) {
+  if (theme === 'dark') {
+    return {
+      neutral0: 'black',
+      neutral5: '#777',
+      neutral10: '#777',
+      neutral80: '#999',
+      primary25: 'hotpink',
+      primary: '#666',
+    };
+  }
+  return {};
+}
+
 const WrappedComponent = React.forwardRef(function Input(
   {
     label,
@@ -83,8 +97,7 @@ const WrappedComponent = React.forwardRef(function Input(
     switch (variant) {
       case 'underline':
         return `border-dashed border-b-2 border-gray-400 
-        w-full py-2 px-3 text-gray-700
-        focus:outline-none focus:border-gray-600       dark:bg-gray-900 dark:text-white`;
+                w-full py-2 px-3 text-gray-700 focus:outline-none focus:border-gray-600 dark:bg-gray-900 dark:text-white`;
       default:
         return `shadow appearance-none border border-${borderColor(error)}-300 
         dark:border-${borderColor(error)}-700
@@ -120,20 +133,6 @@ const WrappedComponent = React.forwardRef(function Input(
       default:
         return <p>nada {type}</p>;
     }
-  }
-
-  function themeForSelect() {
-    if (theme === 'dark') {
-      return {
-        neutral0: 'black',
-        neutral5: '#777',
-        neutral10: '#777',
-        neutral80: '#999',
-        primary25: 'hotpink',
-        primary: '#666',
-      };
-    }
-    return {};
   }
 
   function renderText() {
@@ -188,7 +187,7 @@ const WrappedComponent = React.forwardRef(function Input(
             borderRadius: 4,
             colors: {
               ...selectTheme.colors,
-              ...themeForSelect(),
+              ...themeForSelect(theme),
             },
           })}
         />

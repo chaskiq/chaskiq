@@ -18,7 +18,7 @@ import CustomizedInputBase from './searchBar';
 
 import { Facebook, Twitter, LinkedIn } from './icons';
 import { Route, Switch, Link } from 'react-router-dom';
-import { Global, css } from '@emotion/core';
+import { Global, css } from '@emotion/react';
 
 const subdomain = window.location.host.split('.')[1]
   ? window.location.host.split('.')[0]

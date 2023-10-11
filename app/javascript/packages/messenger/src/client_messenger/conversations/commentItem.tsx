@@ -14,6 +14,20 @@ import {
   Autor,
 } from '../styles/styled';
 
+function extractPlainText(nodes) {
+  let text = '';
+
+  nodes.forEach((node) => {
+    if (node.type === 'text') {
+      text += node.text;
+    } else if (node.content) {
+      text += extractPlainText(node.content);
+    }
+  });
+
+  return text;
+}
+
 export function CommentsItemComp({ displayConversation, message, o, i18n }) {
   const [display, setDisplay] = React.useState(false);
 
@@ -49,18 +63,18 @@ export function CommentsItemComp({ displayConversation, message, o, i18n }) {
   }
 
   function renderMessage(message) {
-    var length = 80;
+    const length = 80;
     const d = JSON.parse(message.message.serializedContent);
     let string = '';
     if (!d) {
       string = message.message.htmlContent;
     } else {
-      string = d.blocks.map((block) => block.text).join('\n');
+      string = extractPlainText(d.content); //d.blocks.map((block) => block.text).join('\n');
     }
 
     if (!string) return '';
 
-    var trimmedString =
+    const trimmedString =
       string.length > length ? string.substring(0, length - 3) + '...' : string;
     return trimmedString;
   }

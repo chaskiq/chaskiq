@@ -1,5 +1,5 @@
 import React from 'react';
-import { WidgetsIcon } from '../../icons';
+import { WidgetsIcon } from '../icons';
 
 function appPackage() {
   return <WidgetsIcon />;
@@ -19,6 +19,7 @@ export const AppPackageBlockConfig = (
   options: AppPackageBlockConfigType = {}
 ) => {
   const config = {
+    tag: 'AppPackage',
     title: 'add AppPackage',
     type: 'AppPackage',
     icon: appPackage,

@@ -2,7 +2,6 @@ import React, { Component, CSSProperties } from 'react';
 import styled from '@emotion/styled';
 import Tabs from './tabs';
 import NewEditor from './newEditor';
-import 'draft-js/dist/Draft.css';
 import I18n from '../../shared/FakeI18n';
 import Dropdown from '@chaskiq/components/src/components/Dropdown';
 import Button from '@chaskiq/components/src/components/Button';
@@ -25,7 +24,7 @@ const EditorContainer = styled.div<EditorContainerType>`
   max-height: 250px;
   height: auto;
   overflow: auto;
-  background-color: white;
+  //background-color: white;
   box-sizing: border-box;
   max-width: inherit;
   word-wrap: break-word;
@@ -59,6 +58,7 @@ type ConversationEditorProps = {
   typingNotifier: (cb?: any) => void;
   insertAppBlockComment: (data: any, cb: any) => void;
   isNew: boolean;
+  theme: any;
   initiatorChannels: any;
   initiatorChannel: any;
   setInitiatorChannel: any;
@@ -128,15 +128,14 @@ export default class ConversationEditor extends Component<
           note={opts.note}
           style={opts.note ? { background: 'lemonchiffon' } : {}}
         >
-          {!this.state.loading ? (
-            <NewEditor
-              insertAppBlockComment={this.props.insertAppBlockComment}
-              submitData={(formats) => this.submitData(formats, opts)}
-              saveContentCallback={(content) => this.handleTyping(content)}
-              sendMode={this.state.sendMode}
-              {...this.props}
-            />
-          ) : null}
+          {/*!this.state.loading ? // not sure why we hide the text editor when loading. */}
+          <NewEditor
+            insertAppBlockComment={this.props.insertAppBlockComment}
+            submitData={(formats) => this.submitData(formats, opts)}
+            saveContentCallback={(content) => this.handleTyping(content)}
+            sendMode={this.state.sendMode}
+            {...this.props}
+          />
         </EditorContainer>
       </EditorWrapper>
     );
@@ -191,11 +190,11 @@ export default class ConversationEditor extends Component<
               onChange={(e) => {
                 this.toggleSendMode(e);
               }}
-              className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+              className="form-checkbox h-4 w-4 text-brand-600 transition duration-150 ease-in-out"
             />
             <label
               htmlFor="send_mode"
-              className="ml-2 block text-xs leading-5 text-gray-900"
+              className="ml-2 block text-xs leading-5 text-gray-900 dark:text-gray-100"
             >
               {I18n.t('common.send_on_enter')}
             </label>
@@ -238,7 +237,7 @@ function EEDropdown({ items, selectedItem, setSelectedItem }) {
           <li
             key={`channel-item-${o.name}`}
             onClick={() => selectItem(o)}
-            className="cursor-default select-none px-4 py-2 hover:text-white hover:bg-black"
+            className="cursor-pointer select-none px-4 py-2 hover:text-white hover:bg-gray-400 dark:hover:text-black dark:hover:bg-gray-600 dark:text-white"
             role="option"
             tabIndex={-1}
           >

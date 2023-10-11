@@ -38,11 +38,19 @@ const BaseButton = styled.button<ButtonProps>`
         text-green-100
         dark:text-gray-100
         dark:bg-green-500
-        dark:hover:bg-green-600 
+        dark:hover:bg-green-400 
         hover:bg-green-500 
         focus:outline-none 
         focus:border-green-700 
         focus:shadow-outline
+
+        transition 
+        ease-out 
+        duration-200 
+        outline-none 
+        transition-all 
+        outline-0
+        shadow-sm 
         `;
       case 'flat':
         return tw`
@@ -57,6 +65,8 @@ const BaseButton = styled.button<ButtonProps>`
         bg-indigo-100 
         hover:bg-indigo-200 
         focus:outline-none 
+
+        
         `;
       case 'flat-dark':
         return tw`
@@ -66,11 +76,19 @@ const BaseButton = styled.button<ButtonProps>`
           border-transparent 
           rounded 
           text-gray-100 
-          bg-gray-900 
-          hover:bg-gray-800 
+          bg-gray-800
+          hover:bg-gray-700 
           focus:outline-none 
           focus:border-gray-700 
           active:bg-gray-800 
+
+          transition 
+          ease-out 
+          duration-200 
+          outline-none 
+          transition-all 
+          outline-0
+          shadow-sm 
           `;
       case 'main':
         return tw`outline-none 
@@ -107,13 +125,22 @@ const BaseButton = styled.button<ButtonProps>`
         bg-white 
         hover:bg-gray-50
         dark:bg-gray-800
-        dark:hover:bg-gray-900
-        dark:border-gray-600 
+        dark:hover:bg-gray-700
+        dark:border-gray-700 
+        dark:hover:border-gray-600 
         dark:text-gray-100
         focus:outline-none 
         focus:ring-2 
         focus:ring-offset-2 
         focus:ring-brand
+
+        transition 
+        ease-out 
+        duration-200 
+        outline-none 
+        transition-all 
+        outline-0
+
         `;
       case 'outlined-transparent':
         return tw`
@@ -147,12 +174,19 @@ const BaseButton = styled.button<ButtonProps>`
       case 'danger':
         return tw`outline-none 
         rounded 
-        bg-red-400 
+        bg-red-500 
         text-white
-        hover:bg-red-500 
+        hover:bg-red-400 
         focus:outline-none 
-        focus:border-red-700 
+        focus:border-red-600 
         focus:shadow-outline
+
+        transition 
+        ease-out 
+        duration-200 
+        outline-none 
+        transition-all 
+        outline-0
         `;
       default:
         return tw`

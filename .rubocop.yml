@@ -48,6 +48,7 @@ AllCops:
     - 'script/**/*'
     - 'bin/{rails,rake}'
     - 'spec/cypress/**/*'
+    - 'tmp/**/*'
 
 
 

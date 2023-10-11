@@ -18,6 +18,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     "whatsapp:+2222"
   end
 
+  let(:serialized) do
+    {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "foobar" }] }]
+    }.to_json
+  end
+
   def data_for(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
       "SmsMessageSid" => message_id,
@@ -198,7 +205,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(message.html_content).to be == "one\ntwo\ntree\n✌️"
       expect(message.serialized_content).to be_present
 
-      blocks = JSON.parse(message.serialized_content)["blocks"]
+      blocks = MessageApis::BlockManager.get_blocks(message.serialized_content)
 
       expect(blocks.size).to be == 4
     end
@@ -219,7 +226,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         opts = {
           from: Agent.first,
           message: {
-            serialized_content: { blocks: [] }.to_json,
+            serialized_content: serialized,
             html_content: "message"
           }
         }

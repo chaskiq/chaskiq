@@ -30,9 +30,9 @@ const TextArea = styled.div<TextAreaType>`
     ${(props) =>
       props.error
         ? tw`border-red-500 text-red-500 bg-red-100`
-        : 'text-gray-700'}
+        : tw`text-gray-700`}
 
-    ${() => tw`shadow appearance-none border 
+    ${() => tw`dark:bg-gray-900 dark:text-gray-200 shadow appearance-none border 
       rounded w-full py-2 px-3
       leading-tight focus:outline-none focus:shadow-outline`}
   }

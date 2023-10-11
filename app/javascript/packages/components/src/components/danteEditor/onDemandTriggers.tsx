@@ -1,38 +1,38 @@
 import React from 'react';
-import { BookMarkIcon } from '../../icons';
+import { LoadBalancerIcon } from '../icons';
 
 function appPackage() {
-  return <BookMarkIcon />;
+  return <LoadBalancerIcon />;
 }
 
-export default class quickReplyBlock extends React.Component {
+export default class OnDemandTriggers extends React.Component {
   render = () => {
     return <span></span>;
   };
 }
 
-type QuickRepliesBlockConfigType = {
+type OnDemandTriggersOptionsType = {
   handleFunc?: any;
 };
-
-export const QuickRepliesBlockConfig = (
-  options: QuickRepliesBlockConfigType = {}
+export const OnDemandTriggersBlockConfig = (
+  options: OnDemandTriggersOptionsType = {}
 ) => {
   const config = {
-    title: 'Add quick reply',
-    type: 'QuickReply',
+    tag: 'OnDemandTrigger',
+    title: 'Add Trigger',
+    type: 'OnDemandTrigger',
     icon: appPackage,
-    block: quickReplyBlock,
+    block: OnDemandTriggers,
     editable: true,
     renderable: true,
     breakOnContinuous: false,
-    wrapper_class: 'graf graf--QuickReply',
+    wrapper_class: 'graf graf--Trigger',
     selected_class: 'is-selected',
     widget_options: {
       displayOnInlineTooltip: true,
       insertion: 'func',
       funcHandler: options.handleFunc,
-      insert_block: 'quickReplyBlock',
+      insert_block: 'OnDemandTriggers',
     },
   };
 
