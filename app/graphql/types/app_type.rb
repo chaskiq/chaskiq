@@ -244,10 +244,7 @@ module Types
       argument :id, String, required: false
     end
 
-    # rubocop:disable Metrics/ParameterLists
     def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil, channel_id: nil)
-      # rubocop:enable Metrics/ParameterLists
-
       object.blocked?
       object.plan.allow_feature!("Conversations")
       # authorize! object, to: :show?, with: AppPolicy
