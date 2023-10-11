@@ -57,7 +57,7 @@ jobs:
           APPSTORE_DB_URL: postgres://postgres:postgres@localhost:5432/test
 
         run: |
-          bundle exec rails packages:download_and_install["2.0.0-rc"]
+          bundle exec rails packages:download_and_install["2.1.10"]
           bundle exec rspec ./spec
 
       - name: Build and run E2E tests

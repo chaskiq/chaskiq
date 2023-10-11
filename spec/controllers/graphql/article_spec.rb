@@ -32,7 +32,7 @@ RSpec.describe GraphqlController, type: :controller do
     allow_any_instance_of(Plan).to receive(
       :allow_feature!
     ).and_return(true)
-    
+
     Mutations::BaseMutation.any_instance
                            .stub(:current_user)
                            .and_return(agent)
