@@ -184,7 +184,6 @@ module Types
 
     def app_packages
       object.plan.allow_feature!("Integrations")
-
       authorize! object, to: :can_manage_app_packages?, with: AppPolicy
 
       integrations = object.app_package_integrations.map(&:app_package_id)
