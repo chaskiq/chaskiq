@@ -58,7 +58,9 @@ jobs:
 
         run: |
           bundle exec rails packages:download_and_install["2.1.10"]
+          echo "INSTALL NODE"
           npm install -g ts-node
+          echo "RUN SPECS"
           bundle exec rspec ./spec
 
       - name: Build and run E2E tests
