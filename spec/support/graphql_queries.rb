@@ -1,7 +1,6 @@
 require "execjs"
 require "rspec/expectations"
 
-
 def graphql_query(type)
   GraphQL::TestClient.query(type)
 end
@@ -44,8 +43,8 @@ end
 
 module GraphQL
   class TestClient
-
     attr_accessor :actions, :entry
+
     def configure(entry = Rails.root + "app/javascript/packages/store/src/graphql/testEntry.ts")
       @entry = entry
     end

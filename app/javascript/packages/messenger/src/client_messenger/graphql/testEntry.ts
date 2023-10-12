@@ -40,4 +40,4 @@ const GQQueries = {
 // npx babel-node ./app/javascript/src/graphql/entry.mjs APPS
 //var myArgs = process.argv.slice(2);
 //console.log(GQQueries[myArgs[0]]);
-console.log(JSON.stringify(GQQueries))
+console.log(JSON.stringify(GQQueries));

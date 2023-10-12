@@ -37,7 +37,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
   before do
     file = Rails.root + "app/javascript/packages/messenger/src/client_messenger/graphql/testEntry.ts"
-    
+
     @graphql_client = GraphQL::TestClient.new
     @graphql_client.configure(file)
     @graphql_client.get_actions
@@ -49,9 +49,9 @@ RSpec.describe Api::GraphqlController, type: :controller do
     ).and_return(:test)
   end
 
-  #after do
+  # after do
   #  GraphQL::TestClient.configure(nil)
-  #end
+  # end
 
   describe "registered user" do
     before :each do
@@ -68,7 +68,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
     it "auth encrypted will create registered user" do
       expect(app.app_users).to be_blank
-
 
       graphql_post(@graphql_client.data_for(type: "AUTH", variables: {}))
 
@@ -185,11 +184,11 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
     it "convert will return Lead" do
       graphql_post(@graphql_client.data_for(
-                    type: "CONVERT", variables: {
-                    appKey: app.key,
-                    email: "foo@bar.com"
-                   })
-                  )
+                     type: "CONVERT", variables: {
+                       appKey: app.key,
+                       email: "foo@bar.com"
+                     }
+                   ))
 
       expect(graphql_response.data.convertUser.status).to be == "ok"
       expect(app.app_users.first).is_a?(Lead)

@@ -128,9 +128,7 @@ import {
   APP_USER_PROFILE_DELETE,
 } from './mutations';
 
-
 const GQQueries = {
-
   APP_USER_PROFILE_UPDATE: APP_USER_PROFILE_UPDATE,
   CONTACT_SEARCH_BY_PROFILE: CONTACT_SEARCH_BY_PROFILE,
   APP_USER_PROFILE_CREATE: APP_USER_PROFILE_CREATE,
@@ -258,12 +256,10 @@ const GQQueries = {
   DELETE_PACKAGE: DELETE_PACKAGE,
 };
 
-
 // example
 // npx babel-node ./app/javascript/src/graphql/entry.mjs APPS
 //var myArgs = process.argv.slice(2);
 //console.log('myArgs: ', myArgs);
 //console.log(eval(myArgs[0]));
 
-console.log(JSON.stringify(GQQueries))
-
+console.log(JSON.stringify(GQQueries));
