@@ -32,8 +32,8 @@ RSpec.describe GraphqlController, type: :controller do
 
   before do
     ActiveJob::Base.queue_adapter = :test
-    # ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
-    # Rails.application.config.active_job.queue_adapter = :test
+    @graphql_client = GraphQL::TestClient.new
+    @graphql_client.get_actions
   end
 
   before :each do
@@ -49,22 +49,22 @@ RSpec.describe GraphqlController, type: :controller do
     end
 
     it "conversations" do
-      graphql_post(type: "CONVERSATIONS", variables: {
-                     appKey: app.key,
-                     page: 1,
-                     filter: nil,
-                     sort: nil
-                   })
+      graphql_post(@graphql_client.data_for(type: "CONVERSATIONS", variables: {
+                                              appKey: app.key,
+                                              page: 1,
+                                              filter: nil,
+                                              sort: nil
+                                            }))
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.app.conversations.meta).to be_present
       expect(graphql_response.data.app.conversations.collection).to be_any
     end
 
     it "get unexisting conversation" do
-      graphql_post(type: "CONVERSATION", variables: {
-                     appKey: app.key,
-                     id: "999"
-                   })
+      graphql_post(@graphql_client.data_for(type: "CONVERSATION", variables: {
+                                              appKey: app.key,
+                                              id: "999"
+                                            }))
 
       expect(graphql_response.data.app.conversation).to be_blank
     end
@@ -74,11 +74,11 @@ RSpec.describe GraphqlController, type: :controller do
       expect(conversation.messages.count).to be == 1
       expect(conversation.assignee).to be_blank
 
-      graphql_post(type: "CONVERSATION", variables: {
-                     appKey: app.key,
-                     id: conversation.key,
-                     page: 1
-                   })
+      graphql_post(@graphql_client.data_for(type: "CONVERSATION", variables: {
+                                              appKey: app.key,
+                                              id: conversation.key,
+                                              page: 1
+                                            }))
 
       expect(graphql_response.data.app.conversation).to_not be_blank
       expect(graphql_response.data.app.conversation.messages.meta).to_not be_blank
@@ -90,15 +90,15 @@ RSpec.describe GraphqlController, type: :controller do
       expect(conversation.messages.count).to be == 1
       expect(conversation.assignee).to be_blank
 
-      graphql_post(type: "START_CONVERSATION", variables: {
-                     appKey: app.key,
-                     subject: "aaa",
-                     id: app_user.id.to_s,
-                     message: {
-                       html: "oli",
-                       serialized: "aaa"
-                     }
-                   })
+      graphql_post(@graphql_client.data_for(type: "START_CONVERSATION", variables: {
+                                              appKey: app.key,
+                                              subject: "aaa",
+                                              id: app_user.id.to_s,
+                                              message: {
+                                                html: "oli",
+                                                serialized: "aaa"
+                                              }
+                                            }))
 
       expect(graphql_response.data.startConversation.conversation.subject).to be == "aaa"
     end
@@ -106,11 +106,11 @@ RSpec.describe GraphqlController, type: :controller do
     it "agent add message" do
       # allow_any_instance_of(Mutations::Conversations::InsertComment).to receive(:current_user).and_return(agent_role.agent)
 
-      graphql_post(type: "INSERT_COMMMENT", variables: {
-                     appKey: app.key,
-                     id: conversation.key,
-                     message: { html: "<p>helo</p>" }
-                   })
+      graphql_post(@graphql_client.data_for(type: "INSERT_COMMMENT", variables: {
+                                              appKey: app.key,
+                                              id: conversation.key,
+                                              message: { html: "<p>helo</p>" }
+                                            }))
 
       expect(graphql_response.data.insertComment.message.message).to_not be_blank
     end
@@ -142,16 +142,16 @@ RSpec.describe GraphqlController, type: :controller do
     it "create_conversation with initiator" do
       allow_any_instance_of(MessageApis::Twilio::Api).to receive(:prepare_initiator_channel_for).and_return(true)
 
-      graphql_post(type: "START_CONVERSATION", variables: {
-                     appKey: app.key,
-                     subject: "aaa",
-                     id: app_user.id.to_s,
-                     initiatorChannel: "Twilio",
-                     message: {
-                       html: "oli",
-                       serialized: "aaa"
-                     }
-                   })
+      graphql_post(@graphql_client.data_for(type: "START_CONVERSATION", variables: {
+                                              appKey: app.key,
+                                              subject: "aaa",
+                                              id: app_user.id.to_s,
+                                              initiatorChannel: "Twilio",
+                                              message: {
+                                                html: "oli",
+                                                serialized: "aaa"
+                                              }
+                                            }))
 
       expect(graphql_response.data.startConversation.conversation.subject).to be == "aaa"
     end
