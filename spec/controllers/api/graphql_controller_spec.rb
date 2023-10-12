@@ -37,7 +37,11 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
   before do
     file = Rails.root + "app/javascript/packages/messenger/src/client_messenger/graphql/testEntry.ts"
-    GraphQL::TestClient.configure(file)
+    
+    @graphql_client = GraphQL::TestClient.new
+    @graphql_client.configure(file)
+    @graphql_client.get_actions
+
     app.update(encryption_key: "unodostrescuatro")
 
     allow_any_instance_of(GeocoderRequestOverride).to receive(
@@ -45,9 +49,9 @@ RSpec.describe Api::GraphqlController, type: :controller do
     ).and_return(:test)
   end
 
-  after do
-    GraphQL::TestClient.configure(nil)
-  end
+  #after do
+  #  GraphQL::TestClient.configure(nil)
+  #end
 
   describe "registered user" do
     before :each do
@@ -65,28 +69,29 @@ RSpec.describe Api::GraphqlController, type: :controller do
     it "auth encrypted will create registered user" do
       expect(app.app_users).to be_blank
 
-      graphql_post(type: "AUTH", variables: {})
+
+      graphql_post(@graphql_client.data_for(type: "AUTH", variables: {}))
 
       expect(graphql_response.data.messenger.user.email).to be_present
       expect(graphql_response.data.messenger.user.kind).to be == "AppUser"
       expect(app.reload.app_users.size).to be == 1
 
-      graphql_post(type: "PING", variables: {})
+      graphql_post(@graphql_client.data_for(type: "PING", variables: {}))
 
       expect(graphql_response.data.messenger.app).to be_present
 
       # for subsequent requests it will not create a new record
       expect(app.reload.app_users.size).to be == 1
 
-      graphql_post(type: "CONVERSATIONS", variables: { page: 1 })
+      graphql_post(@graphql_client.data_for(type: "CONVERSATIONS", variables: { page: 1 }))
 
       expect(graphql_response.data.messenger.conversations).to respond_to(:collection)
       expect(graphql_response.data.messenger.conversations).to respond_to(:meta)
     end
 
     it "visit with geo code" do
-      graphql_post(type: "AUTH", variables: {})
-      graphql_post(type: "PING", variables: {})
+      graphql_post(@graphql_client.data_for(type: "AUTH", variables: {}))
+      graphql_post(@graphql_client.data_for(type: "PING", variables: {}))
 
       app_user = app.reload.app_users.last
 
@@ -99,8 +104,8 @@ RSpec.describe Api::GraphqlController, type: :controller do
     it "visit without geo code" do
       Geocoder.stub(:search).and_return([])
 
-      graphql_post(type: "AUTH", variables: {})
-      graphql_post(type: "PING", variables: {})
+      graphql_post(@graphql_client.data_for(type: "AUTH", variables: {}))
+      graphql_post(@graphql_client.data_for(type: "PING", variables: {}))
 
       app_user = app.reload.app_users.last
       expect(app_user).to be_present
@@ -127,11 +132,11 @@ RSpec.describe Api::GraphqlController, type: :controller do
     it "will return 422" do
       expect(app.app_users).to be_blank
 
-      graphql_post(type: "AUTH", variables: {})
+      graphql_post(@graphql_client.data_for(type: "AUTH", variables: {}))
 
       expect(response.status).to be == 422
 
-      graphql_post(type: "PING", variables: {})
+      graphql_post(@graphql_client.data_for(type: "PING", variables: {}))
 
       expect(response.status).to be == 422
     end
@@ -147,7 +152,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
     )
 
     expect(app.app_users).to be_blank
-    graphql_post(type: "AUTH", variables: {})
+    graphql_post(@graphql_client.data_for(type: "AUTH", variables: {}))
     expect(app.reload.app_users.size).to be == 1
     expect(graphql_response.data.messenger.user.kind).to be == "Visitor"
     expect(graphql_response.data.messenger.user.email).to be_blank
@@ -169,7 +174,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
       )
 
       expect(app.reload.app_users.count).to be == 1
-      graphql_post(type: "AUTH", variables: {})
+      graphql_post(@graphql_client.data_for(type: "AUTH", variables: {}))
     end
 
     it "sessionless will return Lead" do
@@ -179,10 +184,12 @@ RSpec.describe Api::GraphqlController, type: :controller do
     end
 
     it "convert will return Lead" do
-      graphql_post(type: "CONVERT", variables: {
-                     appKey: app.key,
-                     email: "foo@bar.com"
+      graphql_post(@graphql_client.data_for(
+                    type: "CONVERT", variables: {
+                    appKey: app.key,
+                    email: "foo@bar.com"
                    })
+                  )
 
       expect(graphql_response.data.convertUser.status).to be == "ok"
       expect(app.app_users.first).is_a?(Lead)

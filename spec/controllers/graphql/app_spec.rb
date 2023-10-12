@@ -32,13 +32,18 @@ RSpec.describe GraphqlController, type: :controller do
     FactoryBot.create(:campaign, app: app)
   end
 
+  before do
+    @graphql_client = GraphQL::TestClient.new
+    @graphql_client.get_actions
+  end
+
   describe "apps" do
     before :each do
       stub_current_user(agent_role)
     end
 
     it "list apps for logged user" do
-      graphql_post(type: "APPS", variables: {})
+      graphql_post(@graphql_client.data_for(type: "APPS", variables: {}))
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.apps).to be_any
     end
@@ -50,7 +55,7 @@ RSpec.describe GraphqlController, type: :controller do
     end
 
     it "return app" do
-      graphql_post(type: "APP", variables: { appKey: app.key })
+      graphql_post(@graphql_client.data_for(type: "APP", variables: { appKey: app.key }))
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.app).to be_present
       expect(graphql_response.data.app.key).to_not be_empty
@@ -74,7 +79,7 @@ RSpec.describe GraphqlController, type: :controller do
     it "agents" do
       stub_current_user(agent_role)
       # controller.stub(:current_user).and_return(agent_role.agent)
-      graphql_post(type: "AGENTS", variables: { appKey: app.key })
+      graphql_post(@graphql_client.data_for(type: "AGENTS", variables: { appKey: app.key }))
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.app).to be_present
       expect(graphql_response.data.app.agents).to be_any
@@ -85,10 +90,10 @@ RSpec.describe GraphqlController, type: :controller do
       app.segments.create(predicates: predicates)
 
       # controller.stub(:current_user).and_return(agent_role.agent)
-      graphql_post(type: "SEGMENT", variables: {
+      graphql_post(@graphql_client.data_for(type: "SEGMENT", variables: {
                      appKey: app.key,
                      id: app.segments.first.id.to_s
-                   })
+                   }))
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.app).to be_present
       expect(graphql_response.data.app.segment).to be_present
@@ -99,10 +104,11 @@ RSpec.describe GraphqlController, type: :controller do
       stub_current_user(agent_role)
       expect(campaign.name).to be_present
 
-      graphql_post(type: "CAMPAIGNS", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "CAMPAIGNS", variables: {
                      appKey: app.key,
                      mode: "campaigns"
-                   })
+                   }))
 
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.app.campaigns.meta).to be_present
@@ -113,11 +119,11 @@ RSpec.describe GraphqlController, type: :controller do
       stub_current_user(agent_role)
       expect(campaign.name).to be_present
 
-      graphql_post(type: "CAMPAIGN", variables: {
+      graphql_post(@graphql_client.data_for(type: "CAMPAIGN", variables: {
                      appKey: app.key,
                      mode: "campaigns",
                      id: campaign.id.to_s
-                   })
+                   }))
 
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.app.campaign.name).to be_present
@@ -137,13 +143,14 @@ RSpec.describe GraphqlController, type: :controller do
 
         expect(campaign.name).to be_present
 
-        graphql_post(type: "CREATE_APP", variables: {
+        graphql_post(@graphql_client.data_for(
+                      type: "CREATE_APP", variables: {
                        appParams: {
                          name: "my app",
                          domain_url: "http://fojfj"
                        },
                        operation: "create"
-                     })
+                     }))
 
         # expect(graphql_response.errors).to be_nil
         expect(graphql_response.data.appsCreate.app).to_not be_blank
@@ -160,6 +167,7 @@ RSpec.describe GraphqlController, type: :controller do
         expect(campaign.name).to be_present
 
         graphql_post(
+          @graphql_client.data_for(
           type: "CREATE_APP",
           variables: {
             appParams: {
@@ -167,7 +175,7 @@ RSpec.describe GraphqlController, type: :controller do
               domain_url: "http://fojfj"
             },
             operation: "create"
-          }
+          })
         )
 
         expect(graphql_response.errors).to be_present
@@ -181,13 +189,14 @@ RSpec.describe GraphqlController, type: :controller do
         new_name = "my app edited"
 
         graphql_post(
+          @graphql_client.data_for(
           type: "UPDATE_APP",
           variables: {
             appKey: app.key,
             appParams: {
               name: new_name
             }
-          }
+          })
         )
 
         expect(graphql_response.errors).to be_nil
@@ -198,10 +207,11 @@ RSpec.describe GraphqlController, type: :controller do
         stub_current_user(agent_role)
 
         graphql_post(
+          @graphql_client.data_for(
           type: "DESTROY_APP",
           variables: {
             appKey: app.key
-          }
+          })
         )
         expect(graphql_response.errors).to be_blank
       end
@@ -209,9 +219,11 @@ RSpec.describe GraphqlController, type: :controller do
       it "destroy app unprivileged" do
         stub_current_user(unprivileged_agent_role)
 
-        graphql_post(type: "DESTROY_APP", variables: {
+        graphql_post(
+          @graphql_client.data_for(
+            type: "DESTROY_APP", variables: {
                        appKey: app.key
-                     })
+                     }))
 
         expect(graphql_response.errors).to be_present
       end
@@ -222,10 +234,10 @@ RSpec.describe GraphqlController, type: :controller do
     it "return app" do
       stub_current_user(agent_role)
       count = app.agents.count
-      graphql_post(type: "INVITE_AGENT", variables: {
+      graphql_post(@graphql_client.data_for(type: "INVITE_AGENT", variables: {
                      appKey: app.key,
                      email: "aa@aa.cl"
-                   })
+                   }))
 
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.inviteAgent.agent.email).to be_present
@@ -238,11 +250,12 @@ RSpec.describe GraphqlController, type: :controller do
       count = app.agents.count
 
       graphql_post(
+        @graphql_client.data_for(
         type: "INVITE_AGENT",
         variables: {
           appKey: app.key,
           email: "aa@aa.cl"
-        }
+        })
       )
 
       expect(graphql_response.errors).to be_present

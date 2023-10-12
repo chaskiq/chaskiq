@@ -24,6 +24,11 @@ RSpec.describe GraphqlController, type: :controller do
     app.article_collections.create(title: "foo")
   end
 
+  before do
+    @graphql_client = GraphQL::TestClient.new
+    @graphql_client.get_actions
+  end
+
   before :each do
     controller.stub(:current_user).and_return(agent)
     controller.stub(:api_authorize!).and_return(agent)
@@ -43,20 +48,20 @@ RSpec.describe GraphqlController, type: :controller do
 
   context "find" do
     it "find articles empty collection" do
-      graphql_post(type: "ARTICLES", variables: {
+      graphql_post(@graphql_client.data_for(type: "ARTICLES", variables: {
                      appKey: app.key,
                      page: 1
-                   })
+                   }))
 
       expect(graphql_response.data.app.articles.meta.total_count).to be_zero
     end
 
     it "find articles present collection" do
       app.articles.create(title: "hello world", author: agent)
-      graphql_post(type: "ARTICLES", variables: {
+      graphql_post(@graphql_client.data_for(type: "ARTICLES", variables: {
                      appKey: app.key,
                      page: 1
-                   })
+                   }))
 
       expect(graphql_response.data.app.articles.collection).to be_any
     end
@@ -64,14 +69,15 @@ RSpec.describe GraphqlController, type: :controller do
 
   context "create" do
     it "create new article" do
-      graphql_post(type: "CREATE_ARTICLE", variables: {
+      graphql_post(@graphql_client.data_for(
+                  type: "CREATE_ARTICLE", variables: {
                      appKey: app.key,
                      title: "ss",
                      content: {
                        serialized: "aaa",
                        text: "aaa"
                      }
-                   })
+                   }))
 
       expect(graphql_response.data.createArticle).to be_present
       expect(app.articles).to be_any
@@ -92,7 +98,8 @@ RSpec.describe GraphqlController, type: :controller do
 
       expect(app.articles).to be_any
 
-      graphql_post(type: "EDIT_ARTICLE", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "EDIT_ARTICLE", variables: {
                      appKey: app.key,
                      id: article.id.to_s,
                      description: "foo",
@@ -101,7 +108,7 @@ RSpec.describe GraphqlController, type: :controller do
                        serialized: "edited!",
                        text: "edited!"
                      }
-                   })
+                   }))
 
       content = graphql_response.data.editArticle.article.content
       expect(content.serialized_content).to be == "edited!"
@@ -117,10 +124,11 @@ RSpec.describe GraphqlController, type: :controller do
 
       expect(app.articles).to be_any
 
-      graphql_post(type: "DELETE_ARTICLE", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "DELETE_ARTICLE", variables: {
                      appKey: app.key,
                      id: article.id.to_s
-                   })
+                   }))
 
       expect(graphql_response.data.deleteArticle).to be_present
 
@@ -142,32 +150,35 @@ RSpec.describe GraphqlController, type: :controller do
     end
 
     it "create" do
-      graphql_post(type: "ARTICLE_COLLECTION_CREATE", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "ARTICLE_COLLECTION_CREATE", variables: {
                      appKey: app.key,
                      collectionId: 1,
                      title: "ss"
-                   })
+                   }))
 
       expect(graphql_response.data.articleCollectionCreate.collection).to be_present
     end
 
     it "edit" do
-      graphql_post(type: "ARTICLE_COLLECTION_EDIT", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "ARTICLE_COLLECTION_EDIT", variables: {
                      appKey: app.key,
                      title: "edited",
                      id: collection.id.to_s,
                      description: ""
-                   })
+                   }))
 
       expect(graphql_response.data.articleCollectionEdit.collection).to be_present
       expect(app.article_collections.last.title).to be == "edited"
     end
 
     it "delete" do
-      graphql_post(type: "ARTICLE_COLLECTION_DELETE", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "ARTICLE_COLLECTION_DELETE", variables: {
                      appKey: app.key,
                      id: collection.id.to_s
-                   })
+                   }))
 
       expect(graphql_response.data.articleCollectionDelete.collection).to be_present
 
@@ -179,23 +190,25 @@ RSpec.describe GraphqlController, type: :controller do
       expect(app.article_collections).to be_any
       expect(app.article_collections.first.articles).to be_blank
 
-      graphql_post(type: "CREATE_ARTICLE", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "CREATE_ARTICLE", variables: {
                      appKey: app.key,
                      title: "ss",
                      content: {
                        serialized: "aaa",
                        text: "aaa"
                      }
-                   })
+                   }))
 
       expect(graphql_response.data.createArticle).to be_present
       expect(app.articles).to be_any
 
-      graphql_post(type: "ADD_ARTICLES_TO_COLLECTION", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "ADD_ARTICLES_TO_COLLECTION", variables: {
                      appKey: app.key,
                      collectionId: collection.id.to_s,
                      articlesId: [app.articles.last.id.to_s]
-                   })
+                   }))
 
       expect(app.reload.article_collections.first.articles).to be_any
     end
@@ -215,11 +228,12 @@ RSpec.describe GraphqlController, type: :controller do
     end
 
     it "create section" do
-      graphql_post(type: "ARTICLE_SECTION_CREATE", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "ARTICLE_SECTION_CREATE", variables: {
                      appKey: app.key,
                      title: "foo",
                      collectionId: collection.id.to_s
-                   })
+                   }))
 
       expect(graphql_response.data.articleSectionCreate).to be_present
     end
@@ -227,12 +241,13 @@ RSpec.describe GraphqlController, type: :controller do
     it "edit section" do
       section = collection.sections.create(title: "foo")
 
-      graphql_post(type: "ARTICLE_SECTION_EDIT", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "ARTICLE_SECTION_EDIT", variables: {
                      appKey: app.key,
                      title: "edited",
                      id: section.id.to_s,
                      collectionId: collection.id.to_s
-                   })
+                   }))
 
       expect(graphql_response.data.articleSectionEdit).to be_present
       expect(section.reload.title).to be == "edited"
@@ -241,10 +256,11 @@ RSpec.describe GraphqlController, type: :controller do
     it "delete section" do
       section = collection.sections.create(title: "foo")
 
-      graphql_post(type: "ARTICLE_SECTION_DELETE", variables: {
+      graphql_post(@graphql_client.data_for(
+                    type: "ARTICLE_SECTION_DELETE", variables: {
                      appKey: app.key,
                      id: section.id.to_s
-                   })
+                   }))
 
       expect(graphql_response.data.articleSectionDelete).to be_present
       expect(collection.reload.sections).to be_empty

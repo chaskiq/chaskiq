@@ -26,8 +26,8 @@ RSpec.describe GraphqlController, type: :controller do
 
   before do
     ActiveJob::Base.queue_adapter = :test
-    # ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
-    # Rails.application.config.active_job.queue_adapter = :test
+    @graphql_client = GraphQL::TestClient.new
+    @graphql_client.get_actions
   end
 
   describe "privileged" do
@@ -36,22 +36,22 @@ RSpec.describe GraphqlController, type: :controller do
     end
 
     it "event types" do
-      graphql_post(type: "EVENT_TYPES", variables: {
+      graphql_post(@graphql_client.data_for(type: "EVENT_TYPES", variables: {
                      appKey: app.key
-                   })
+                   }))
       expect(graphql_response.data.app.eventTypes).to be_any
       expect(graphql_response.errors).to be_nil
     end
 
     describe "mutations" do
       it "create webhook" do
-        graphql_post(type: "WEBHOOK_CREATE",
+        graphql_post(@graphql_client.data_for(type: "WEBHOOK_CREATE",
                      variables: {
                        appKey: app.key,
                        url: "http://test.com",
                        tags: ["aa"],
                        state: "true"
-                     })
+                     }))
 
         expect(graphql_response.data.createWebhook.webhook).to be_present
       end
@@ -65,14 +65,14 @@ RSpec.describe GraphqlController, type: :controller do
         url = "http://test.com"
         tags = %w[bb cc]
 
-        graphql_post(type: "WEBHOOK_UPDATE",
+        graphql_post(@graphql_client.data_for(type: "WEBHOOK_UPDATE",
                      variables: {
                        appKey: app.key,
                        id: webhook.id.to_s,
                        url: url,
                        tags: tags,
                        state: "true"
-                     })
+                     }))
 
         expect(graphql_response.data.updateWebhook.webhook).to be_present
         expect(graphql_response.data.updateWebhook.webhook.url).to be == url
@@ -85,11 +85,11 @@ RSpec.describe GraphqlController, type: :controller do
           tag_list: ["1"]
         )
 
-        graphql_post(type: "WEBHOOK_DELETE",
+        graphql_post(@graphql_client.data_for(type: "WEBHOOK_DELETE",
                      variables: {
                        appKey: app.key,
                        id: webhook.id.to_s
-                     })
+                     }))
 
         expect(graphql_response.data.deleteWebhook.webhook).to be_present
         expect(app.reload.outgoing_webhooks).to be_blank
@@ -104,13 +104,13 @@ RSpec.describe GraphqlController, type: :controller do
 
     describe "mutations" do
       it "create webhook" do
-        graphql_post(type: "WEBHOOK_CREATE",
+        graphql_post(@graphql_client.data_for(type: "WEBHOOK_CREATE",
                      variables: {
                        appKey: app.key,
                        url: "http://test.com",
                        tags: ["aa"],
                        state: "true"
-                     })
+                     }))
 
         expect(graphql_response.errors).to be_present
       end
@@ -124,14 +124,14 @@ RSpec.describe GraphqlController, type: :controller do
         url = "http://test.com"
         tags = %w[bb cc]
 
-        graphql_post(type: "WEBHOOK_UPDATE",
+        graphql_post(@graphql_client.data_for(type: "WEBHOOK_UPDATE",
                      variables: {
                        appKey: app.key,
                        id: webhook.id,
                        url: url,
                        tags: tags,
                        state: "true"
-                     })
+                     }))
 
         expect(graphql_response.errors).to be_present
       end
@@ -142,11 +142,11 @@ RSpec.describe GraphqlController, type: :controller do
           tag_list: ["1"]
         )
 
-        graphql_post(type: "WEBHOOK_DELETE",
+        graphql_post(@graphql_client.data_for(type: "WEBHOOK_DELETE",
                      variables: {
                        appKey: app.key,
                        id: webhook.id
-                     })
+                     }))
 
         expect(graphql_response.errors).to be_present
       end

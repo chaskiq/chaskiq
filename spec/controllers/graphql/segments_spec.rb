@@ -43,6 +43,11 @@ RSpec.describe GraphqlController, type: :controller do
     }
   end
 
+  before do
+    @graphql_client = GraphQL::TestClient.new
+    @graphql_client.get_actions
+  end
+
   describe "segments" do
     before :each do
       controller.stub(:current_user).and_return(agent_role.agent)
@@ -60,22 +65,22 @@ RSpec.describe GraphqlController, type: :controller do
     end
 
     it "predicates search" do
-      graphql_post(type: "PREDICATES_SEARCH", variables: {
+      graphql_post(@graphql_client.data_for(type: "PREDICATES_SEARCH", variables: {
                      appKey: app.key,
                      page: 1,
                      search: valid_segments
-                   })
+                   }))
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.predicatesSearch.appUsers.collection).to be_any
       expect(graphql_response.data.predicatesSearch.appUsers.meta).to be_present
     end
 
     it "predicates search invalid" do
-      graphql_post(type: "PREDICATES_SEARCH", variables: {
+      graphql_post(@graphql_client.data_for(type: "PREDICATES_SEARCH", variables: {
                      appKey: app.key,
                      page: 1,
                      search: invalid_segments
-                   })
+                   }))
 
       expect(graphql_response.errors).to_not be_present
       # instead maybe we should return erros on invalid predicates
@@ -84,11 +89,11 @@ RSpec.describe GraphqlController, type: :controller do
 
     it "save segment" do
       segment = app.segments.create
-      graphql_post(type: "PREDICATES_UPDATE", variables: {
+      graphql_post(@graphql_client.data_for(type: "PREDICATES_UPDATE", variables: {
                      appKey: app.key,
                      id: segment.id.to_s,
                      predicates: invalid_segments[:data][:predicates]
-                   })
+                   }))
 
       expect(graphql_response.errors).to_not be_present
     end
@@ -96,20 +101,20 @@ RSpec.describe GraphqlController, type: :controller do
     it "delete segment" do
       segment = app.segments.create
 
-      graphql_post(type: "PREDICATES_DELETE", variables: {
+      graphql_post(@graphql_client.data_for(type: "PREDICATES_DELETE", variables: {
                      appKey: app.key,
                      id: segment.id.to_s
-                   })
+                   }))
 
       expect(graphql_response.errors).to_not be_present
     end
 
     it "create segment" do
-      graphql_post(type: "PREDICATES_CREATE", variables: {
+      graphql_post(@graphql_client.data_for(type: "PREDICATES_CREATE", variables: {
                      appKey: app.key,
                      name: "foo",
                      predicates: invalid_segments[:data][:predicates]
-                   })
+                   }))
 
       expect(graphql_response.errors).to_not be_present
     end
