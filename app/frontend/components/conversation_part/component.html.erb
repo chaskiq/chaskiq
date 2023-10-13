@@ -36,7 +36,7 @@
 					<%= @message.authorable.is_a?(Agent) ? 'data-from-admin=true' : '' %>
 					data-serialized="<%= @message.message.serialized_content %>"
 					data-html="<%= @message.message.html_content %>">
-					<%= raw Dante::Renderer.new(raw: JSON.parse(@message.message.serialized_content).deep_symbolize_keys).render %>
+					<%= raw @message.message.html_from_serialized %>
 				</div>
 			</div>
 		</div>

@@ -37,7 +37,7 @@
 								<% if latest.message&.serialized_content.nil? %>
 									<%= sanitize latest.message.html_content %>
 								<% else %>
-								<%= sanitize Dante::Renderer.new(raw: JSON.parse(latest.message&.serialized_content).deep_symbolize_keys).render %>
+								<%= sanitize latest.message.html_from_serialized %>
 								<% end %>
 								<% #= JSON.parse(latest.message&.serialized_content)["blocks"].map{|o| o["text"] }.compact.join(", ") rescue %>
 							<% end %>

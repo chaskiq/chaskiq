@@ -70,7 +70,7 @@ class Agent < ApplicationRecord
   has_one_attached :avatar
 
   attr_accessor :roles_for_current_app, :roles_for_current_app_ids
-  
+
   def self.ransackable_attributes(auth_object = nil)
     %w[available bot confirmation_sent_at confirmation_token confirmed_at created_at current_sign_in_at current_sign_in_ip email encrypted_password failed_attempts id id_value invitation_accepted_at invitation_created_at invitation_limit invitation_sent_at invitation_token invitations_count invited_by_id invited_by_type key last_sign_in_at last_sign_in_ip locked_at properties remember_created_at reset_password_sent_at reset_password_token sign_in_count unconfirmed_email unlock_token updated_at]
   end

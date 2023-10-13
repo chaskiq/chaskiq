@@ -14,6 +14,7 @@ class ButtonRenderer::Component < ApplicationViewComponent
   end
 
   def action_method
+    return "click->definition-renderer#sendForm" if @action.blank?
     case @action["type"]
     when "submit", "url" then "click->definition-renderer#sendForm"
     when "link" then "click->definition-renderer#visitLink"
