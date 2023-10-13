@@ -36,6 +36,7 @@ test:
   username: <%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>
   password: <%= ENV.fetch('POSTGRES_PASSWORD', '') %>
   min_messages: warning
+  allow_concurrency: true
   pool: 5
   timeout: 5000
   host_names:
