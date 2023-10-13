@@ -76,10 +76,15 @@ RSpec.configure do |config|
     DatabaseCleaner[:redis].clean
   end 
 
+  config.before(:each) do
+    DatabaseCleaner[:active_record].strategy = DatabaseCleaner::ActiveRecord::Truncation.new
+    DatabaseCleaner[:active_record].clean
+  end 
+
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   config.define_derived_metadata(file_path: %r{spec/system}) do |metadata|
     metadata[:browser] = true
