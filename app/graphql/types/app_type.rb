@@ -184,7 +184,6 @@ module Types
 
     def app_packages
       object.plan.allow_feature!("Integrations")
-
       authorize! object, to: :can_manage_app_packages?, with: AppPolicy
 
       integrations = object.app_package_integrations.map(&:app_package_id)
@@ -244,10 +243,7 @@ module Types
       argument :id, String, required: false
     end
 
-    # rubocop:disable Metrics/ParameterLists
     def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil, channel_id: nil)
-      # rubocop:enable Metrics/ParameterLists
-
       object.blocked?
       object.plan.allow_feature!("Conversations")
       # authorize! object, to: :show?, with: AppPolicy

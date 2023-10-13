@@ -15,6 +15,11 @@ RSpec.describe GraphqlController, type: :controller do
     app.add_agent({ email: "test2@test.cl" })
   end
 
+  before do
+    @graphql_client = GraphQL::TestClient.new
+    @graphql_client.get_actions
+  end
+
   describe "current_user" do
     it "return current user" do
       allow_any_instance_of(GraphqlController).to receive(:doorkeeper_authorize!).and_return(agent_role.agent)
@@ -28,7 +33,7 @@ RSpec.describe GraphqlController, type: :controller do
                       .stub(:current_user)
                       .and_return(agent_role.agent)
 
-      graphql_post(type: "CURRENT_USER", variables: {})
+      graphql_post(@graphql_client.data_for(type: "CURRENT_USER", variables: {}))
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.userSession.email).to be_present
     end

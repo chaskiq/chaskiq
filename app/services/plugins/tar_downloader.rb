@@ -16,7 +16,7 @@ require "zlib"
 class Plugins::TarDownloader
   def initialize(
     api_url: "https://appstore.chaskiq.io",
-    tag: "2.0.0-rc"
+    tag: "2.1.10"
   )
     @api_url = api_url
     @tag = tag

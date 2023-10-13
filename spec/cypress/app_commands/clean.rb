@@ -8,9 +8,13 @@ DatabaseCleaner[:active_record].strategy = DatabaseCleaner::ActiveRecord::Trunca
 # then, whenever you need to clean the DB
 begin
   DatabaseCleaner[:active_record].clean
+  #ActiveRecord::Tasks::DatabaseTasks.truncate_all
   DatabaseCleaner[:redis].clean
 rescue StandardError => e
   sleep 2
-  DatabaseCleaner[:active_record].clean_with :deletion
+  ActiveRecord::Tasks::DatabaseTasks.truncate_all
+  #DatabaseCleaner[:active_record].clean_with :deletion
   DatabaseCleaner[:redis].clean_with :deletion
 end
+
+{ok: "ok"}
