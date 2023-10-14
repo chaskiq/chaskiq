@@ -1,0 +1,47 @@
+<%= render Dropdown::Component.new( label: @label,
+																		variant: @variant, 
+																		size: "md",
+																		orientation: @direction,
+																		origin: @origin,
+																		#button: @button,
+																		#btn_classes: @btn_classes
+																	) do %>
+	<%= @options %>
+
+    <input
+      type="text"
+      value=""
+      name="<%= @id %>"
+    />
+
+  <% @options.each do |item| %>
+
+	
+		<div class="py-1">
+
+				<%= content_tag(:a, 
+					href: item[:href], 
+					data: item[:data],
+					class: "w-full group flex items-center
+					px-4 py-2 text-sm leading-5 
+					text-gray-700 dark:text-gray-200
+					hover:bg-gray-100 hover:text-gray-900
+					focus:outline-none focus:bg-gray-100
+					focus:text-gray-900
+					dark:hover:bg-gray-700 dark:hover:text-gray-100
+					dark:focus:bg-gray-800") do %>
+		
+					<% if item[:icon] %>
+						<%= heroicon item[:icon] %>
+					<% end %>
+
+					<div class="flex flex-col justify-between ml-2">
+						<span class="font-bold self-start dark:text-gray-100">
+							<%= item[:text] %>
+						</span>
+					</div>
+
+				<% end %>	
+		</div>
+	<% end %>
+<% end %>

@@ -158,37 +158,57 @@ class ConversationPart < ApplicationRecord
     )
 
     data = { type: "conversations:unreads",
-             data: conversation.main_participant.new_messages.value }
+             data: conversation.main_participant.new_messages.value 
+           }
 
     MessengerEventsChannel.broadcast_to(broadcast_key, data)
 
-    broadcast_update_to conversation.app, conversation.main_participant,
-                        target: "chaskiq-custom-events",
-                        partial: "messenger/custom_event",
-                        locals: { data: data }
+    #broadcast_update_to conversation.app, conversation.main_participant,
+    #                    target: "chaskiq-custom-events",
+    #                    partial: "messenger/custom_event",
+    #                    locals: { data: data }
 
     # hotwire part
-    if was_created?
-      broadcast_prepend_to conversation.app, conversation.main_participant,
-                           # action: "append",
-                           target: "conversation-#{conversation.key}",
-                           partial: "messenger/messages/conversation_part",
-                           locals: {
-                             app: conversation.app,
-                             message: self,
-                             notified: true
-                           }
+    # if was_created?
+    #   broadcast_prepend_to conversation.app, conversation.main_participant,
+    #                        # action: "append",
+    #                        target: "conversation-#{conversation.key}",
+    #                        partial: "messenger/messages/conversation_part",
+    #                        locals: {
+    #                          app: conversation.app,
+    #                          message: self,
+    #                          notified: true
+    #                        }
 
-    else
-      broadcast_update_to conversation.app, conversation.main_participant,
-                          target: "conversation-part-#{key}",
-                          partial: "messenger/messages/conversation_part",
-                          locals: {
-                            app: conversation.app,
-                            message: self,
-                            notified: true
-                          }
-    end
+    # else
+
+    data = { 
+      type: "conversations:unreads",
+      data: {
+        value: conversation.main_participant.new_messages.value,
+        conversation_key: conversation.key
+      }
+    }
+
+    broadcast_render_to conversation.app, conversation.main_participant, 
+      partial: "messenger/messages/conversation_part_b",
+      locals: {
+        app: conversation.app,
+        message: self,
+        notified: true,
+        data: data
+      }
+
+
+      #broadcast_update_to conversation.app, conversation.main_participant,
+      #                    target: "conversation-part-#{key}",
+      #                    partial: "messenger/messages/conversation_part",
+      #                    locals: {
+      #                      app: conversation.app,
+      #                      message: self,
+      #                      notified: true
+      #                    }
+      # end
   end
 
   def enqueue_channel_notification

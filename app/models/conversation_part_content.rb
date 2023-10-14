@@ -16,9 +16,11 @@ class ConversationPartContent < ApplicationRecord
 
   def html_from_serialized
     return if serialized_content.blank?
-    json = JSON.parse(serialized_content)
+    json = JSON.parse(serialized_content) rescue nil
+    return if json.blank?
     data = ActiveSupport::HashWithIndifferentAccess.new(json)
-    return "" if data["blocks"] && data["blocks"].empty?
+    return "" if data.blank?
+    return "" if data["content"].blank?
     Dante::Renderer.new(raw: data).render
   end
 

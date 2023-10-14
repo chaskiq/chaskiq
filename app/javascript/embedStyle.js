@@ -27,6 +27,23 @@ export const embedCss = `
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+    .css-13u6xjo {
+        animation: 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both running animation-33401f;
+        min-height: 250px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
+        opacity: 1;
+        z-index: 100000;
+        width: 100%;
+        height: 100%;
+        max-height: none;
+        inset: 0px;
+        position: fixed;
+        overflow: hidden;
+        border-radius: 0px;
+    }
+}
+
 @keyframes animation-yi2a6m {
   0% {
       transform: rotate(-45deg);
@@ -36,6 +53,23 @@ export const embedCss = `
       transform: translateY(-8px);
   }
 }
+
+.cache-emo-xlbvmj {
+    position: absolute;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 9999px;
+    --tw-bg-opacity: 1;
+    background-color: rgb(225 29 72 / var(--tw-bg-opacity));
+    padding: 0.25rem;
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity));
+    top: 27px;
+    left: 34px;
+  }
 
 .cache-emo-1ttjy62 {
     display: block;

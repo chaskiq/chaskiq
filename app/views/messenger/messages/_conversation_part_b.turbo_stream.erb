@@ -1,0 +1,23 @@
+
+<%= turbo_stream.replace "conversation-row-#{message.conversation.key}" do %>
+  <%= render "messenger/conversations/conversation_row", {
+    c: message.conversation,
+    message: message,  
+    app: message.conversation.app
+  } %>
+<% end %>
+
+<%= turbo_stream.update "chaskiq-custom-events" do %>
+  <%= render "messenger/custom_event", data: data %>
+<% end %>
+
+<% if message.was_created? %>
+  <%= turbo_stream.prepend_all "#conversation-#{message.conversation.key}" do %>
+    <%= render "messenger/messages/conversation_part", **local_assigns %>
+  <% end %>
+
+<% else %>
+  <%= turbo_stream.update_all "#conversation-part-#{message.key}" do %>
+    <%= render "messenger/messages/conversation_part", **local_assigns %>
+  <% end %>
+<% end %>

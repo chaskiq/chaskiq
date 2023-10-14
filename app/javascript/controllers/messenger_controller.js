@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import { post } from '@rails/request.js';
+import { post, get } from '@rails/request.js';
 import { debounce } from 'lodash';
 import UAParser from 'ua-parser-js';
 import { FetchRequest } from '@rails/request.js';
@@ -29,7 +29,12 @@ export default class extends Controller {
     'conversationPart',
     'conversation',
   ];
-  static values = ['url'];
+
+  static values = {
+    url: { type: String },
+    open: { type: Boolean, default: true },
+    isMobile: {type: Boolean, default: false}
+  }
 
   initialize() {
     // Bind the debounced version to the instance
@@ -37,6 +42,8 @@ export default class extends Controller {
       this.handleGiphySeach.bind(this),
       300
     );
+
+    this.open = true
 
     this.eventsHandler = function (event) {
       console.log('Received custom event with data:', event.detail.data);
@@ -48,8 +55,23 @@ export default class extends Controller {
             conversation: this.currentConversationKey(), //this.state.conversation && this.state.conversation.key,
             trigger: data.data.trigger.id,
           });
+        case 'conversations:unreads':
+          
+          const message = {
+            type: 'chaskiq:event',
+            data: data
+          };
+          
+          // console.log("SENDING EVENT TP PARENT FRAME", message)
+          window.parent.postMessage(message, '*');
 
-          break;
+          if(this.openValue){
+            console.log("React on open with", data)
+          } else {
+            console.log("React on closed", data)
+            this.openValue = true
+            this.handleReceivedNewMessageFromClosed(data.data)
+          }
 
         default:
           break;
@@ -62,6 +84,29 @@ export default class extends Controller {
     this.streamListener();
   }
 
+  handleReceivedNewMessageFromClosed(data){
+
+    this.goTo(`${this.element.dataset.url}/conversations/${data.conversation_key}`, ()=>{
+      this.toggle()
+    })
+  }
+
+  toggle(){
+    const message = {
+      type: 'chaskiq:event',
+      data: {
+        type: "messenger:toggle",
+        data: {}
+      }
+    };
+    
+    window.parent.postMessage(message, '*');
+  }
+
+  openValueChanged() {
+    console.log("FRAME TOGGLED", this.openValue)
+  }
+
   currentConversationKey() {
     if (this.hasConversationTarget) {
       return this.conversationTarget.dataset.conversationKey;
@@ -71,6 +116,18 @@ export default class extends Controller {
   }
 
   iframeEventsReceiver(event) {
+
+    switch(event.data.eventType){
+      case "messenger:toggled":
+        this.openValue = event.data.data
+        break;
+      case "messenger:mobile":
+        this.isMobileValue = event.data.data
+        break;
+      default:
+        break;
+      
+    }
     // Check the origin of the data!
     //if (event.origin !== "http://example.com") { // replace with the parent's origin
     //    return;
@@ -155,6 +212,7 @@ export default class extends Controller {
 
   disconnect() {
     document.removeEventListener('ChaskiqEvent', this.eventsHandler);
+    window.removeEventListener('resize', this.updateDimensions);
     window.removeEventListener('message', this.iframeEventsReceiver);
   }
 
@@ -170,6 +228,17 @@ export default class extends Controller {
       //const body = await response.html
       //this.element.closest('.definition-renderer').outerHTML = body
       console.log('response!');
+    }
+  }
+
+  async goTo(url, cb) {
+    const response = await get(url, {
+      responseKind: 'turbo-stream',
+    });
+
+    if (response.ok) {
+      cb && cb(response)
+      console.log('Navigated to: ', url);
     }
   }
 

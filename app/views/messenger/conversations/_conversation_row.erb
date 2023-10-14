@@ -1,12 +1,15 @@
-<% m = c.latest_message %>
+<% m = local_assigns[:message] || c.latest_message %>
 
-<div class="cache-emo-23jgg8">
+<div class="cache-emo-23jgg8" id="<%= "conversation-row-#{c.key}" %>">
   <%= link_to messenger_conversation_path(app.key, c.key), class: "cache-emo-gju6b1" do %>
     <div class="cache-emo-1pycdun">
       <%= image_tag m.authorable.avatar_url %>
     </div>
     <div class="cache-emo-mjirik">
       <div class="cache-emo-1874v5t">
+        <% if m.authorable != c.main_participant && !m.read? %>
+          <div class="cache-emo-4n3175"></div>
+        <% end %>
         <div class="cache-emo-q9wuna">
           <%= m.authorable.display_name %>
         </div>
@@ -21,7 +24,7 @@
           <% if m.message&.serialized_content.nil? %>
             <%= sanitize m.message.html_content %>
           <% else %>
-            <%= sanitize Dante::Renderer.new(raw: JSON.parse(m.message&.serialized_content).deep_symbolize_keys).render %>
+            <%= sanitize m.message.html_from_serialized %>
           <% end %>
         <% end %>
       </div>

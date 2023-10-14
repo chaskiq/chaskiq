@@ -113,6 +113,48 @@
   }
 }
 
+  .cache-emo-4n3175 {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      left: 3px;
+      top: 20px;
+      border-radius: 50%;
+  } 
+
+
+
+    .cache-emo-7aqlvw {
+        display: none;
+    }
+
+  div [data-messenger-is-mobile-value="true"] {
+    .cache-emo-7aqlvw {
+        position: absolute;
+        right: 21px;
+        z-index: 30000;
+        top: 29px;
+        display: block;
+    }
+  }
+
+  .cache-emo-sfyuaf {
+      position: absolute;
+      height: 1.5rem;
+      width: 1.5rem;
+      border-radius: 9999px;
+      --tw-bg-opacity: 1;
+      background-color: rgb(225 29 72 / var(--tw-bg-opacity));
+      padding: 0.25rem;
+      text-align: center;
+      font-size: 0.75rem;
+      line-height: 1rem;
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity));
+      top: 3px;
+      left: 7px;
+  }
   .cache-emo-k8eo3k p.tagline {
     margin-bottom: 0.75rem;
     font-size: 0.875rem;

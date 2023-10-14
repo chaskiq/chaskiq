@@ -34,8 +34,9 @@ inbound settings
   + behaviors for:
     + tabs
   + request triggers
+    + display trigger
 
-
++ mobile view
 + scrollable initialize scroll down
 + submit image
 + submit document
@@ -44,9 +45,10 @@ inbound settings
 + send message read
 + send message update
 + receive messages
-  + unread red
+  + unread red counters
   + pling
 
++ prime counter
 + settings for:
   + render buttons
   + close conversation

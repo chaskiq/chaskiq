@@ -1,24 +1,32 @@
-<% #= javascript_include_tag "new_application", "data-turbo-track": "reload", defer: true %>
+<html>
 
-<%= javascript_include_tag "new_embed", "data-turbo-track": "reload", defer: true %>
+  <head>
+     <meta content='True' name='HandheldFriendly'>
+    <meta content='320' name='MobileOptimized'>
+    <% #= javascript_include_tag "new_application", "data-turbo-track": "reload", defer: true %>
+    <%= javascript_include_tag "new_embed", "data-turbo-track": "reload", defer: true %>
+  </head>
 
-<div id="someId">
-</div>
+  <body>
+  <div id="someId">
+  </div>
 
 
+  <script type="text/javascript">
+    window.onload = function() { 
+      Chaskiq.load(
+        { 
+          //selector: "#someId",
+          domain: '<%= Chaskiq::Config.get("HOST") %>',
+          ws:  '<%= Rails.application.config.action_cable.url %>',
+          app_id: "<%= @app.key %>",
+          data: <%= raw @encrypted_data %>,
+          lang: "USER_LANG_OR_DEFAULTS_TO_BROWSER_LANG" 
+        }
+      ); 
+    }
+  </script> 
+</body>
 
- <script type="text/javascript">
-  window.onload = function() { 
-    Chaskiq.load(
-      { 
-        //selector: "#someId",
-        domain: '<%= Chaskiq::Config.get("HOST") %>',
-        ws:  '<%= Rails.application.config.action_cable.url %>',
-        app_id: "<%= @app.key %>",
-        data: <%= raw @encrypted_data %>,
-        lang: "USER_LANG_OR_DEFAULTS_TO_BROWSER_LANG" 
-      }
-    ); 
-  }
-</script> 
+</html>
 

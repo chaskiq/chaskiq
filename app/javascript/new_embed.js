@@ -38,6 +38,7 @@ function getIsDocumentHidden() {
 
 const primeOpenedHTML = `
   <div style="transition: all 0.2s ease-in-out 0s;">
+    <div class="cache-emo-xlbvmj" class="prime-status"></div>
     <svg onclick="Chaskiq.close()" viewBox="0 0 60 60" palette="[object Object]" style="height: 28px; width: 28px; margin: 13px;">
       <path fill="#f3f3f3" d="M10 25.465h13a1 1 0 1 0 0-2H10a1 1 0 1 0 0 2zM36 29.465H10a1 1 0 1 0 0 2h26a1 1 0 1 0 0-2zM36 35.465H10a1 1 0 1 0 0 2h26a1 1 0 1 0 0-2z">
       </path>
@@ -49,6 +50,7 @@ const primeOpenedHTML = `
 
 const primeClosedHTML = `
   <div style="transition: all 0.2s ease-in-out 0s; transform: rotate(180deg);">
+    <div class="cache-emo-xlbvmj" class="prime-status"></div>
     <svg onclick="Chaskiq.open()" viewBox="0 0 212.982 212.982" width="512" height="512" palette="[object Object]" style="height: 26px; width: 21px; margin: 13px 16px;">
       <path d="M131.804 106.491l75.936-75.936c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.491 81.18 30.554 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.989 6.99-6.989 18.323 0 25.312l75.937 75.936-75.937 75.937c-6.989 6.99-6.989 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0l75.937-75.937 75.937 75.937c6.989 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.322 0-25.312l-75.936-75.936z" fill="#f3f3f3" fill-rule="evenodd" clip-rule="evenodd"></path>
     </svg>
@@ -66,7 +68,7 @@ window.Chaskiq = window.Chaskiq || {
   getTemplate: function (url) {
     return `
       <div id="chaskiq-messenger" class="fixed w-[376px] right-[14px] bottom-[14px] z-[2147483647]">
-        <div id="frame-wrapper">
+        <div id="frame-wrapper" data-open="true">
           ${this.frameTemplate(url)}
         </div>
         
@@ -85,15 +87,24 @@ window.Chaskiq = window.Chaskiq || {
     this.options = options;
   },
   toggle: function (e) {
-    const frame = document.getElementById('messenger-frame');
+    //const frame = document.getElementById('messenger-frame');
 
-    if (frame) {
-      frame.remove();
-    } else {
+    //if (frame) {
+    //  frame.remove();
+    //} else {
       const wrapper = document.querySelector('#frame-wrapper');
-      const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
-      wrapper.innerHTML = this.frameTemplate(url);
-    }
+      
+      if(wrapper && wrapper.dataset.open === "true"){
+        //const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
+        //wrapper.innerHTML = this.frameTemplate(url);
+        wrapper.style.display = "none"
+        wrapper.dataset.open = "false"
+        this.pushEvent("messenger:toggled", false)
+      }else{
+        wrapper.style.display = ""
+        wrapper.dataset.open = "true"
+        this.pushEvent("messenger:toggled", true)
+      }
     console.log('TOGGLE');
 
     /*if (!this.state.open && this.props.kind !== 'AppUser') {
@@ -143,6 +154,7 @@ window.Chaskiq = window.Chaskiq || {
     //precenseSubscriber(this.App, { ctx: this });
     //eventsSubscriber(this.App, { ctx: this });
     this.locationChangeListener();
+    this.listenFrameEvents()
     this.dispatchEvent('chaskiq:boot');
   },
   initPopupWidget: function (dataObj) {
@@ -171,10 +183,16 @@ window.Chaskiq = window.Chaskiq || {
         document.body.appendChild(g);
       }
       g.appendChild(chaskiqElement);
+
+
+      setTimeout(()=> this.updateDimensions(), 500);
+      window.addEventListener('resize', this.updateDimensions.bind(this));
+  
     });
   },
   load: function (options) {
     this.options = options;
+    this.isMobile = false
     console.log('Chaskiq boot!');
     window.Chaskiq.initPopupWidget(options);
     this.setTabId();
@@ -374,6 +392,44 @@ window.Chaskiq = window.Chaskiq || {
     });
   },
 
+  listenFrameEvents: function (){
+    this.frameEvents = (event) => {
+      // You can add security checks by verifying the event origin, etc.
+      // if (event.data.type === 'customEvent') {
+        // Handle the received data
+        console.log('Received data from iframe:', event);
+      // }
+
+      switch (event.data.type) {
+        case "chaskiq:event":
+          this.handleFrameEvents(event.data.data)
+          break;
+        default:
+          break;
+      }
+    }
+
+    console.log("LISTENING EVENTS ON", this.frameEvents)
+    window.addEventListener('message', this.frameEvents.bind(this))
+  },
+
+  handleFrameEvents: function(data){
+    switch(data.type){
+      case "conversations:unreads":
+        this.updateCounters(data.data.value)
+        break
+      case "messenger:toggle":
+        this.toggle()
+        break
+      default:
+        break;
+    }
+  },
+
+  updateCounters: function(count){
+    document.querySelector(".cache-emo-xlbvmj").innerHTML = count
+  },
+
   pushEvent: async function (eventType, data) {
     /*const url = `${this.options.domain}/messenger/${this.options.app_id}/events?event=${eventType}&token=${this.userData.token}`
 
@@ -410,6 +466,15 @@ window.Chaskiq = window.Chaskiq || {
     //return () => {
     //  window.removeEventListener('beforeunload', onUnload);
     //};
+  },
+  detectMobile: function(){
+    return window.matchMedia('(min-width: 320px) and (max-width: 480px)')
+      .matches;
+  },
+
+  updateDimensions: function() {
+    this.isMobile = this.detectMobile()
+    this.pushEvent("messenger:mobile", this.isMobile )
   },
   cleanup: function () {
     //clean all the listeners here!

@@ -142,6 +142,15 @@
 					render SeparatorRenderer::Component.new()
 				when "frame"
 					render FrameRenderer::Component.new(url: item["url"])
+				when "dropdown"
+					render DropdownRenderer::Component.new(
+						id: item["id"],
+						variant: item["variant"],
+						align: item["align"],
+						label: item["label"],
+						options: item["options"],
+						direction: item["direction"]
+						)
 				else 
 				
 				"---- no definition for #{item["type"]} #{item}--- \n"
