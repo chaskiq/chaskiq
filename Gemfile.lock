@@ -352,7 +352,8 @@ GEM
     graphiql-rails (1.9.0)
       railties
       sprockets-rails
-    graphql (1.13.19)
+    graphql (2.1.3)
+      racc (~> 1.4)
     groupdate (6.4.0)
       activesupport (>= 6.1)
     grpc (1.58.0)
@@ -779,7 +780,7 @@ DEPENDENCIES
   goldiloader
   google-cloud-dialogflow
   graphiql-rails
-  graphql (~> 1.13)
+  graphql (~> 2.1)
   groupdate
   grpc
   haml
