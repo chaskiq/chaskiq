@@ -352,8 +352,8 @@ window.Chaskiq = window.Chaskiq || {
       console.log('VISIBILITY CHANGED', this.isVisible);
     };
 
-    const visibilityChange = getBrowserVisibilityProp();
-    document.addEventListener(visibilityChange, onVisibilityChange, false);
+    this.visibilityChange = getBrowserVisibilityProp();
+    document.addEventListener(this.visibilityChange, onVisibilityChange, false);
   },
   storageListener: function (event) {
     console.log('STORAGE LISTENER CHANGED', event);
@@ -457,6 +457,13 @@ window.Chaskiq = window.Chaskiq || {
   onUnload: function () {
     console.log('UNLOAD MESSENGER');
     window.localStorage.removeItem('chaskiqTabId');
+    window.removeEventListener('message', this.frameEvents);
+    window.removeEventListener('resize', this.updateDimensions);
+    document.removeEventListener(this.visibilityChange);
+    window.removeEventListener('storage', this.storageListener);
+    //window.removeEventListener('popstate')
+    //window.removeEventListener('locationchange')
+    window.removeEventListener('message', this.frameEvents);
   },
   unloadListener: function () {
     window.addEventListener('beforeunload', this.onUnload);
