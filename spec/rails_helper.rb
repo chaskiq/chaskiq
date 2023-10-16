@@ -72,14 +72,14 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner[:active_record].strategy = DatabaseCleaner::ActiveRecord::Truncation.new
     DatabaseCleaner[:active_record].clean
-    #ActiveRecord::Tasks::DatabaseTasks.truncate_all
+    # ActiveRecord::Tasks::DatabaseTasks.truncate_all
     DatabaseCleaner[:redis].clean
-  end 
+  end
 
   config.before(:each) do
     DatabaseCleaner[:active_record].strategy = DatabaseCleaner::ActiveRecord::Truncation.new
     DatabaseCleaner[:active_record].clean
-  end 
+  end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

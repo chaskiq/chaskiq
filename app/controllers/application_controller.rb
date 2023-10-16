@@ -105,7 +105,7 @@ class ApplicationController < ActionController::Base
   private
 
   def lang_available?(lang)
-    return if lang.blank?
+    return false if lang.blank?
 
     I18n.available_locales.include?(lang.to_sym)
   end

@@ -16,7 +16,7 @@ module Mutations
         }
         collection = app.article_collections.find(collection_id)
 
-        app.articles.where(id: articles_id).each do |a|
+        app.articles.where(id: articles_id).find_each do |a|
           a.update(collection: collection, section: nil)
         end
 

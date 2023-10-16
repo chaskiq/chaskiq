@@ -44,9 +44,7 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 # Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each { |f| require f }
 
 def request_fixture(name)
-  File.read(
-    Rails.root.join("spec", "fixtures", "requests", name)
-  )
+  Rails.root.join("spec", "fixtures", "requests", name).read
 end
 
 RSpec.configure do |config|

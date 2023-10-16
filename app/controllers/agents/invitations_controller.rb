@@ -3,6 +3,14 @@
 class Agents::InvitationsController < Devise::InvitationsController
   skip_before_action :verify_authenticity_token, only: [:update]
 
+  def edit
+    render_empty
+    # super
+    # super do |resource|
+    #  render html: '', :layout => 'application' and return
+    # end
+  end
+
   def update
     super do |resource|
       if request.format == "json" && resource.errors.empty?
@@ -12,14 +20,6 @@ class Agents::InvitationsController < Devise::InvitationsController
       end
       respond_with_navigational(resource)
     end
-  end
-
-  def edit
-    render_empty
-    # super
-    # super do |resource|
-    #  render html: '', :layout => 'application' and return
-    # end
   end
 
   private

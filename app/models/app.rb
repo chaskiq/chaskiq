@@ -343,7 +343,7 @@ class App < ApplicationRecord
   end
 
   def searcheable_fields_list
-    searcheable_fields.map { |o| o["name"] }
+    searcheable_fields.pluck("name")
   end
 
   def default_home_apps
