@@ -36,7 +36,7 @@ inbound settings
   + request triggers
     + display trigger
 
-+ mobile view
++ OK mobile view
 + scrollable initialize scroll down
 + submit image
 + submit document

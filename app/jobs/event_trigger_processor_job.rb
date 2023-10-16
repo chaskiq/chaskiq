@@ -11,6 +11,7 @@ class EventTriggerProcessorJob < ApplicationJob
 
     app.app_package_integrations
        .where(app_package: compatible_packages).each do |package|
+      Rails.logger.info("::: PROCESSING PACKAGE TRIGGER: #{package.app_package.name} :::")
       package.trigger(event)
     end
   end

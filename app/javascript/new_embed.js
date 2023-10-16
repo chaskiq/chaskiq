@@ -1,5 +1,4 @@
 import { FetchRequest } from '@rails/request.js';
-import UAParser from 'ua-parser-js';
 import {
   setCookie,
   getCookie,
@@ -68,7 +67,7 @@ window.Chaskiq = window.Chaskiq || {
   getTemplate: function (url) {
     return `
       <div id="chaskiq-messenger" class="fixed w-[376px] right-[14px] bottom-[14px] z-[2147483647]">
-        <div id="frame-wrapper" data-open="true">
+        <div id="frame-wrapper" data-open="false" style="display:none;">
           ${this.frameTemplate(url)}
         </div>
         
@@ -92,19 +91,19 @@ window.Chaskiq = window.Chaskiq || {
     //if (frame) {
     //  frame.remove();
     //} else {
-      const wrapper = document.querySelector('#frame-wrapper');
-      
-      if(wrapper && wrapper.dataset.open === "true"){
-        //const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
-        //wrapper.innerHTML = this.frameTemplate(url);
-        wrapper.style.display = "none"
-        wrapper.dataset.open = "false"
-        this.pushEvent("messenger:toggled", false)
-      }else{
-        wrapper.style.display = ""
-        wrapper.dataset.open = "true"
-        this.pushEvent("messenger:toggled", true)
-      }
+    const wrapper = document.querySelector('#frame-wrapper');
+
+    if (wrapper && wrapper.dataset.open === 'true') {
+      //const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
+      //wrapper.innerHTML = this.frameTemplate(url);
+      wrapper.style.display = 'none';
+      wrapper.dataset.open = 'false';
+      this.pushEvent('messenger:toggled', false);
+    } else {
+      wrapper.style.display = '';
+      wrapper.dataset.open = 'true';
+      this.pushEvent('messenger:toggled', true);
+    }
     console.log('TOGGLE');
 
     /*if (!this.state.open && this.props.kind !== 'AppUser') {
@@ -154,7 +153,7 @@ window.Chaskiq = window.Chaskiq || {
     //precenseSubscriber(this.App, { ctx: this });
     //eventsSubscriber(this.App, { ctx: this });
     this.locationChangeListener();
-    this.listenFrameEvents()
+    this.listenFrameEvents();
     this.dispatchEvent('chaskiq:boot');
   },
   initPopupWidget: function (dataObj) {
@@ -184,15 +183,13 @@ window.Chaskiq = window.Chaskiq || {
       }
       g.appendChild(chaskiqElement);
 
-
-      setTimeout(()=> this.updateDimensions(), 500);
+      setTimeout(() => this.updateDimensions(), 500);
       window.addEventListener('resize', this.updateDimensions.bind(this));
-  
     });
   },
   load: function (options) {
     this.options = options;
-    this.isMobile = false
+    this.isMobile = false;
     console.log('Chaskiq boot!');
     window.Chaskiq.initPopupWidget(options);
     this.setTabId();
@@ -392,42 +389,42 @@ window.Chaskiq = window.Chaskiq || {
     });
   },
 
-  listenFrameEvents: function (){
+  listenFrameEvents: function () {
     this.frameEvents = (event) => {
       // You can add security checks by verifying the event origin, etc.
       // if (event.data.type === 'customEvent') {
-        // Handle the received data
-        console.log('Received data from iframe:', event);
+      // Handle the received data
+      // console.log('Received data from iframe:', event);
       // }
 
       switch (event.data.type) {
-        case "chaskiq:event":
-          this.handleFrameEvents(event.data.data)
+        case 'chaskiq:event':
+          this.handleFrameEvents(event.data.data);
           break;
         default:
           break;
       }
-    }
+    };
 
-    console.log("LISTENING EVENTS ON", this.frameEvents)
-    window.addEventListener('message', this.frameEvents.bind(this))
+    console.log('LISTENING EVENTS ON', this.frameEvents);
+    window.addEventListener('message', this.frameEvents.bind(this));
   },
 
-  handleFrameEvents: function(data){
-    switch(data.type){
-      case "conversations:unreads":
-        this.updateCounters(data.data.value)
-        break
-      case "messenger:toggle":
-        this.toggle()
-        break
+  handleFrameEvents: function (data) {
+    switch (data.type) {
+      case 'conversations:unreads':
+        this.updateCounters(data.data.value);
+        break;
+      case 'messenger:toggle':
+        this.toggle();
+        break;
       default:
         break;
     }
   },
 
-  updateCounters: function(count){
-    document.querySelector(".cache-emo-xlbvmj").innerHTML = count
+  updateCounters: function (count) {
+    document.querySelector('.cache-emo-xlbvmj').innerHTML = count;
   },
 
   pushEvent: async function (eventType, data) {
@@ -467,14 +464,14 @@ window.Chaskiq = window.Chaskiq || {
     //  window.removeEventListener('beforeunload', onUnload);
     //};
   },
-  detectMobile: function(){
+  detectMobile: function () {
     return window.matchMedia('(min-width: 320px) and (max-width: 480px)')
       .matches;
   },
 
-  updateDimensions: function() {
-    this.isMobile = this.detectMobile()
-    this.pushEvent("messenger:mobile", this.isMobile )
+  updateDimensions: function () {
+    this.isMobile = this.detectMobile();
+    this.pushEvent('messenger:mobile', this.isMobile);
   },
   cleanup: function () {
     //clean all the listeners here!
