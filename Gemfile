@@ -57,7 +57,7 @@ gem "nokogiri", force_ruby_platform: true
 # gem 'tunable'
 gem "aasm"
 gem "acts_as_list", "~> 0.9.19"
-gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on" #branch: "support_rails_7-1"
+gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on" # branch: "support_rails_7-1"
 # github: "mbleigh/acts-as-taggable-on", branch: "support_rails_7-1"
 gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"

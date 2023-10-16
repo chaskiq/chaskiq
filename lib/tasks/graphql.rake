@@ -6,7 +6,7 @@ namespace :graphql do
   namespace :dump do
     desc "Dumps the IDL schema into ./app/hermes/schema.graphql"
     task idl: [:environment] do
-      target = Rails.root.join("public/schema.graphql")
+      target = Rails.public_path.join("schema.graphql")
       schema = GraphQL::Schema::Printer.print_schema(ChaskiqSchema)
       File.write(target, schema)
       puts "Schema dumped into public/schema.graphql"
@@ -14,7 +14,7 @@ namespace :graphql do
 
     desc "Dumps the result of the introspection query into ./app/hermes/schema.json"
     task json: [:environment] do
-      target = Rails.root.join("public/schema.json")
+      target = Rails.public_path.join("schema.json")
       result = ChaskiqSchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY)
       File.write(target, JSON.pretty_generate(result))
       puts "Schema dumped into public/schema.json"

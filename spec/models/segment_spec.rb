@@ -60,7 +60,7 @@ RSpec.describe Segment, type: :model do
            value: "1 days ago" }.with_indifferent_access]
       end
 
-      let(:predicates_for_empty)  do
+      let(:predicates_for_empty) do
         [{ attribute: "last_visited_at",
            comparison: "lteq",
            type: "date",
@@ -88,7 +88,7 @@ RSpec.describe Segment, type: :model do
            value: "foo@bar.cl" }.with_indifferent_access]
       end
 
-      let(:predicates_with_or)  do
+      let(:predicates_with_or) do
         predicates << online_predicate
         predicates << {
           attribute: "match",

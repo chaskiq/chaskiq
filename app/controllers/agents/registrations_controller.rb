@@ -17,6 +17,6 @@ class Agents::RegistrationsController < Devise::RegistrationsController
   private
 
   def check_registrable
-    return redirect_to root_url unless enabled_subscriptions?
+    redirect_to root_url unless enabled_subscriptions?
   end
 end
