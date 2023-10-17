@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.2.2"
+ruby "3.2.0"
 
 # gem 'google-protobuf', git: 'https://github.com/google/protobuf'
 
@@ -48,7 +48,7 @@ gem "nightfury", github: "michelson/nightfury" # "~> 1.0"
 gem "action_policy-graphql", "~> 0.4"
 gem "goldiloader"
 gem "graphiql-rails", group: :development
-gem "graphql", "~> 1.13"
+gem "graphql", "~> 2.1"
 
 gem "nokogiri", force_ruby_platform: true
 
@@ -57,7 +57,7 @@ gem "nokogiri", force_ruby_platform: true
 # gem 'tunable'
 gem "aasm"
 gem "acts_as_list", "~> 0.9.19"
-gem "acts-as-taggable-on", github: "aovertus/acts-as-taggable-on", branch: "support_rails_7-1"
+gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on" # branch: "support_rails_7-1"
 # github: "mbleigh/acts-as-taggable-on", branch: "support_rails_7-1"
 gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"

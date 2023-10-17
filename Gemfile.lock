@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/aovertus/acts-as-taggable-on.git
-  revision: cc9992bc80a7d0a7a9e24b11ad44a45a6bd73f5a
-  branch: support_rails_7-1
-  specs:
-    acts-as-taggable-on (9.0.1)
-      activerecord (>= 6.0, < 8)
-
-GIT
   remote: https://github.com/chaskiq/emoji_data.rb.git
   revision: 861f10dcf4071b9ca8cd61d4741d2b3e7e1e91fc
   specs:
@@ -30,6 +22,13 @@ GIT
       activemodel (>= 4.2, < 7.2)
       activerecord (>= 4.2, < 7.2)
       request_store (~> 1.0)
+
+GIT
+  remote: https://github.com/mbleigh/acts-as-taggable-on.git
+  revision: 46c4e2d4b73a49b2e60ecf15a6ea4f6304a55672
+  specs:
+    acts-as-taggable-on (10.0.0)
+      activerecord (>= 6.1, < 7.2)
 
 GIT
   remote: https://github.com/michelson/nightfury.git
@@ -356,7 +355,8 @@ GEM
     graphiql-rails (1.8.0)
       railties
       sprockets-rails
-    graphql (1.13.16)
+    graphql (2.1.3)
+      racc (~> 1.4)
     groupdate (6.0.1)
       activesupport (>= 5.2)
     grpc (1.53.0)
@@ -790,7 +790,7 @@ DEPENDENCIES
   goldiloader
   google-cloud-dialogflow
   graphiql-rails
-  graphql (~> 1.13)
+  graphql (~> 2.1)
   groupdate
   grpc
   haml
@@ -861,7 +861,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.2.0p0
 
 BUNDLED WITH
    2.4.10

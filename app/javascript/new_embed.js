@@ -66,7 +66,7 @@ window.Chaskiq = window.Chaskiq || {
   },
   getTemplate: function (url) {
     return `
-      <div id="chaskiq-messenger" class="fixed w-[376px] right-[14px] bottom-[14px] z-[2147483647]">
+      <div id="chaskiq-messenger-body" class="fixed w-[376px] right-[14px] bottom-[14px] z-[2147483647]">
         <div id="frame-wrapper" data-open="false" style="display:none;">
           ${this.frameTemplate(url)}
         </div>

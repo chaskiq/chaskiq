@@ -78,7 +78,7 @@ class Campaign < Message
   end
 
   def delivery_progress
-    return 0 if metrics.deliveries.size.zero?
+    return 0 if metrics.deliveries.empty?
 
     subscriptions.availables.size.to_f / metrics.deliveries.size.to_f * 100.0
   end

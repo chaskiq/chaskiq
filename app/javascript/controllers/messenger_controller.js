@@ -134,7 +134,7 @@ export default class extends Controller {
     //if (event.origin !== "http://example.com") { // replace with the parent's origin
     //    return;
     //}
-    console.log('Received message from parent:', event.data);
+    // console.log('Received message from parent:', event.data);
   }
 
   streamListener() {
