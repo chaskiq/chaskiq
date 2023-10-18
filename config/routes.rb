@@ -88,6 +88,10 @@ Rails.application.routes.draw do
       post 'hooks/receiver/:id' => 'api/v1/hooks/provider#process_event'
       get 'hooks/receiver/:id' => 'api/v1/hooks/provider#process_event'
 
+
+      post 'oauth/global/callback' => 'api/v1/hooks/provider#oauth'
+      get 'oauth/global/callback' => 'api/v1/hooks/provider#oauth'
+      
       post 'oauth/callback/:id' => 'api/v1/hooks/provider#oauth'
       get 'oauth/callback/:id' => 'api/v1/hooks/provider#oauth'
 

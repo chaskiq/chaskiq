@@ -20,6 +20,7 @@ class AppPackageIntegration < ApplicationRecord
     report_id
     access_token
     access_token_secret
+    refresh_token
     user_id
     user_token
     credentials
@@ -172,6 +173,10 @@ class AppPackageIntegration < ApplicationRecord
 
   def oauth_url
     "#{Chaskiq::Config.get('HOST')}/api/v1/oauth/callback/#{encoded_id}"
+  end
+
+  def global_oauth_callback
+    "#{Chaskiq::Config.get('HOST')}/api/v1/oauth/global/callback"
   end
 
   def receive_oauth_code(params)
