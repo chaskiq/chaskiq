@@ -24,7 +24,11 @@ dist
 app/services/message_apis/**/*
 # ContentShowcase ArticleSearch Qualifier InboxSections ContactFields
 !app/services/message_apis/block_manager.rb
-!app/services/message_apis/block_manager.rb
+!app/services/message_apis/base_package.rb
+!app/services/message_apis/helpers.rb
+!app/services/message_apis/oauth_utils.rb
+!app/services/message_apis/presenter_helper.rb
+
 !app/services/message_apis/aticle_search
 !app/services/message_apis/audit_reports
 !app/services/message_apis/contact_fields
@@ -32,10 +36,6 @@ app/services/message_apis/**/*
 !app/services/message_apis/inbox_sections
 !app/services/message_apis/qualifier
 !app/services/message_apis/csat
-
-
-
-
 
 app/services/message_apis/.git
 

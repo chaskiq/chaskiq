@@ -1,5 +1,5 @@
 
-<%= turbo_stream.replace "conversation-row-#{message.conversation.key}" do %>
+<%= turbo_stream.prepend "conversations-list" do %>
   <%= render "messenger/conversations/conversation_row", {
     c: message.conversation,
     message: message,  

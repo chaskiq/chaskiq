@@ -10,6 +10,11 @@ class MessengerController < ApplicationController
     end
 
     resolve_contents
+
+    if request.headers["Turbo-Frame"]
+      render formats: [:turbo_stream], layout: false
+    end
+
   end
 
   def confirm_gdpr

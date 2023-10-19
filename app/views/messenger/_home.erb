@@ -7,12 +7,14 @@
     </div>
 
 
-    <% @app_user.conversations.limit(4).order("id desc").each do |conversation| %>
-      <%= render "messenger/conversations/conversation_row",    
-        c: conversation,
-        app: @app
-      %>
-    <% end %>
+    <div id="conversations-list">
+      <% @app_user.conversations.limit(4).order("id desc").each do |conversation| %>
+        <%= render "messenger/conversations/conversation_row",    
+          c: conversation,
+          app: @app
+        %>
+      <% end %>
+    </div>
     
     <div class="cache-emo-0">
       <div class="cache-emo-qwyttr">
@@ -43,6 +45,7 @@
       </div>
     </div>
   </div>
+  
   <% @home_apps.each_with_index do |d, index| %>
     <div class="cache-emo-tcazp9" id="home--<%= d["name"] %>">
       <%= render DefinitionRenderer::Component.new(
