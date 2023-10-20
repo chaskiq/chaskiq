@@ -144,6 +144,11 @@ class App < ApplicationRecord
     @searchkick_enabled ||= plan.enabled?("SearchIndex")
   end
 
+  def inbound_conversations_enabled_for?(app_user)
+    k = app_user.model_name.name === "AppUser" ? "users" : "visitors"
+    inbound_settings.dig(k, "enabled_inbound")
+  end
+
   def config_fields
     [
       {
@@ -551,7 +556,7 @@ end
 class InboundSettingsVisitorRecord
   include ActiveModel::Model
 
-  attr_accessor :enabled, :segment, :predicates,
+  attr_accessor :enabled, :segment, :predicates, :enabled_inbound,
                 :visitors_enable_inbound, :close_conversations_after,
                 :close_conversations_enabled, :allow_idle_sessions, :idle_sessions_after
 
@@ -559,13 +564,14 @@ class InboundSettingsVisitorRecord
     attributes.each do |name, value|
       send("#{name}=", value) if respond_to? name
     end
+    self.enabled_inbound = ActiveModel::Type::Boolean.new.cast(attributes["enabled_inbound"]) if attributes["enabled_inbound"].present?
     self.enabled = ActiveModel::Type::Boolean.new.cast(attributes["enabled"]) if attributes["enabled"].present?
   end
 end
 
 class InboundSettingsUserRecord
   include ActiveModel::Model
-  attr_accessor :enabled, :segment, :predicates,
+  attr_accessor :enabled, :segment, :predicates, :enabled_inbound,
                 :users_enable_inbound, :close_conversations_after,
                 :close_conversations_enabled
 
@@ -573,6 +579,7 @@ class InboundSettingsUserRecord
     attributes.each do |name, value|
       send("#{name}=", value) if respond_to? name
     end
+    self.enabled_inbound = ActiveModel::Type::Boolean.new.cast(attributes["enabled_inbound"]) if attributes["enabled_inbound"].present?
     self.enabled = ActiveModel::Type::Boolean.new.cast(attributes["enabled"]) if attributes["enabled"].present?
   end
 end

@@ -29,24 +29,17 @@ inbound settings
 
 
 # MESSENGER WIDGET
-
 + widget script
   + behaviors for:
     + tabs
+    + idle implementation
+
   + request triggers
     + display trigger
 
-+ OK mobile view
-+ scrollable initialize scroll down
-+ submit image
-+ submit document
 + emoji
-+ gif
-+ send message read
-+ send message update
 + receive messages
   + unread red counters
-  + pling
 
 + prime counter
 + settings for:
@@ -58,3 +51,14 @@ inbound settings
 + bots retrieval
 + banner retrieval
 
+
+
+
+stprint 1 learnings
+swap task add new tasks.
+CDP sorting issue
+prepare demos properly
+separate planning from demo
+
+
+for each sprint , clear the RELEASED & DONE

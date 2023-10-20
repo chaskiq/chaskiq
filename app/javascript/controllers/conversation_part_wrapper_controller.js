@@ -3,14 +3,20 @@ import { patch } from '@rails/request.js';
 
 export default class extends Controller {
   initialize() {
+    const dataset = this.element.dataset
+    console.log(new Date().toUTCString())
     // console.log("Listening for notifications", this.element.dataset)
     this.pling = new Audio('/sounds/BLIB.wav');
-    if (this.element.dataset.read == 'false') {
-      this.playSound();
+    if (dataset.read !== 'true') {
+      if(dataset.viewerType !== dataset.author ){
+        this.playSound();
+        this.markAsRead();
+      }
+      // to retrieve triggers and next messages
+      this.sendEvent({});
+
       this.chatEditorController?.scrollToBottom();
       this.chatMessengerController?.scrollToBottom();
-      this.markAsRead();
-      this.sendEvent({});
     }
   }
 

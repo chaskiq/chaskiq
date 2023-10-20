@@ -39,13 +39,15 @@
           <% end %>
         </div>
         <div class="cache-emo-3d3066">
-          <%= link_to t("messenger.start_conversation"), new_messenger_conversation_path(@app.key), class: "cache-emo-1kn0l3e" %>
-          <%= link_to t("messenger.see_previous"), messenger_conversations_path(@app.key) %>
+          <% if @app.inbound_conversations_enabled_for?(@app_user) %>
+            <%= link_to t("messenger.start_conversation"), new_messenger_conversation_path(@app.key), class: "cache-emo-1kn0l3e" %>
+            <%= link_to t("messenger.see_previous"), messenger_conversations_path(@app.key) %>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
-  
+
   <% @home_apps.each_with_index do |d, index| %>
     <div class="cache-emo-tcazp9" id="home--<%= d["name"] %>">
       <%= render DefinitionRenderer::Component.new(

@@ -57,6 +57,7 @@ class Apps::InboundSettingsController < ApplicationController
       inbound_settings_objects_attributes: {
         users_attributes: %i[
           enabled
+          enabled_inbound
           close_conversations_after
           segment
         ],
@@ -64,6 +65,7 @@ class Apps::InboundSettingsController < ApplicationController
           allow_idle_sessions
           idle_sessions_after
           enabled
+          enabled_inbound
           close_conversations_after
           segment
         ]

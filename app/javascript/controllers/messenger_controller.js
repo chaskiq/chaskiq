@@ -4,6 +4,8 @@ import { debounce } from 'lodash';
 import UAParser from 'ua-parser-js';
 import { FetchRequest } from '@rails/request.js';
 
+import { DirectUpload } from '@rails/activestorage/src/direct_upload';
+
 const GIPHY_TREDING_ENDPOINT = 'https://api.giphy.com/v1/gifs/trending';
 const GIPHY_ENDPOINT = 'https://api.giphy.com/v1/gifs/search';
 const API_KEY = '97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ'; // Replace with your Giphy API key
@@ -42,6 +44,8 @@ export default class extends Controller {
       this.handleGiphySeach.bind(this),
       300
     );
+
+    this.conversationKey = null
 
     this.open = true;
 
@@ -84,6 +88,13 @@ export default class extends Controller {
     window.addEventListener('message', this.iframeEventsReceiver.bind(this));
 
     this.streamListener();
+    this.startObservingConversationTarget();
+  }
+ 
+  connect() {
+    window.oli = this;
+    window.pupu = document.getElementById('main-content');
+    console.log('MESSENGER INITIALIZED');
   }
 
   handleReceivedNewMessageFromClosed(data) {
@@ -196,14 +207,34 @@ export default class extends Controller {
     }
   }
 
-  connect() {
-    window.oli = this;
-    window.pupu = document.getElementById('main-content');
-    console.log('MESSENGER INITIALIZED');
+  conversationTargetAppeared() {
+    this.scrollToBottom()
+  }
+
+  startObservingConversationTarget() {
+    const observer = new MutationObserver((mutationsList, observer) => {
+      for(let mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+          if (this.hasConversationTarget) {
+            // trigger this only if conversation key is not set or is changed
+            if (!this.conversationKey || this.conversationKey !== this.conversationTarget.id){
+              this.conversationKey = this.conversationTarget.id
+              this.conversationTargetAppeared();
+            }
+          } else {
+            console.log("TARGET GONEEE!!!");
+          }
+        }
+      }
+    });
+
+    // Observe the parent element for changes to its child elements
+    const config = { childList: true, subtree: true };
+    observer.observe(this.element, config);
   }
 
   submitMessage() {
-    debugger;
+    this.scrollToBottom()
   }
 
   convertToSerializedContent(value) {
@@ -218,7 +249,7 @@ export default class extends Controller {
     window.removeEventListener('message', this.iframeEventsReceiver);
   }
 
-  async insertComment(url, data) {
+  async insertComment(url, data, cb) {
     const response = await post(url, {
       body: data,
       responseKind: 'turbo-stream',
@@ -335,6 +366,7 @@ export default class extends Controller {
       // Handle the file, e.g., send to server or process locally
       console.log('Selected file:', file.name);
     }
+    this.handleUpload(e)
   }
 
   scrollToBottom() {
@@ -415,6 +447,13 @@ export default class extends Controller {
   pickGiphyImage(e) {
     console.log(e.target.src);
     this.hideGiphyContainer();
+    this.saveGif(e.target.src)
+  }
+
+  saveGif(src) {
+    this.submitImage(src, () => {
+      this.setState({ giphyEnabled: false });
+    });
   }
 
   displayGifs(gifs) {
@@ -424,6 +463,168 @@ export default class extends Controller {
       gifElement.src = gif.images.fixed_height.url;
       gifElement.setAttribute('data-action', 'click->messenger#pickGiphyImage');
       container.appendChild(gifElement);
+    });
+  }
+
+  getImageDimensions(url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+
+      img.onload = function () {
+        const width = this.naturalWidth;
+        const height = this.naturalHeight;
+        resolve({ width, height });
+      };
+
+      img.onerror = function () {
+        reject(new Error('Failed to load image.'));
+      };
+
+      img.src = url;
+    });
+  }
+
+  submitImage(link, cb = null) {
+    this.getImageDimensions(link)
+      .then((dimensions) => {
+        // const html = `<img src="${link}" width="${dimensions.width}" height="${dimensions.height}" url="${link}" data-type="image"/>`;
+        
+        const serialized = {
+          "type":"doc",
+          "content":[
+            {
+            "type":"ImageBlock",
+            "attrs":{
+              "url": link ,
+              "src": link,
+              "width": dimensions.width,
+              "height": dimensions.height,
+              "loading":false,
+              "loading_progress":0,
+              "caption":null,
+              "direction":"center",
+              "file":null,
+              "aspect_ratio":{"width":200,"height":200,"ratio":100}
+              }
+            }
+          ]
+        }
+        
+        const opts = {
+          serialized: serialized,
+        };
+
+        this.insertComment(this.chatFieldTarget.dataset.url, opts, {
+          before: () => {
+            //this.props.beforeSubmit && this.props.beforeSubmit(opts);
+            // this.input.value = '';
+          },
+          sent: () => {
+            //this.props.onSent && this.props.onSent(opts);
+            //this.input.value = '';
+            cb && cb();
+          },
+        });
+
+        console.log(
+          `Image width: ${dimensions.width}, Image height: ${dimensions.height}`
+        );
+      })
+      .catch((error) => {
+        console.error(`Error: ${error.message}`);
+      });
+  }
+
+  imageUpload(file, props = null) {
+    return new Promise((resolve) => {
+      if (props) {
+        props.onLoading();
+        // props.change(previewField, '/spinner.gif')
+      }
+  
+      const upload = new DirectUpload(
+        file, `/api/v1/direct_uploads`
+      );
+
+      upload.create((error, blob) => {
+        if (error) {
+          alert('error uploading!');
+          props && props.onError(error);
+        } else {
+          if (props) {
+            props.onSuccess({
+              link: blob.service_url,
+              filename: blob.filename,
+              content_type: blob.content_type,
+            });
+          }
+          resolve({ data: { ...blob, link: blob.service_url } });
+        }
+      });
+    });
+  }
+
+  handleUpload(ev) {
+    this.imageUpload(ev.target.files[0], {
+      //domain: this.props.domain,
+      onLoading: () => {
+        this.setLock(true);
+      },
+      onError: (err) => {
+        alert('error uploading');
+        console.log(err);
+      },
+      onSuccess: (attrs) => {
+        if (attrs.content_type.match(/image\/(jpg|png|jpeg|gif)/)) {
+          this.submitImage(attrs.link);
+        } else {
+          this.submitFile(attrs);
+        }
+        this.setLock(false);
+      },
+    });
+  }
+
+  setLock(val){
+    console.log("TODO: set lock!", val)
+  }
+
+  submitFile(attrs, cb = null) {
+    //const html = `<file-block src="${attrs.link}" url="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`;
+    const serialized = {
+      "type":"doc",
+      "content":[
+        {
+          "type":"FileBlock",
+          "attrs": { 
+            "url": attrs.link,
+            "src": attrs.link,
+            "width":"",
+            "height":"",
+            "loading":false,
+            "loading_progress":0,"caption":null,
+            "direction":"center","file":null,
+            "aspect_ratio":{"width":200,"height":200,"ratio":100}
+          }
+        }
+      ]
+    }
+
+    const opts = {
+      serialized: serialized,
+      //...this.convertToSerializedContent(html),
+    };
+
+    this.insertComment(this.chatFieldTarget.dataset.url, opts, {
+      before: () => {
+        //this.props.beforeSubmit && this.props.beforeSubmit(opts);
+        // this.input.value = '';
+      },
+      sent: () => {
+        //this.props.onSent && this.props.onSent(opts);
+        //this.input.value = '';
+        cb && cb();
+      },
     });
   }
 

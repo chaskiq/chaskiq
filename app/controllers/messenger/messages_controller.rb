@@ -5,8 +5,15 @@ class Messenger::MessagesController < ApplicationController
     author = @app_user
     conversation = author.conversations.find_by(key: params[:conversation_id])
 
-    serialized_content = { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text: params[:content] }] }] }
-    sanitized_html = ActionController::Base.helpers.strip_tags(params[:content])
+    if params[:content]
+      serialized_content = { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text: params[:content] }] }] }
+      sanitized_html = ActionController::Base.helpers.strip_tags(params[:content])
+    end
+
+    if params[:serialized]
+      # todo: validate this
+      serialized_content = params[:serialized]
+    end
 
     options = {
       from: author,

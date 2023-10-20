@@ -309,11 +309,11 @@ window.Chaskiq = window.Chaskiq || {
     //if (!props?.inboundSettings?.visitors?.idle_sessions_enabled) return;
 
     if (getDiff() >= timeoutLapse) {
-      console.log(
+      /*console.log(
         'idle triggered by inactivity',
         this.tabId,
         window.localStorage.getItem('chaskiqTabId')
-      );
+      );*/
       this.setTimer(this.timer, this.tabId);
     }
 
