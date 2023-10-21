@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "inbound-settings-form" do %>
 
-  namespace <%= @namespace %>
+  <!-- namespace <%= @namespace %> -->
 	<%= form_for @app, url: app_inbound_setting_path(@app.key, @namespace), 
 		data: {controller: 'segment-manager', turbo: "true"} do |f| %>
 
@@ -10,27 +10,16 @@
 			<a 
 				href="<%= app_inbound_setting_path(@app.key, 'users') %>"
 				data-tab="users"
-				class="tab-default-left"
-				data-actionno="click->simple-tabs#changeTab" 
-				data-simple-tabs-target="tab"
-				data-turbo-frame="inbound-settings-form"
-				data-selected-class="tab-active-left"
-				data-unselected-class="tab-default-left"
+				class="<%= @namespace == "users" ? "tab-active-left" : "tab-default-left" %>"
 				>
-				users
+				Users
 			</a>
 
 			<a 
 				href="<%= app_inbound_setting_path(@app.key, 'visitors') %>"
-				class="tab-default-right"
-				data-tab="visitors"
-				data-actionno="click->simple-tabs#changeTab" 
-				data-simple-tabs-target="tab"
-				data-selected-class="tab-active-right"
-				data-unselected-class="tab-default-right"
-				data-turbo-frame="inbound-settings-form"
+				class="<%= @namespace == "visitors" ? "tab-active-right" : "tab-default-right" %>"
 				>
-				visitors
+				Visitors
 			</a>
 		</div>
 

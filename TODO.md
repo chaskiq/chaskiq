@@ -4,6 +4,8 @@ TODO.md
   + sidebar
 + dashboard:
   + no sidebar
+
+
 + conversations:
   + editor: handle enter
   + editor: handle private message display: styles
@@ -14,14 +16,20 @@ TODO.md
     + search items
 + bots:
   + clone
+
+
 + campaigns:
   + editor tour manager
+
+
 + app settings:
   + avatars
 + billing view
 + app packages edit not showing values. now working for custom definitions, make a service form
 + quick replies display in lang
+
 + assignment_rules
+
 + UpgradeButton UpgradeButton, search for upgrade button an implement those
 
 inbound settings
@@ -29,6 +37,9 @@ inbound settings
 
 
 # MESSENGER WIDGET
+
++ animations transitions
+
 + widget script
   + behaviors for:
     + tabs
@@ -37,28 +48,19 @@ inbound settings
   + request triggers
     + display trigger
 
-+ emoji
++ uploader handle loading, locks & after
++ emoji, fix loading of picker
+
 + receive messages
   + unread red counters
 
 + prime counter
 + settings for:
-  + render buttons
   + close conversation
++ bots retrieval
+
+
 
 + inline conversations
 + tours retrieval
-+ bots retrieval
 + banner retrieval
-
-
-
-
-stprint 1 learnings
-swap task add new tasks.
-CDP sorting issue
-prepare demos properly
-separate planning from demo
-
-
-for each sprint , clear the RELEASED & DONE

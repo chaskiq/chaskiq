@@ -11,7 +11,7 @@ class Messenger::MessagesController < ApplicationController
     end
 
     if params[:serialized]
-      # todo: validate this
+      # TODO: validate this
       serialized_content = params[:serialized]
     end
 

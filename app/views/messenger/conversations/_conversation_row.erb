@@ -1,11 +1,13 @@
 <% m = local_assigns[:message] || c.latest_message %>
 
 <div class="cache-emo-23jgg8" id="<%= "conversation-row-#{c.key}" %>">
-  <%= link_to messenger_conversation_path(app.key, c.key), class: "cache-emo-gju6b1" do %>
-    <div class="cache-emo-1pycdun">
+  <%= link_to messenger_conversation_path(app.key, c.key), 
+  data: {action: "click->messenger#animateOnClick"},
+  class: "cache-emo-gju6b1" do %>
+    <div class="cache-emo-1pycdun pointer-events-none">
       <%= image_tag m.authorable.avatar_url %>
     </div>
-    <div class="cache-emo-mjirik">
+    <div class="cache-emo-mjirik pointer-events-none">
       <div class="cache-emo-1874v5t">
         <% if m.authorable != c.main_participant && !m.read? %>
           <div class="cache-emo-4n3175"></div>

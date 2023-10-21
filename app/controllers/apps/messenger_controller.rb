@@ -37,9 +37,14 @@ class Apps::MessengerController < ApplicationController
       :reply_time,
       lang_items,
       :email_requirement,
-      { team_schedule_objects_attributes: %i[day from to],
+      {
+        agent_editor_settings_objects: %i[images attachments giphy link_embeds embeds video_recorder app_packages routing_bots quick_replies bot_triggers divider],
+        user_editor_settings_objects: %i[emojis gifs attachments],
+        lead_editor_settings_objects: %i[emojis gifs attachments],
+        team_schedule_objects_attributes: %i[day from to],
         inbound_settings_objects: %i[enabled users_enabled users_segment visitors_enabled visitors_segment],
-        customization_colors_attributes: %i[primary secondary pattern] }
+        customization_colors_attributes: %i[primary secondary pattern] 
+      }
     ]
 
     # .flatten

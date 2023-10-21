@@ -386,7 +386,40 @@ class App < ApplicationRecord
     end
   end
 
+  def allowed_editor_feature?(user_type, feature)
+    kind = "agent" if user_type == "Agent"
+    kind = user_type == "AppUser" ? "user" : "lead" unless kind.present?
+    ActiveModel::Type::Boolean.new.cast self.preferences.dig("#{kind}_editor_settings", feature)
+  end
+
   ### JSON DATA OBJECTS ###
+  def agent_editor_settings_objects
+    return AgentEditorSettings.new() if agent_editor_settings.blank?
+    @agent_editor_settings_objects ||= AgentEditorSettings.new(agent_editor_settings)
+  end
+
+  def agent_editor_settings_objects=(attrs)
+    self.agent_editor_settings = AgentEditorSettings.new(attrs)
+  end
+
+  def user_editor_settings_objects
+    return AppUserEditorSettings.new() if user_editor_settings.blank?
+    @user_editor_settings_objects ||= AppUserEditorSettings.new(user_editor_settings)
+  end
+
+  def user_editor_settings_objects=(attrs)
+    self.user_editor_settings = AppUserEditorSettings.new(attrs)
+  end
+
+  def lead_editor_settings_objects
+    return AppUserEditorSettings.new() if lead_editor_settings.blank?
+    @lead_editor_settings_objects ||= AppUserEditorSettings.new(lead_editor_settings)
+  end
+
+  def lead_editor_settings_objects=(attrs)
+    self.lead_editor_settings = AppUserEditorSettings.new(attrs)
+  end
+
   def lead_tasks_settings_objects
     return LeadTasksSettings.new if lead_tasks_settings.blank?
 
@@ -674,6 +707,33 @@ class CustomFieldRecord
     true
   end
 end
+
+class AppUserEditorSettings
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :emojis,
+                :gifs,
+                :attachments
+end
+
+class AgentEditorSettings
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :images,
+                :attachments,
+                :giphy,
+                :link_embeds,
+                :embeds,
+                :video_recorder,
+                :app_packages,
+                :routing_bots,
+                :quick_replies,
+                :bot_triggers,
+                :divider
+end
+
+
+
 
 class LeadTasksSettings
   include ActiveModel::AttributeAssignment

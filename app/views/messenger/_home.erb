@@ -1,7 +1,11 @@
 <div 
   data-action="scroll->messenger#handleScroll"
   class="cache-emo-a8p4ui" data-turbo="true">
-  <div in="in" class="cache-emo-mvqm3o" style="margin-top: 147px;">
+  <div in="in" 
+    data-messenger-target="animated"
+    data-in="fade-in-right" 
+    data-out="fade-out-right"
+    class="cache-emo-mvqm3o fade-in-right" style="margin-top: 147px;">
     <div class="cache-emo-1t2ixeu">
       <h2><%= t("messenger.continue_conversation") %></h2>
     </div>
@@ -18,12 +22,19 @@
     
     <div class="cache-emo-0">
       <div class="cache-emo-qwyttr">
-        <%= link_to t("messenger.view_all_conversations"), messenger_conversations_path(@app.key) %>
+        <%= link_to t("messenger.view_all_conversations"), 
+          messenger_conversations_path(@app.key),
+          data: {action: "click->messenger#animateOnClick"}
+        %>
       </div>
     </div>
   </div>
 
-  <div in="in" class="cache-emo-mvqm3o" style="margin-top: 0px;">
+  <div in="in" 
+    data-messenger-target="animated"
+    data-in="fade-in-right" 
+    data-out="fade-out-right"
+    class="cache-emo-mvqm3o fade-in-right" style="margin-top: 0px;">
     <div class="cache-emo-1t2ixeu">
       <h2><%= t("messenger.start_conversation") %></h2>
       <div class="cache-emo-zoxij">
@@ -40,8 +51,11 @@
         </div>
         <div class="cache-emo-3d3066">
           <% if @app.inbound_conversations_enabled_for?(@app_user) %>
-            <%= link_to t("messenger.start_conversation"), new_messenger_conversation_path(@app.key), class: "cache-emo-1kn0l3e" %>
-            <%= link_to t("messenger.see_previous"), messenger_conversations_path(@app.key) %>
+            <%= link_to t("messenger.start_conversation"), new_messenger_conversation_path(@app.key),
+            data: {action: "click->messenger#animateOnClick"},
+            class: "cache-emo-1kn0l3e" %>
+            <%= link_to t("messenger.see_previous"), messenger_conversations_path(@app.key),
+            data: {action: "click->messenger#animateOnClick"} %>
           <% end %>
         </div>
       </div>
@@ -49,28 +63,33 @@
   </div>
 
   <% @home_apps.each_with_index do |d, index| %>
-    <div class="cache-emo-tcazp9" id="home--<%= d["name"] %>">
-      <%= render DefinitionRenderer::Component.new(
-        schema: d["definitions"],
-        size: d["sm"],
-        blocks: d,
-        app_package: d["name"],
-        location: "home",
-        category: "@category",
-        values: d["values"],
-        conversation_key: nil,
-        path: app_package_path(@app.key, d["name"]),
-        app: @app,
-        ctx: {}
-      ) do %>
-      <% end %>
+    <div 
+    data-messenger-target="animated"
+    data-in="fade-in-right" 
+    data-out="fade-out-right">
+      <div class="cache-emo-tcazp9" id="home--<%= d["name"] %>">
+        <%= render DefinitionRenderer::Component.new(
+          schema: d["definitions"],
+          size: d["sm"],
+          blocks: d,
+          app_package: d["name"],
+          location: "home",
+          category: "@category",
+          values: d["values"],
+          conversation_key: nil,
+          path: app_package_path(@app.key, d["name"]),
+          app: @app,
+          ctx: {}
+        ) do %>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </div>
 
 <div class="cache-emo-jjffot">
   <a href="https://chaskiq.io" target="blank">
-    <img alt="https://chaskiq.io" src="https://app.chaskiq.io/logo-gray.png">
+    <% #= image_tag "logo_gray.png", alt: "https://chaskiq.io" %>
     <%= t("messenger.run_on")%>
   </a>
 </div>

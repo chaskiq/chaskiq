@@ -1,7 +1,12 @@
-<div class="<%= message.authorable.is_a?(Agent) ? "admin" : "user" %> cache-emo-1xkvrxu">
-  <div class="cache-emo-1pycdun">
-    <%= image_tag message.authorable.avatar_url %>
-  </div>
+<% author_type = message.authorable.is_a?(Agent) ? "admin" : "user" %>
+
+<div class="<%= author_type %> cache-emo-1xkvrxu">
+  
+  <% if author_type == "admin" %>
+    <div class="cache-emo-1pycdun">
+      <%= image_tag message.authorable.avatar_url %>
+    </div>
+  <% end %>
 
   <div class="message-content-wrapper">
     <div class="cache-emo-11y878r">

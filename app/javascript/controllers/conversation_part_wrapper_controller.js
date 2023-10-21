@@ -3,12 +3,12 @@ import { patch } from '@rails/request.js';
 
 export default class extends Controller {
   initialize() {
-    const dataset = this.element.dataset
-    console.log(new Date().toUTCString())
+    const dataset = this.element.dataset;
+    console.log(new Date().toUTCString());
     // console.log("Listening for notifications", this.element.dataset)
     this.pling = new Audio('/sounds/BLIB.wav');
     if (dataset.read !== 'true') {
-      if(dataset.viewerType !== dataset.author ){
+      if (dataset.viewerType !== dataset.author) {
         this.playSound();
         this.markAsRead();
       }

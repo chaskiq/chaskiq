@@ -30,6 +30,7 @@ export default class extends Controller {
     'giphySearchInput',
     'conversationPart',
     'conversation',
+    'animated'
   ];
 
   static values = {
@@ -45,9 +46,10 @@ export default class extends Controller {
       300
     );
 
-    this.conversationKey = null
+    this.conversationKey = null;
 
     this.open = true;
+    this.prevent = true
 
     this.eventsHandler = function (event) {
       console.log('Received custom event with data:', event.detail.data);
@@ -89,8 +91,16 @@ export default class extends Controller {
 
     this.streamListener();
     this.startObservingConversationTarget();
+
+    /*document.addEventListener("turbo:before-fetch-request", async (event) => {
+      event.preventDefault()
+      console.log("animating")
+      await this.animateAll()
+      console.log("animated!")
+      event.detail.resume()
+    })*/
   }
- 
+
   connect() {
     window.oli = this;
     window.pupu = document.getElementById('main-content');
@@ -208,21 +218,26 @@ export default class extends Controller {
   }
 
   conversationTargetAppeared() {
-    this.scrollToBottom()
+    this.scrollToBottom();
   }
 
   startObservingConversationTarget() {
     const observer = new MutationObserver((mutationsList, observer) => {
-      for(let mutation of mutationsList) {
+      for (let mutation of mutationsList) {
         if (mutation.type === 'childList') {
           if (this.hasConversationTarget) {
             // trigger this only if conversation key is not set or is changed
-            if (!this.conversationKey || this.conversationKey !== this.conversationTarget.id){
-              this.conversationKey = this.conversationTarget.id
+            if (
+              !this.conversationKey ||
+              this.conversationKey !== this.conversationTarget.id
+            ) {
+              this.conversationKey = this.conversationTarget.id;
               this.conversationTargetAppeared();
             }
           } else {
-            console.log("TARGET GONEEE!!!");
+            this.picker = null
+            // this.emojiPickerTarget.innerHTML = ""
+            console.log('TARGET GONEEE!!!');
           }
         }
       }
@@ -234,7 +249,7 @@ export default class extends Controller {
   }
 
   submitMessage() {
-    this.scrollToBottom()
+    this.scrollToBottom();
   }
 
   convertToSerializedContent(value) {
@@ -366,12 +381,40 @@ export default class extends Controller {
       // Handle the file, e.g., send to server or process locally
       console.log('Selected file:', file.name);
     }
-    this.handleUpload(e)
+    this.handleUpload(e);
   }
 
   scrollToBottom() {
     const overflow = this.conversationScrollAreaTarget;
     overflow.scrollTop = overflow.scrollHeight;
+  }
+
+  async animateOnClick(e){
+    e.preventDefault()
+    await this.animateAll()
+    await this.goTo(e.target.href)
+  }
+
+  async animateAll() {
+
+    this.animatedTargets.forEach(element => {
+      const inClass = element.getAttribute("data-in");
+      const outClass = element.getAttribute("data-out");
+
+      if (element.classList.contains(inClass)) {
+        element.classList.remove(inClass);
+        element.classList.add(outClass);
+      } else {
+        element.classList.remove(outClass);
+        element.classList.add(inClass);
+      }
+    });
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 200);
+    });
   }
 
   hideEmojiContainer() {
@@ -447,7 +490,7 @@ export default class extends Controller {
   pickGiphyImage(e) {
     console.log(e.target.src);
     this.hideGiphyContainer();
-    this.saveGif(e.target.src)
+    this.saveGif(e.target.src);
   }
 
   saveGif(src) {
@@ -488,28 +531,28 @@ export default class extends Controller {
     this.getImageDimensions(link)
       .then((dimensions) => {
         // const html = `<img src="${link}" width="${dimensions.width}" height="${dimensions.height}" url="${link}" data-type="image"/>`;
-        
+
         const serialized = {
-          "type":"doc",
-          "content":[
+          type: 'doc',
+          content: [
             {
-            "type":"ImageBlock",
-            "attrs":{
-              "url": link ,
-              "src": link,
-              "width": dimensions.width,
-              "height": dimensions.height,
-              "loading":false,
-              "loading_progress":0,
-              "caption":null,
-              "direction":"center",
-              "file":null,
-              "aspect_ratio":{"width":200,"height":200,"ratio":100}
-              }
-            }
-          ]
-        }
-        
+              type: 'ImageBlock',
+              attrs: {
+                url: link,
+                src: link,
+                width: dimensions.width,
+                height: dimensions.height,
+                loading: false,
+                loading_progress: 0,
+                caption: null,
+                direction: 'center',
+                file: null,
+                aspect_ratio: { width: 200, height: 200, ratio: 100 },
+              },
+            },
+          ],
+        };
+
         const opts = {
           serialized: serialized,
         };
@@ -541,10 +584,8 @@ export default class extends Controller {
         props.onLoading();
         // props.change(previewField, '/spinner.gif')
       }
-  
-      const upload = new DirectUpload(
-        file, `/api/v1/direct_uploads`
-      );
+
+      const upload = new DirectUpload(file, `/api/v1/direct_uploads`);
 
       upload.create((error, blob) => {
         if (error) {
@@ -585,30 +626,32 @@ export default class extends Controller {
     });
   }
 
-  setLock(val){
-    console.log("TODO: set lock!", val)
+  setLock(val) {
+    console.log('TODO: set lock!', val);
   }
 
   submitFile(attrs, cb = null) {
     //const html = `<file-block src="${attrs.link}" url="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`;
     const serialized = {
-      "type":"doc",
-      "content":[
+      type: 'doc',
+      content: [
         {
-          "type":"FileBlock",
-          "attrs": { 
-            "url": attrs.link,
-            "src": attrs.link,
-            "width":"",
-            "height":"",
-            "loading":false,
-            "loading_progress":0,"caption":null,
-            "direction":"center","file":null,
-            "aspect_ratio":{"width":200,"height":200,"ratio":100}
-          }
-        }
-      ]
-    }
+          type: 'FileBlock',
+          attrs: {
+            url: attrs.link,
+            src: attrs.link,
+            width: '',
+            height: '',
+            loading: false,
+            loading_progress: 0,
+            caption: null,
+            direction: 'center',
+            file: null,
+            aspect_ratio: { width: 200, height: 200, ratio: 100 },
+          },
+        },
+      ],
+    };
 
     const opts = {
       serialized: serialized,
