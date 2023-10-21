@@ -48,19 +48,18 @@ inbound settings
   + request triggers
     + display trigger
 
-+ uploader handle loading, locks & after
-+ emoji, fix loading of picker
++ handle LOCKS
 
 + receive messages
   + unread red counters
 
 + prime counter
+
 + settings for:
   + close conversation
+
+
 + bots retrieval
-
-
-
 + inline conversations
 + tours retrieval
 + banner retrieval

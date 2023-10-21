@@ -43,7 +43,7 @@ class Apps::MessengerController < ApplicationController
         lead_editor_settings_objects: %i[emojis gifs attachments],
         team_schedule_objects_attributes: %i[day from to],
         inbound_settings_objects: %i[enabled users_enabled users_segment visitors_enabled visitors_segment],
-        customization_colors_attributes: %i[primary secondary pattern] 
+        customization_colors_attributes: %i[primary secondary pattern]
       }
     ]
 

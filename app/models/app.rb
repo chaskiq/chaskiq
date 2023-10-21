@@ -388,13 +388,14 @@ class App < ApplicationRecord
 
   def allowed_editor_feature?(user_type, feature)
     kind = "agent" if user_type == "Agent"
-    kind = user_type == "AppUser" ? "user" : "lead" unless kind.present?
-    ActiveModel::Type::Boolean.new.cast self.preferences.dig("#{kind}_editor_settings", feature)
+    kind = user_type == "AppUser" ? "user" : "lead" if kind.blank?
+    ActiveModel::Type::Boolean.new.cast preferences.dig("#{kind}_editor_settings", feature)
   end
 
   ### JSON DATA OBJECTS ###
   def agent_editor_settings_objects
-    return AgentEditorSettings.new() if agent_editor_settings.blank?
+    return AgentEditorSettings.new if agent_editor_settings.blank?
+
     @agent_editor_settings_objects ||= AgentEditorSettings.new(agent_editor_settings)
   end
 
@@ -403,7 +404,8 @@ class App < ApplicationRecord
   end
 
   def user_editor_settings_objects
-    return AppUserEditorSettings.new() if user_editor_settings.blank?
+    return AppUserEditorSettings.new if user_editor_settings.blank?
+
     @user_editor_settings_objects ||= AppUserEditorSettings.new(user_editor_settings)
   end
 
@@ -412,7 +414,8 @@ class App < ApplicationRecord
   end
 
   def lead_editor_settings_objects
-    return AppUserEditorSettings.new() if lead_editor_settings.blank?
+    return AppUserEditorSettings.new if lead_editor_settings.blank?
+
     @lead_editor_settings_objects ||= AppUserEditorSettings.new(lead_editor_settings)
   end
 
@@ -731,9 +734,6 @@ class AgentEditorSettings
                 :bot_triggers,
                 :divider
 end
-
-
-
 
 class LeadTasksSettings
   include ActiveModel::AttributeAssignment

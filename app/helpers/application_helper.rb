@@ -206,12 +206,12 @@ module ApplicationHelper
        turbo_frame: "_top",
        active: params[:id] == "inbound_settings"
      },
-      {
-        label: "Editor Settings",
-        href: edit_app_messenger_path(app.key, :editor_settings),
-        turbo_frame: "_top",
-        active: params[:id] == "editor_settings"
-      },
+     {
+       label: "Editor Settings",
+       href: edit_app_messenger_path(app.key, :editor_settings),
+       turbo_frame: "_top",
+       active: params[:id] == "editor_settings"
+     },
      {
        label: I18n.t("settings.app.messenger_style"),
        href: edit_app_messenger_path(app.key, :style_settings),

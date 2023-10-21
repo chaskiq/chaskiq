@@ -30,13 +30,15 @@ export default class extends Controller {
     'giphySearchInput',
     'conversationPart',
     'conversation',
-    'animated'
-  ];
+    'animated',
+    'loader'
+  ]
 
   static values = {
     url: { type: String },
     open: { type: Boolean, default: true },
     isMobile: { type: Boolean, default: false },
+    loading: {type: Boolean, default: false }
   };
 
   initialize() {
@@ -49,7 +51,7 @@ export default class extends Controller {
     this.conversationKey = null;
 
     this.open = true;
-    this.prevent = true
+    this.prevent = true;
 
     this.eventsHandler = function (event) {
       console.log('Received custom event with data:', event.detail.data);
@@ -235,7 +237,7 @@ export default class extends Controller {
               this.conversationTargetAppeared();
             }
           } else {
-            this.picker = null
+            this.picker = null;
             // this.emojiPickerTarget.innerHTML = ""
             console.log('TARGET GONEEE!!!');
           }
@@ -264,7 +266,10 @@ export default class extends Controller {
     window.removeEventListener('message', this.iframeEventsReceiver);
   }
 
-  async insertComment(url, data, cb) {
+  async insertComment(url, data, callbacks) {
+
+    callbacks.before && callbacks.before();
+
     const response = await post(url, {
       body: data,
       responseKind: 'turbo-stream',
@@ -273,6 +278,8 @@ export default class extends Controller {
     this.chatFieldTarget.value = '';
 
     if (response.ok) {
+
+      callbacks && callbacks.sent();
       //const body = await response.html
       //this.element.closest('.definition-renderer').outerHTML = body
       console.log('response!');
@@ -389,17 +396,16 @@ export default class extends Controller {
     overflow.scrollTop = overflow.scrollHeight;
   }
 
-  async animateOnClick(e){
-    e.preventDefault()
-    await this.animateAll()
-    await this.goTo(e.target.href)
+  async animateOnClick(e) {
+    e.preventDefault();
+    await this.animateAll();
+    await this.goTo(e.target.href);
   }
 
   async animateAll() {
-
-    this.animatedTargets.forEach(element => {
-      const inClass = element.getAttribute("data-in");
-      const outClass = element.getAttribute("data-out");
+    this.animatedTargets.forEach((element) => {
+      const inClass = element.getAttribute('data-in');
+      const outClass = element.getAttribute('data-out');
 
       if (element.classList.contains(inClass)) {
         element.classList.remove(inClass);
@@ -559,10 +565,12 @@ export default class extends Controller {
 
         this.insertComment(this.chatFieldTarget.dataset.url, opts, {
           before: () => {
+            this.beforeUpload(opts)
             //this.props.beforeSubmit && this.props.beforeSubmit(opts);
             // this.input.value = '';
           },
           sent: () => {
+            this.afterUpload(opts)
             //this.props.onSent && this.props.onSent(opts);
             //this.input.value = '';
             cb && cb();
@@ -630,6 +638,14 @@ export default class extends Controller {
     console.log('TODO: set lock!', val);
   }
 
+  beforeUpload(opts){
+    this.loaderTarget.classList.remove("hidden")
+  }
+
+  afterUpload(opts){
+    this.loaderTarget.classList.add("hidden")
+  }
+
   submitFile(attrs, cb = null) {
     //const html = `<file-block src="${attrs.link}" url="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`;
     const serialized = {
@@ -660,10 +676,12 @@ export default class extends Controller {
 
     this.insertComment(this.chatFieldTarget.dataset.url, opts, {
       before: () => {
+        this.beforeUpload(opts)
         //this.props.beforeSubmit && this.props.beforeSubmit(opts);
         // this.input.value = '';
       },
       sent: () => {
+        this.afterUpload(opts)
         //this.props.onSent && this.props.onSent(opts);
         //this.input.value = '';
         cb && cb();
@@ -681,34 +699,5 @@ export default class extends Controller {
     this.insertComment(this.chatFieldTarget.dataset.url, data);
 
     console.log('handled', e.target.dataset);
-  }
-
-  async pushEventNOoo(url, data) {
-    const response = await post(url, {
-      body: data,
-      responseKind: 'turbo-stream',
-    });
-
-    this.chatFieldTarget.value = '';
-
-    if (response.ok) {
-      //const body = await response.html
-      //this.element.closest('.definition-renderer').outerHTML = body
-      console.log('response!');
-    }
-
-    /*this.props.pushEvent(
-      'receive_conversation_part',
-      Object.assign(
-        {},
-        {
-          conversation_key: this.props.conversation.key,
-          message_key: this.props.data.key,
-          step: this.props.stepId,
-          trigger: this.props.triggerId,
-        },
-        { email: this.props.email }
-      )
-    );*/
   }
 }
