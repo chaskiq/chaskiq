@@ -101,7 +101,6 @@ class Apps::QuickRepliesController < ApplicationController
 
   private
 
-    
   def check_plan
     allowed_feature?("QuickReplies")
   end

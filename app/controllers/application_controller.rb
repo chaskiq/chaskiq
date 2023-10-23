@@ -23,13 +23,13 @@ class ApplicationController < ActionController::Base
     @app = App.find_by(key: params[:app_id])
 
     respond_to do |format|
-      format.html { 
+      format.html do
         render "errors/upgrade"
-       }
-      format.turbo_stream {
+      end
+      format.turbo_stream do
         flash.now[:error] = "Plan not meet"
         render "errors/upgrade"
-      }
+      end
     end
   end
 

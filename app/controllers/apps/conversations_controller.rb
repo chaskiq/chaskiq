@@ -199,7 +199,7 @@ class Apps::ConversationsController < ApplicationController
   end
 
   private
-  
+
   def check_plan
     allowed_feature?("Conversations")
   end

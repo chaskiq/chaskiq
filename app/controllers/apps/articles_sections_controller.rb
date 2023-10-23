@@ -88,7 +88,6 @@ class Apps::ArticlesSectionsController < ApplicationController
 
   private
 
-    
   def check_plan
     allowed_feature?("Articles")
   end

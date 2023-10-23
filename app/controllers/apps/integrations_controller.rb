@@ -4,7 +4,6 @@ class Apps::IntegrationsController < ApplicationController
   before_action :check_plan
 
   def index
-
     authorize! @app, to: :can_read_app_packages?, with: AppPolicy
 
     case params[:kind]
@@ -66,7 +65,7 @@ class Apps::IntegrationsController < ApplicationController
   end
 
   private
-  
+
   def check_plan
     allowed_feature?("Integrations")
   end

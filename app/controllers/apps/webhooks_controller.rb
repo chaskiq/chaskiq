@@ -77,7 +77,7 @@ class Apps::WebhooksController < ApplicationController
   end
 
   private
-  
+
   def check_plan
     allowed_feature?("OutgoingWebhooks")
   end

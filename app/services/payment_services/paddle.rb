@@ -30,7 +30,7 @@ module PaymentServices
       )
 
       res.filter do |o|
-        Plan.pluck(:id).include?(o.id)
+        Plan.all.pluck(:id).include?(o.id)
       end.map do |o|
         p = Plan.get_by_id(o.id)
         {
@@ -38,7 +38,8 @@ module PaymentServices
           source: "paddle",
           features: p.dig("features"),
           name: p["name"],
-          pricing: o.recurring_price.USD
+          pricing: o.recurring_price.USD,
+          billing_type: o.recurring_price.billing_type
         }
       end
     end

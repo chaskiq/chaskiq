@@ -1,12 +1,17 @@
 TODO.md
-+ pemissions
 + layout:
   + sidebar
 + dashboard:
   + no sidebar
 
 
++ segments page
+
+  + create contacts
+  + upload contacts
+
 + conversations:
+  + rendering plain version
   + editor: handle enter
   + editor: handle private message display: styles
   + open video conversation
@@ -14,9 +19,6 @@ TODO.md
     + search items
   + bot tasks reply add to conversation
     + search items
-+ bots:
-  + clone
-
 
 + campaigns:
   + editor tour manager
@@ -25,7 +27,6 @@ TODO.md
 + app settings:
   + avatars
 + billing view
-+ app packages edit not showing values. now working for custom definitions, make a service form
 + quick replies display in lang
 
 + assignment_rules

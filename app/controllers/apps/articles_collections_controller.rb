@@ -91,7 +91,6 @@ class Apps::ArticlesCollectionsController < ApplicationController
 
   private
 
-    
   def check_plan
     allowed_feature?("Articles")
   end

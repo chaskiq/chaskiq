@@ -4,10 +4,9 @@ class Apps::EmailForwardingController < ApplicationController
 
   before_action :check_plan
 
-  private 
+  private
 
   def check_plan
     allowed_feature?("InboundEmails")
   end
-
 end

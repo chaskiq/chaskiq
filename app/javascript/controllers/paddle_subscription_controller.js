@@ -11,7 +11,7 @@ export default class extends Controller {
     const productId = e.currentTarget.dataset.productId;
 
     Paddle.Setup({
-      vendor: 115475, // Replace with your Vendor ID.
+      vendor: this.element.dataset.vendorId, // Replace with your Vendor ID.
     });
 
     Paddle.Checkout.open({
@@ -21,7 +21,7 @@ export default class extends Controller {
       allowQuantity: false,
       disableLogout: true,
       passthrough: appKey,
-      frameTarget: 'main-modal-content', // The className of your checkout <div>
+      frameTarget: 'paddle-content-wrapper', // The className of your checkout <div>
       frameInitialHeight: 366,
       frameStyle: 'width:100%; background-color: transparent; border: none;',
       successCallback: (_info) => {

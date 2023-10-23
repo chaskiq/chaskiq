@@ -7,7 +7,12 @@
 		<% end %>
 
 		<%= render Tabs::Component.new(	items: billing_menu_data(app: @app) ) do %>
-			<%= render 'table' %>
+			<% if @app.payment_service == PaymentServices::StripeService %>
+				<%= render 'table', data_controller: "paddle-subscription", plans: PaymentServices::StripeService.new.get_plans %>
+			<% else %>
+				<%= render 'table', data_controller: "paddle-subscription", plans: PaymentServices::Paddle.new.get_plans %>
+			<% end %>
+			
 		<% end %>
 
 	<% end %>
