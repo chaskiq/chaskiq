@@ -9,12 +9,28 @@ class ApplicationController < ActionController::Base
   before_action :set_darkmode
 
   rescue_from ActionPolicy::Unauthorized, with: :render_unauthorized
+  rescue_from Plan::PlanError, with: :render_plan_not_meet
 
   layout :layout_by_resource
 
   def render_unauthorized
     flash.now[:error] = "not authorized"
     render "errors/402"
+  end
+
+  def render_plan_not_meet
+    @message = "Plan"
+    @app = App.find_by(key: params[:app_id])
+
+    respond_to do |format|
+      format.html { 
+        render "errors/upgrade"
+       }
+      format.turbo_stream {
+        flash.now[:error] = "Plan not meet"
+        render "errors/upgrade"
+      }
+    end
   end
 
   def preview
@@ -190,6 +206,10 @@ class ApplicationController < ActionController::Base
 
   def set_settings_navigator
     @navigator = "apps/settings/navigator"
+  end
+
+  def allowed_feature?(kind)
+    @app.plan.allow_feature!(kind)
   end
 
   def flash_stream

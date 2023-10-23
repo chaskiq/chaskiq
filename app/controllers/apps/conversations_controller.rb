@@ -1,5 +1,6 @@
 class Apps::ConversationsController < ApplicationController
   before_action :find_app
+  before_action :check_plan
 
   def index
     @filter = "opened"
@@ -198,6 +199,10 @@ class Apps::ConversationsController < ApplicationController
   end
 
   private
+  
+  def check_plan
+    allowed_feature?("Conversations")
+  end
 
   def menu_items_response(item, method)
     if method.call

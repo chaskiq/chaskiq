@@ -1,5 +1,6 @@
 class Apps::CampaignsController < ApplicationController
   before_action :find_app
+  before_action :check_plan
 
   def index
     authorize! @app, to: :can_read_campaigns?, with: AppPolicy, context: {
@@ -157,6 +158,10 @@ class Apps::CampaignsController < ApplicationController
   end
 
   private
+
+  def check_plan
+    allowed_feature?("Campaigns")
+  end
 
   def audience_handler
     @segment_manager = SegmentManagerService.new(

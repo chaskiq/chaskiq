@@ -1,6 +1,7 @@
 class Apps::WebhooksController < ApplicationController
   before_action :find_app
   before_action :set_settings_navigator
+  before_action :check_plan
 
   def index
     authorize! @app, to: :can_read_outgoing_webhooks?, with: AppPolicy
@@ -17,7 +18,6 @@ class Apps::WebhooksController < ApplicationController
 
   def edit
     authorize! @app, to: :can_write_outgoing_webhooks?, with: AppPolicy
-
     @webhook = @app.outgoing_webhooks.find(params[:id])
   end
 
@@ -74,5 +74,11 @@ class Apps::WebhooksController < ApplicationController
       @app.key,
       kind: kind
     )
+  end
+
+  private
+  
+  def check_plan
+    allowed_feature?("OutgoingWebhooks")
   end
 end

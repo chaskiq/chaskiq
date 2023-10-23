@@ -1,6 +1,7 @@
 class Apps::ArticlesSettingsController < ApplicationController
   before_action :find_app
   before_action :set_navigation
+  before_action :check_plan
 
   def show
     @article_setting = @app.article_settings.presence || @app.build_article_settings
@@ -19,6 +20,11 @@ class Apps::ArticlesSettingsController < ApplicationController
   end
 
   private
+
+    
+  def check_plan
+    allowed_feature?("Articles")
+  end
 
   def resource_params
     lang_items = @app.translations.map(&:locale).map do |o|

@@ -1,6 +1,7 @@
 class Apps::OauthApplicationsController < ApplicationController
   before_action :find_app
   before_action :set_settings_navigator
+  before_action :check_plan
 
   def index
     authorize! @app, to: :can_read_oauth_applications?, with: AppPolicy
@@ -68,5 +69,11 @@ class Apps::OauthApplicationsController < ApplicationController
     authorize! @app, to: :can_read_oauth_applications?, with: AppPolicy
 
     @oauth_application = @app.oauth_applications.find(params[:id])
+  end
+
+  private
+
+  def check_plan
+    allowed_feature?("OauthApplications")
   end
 end

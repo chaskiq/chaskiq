@@ -1,6 +1,7 @@
 class Apps::ArticlesController < ApplicationController
   before_action :find_app
   before_action :find_article, only: %i[show edit update destroy]
+  before_action :check_plan
 
   def index
     articles = @app.articles
@@ -89,6 +90,10 @@ class Apps::ArticlesController < ApplicationController
   end
 
   private
+
+  def check_plan
+    allowed_feature?("Articles")
+  end
 
   def resource_params
     params.require(:article).permit(

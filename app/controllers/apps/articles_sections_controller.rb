@@ -3,6 +3,7 @@ class Apps::ArticlesSectionsController < ApplicationController
   before_action :set_navigation
   before_action :find_article_setting
   before_action :find_article_collection, only: [:new]
+  before_action :check_plan
 
   def index; end
 
@@ -86,6 +87,11 @@ class Apps::ArticlesSectionsController < ApplicationController
   end
 
   private
+
+    
+  def check_plan
+    allowed_feature?("Articles")
+  end
 
   def resource_params
     params.require(:collection_section).permit(

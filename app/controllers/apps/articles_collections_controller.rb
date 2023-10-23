@@ -2,6 +2,7 @@ class Apps::ArticlesCollectionsController < ApplicationController
   before_action :find_app
   before_action :set_navigation
   before_action :find_article_setting
+  before_action :check_plan
 
   def index
     @article_collections = @app.article_collections.order(:position)
@@ -89,6 +90,11 @@ class Apps::ArticlesCollectionsController < ApplicationController
   end
 
   private
+
+    
+  def check_plan
+    allowed_feature?("Articles")
+  end
 
   def resource_params
     params.require(:article_collection).permit(:title, :description, :icon)

@@ -1,8 +1,10 @@
 class Apps::IntegrationsController < ApplicationController
   before_action :find_app
   before_action :set_settings_navigator
+  before_action :check_plan
 
   def index
+
     authorize! @app, to: :can_read_app_packages?, with: AppPolicy
 
     case params[:kind]
@@ -61,5 +63,11 @@ class Apps::IntegrationsController < ApplicationController
       flash.now[:notice] = "Place was updated!"
       redirect_to app_integrations_path(@app.key)
     end
+  end
+
+  private
+  
+  def check_plan
+    allowed_feature?("Integrations")
   end
 end

@@ -1,6 +1,7 @@
 class Apps::UserDataController < ApplicationController
   before_action :find_app
   before_action :set_settings_navigator
+  before_action :check_plan
 
   def index
     authorize! @app, to: :can_read_app_settings?, with: AppPolicy
@@ -68,5 +69,11 @@ class Apps::UserDataController < ApplicationController
     @app.save
     flash.now[:notice] = "Place was updated!"
     redirect_to app_user_data_path(@app.key)
+  end
+
+  private
+
+  def check_plan
+    allowed_feature?("CustomAttributes")
   end
 end

@@ -1,6 +1,7 @@
 class Apps::QuickRepliesController < ApplicationController
   before_action :find_app
   before_action :set_settings_navigator
+  before_action :check_plan
 
   def index; end
 
@@ -99,6 +100,11 @@ class Apps::QuickRepliesController < ApplicationController
   end
 
   private
+
+    
+  def check_plan
+    allowed_feature?("QuickReplies")
+  end
 
   def resource_params
     params.require(:quick_reply).permit(:title, :content, :locale)
