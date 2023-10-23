@@ -1,14 +1,18 @@
 class AppsController < ApplicationController
   def show
     @app = App.find_by(key: params[:id])
+    # authorize! @app, to: :can_read_app?, with: AppPolicy
     @actions = set_actions
   end
 
   def new
     @app = current_agent.apps.new
+    authorize! @app, to: :create_app?
   end
 
   def create
+    authorize! @app, to: :create_app?
+
     permitted_params = params.require(:app).permit(:name, :domain_url, :tagline)
     @app = current_agent.apps.create(permitted_params)
     @app.owner = current_agent

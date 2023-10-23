@@ -10,7 +10,9 @@ class Apps::ContactAvatarsController < ApplicationController
 
   def edit; end
 
-  def update; end
+  def update
+    authorize! @app, to: :can_manage_app_settings?, with: AppPolicy
+  end
 
   def create; end
 

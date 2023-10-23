@@ -66,6 +66,11 @@ class Apps::ConversationsController < ApplicationController
   def show
     @filter = "opened"
     @sort = "newest"
+
+    authorize! @app, to: :can_read_conversations?, with: AppPolicy, context: {
+      app: @app
+    }
+
     @conversation = @app.conversations.find_by(key: params[:id])
     @conversations = search_service.search
     @conversations = @conversations
@@ -114,6 +119,9 @@ class Apps::ConversationsController < ApplicationController
   def update
     @conversation = @app.conversations.find_by(key: params[:id])
 
+    authorize! @conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
+      app: @app
+    }
     case params[:step]
     when "state"
       menu_items_response("state",
@@ -168,6 +176,10 @@ class Apps::ConversationsController < ApplicationController
       }
     }
 
+    authorize! @app, to: :can_manage_conversations?, with: AppPolicy, context: {
+      app: @app
+    }
+
     @conversation = @app.start_conversation(options)
 
     redirect_to app_conversation_path(@app.key, @conversation.key)
@@ -175,6 +187,11 @@ class Apps::ConversationsController < ApplicationController
 
   def new
     @app_user = @app.app_users.find(params[:app_user_id]) if params[:app_user_id]
+
+    authorize! @app, to: :can_manage_conversations?, with: AppPolicy, context: {
+      app: @app
+    }
+
     @conversation = @app.conversations.new(
       main_participant_id: @app_user&.id
     )

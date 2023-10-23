@@ -1,6 +1,10 @@
 class Apps::SettingsController < ApplicationController
   before_action :find_app
 
+  def show
+    authorize! @app, to: :can_manage_app_settings?, with: AppPolicy
+  end
+
   def update
     request_params = params.require(:app).permit(
       :domain_url,

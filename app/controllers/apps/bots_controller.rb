@@ -2,19 +2,26 @@ class Apps::BotsController < ApplicationController
   before_action :find_app
 
   def index
+    authorize! @app, to: :can_read_routing_bots?, with: AppPolicy
     redirect_to leads_app_bots_path(@app.key)
   end
 
   def show
     @bot = @app.bot_tasks.find(params[:id])
+    authorize! @bot, to: :can_read_routing_bots?, with: AppPolicy
   end
 
   def new
+    authorize! @app, to: :can_manage_routing_bots?, with: AppPolicy
+
     @bot = @app.bot_tasks.new(bot_type: params[:kind])
+
     # params.permit(:title, :paths, :bot_type)
   end
 
   def create
+    authorize! @app, to: :can_manage_routing_bots?, with: AppPolicy
+
     @bot = @app.bot_tasks.create({
                                    title: params[:bot_task][:title],
                                    paths: [],
@@ -26,6 +33,8 @@ class Apps::BotsController < ApplicationController
 
   def edit
     @bot = @app.bot_tasks.find(params[:id])
+    authorize! @bot, to: :can_manage_routing_bots?, with: AppPolicy
+
     @collection = @bot.metrics.page(params[:page]).per(params[:per])
 
     @tab = params[:tab] || "stats"
@@ -62,6 +71,8 @@ class Apps::BotsController < ApplicationController
 
   def update
     @bot = @app.bot_tasks.find(params[:id])
+    authorize! @bot, to: :can_manage_routing_bots?, with: AppPolicy
+
     @tab = params[:tab]
 
     if params[:tab] == "audience"
@@ -133,6 +144,9 @@ class Apps::BotsController < ApplicationController
     collection = @app.bot_tasks.for_outbound if mode == "outbound"
 
     @bot_task = collection.find(id)
+
+    authorize! @bot_Taks, to: :can_manage_routing_bots?, with: AppPolicy
+
     @bot_task.insert_at(position + 1)
 
     head :ok

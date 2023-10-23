@@ -31,14 +31,14 @@ export default class extends Controller {
     'conversationPart',
     'conversation',
     'animated',
-    'loader'
-  ]
+    'loader',
+  ];
 
   static values = {
     url: { type: String },
     open: { type: Boolean, default: true },
     isMobile: { type: Boolean, default: false },
-    loading: {type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
   };
 
   initialize() {
@@ -267,7 +267,6 @@ export default class extends Controller {
   }
 
   async insertComment(url, data, callbacks) {
-
     callbacks.before && callbacks.before();
 
     const response = await post(url, {
@@ -278,7 +277,6 @@ export default class extends Controller {
     this.chatFieldTarget.value = '';
 
     if (response.ok) {
-
       callbacks && callbacks.sent();
       //const body = await response.html
       //this.element.closest('.definition-renderer').outerHTML = body
@@ -565,12 +563,12 @@ export default class extends Controller {
 
         this.insertComment(this.chatFieldTarget.dataset.url, opts, {
           before: () => {
-            this.beforeUpload(opts)
+            this.beforeUpload(opts);
             //this.props.beforeSubmit && this.props.beforeSubmit(opts);
             // this.input.value = '';
           },
           sent: () => {
-            this.afterUpload(opts)
+            this.afterUpload(opts);
             //this.props.onSent && this.props.onSent(opts);
             //this.input.value = '';
             cb && cb();
@@ -638,12 +636,12 @@ export default class extends Controller {
     console.log('TODO: set lock!', val);
   }
 
-  beforeUpload(opts){
-    this.loaderTarget.classList.remove("hidden")
+  beforeUpload(opts) {
+    this.loaderTarget.classList.remove('hidden');
   }
 
-  afterUpload(opts){
-    this.loaderTarget.classList.add("hidden")
+  afterUpload(opts) {
+    this.loaderTarget.classList.add('hidden');
   }
 
   submitFile(attrs, cb = null) {
@@ -676,12 +674,12 @@ export default class extends Controller {
 
     this.insertComment(this.chatFieldTarget.dataset.url, opts, {
       before: () => {
-        this.beforeUpload(opts)
+        this.beforeUpload(opts);
         //this.props.beforeSubmit && this.props.beforeSubmit(opts);
         // this.input.value = '';
       },
       sent: () => {
-        this.afterUpload(opts)
+        this.afterUpload(opts);
         //this.props.onSent && this.props.onSent(opts);
         //this.input.value = '';
         cb && cb();

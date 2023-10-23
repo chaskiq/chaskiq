@@ -20,7 +20,7 @@ class Apps::InvitationsController < ApplicationController
   end
 
   def create
-    # authorize! app, to: :invite_user?, with: AppPolicy
+    authorize! @app, to: :invite_user?, with: AppPolicy
     @agent = @app.agents.find_by(email: params[:agent][:email])
 
     if @agent.blank?

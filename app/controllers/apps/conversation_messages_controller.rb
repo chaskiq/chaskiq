@@ -41,6 +41,10 @@ class Apps::ConversationMessagesController < ApplicationController
 
   def create
     conversation = @app.conversations.find_by(key: params[:conversation_id])
+
+    authorize! conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
+      app: @app
+    }
     # author = @app.agents.where("agents.email =?", current_agent.email).first
     message = params[:conversation_message]
     options = {

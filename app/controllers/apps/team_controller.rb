@@ -4,6 +4,8 @@ class Apps::TeamController < ApplicationController
 
   def index
     @active_tab = "team"
+    authorize! @app, to: :can_manage_team?, with: AppPolicy
+
     @agents = @app.roles.includes(:agent)
                   .where("agents.invitation_token": nil) # agents.with_attached_avatar.where(invitation_token: nil)
                   .page(params[:page])
@@ -17,9 +19,9 @@ class Apps::TeamController < ApplicationController
 
     @agent.roles_for_current_app = @agent_role.access_list.split || []
 
-    # authorize! agent, to: :update_agent?, with: AppPolicy, context: {
-    #	role: app.roles.find_by(agent_id: current_user.id)
-    # }
+    authorize! @agent, to: :update_agent?, with: AppPolicy, context: {
+      role: @app.roles.find_by(agent_id: current_user.id)
+    }
 
     # render turbo_stream: [
     #	turbo_stream.replace(
@@ -35,19 +37,20 @@ class Apps::TeamController < ApplicationController
 
     @agent = @agent_role&.agent
 
-    # authorize! agent, to: :update_agent_role?, with: AppPolicy, context: {
-    #		role: app.roles.find_by(agent_id: current_user.id)
-    # }
+    authorize! @agent, to: :update_agent_role?, with: AppPolicy, context: {
+      role: @app.roles.find_by(agent_id: current_user.id)
+    }
 
     data = params.require(:agent).permit(
       :name,
-      :email
+      :email,
+      :roles_for_current_app
     )
 
-    roles = params[:agent][:roles]
+    role = params[:agent][:roles_for_current_app]
 
     # this is a bad pattern, consider nested attribs on @agent_role
-    if @agent_role.update(access_list: roles) && @agent.update(data)
+    if @agent_role.update(role: role) && @agent.update(data)
       flash.now[:notice] = "Place was updated!"
       render turbo_stream: [flash_stream]
       # redirect_to app_team_index_path(@app.key), notice: "epa!", status: 303
@@ -60,7 +63,7 @@ class Apps::TeamController < ApplicationController
   def new; end
 
   def create
-    # authorize! app, to: :invite_user?, with: AppPolicy
+    authorize! @app, to: :invite_user?, with: AppPolicy
     @agent = @app.agents.find_by(email: email)
 
     if agent.blank?

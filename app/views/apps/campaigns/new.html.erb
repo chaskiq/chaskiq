@@ -3,9 +3,11 @@
 
   <%= render PageHeader::Component.new(title: campaign_name(@namespace) ) %>
 
-  <%= turbo_frame_tag "campaign-settings-form" do %>
+  <% #= turbo_frame_tag "campaign-settings-form" do %>
     <%= form_for @campaign, url: app_campaigns_path(@app.key, @campaign) do |form| %>
 
+      <%= form.object.errors.full_messages %>
+      <%= hidden_field_tag :namespace, @namespace %>
       <%= render FieldRenderer::Component.new(
         form: form, 
         definitions: @campaign.config_fields
@@ -14,5 +16,5 @@
       <%= form.submit %>
 
     <% end %>
-  <% end %>
+  <% # end %>
 <% end %>

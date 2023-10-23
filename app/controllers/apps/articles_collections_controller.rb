@@ -13,11 +13,17 @@ class Apps::ArticlesCollectionsController < ApplicationController
   end
 
   def edit
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @article_setting = @app.article_settings
     @article_collection = @app.article_collections.friendly.find(params[:id]) # .find(params[:id])
   end
 
   def update
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @article_setting = @app.article_settings
     @article_collection = @app.article_collections.friendly.find(params[:id]) # .find(params[:id])
 
@@ -31,10 +37,16 @@ class Apps::ArticlesCollectionsController < ApplicationController
   end
 
   def new
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @article_collection = @app.article_collections.new
   end
 
   def create
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @article_collection = @app.article_collections.new(
       resource_params
     )
@@ -49,6 +61,9 @@ class Apps::ArticlesCollectionsController < ApplicationController
   end
 
   def destroy
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @article_collection = @app.article_collections.friendly.find(params[:id])
     if @article_collection.destroy
       flash.now[:notice] = "Place was updated!"
@@ -60,6 +75,9 @@ class Apps::ArticlesCollectionsController < ApplicationController
   end
 
   def sort
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     article_collection = @app.article_collections
     id = params.dig("articles_collection", "section", "id")
     position = params.dig("articles_collection", "section", "position")

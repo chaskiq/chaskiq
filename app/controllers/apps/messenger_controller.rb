@@ -2,10 +2,17 @@ class Apps::MessengerController < ApplicationController
   before_action :find_app
   before_action :set_settings_navigator
 
-  def edit; end
+  def index
+    authorize! @app, to: :can_manage_app_settings?, with: AppPolicy
+  end
+
+  def edit
+    authorize! @app, to: :can_manage_app_settings?, with: AppPolicy
+  end
 
   def update
     flash[:notice] = "success!"
+    authorize! @app, to: :can_manage_app_settings?, with: AppPolicy
 
     if @app.update(resource_params)
 

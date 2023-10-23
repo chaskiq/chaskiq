@@ -5,18 +5,26 @@ class Apps::QuickRepliesController < ApplicationController
   def index; end
 
   def show
+    authorize! @app, to: :can_read_quick_replies?, with: AppPolicy
+
     @quick_reply = @app.quick_replies.find(params[:id])
   end
 
   def new
+    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy
+
     @quick_reply = @app.quick_replies.new
   end
 
   def edit
+    authorize! @app, to: :can_wirte_quick_replies?, with: AppPolicy
+
     @quick_reply = @app.quick_replies.find(params[:id])
   end
 
   def update
+    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy
+
     @quick_reply = @app.quick_replies.find(params[:id])
 
     I18n.with_locale(params[:locale] || I18n.locale) do
@@ -52,6 +60,8 @@ class Apps::QuickRepliesController < ApplicationController
   end
 
   def create
+    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy
+
     @quick_reply = @app.quick_replies.new(resource_params)
     respond_to do |format|
       if @quick_reply.save
@@ -77,6 +87,8 @@ class Apps::QuickRepliesController < ApplicationController
   end
 
   def destroy
+    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy
+
     @quick_reply = @app.quick_replies.find(params[:id])
     if @quick_reply.destroy
       flash[:success] = "Object was successfully deleted."
@@ -89,6 +101,6 @@ class Apps::QuickRepliesController < ApplicationController
   private
 
   def resource_params
-    params.require(:quick_reply).permit(:title, :content)
+    params.require(:quick_reply).permit(:title, :content, :locale)
   end
 end

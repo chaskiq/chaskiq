@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "campaign-editor-form" do %>
-  <%= form_for @campaign, url: app_campaign_path(@app.key, @campaign, tab: :banner) do |f| %>
+  <%= form_for @campaign, url: app_campaign_path(@app.key, @campaign, namespace: :banner) do |f| %>
 
     <div class="border rounded-md flex flex-col shadow-md">
       <div class="bg-gray-300">

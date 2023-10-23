@@ -71,6 +71,8 @@ class Apps::PackagesController < ApplicationController
   end
 
   def capabilities
+    authorize! @app, to: :show?, with: AppPolicy
+
     @location = params[:kind]
     @category = params[:category]
     @conversation_key = params[:conversation_key]

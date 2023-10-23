@@ -36,9 +36,7 @@
 					
 					}},
 					{name: :access_list, render: lambda{|record| 
-							raw record.access_list do |tag|
-									render( Badge::Component.new(class_name: 'mr-2')){ tag }
-							end
+							raw render( Badge::Component.new(class_name: 'mr-2')){ record.role }
 						}
 					},
 					{name: :actions, render: lambda{|record|

@@ -2,17 +2,29 @@ class Apps::CampaignsController < ApplicationController
   before_action :find_app
 
   def index
+    authorize! @app, to: :can_read_campaigns?, with: AppPolicy, context: {
+      app: @app
+    }
+
     @namespace = params[:namespace] || "campaigns"
     @collection = @app.send(@namespace) if Message.allowed_types.include?(@namespace)
     @collection = @collection.page(params[:page]).per(20)
   end
 
   def new
+    authorize! @app, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      app: @app
+    }
+
     @namespace = params[:namespace] || "campaigns"
     @campaign = @app.send(@namespace).new if Message.allowed_types.include?(@namespace)
   end
 
   def create
+    authorize! @app, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      app: @app
+    }
+
     @namespace = params[:namespace] || "campaigns"
     @campaign = @app.send(@namespace).new if Message.allowed_types.include?(@namespace)
     @campaign.assign_attributes(resource_params)
@@ -25,12 +37,22 @@ class Apps::CampaignsController < ApplicationController
 
   def show
     @campaign = @app.messages.find(params[:id])
+
+    authorize! @campaign, to: :can_read_campaigns?, with: AppPolicy, context: {
+      app: @app
+    }
+
     @collection = @campaign.metrics.page(params[:page]).per(10)
     @tab = "stats"
   end
 
   def edit
     @campaign = @app.messages.find(params[:id])
+
+    authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      app: @app
+    }
+
     case params[:tab]
     when nil, "stats"
       @tab = "stats"
@@ -52,13 +74,18 @@ class Apps::CampaignsController < ApplicationController
   def update
     @campaign = @app.messages.find(params[:id])
 
+    authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      app: @app
+    }
+
     if params[:toggle]
       @campaign.update(state: @campaign.state == "disabled" ? "enabled" : "disabled")
       flash.now[:notice] = "Campaign was updated!"
       render turbo_stream: [flash_stream] and return
     end
 
-    if (params[:tab] = "audience")
+    case params[:tab]
+    when "audience"
       segment_predicate = resource_params[:segments][:segment_predicate]
       segment_predicates = segment_predicate.keys.sort.map { |key| segment_predicate[key] }
 
@@ -72,7 +99,8 @@ class Apps::CampaignsController < ApplicationController
 
       audience_handler
       @tab = params[:tab]
-
+    when "settings"
+      @campaign.update(resource_params)
     else
       @tab = "editor"
       @campaign.update(resource_params)
@@ -84,6 +112,12 @@ class Apps::CampaignsController < ApplicationController
     #  app: app
     # }
 
+    @campaign = @app.messages.find(params[:id])
+
+    authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      app: @app
+    }
+
     new_message = @campaign.dup
     new_message.name = "#{new_message.name} (copy)"
     new_message.state = "disabled"
@@ -93,22 +127,33 @@ class Apps::CampaignsController < ApplicationController
   end
 
   def deliver
-    # authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
-    #  app: @app
-    # }
     @campaign.send_newsletter
+    authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      app: @app
+    }
+
     flash.now[:notice] = "Place was updated!"
     render "show"
   end
 
   def purge_metrics
+    authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      app: @app
+    }
     # set_campaign(id)
-    # authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
-    #  app: @app
-    # }
     @campaign.metrics.destroy_all
     flash.now[:notice] = "Place was updated!"
     render "show"
+  end
+
+  def destroy
+    @campaign = @app.messages.find(params[:id])
+
+    authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      app: @app
+    }
+
+    redirect_to app_campaigns_path(@app.key)
   end
 
   private
@@ -163,7 +208,6 @@ class Apps::CampaignsController < ApplicationController
 
   def resource_params
     if params.keys.include?("banner")
-      @namespace = "banner"
       return params.require(:banner).permit(
         :dismiss_button, :serialized_content, :show_sender, :sender_id, :url,
         :action_text, :font_options, :bg_color, :placement,
@@ -181,22 +225,28 @@ class Apps::CampaignsController < ApplicationController
     end
 
     if params.keys.include?("user_auto_message")
-      @namespace = "userautomessage"
-      return params.require(:user_auto_message).permit(:serialized_content,
-                                                       segments: {
-                                                         segment_predicate: [
-                                                           :type,
-                                                           :attribute,
-                                                           :comparison,
-                                                           { value: [] }, # This permits the value as an array
-                                                           :value # This permits the value as a scalar (e.g., string)
-                                                         ]
-                                                       })
+      return params.require(:user_auto_message).permit(
+        :serialized_content,
+        :name,
+        :subject,
+        :description,
+        :scheduled_at,
+        :scheduled_to,
+        hidden_constraints: [],
+        segments: {
+          segment_predicate: [
+            :type,
+            :attribute,
+            :comparison,
+            { value: [] }, # This permits the value as an array
+            :value # This permits the value as a scalar (e.g., string)
+          ]
+        }
+      )
     end
 
     if params.keys.include?("campaign")
-      @namespace = "campaign"
-      params.require(:campaign).permit(
+      return params.require(:campaign).permit(
         :serialized_content, :timezone, :name, :from_name, :subject, :description, :scheduled_to, :scheduled_at,
         segments: {
           segment_predicate: [
@@ -211,7 +261,6 @@ class Apps::CampaignsController < ApplicationController
     end
 
     if params.keys.include?("tour")
-      @namespace = "tour"
       params.require(:tour).permit(
         :serialized_content, :timezone, :name, :from_name, :subject, :description, :scheduled_to, :scheduled_at,
         segments: {

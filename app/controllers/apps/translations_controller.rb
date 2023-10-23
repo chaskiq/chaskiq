@@ -2,10 +2,14 @@ class Apps::TranslationsController < ApplicationController
   before_action :find_app
 
   def new
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+
     flash[:notice] = "success!"
   end
 
   def update
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+
     lang = params[:app][:new_language]
     lang_params = {
       "greetings_#{lang}": "--",
@@ -25,6 +29,8 @@ class Apps::TranslationsController < ApplicationController
   end
 
   def destroy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+
     lang = params[:id]
     lang_params = {
       "greetings_#{lang}": nil,

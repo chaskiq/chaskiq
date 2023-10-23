@@ -5,11 +5,15 @@ class Apps::SegmentsController < ApplicationController
   layout "application"
 
   def index
+    authorize! @app, to: :can_read_segments?, with: AppPolicy
+
     @segment = @segments.first
     redirect_to app_segment_path(@app.key, @segment)
   end
 
   def show
+    authorize! @app, to: :can_read_segments?, with: AppPolicy
+
     @segment = @segments.find(params[:id])
     # @segment = @app.segments.new
 
@@ -42,10 +46,14 @@ class Apps::SegmentsController < ApplicationController
   end
 
   def edit
+    authorize! @app, to: :can_write_segments?, with: AppPolicy
+
     @segment = @segments.find(params[:id])
   end
 
   def update
+    authorize! @app, to: :can_write_segments?, with: AppPolicy
+
     @segment = @segments.find(params[:id])
 
     if params[:options] === "new"
@@ -77,6 +85,8 @@ class Apps::SegmentsController < ApplicationController
   end
 
   def edit_segment
+    authorize! @app, to: :can_write_segments?, with: AppPolicy
+
     @segment = @segments.find(params[:id])
 
     resource_params = params[:segment_manager_service].permit!

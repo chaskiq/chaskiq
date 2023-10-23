@@ -14,15 +14,10 @@
 		<%= f.text_field :name, hint: "agent name" %>
 		<%= f.text_field :email %>
 
-		<% data = [
-				{label: 'mananger', value: 'manage'},
-				{label: 'admin', value: 'admin'}
-			]
-		%>
+		<% data = PermissionsService.list %>
 
-		<%= f.select :roles_for_current_app, options_for_select(data.map { |o| [o[:label], o[:value]] }, @webhook.roles_for_current_app ), 
+		<%= f.select :roles_for_current_app, options_for_select(data, @agent_role.role ), 
 			{}, {
-				multiple: true, 
 				data: {'select-target': 'select', options: data.to_json }}
 		%>
 

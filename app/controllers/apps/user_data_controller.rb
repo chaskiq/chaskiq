@@ -3,6 +3,8 @@ class Apps::UserDataController < ApplicationController
   before_action :set_settings_navigator
 
   def index
+    authorize! @app, to: :can_read_app_settings?, with: AppPolicy
+
     @data = (AppUser::ENABLED_SEARCH_FIELDS + AppUser::BROWSING_FIELDS).map do |item|
       {
         "title" => item["name"],
@@ -13,14 +15,20 @@ class Apps::UserDataController < ApplicationController
   end
 
   def new
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+
     @custom_field = CustomFieldRecord.new
   end
 
   def edit
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+
     @tag = @app.custom_fields_objects.find { |o| o.name == params[:id] }
   end
 
   def update
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+
     resource_params = params.require(:custom_field_record).permit(:name, :type)
     @custom_field = @app.custom_fields_objects.find { |o| o.name == params[:id] }
     @custom_field.assign_attributes(resource_params)
@@ -35,6 +43,8 @@ class Apps::UserDataController < ApplicationController
   end
 
   def create
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+
     @custom_field = CustomFieldRecord.new
     resource_params = params.require(:custom_field_record).permit(:name, :type)
 
@@ -51,6 +61,8 @@ class Apps::UserDataController < ApplicationController
   end
 
   def destroy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+
     @custom_fields = @app.custom_fields_objects.reject { |o| o.name == params[:id] }
     @app.custom_fields = @custom_fields.as_json
     @app.save

@@ -101,7 +101,9 @@
             %>
           </div>
           <div class="ml-3 w-2/5 flex flex-wrap">
-            <p class="text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">miguelmichelson@gmail.com</p>
+            <p class="text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
+              <%= current_agent.email %>
+            </p>
             <%= turbo_frame_tag "menuaa" do %>
               <div class="flex items-center" data-turbo="true">
 

@@ -3,6 +3,8 @@ class Apps::IntegrationsController < ApplicationController
   before_action :set_settings_navigator
 
   def index
+    authorize! @app, to: :can_read_app_packages?, with: AppPolicy
+
     case params[:kind]
     when "available"
       # authorize! object, to: :manage?, with: AppPolicy
@@ -21,15 +23,19 @@ class Apps::IntegrationsController < ApplicationController
   end
 
   def edit
+    authorize! @app, to: :can_write_app_packages?, with: AppPolicy
+
     @integration = @app.app_package_integrations.find(params[:id])
   end
 
   def new
+    authorize! @app, to: :can_write_app_packages?, with: AppPolicy
     @app_package = AppPackage.find(params[:app_package])
     @integration = @app.app_package_integrations.new(app_package: @app_package)
   end
 
   def update
+    authorize! @app, to: :can_write_app_packages?, with: AppPolicy
     @integration = @app.app_package_integrations.find(params[:id])
     resource_params = params[:app_package_integration].permit!
     external_id = params[:app_package_integration][:external_id]
@@ -40,6 +46,7 @@ class Apps::IntegrationsController < ApplicationController
   end
 
   def create
+    authorize! @app, to: :can_write_app_packages?, with: AppPolicy
     resource_params = params[:app_package_integration].permit!
     @app_package = AppPackage.find(params[:app_package])
     @integration = @app.app_package_integrations.new(app_package: @app_package)
@@ -48,6 +55,7 @@ class Apps::IntegrationsController < ApplicationController
   end
 
   def destroy
+    authorize! @app, to: :can_write_app_packages?, with: AppPolicy
     @integration = @app.app_package_integrations.find(params[:id])
     if @integration.destroy
       flash.now[:notice] = "Place was updated!"

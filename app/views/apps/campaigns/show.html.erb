@@ -19,7 +19,7 @@
     title: t('common.delete'),
     description: t('campaigns.delete_campaign', name: @campaign.name),
     icon: "x-circle",
-    href: pause_app_campaign_path(@app.key, @campaign),
+    href: app_campaign_path(@app.key, @campaign, namespace: @campaign.type),
     data: {turbo_confirm: t("common.confirm_deletion_ready"), turbo_method: :delete}
   },
   { title: t('campaigns.deliver_title'),
@@ -33,7 +33,8 @@
 
 <%= render Content::Component.new do %>
 
-  <%= render PageHeader::Component.new(title: I18n.t('campaigns.title') ) do %>
+  <%= render PageHeader::Component.new(
+    title: @campaign.type ) do %>
   
     <div class="flex space-x-2">
       <%= render Toggle::Component.new(

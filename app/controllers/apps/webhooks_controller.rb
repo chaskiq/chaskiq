@@ -3,20 +3,26 @@ class Apps::WebhooksController < ApplicationController
   before_action :set_settings_navigator
 
   def index
+    authorize! @app, to: :can_read_outgoing_webhooks?, with: AppPolicy
+
     @webhooks = @app.outgoing_webhooks.enabled if !params[:kind] || params[:kind] != "disabled"
     @webhooks = @app.outgoing_webhooks.disabled if params[:kind] == "disabled"
     @webhooks = @webhooks.page(params[:page]).per(params[:per])
   end
 
   def new
+    authorize! @app, to: :can_write_outgoing_webhooks?, with: AppPolicy
     @webhook = @app.outgoing_webhooks.new
   end
 
   def edit
+    authorize! @app, to: :can_write_outgoing_webhooks?, with: AppPolicy
+
     @webhook = @app.outgoing_webhooks.find(params[:id])
   end
 
   def create
+    authorize! @app, to: :can_write_outgoing_webhooks?, with: AppPolicy
     resource_params = params.require(:outgoing_webhook).permit(:state, :url, tag_list: [])
     @webhook = @app.outgoing_webhooks.new(resource_params)
     if @webhook.save

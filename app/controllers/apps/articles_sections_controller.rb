@@ -13,10 +13,16 @@ class Apps::ArticlesSectionsController < ApplicationController
   def show; end
 
   def edit
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @article_section = @article_collection.sections.new
   end
 
   def update
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @article_section = @app.sections.friendly.find(params[:id])
     if @article_section.errors.blank?
       flash.now[:notice] = "Place was updated!"
@@ -29,6 +35,9 @@ class Apps::ArticlesSectionsController < ApplicationController
   end
 
   def create
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @article_collection = @app.article_collections.find(params[:collection_section][:article_collection_id])
 
     @article_section = @article_collection.sections.create(resource_params)
@@ -44,6 +53,9 @@ class Apps::ArticlesSectionsController < ApplicationController
   end
 
   def destroy
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @article_section = @app.sections.friendly.find(params[:id])
 
     if @article_section.destroy
@@ -56,6 +68,9 @@ class Apps::ArticlesSectionsController < ApplicationController
   end
 
   def sort
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     article = @app.articles.find(params[:section][:id])
     section_to = begin
       @app.sections.find(params[:section][:group_to])

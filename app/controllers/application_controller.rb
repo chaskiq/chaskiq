@@ -8,7 +8,14 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :set_darkmode
 
+  rescue_from ActionPolicy::Unauthorized, with: :render_unauthorized
+
   layout :layout_by_resource
+
+  def render_unauthorized
+    flash.now[:error] = "not authorized"
+    render "errors/402"
+  end
 
   def preview
     @app = App.find_by(key: params[:app])

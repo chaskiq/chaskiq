@@ -23,6 +23,8 @@ class Apps::ArticlesController < ApplicationController
       @article.update(resource_params)
     end
 
+    authorize! @article, to: :can_read_help_center?, with: AppPolicy
+
     if @article.errors.blank?
       flash[:success] = "Object was successfully updated"
       flash.now[:notice] = "Place was updated!"
@@ -36,6 +38,7 @@ class Apps::ArticlesController < ApplicationController
 
   def create
     @article = @app.articles.new(resource_params)
+    authorize! @article, to: :can_read_help_center?, with: AppPolicy
 
     if @article.save
       flash[:success] = "Object successfully created"
@@ -47,6 +50,8 @@ class Apps::ArticlesController < ApplicationController
   end
 
   def destroy
+    authorize! @article, to: :can_read_help_center?, with: AppPolicy
+
     if @article.destroy
       flash[:success] = "Object was successfully deleted."
     else
@@ -56,6 +61,9 @@ class Apps::ArticlesController < ApplicationController
   end
 
   def add_uncategorized
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @articles = @app.articles.without_collection.page(params[:page]).per(params[:page])
     collection = @app.article_collections.friendly.find(params[:collection_id])
     section = begin
@@ -73,6 +81,9 @@ class Apps::ArticlesController < ApplicationController
   end
 
   def uncategorized
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app
+    }
     @articles = @app.articles.without_collection.page(params[:page]).per(params[:page])
     render partial: "uncategorized_form"
   end
