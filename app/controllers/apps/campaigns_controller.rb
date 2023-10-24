@@ -1,6 +1,6 @@
 class Apps::CampaignsController < ApplicationController
   before_action :find_app
-  before_action :check_plan
+  # before_action :check_plan
 
   def index
     authorize! @app, to: :can_read_campaigns?, with: AppPolicy, context: {

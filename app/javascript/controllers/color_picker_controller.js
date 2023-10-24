@@ -7,59 +7,53 @@ export default class extends Controller {
   static targets = ['input'];
 
   initialize() {
-
     const wrapper = this.element;
     const selectWrapper = wrapper.querySelector('.color-wrapper');
 
     const root = createRoot(selectWrapper);
-  
 
     root.render(
       <div>
-        <ColorPicker 
-          colorHandler={this.colorHandler.bind(this)} 
+        <ColorPicker
+          colorHandler={this.colorHandler.bind(this)}
           color={`#${this.inputTarget.value}`}
-          variant={"circle"}
+          variant={'circle'}
         />
       </div>
     );
   }
 
-  colorHandler(e){
-    console.log("HANDLED", e)
-    this.inputTarget.value = e
+  colorHandler(e) {
+    console.log('HANDLED', e);
+    this.inputTarget.value = e;
 
-    this.resolveSrc()
+    this.resolveSrc();
   }
 
-  resolveSrc(){
+  resolveSrc() {
     const selectElement = document.querySelector('.avatar-select');
     const kind = selectElement.value;
-    const resolvedPalette = this.resolvePalette()
-    const url = `https://source.boringavatars.com/${kind}/128/1234?colors=${resolvedPalette}`
-    const avatar = document.querySelector(".avatar-component")
-    avatar.style.backgroundImage = `url(${url})`
+    const resolvedPalette = this.resolvePalette();
+    const url = `https://source.boringavatars.com/${kind}/128/1234?colors=${resolvedPalette}`;
+    const avatar = document.querySelector('.avatar-component');
+    avatar.style.backgroundImage = `url(${url})`;
   }
 
-  resolvePalette(){
-    let values = Array.from(document.querySelectorAll('input[data-color-picker-target]'))
-                 .map(input => input.value.replace("#", ""))
-                 .join(',');
-    return values
+  resolvePalette() {
+    let values = Array.from(
+      document.querySelectorAll('input[data-color-picker-target]')
+    )
+      .map((input) => input.value.replace('#', ''))
+      .join(',');
+    return values;
   }
 
-  connect() {
+  connect() {}
 
-  }
-
-
-  disconnect() {
-  }
+  disconnect() {}
 }
 
-
-
-export function ColorPicker(props ) {
+export function ColorPicker(props) {
   const [displayColorPicker, setDisplayColorPicker] = React.useState(false);
   const [value, setValue] = React.useState(
     props.color || props.defaultValue || '#444'

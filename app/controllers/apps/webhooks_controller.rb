@@ -1,7 +1,7 @@
 class Apps::WebhooksController < ApplicationController
   before_action :find_app
   before_action :set_settings_navigator
-  before_action :check_plan
+  before_action :check_plan, only: [:create]
 
   def index
     authorize! @app, to: :can_read_outgoing_webhooks?, with: AppPolicy

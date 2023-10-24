@@ -2,14 +2,24 @@
 
 	<%= turbo_frame_tag 'app-settings' do %>
 
+
 		<%= render PageHeader::Component.new(title: I18n.t('settings.webhooks.outgoing_webhooks') ) do %>
-			<%= link_to( I18n.t('settings.webhooks.new_webhook'), 
-				new_app_webhook_path(@app.key), 
-				data: {
-				'turbo-frame': 'modal'
-				}, 
-				class: "btn btn-flat-dark md") 
-			%>
+			
+    	<%= render UpgradeButton::Component.new(
+          label: I18n.t('settings.webhooks.new_webhook'),
+          feature: "OutgoingWebhooks",
+					app: @app
+				) do %>
+			
+				<%= link_to( I18n.t('settings.webhooks.new_webhook'), 
+					new_app_webhook_path(@app.key), 
+					data: {
+					'turbo-frame': 'modal'
+					}, 
+					class: "btn btn-flat-dark md") 
+				%>
+
+			<% end %>
 		<% end %>
 
 		<%= render Tabs::Component.new(	items: webhooks_menu_data(app: @app) ) do %>

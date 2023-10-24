@@ -23,14 +23,8 @@ TODO.md
 + campaigns:
   + editor tour manager
 
-
-+ app settings:
-  + avatars
-    + color inputs + change display of avatar in select change
-
 + billing view
   + notifications
-
 
 + UpgradeButton UpgradeButton, search for upgrade button an implement those
 

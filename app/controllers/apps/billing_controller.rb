@@ -10,15 +10,12 @@ class Apps::BillingController < ApplicationController
     end
   end
 
-
   def new
-    url = setup_intent(@app, params[:plan_id])    
+    url = setup_intent(@app, params[:plan_id])
     redirect_to url, allow_other_host: true
   end
 
-  def show
-
-  end
+  def show; end
 
   def success
     @status = "success"
@@ -30,10 +27,7 @@ class Apps::BillingController < ApplicationController
     render "show"
   end
 
-
-  def create
-    
-  end
+  def create; end
 
   def setup_portal(app)
     session = Stripe::BillingPortal::Session.create({

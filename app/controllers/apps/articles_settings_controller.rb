@@ -1,7 +1,7 @@
 class Apps::ArticlesSettingsController < ApplicationController
   before_action :find_app
   before_action :set_navigation
-  before_action :check_plan
+  before_action :check_plan, only: [:update]
 
   def show
     @article_setting = @app.article_settings.presence || @app.build_article_settings

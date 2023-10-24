@@ -396,13 +396,14 @@ class App < ApplicationRecord
 
   def avatar_settings_objects
     return AvatarSettings.new if avatar_settings.blank?
+
     @avatar_settings_objects ||= AvatarSettings.new(avatar_settings)
   end
 
   def avatar_settings_objects=(attrs)
     s = AvatarSettings.new(attrs)
     self.avatar_settings = {
-      style: s.style, palette: s.palette_objects.map{|o| o.color.gsub("#", "") }
+      style: s.style, palette: s.palette_objects.map { |o| o.color.gsub("#", "") }
     }
   end
 
@@ -774,16 +775,16 @@ class AvatarSettings
   attr_accessor :palette, :style
 
   def palette_objects=(colors)
-    @palette_objects = colors.map{|o| AvatarPaletteColor.new(color: o )}
+    @palette_objects = colors.map { |o| AvatarPaletteColor.new(color: o) }
   end
 
   def palette_objects
     return @palette_objects if @palette_objects.present?
 
-    colors = palette.blank? ? default_palette : palette
+    colors = palette.presence || default_palette
     colors = colors.is_a?(String) ? colors.split(",") : colors
 
-    @palette_objects = colors.map{|o| AvatarPaletteColor.new(color: o )}
+    @palette_objects = colors.map { |o| AvatarPaletteColor.new(color: o) }
   end
 
   def default_palette
@@ -791,13 +792,13 @@ class AvatarSettings
   end
 
   def self.style_options
-    [
-      'marble',
-      'beam',
-      'pixel',
-      'sunset',
-      'ring',
-      'bauhaus',
+    %w[
+      marble
+      beam
+      pixel
+      sunset
+      ring
+      bauhaus
     ]
   end
 

@@ -13,12 +13,9 @@ class Apps::ContactAvatarsController < ApplicationController
   def update
     authorize! @app, to: :can_manage_app_settings?, with: AppPolicy
 
-   if @app.update(resource_params)
-    flash.now[:notice] = "styles updated"
-   end
+    flash.now[:notice] = "styles updated" if @app.update(resource_params)
 
-   render "show" 
-
+    render "show"
   end
 
   def create; end
@@ -30,8 +27,8 @@ class Apps::ContactAvatarsController < ApplicationController
   def resource_params
     params.require(:app).permit(
       avatar_settings_objects: [
-        :style, 
-        palette_objects: []
+        :style,
+        { palette_objects: [] }
       ]
     )
   end

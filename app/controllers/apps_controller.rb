@@ -7,11 +7,11 @@ class AppsController < ApplicationController
 
   def new
     @app = current_agent.apps.new
-    authorize! @app, to: :create_app?
+    authorize! current_agent, to: :create_app?, with: AppPolicy
   end
 
   def create
-    authorize! @app, to: :create_app?
+    authorize! current_agent, to: :create_app?, with: AppPolicy
 
     permitted_params = params.require(:app).permit(:name, :domain_url, :tagline)
     @app = current_agent.apps.create(permitted_params)
