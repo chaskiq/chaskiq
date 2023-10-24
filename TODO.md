@@ -26,8 +26,6 @@ TODO.md
 + billing view
   + notifications
 
-+ UpgradeButton UpgradeButton, search for upgrade button an implement those
-
 inbound settings
   + not updating predicates
 

@@ -50,6 +50,7 @@ class Plan
 
   def allow_feature(feature)
     return true if Chaskiq::Config.get("SUBSCRIPTIONS_ENABLED") != "true"
+
     enabled?(feature)
   end
 

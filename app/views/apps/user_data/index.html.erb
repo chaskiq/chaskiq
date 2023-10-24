@@ -3,13 +3,23 @@
 	<%= turbo_frame_tag 'app-settings' do %>
 
 		<%= render PageHeader::Component.new(title: I18n.t('settings.app.app_settings')) do %>
-			<%= link_to( I18n.t('common.add_new'), 
-				new_app_user_datum_path(@app.key), 
-				data: {
-				'turbo-frame': 'modal'
-				}, 
-				class: "btn btn-flat-dark md") 
-			%>
+			
+			
+			<%= render UpgradeButton::Component.new(
+					label: I18n.t('articles.settings.add_language'),
+					label: "Add custom attribute",
+					size: "sm",
+					feature: "CustomAttributes",
+					app: @app
+				) do %>
+				<%= link_to( I18n.t('common.add_new'), 
+					new_app_user_datum_path(@app.key), 
+					data: {
+					'turbo-frame': 'modal'
+					}, 
+					class: "btn btn-flat-dark md") 
+				%>
+			<% end %>
 		<% end %>
 
 		<%= render Tabs::Component.new(	items: settings_menu_data(app: @app) ) do %>

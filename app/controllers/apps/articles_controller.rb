@@ -1,7 +1,7 @@
 class Apps::ArticlesController < ApplicationController
   before_action :find_app
   before_action :find_article, only: %i[show edit update destroy]
-  before_action :check_plan, only: [:update, :create]
+  before_action :check_plan, only: %i[update create]
 
   def index
     articles = @app.articles
