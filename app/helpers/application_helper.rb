@@ -46,7 +46,7 @@ module ApplicationHelper
     [
       {
         label: I18n.t("subscriptions.tabs")[0],
-        active: controller.controller_name == "billing" && controller.action_name == "index",
+        active: controller.controller_name == "billing" && controller.action_name == "show",
         href: app_billing_path(app.key)
       },
       {

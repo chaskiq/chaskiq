@@ -155,6 +155,8 @@ Rails.application.routes.draw do
     end
     resources :contacts, controller: "apps/contacts" do
       collection do
+        get :bulk
+        post :bulk
         get :search
       end
     end

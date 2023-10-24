@@ -11,11 +11,7 @@
     aria-labelledby="modal-headline"
   >
     <div class="absolute top-0 right-0 pt-4 pr-4">
-      <button
-        onClick={handleClose}
-        type="button"
-        class="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
-      >
+      <%= link_to app_billing_path(@app.key), class: "text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150" do %>
         <svg
           class="h-6 w-6"
           stroke="currentColor"
@@ -29,7 +25,7 @@
             d="M6 18L18 6M6 6l12 12"
           ></path>
         </svg>
-      </button>
+      <% end %>
     </div>
 
     <div>
@@ -53,21 +49,17 @@
           class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100"
           id="modal-headline"
         >
-          <%= t("subscriptions.alerts.#{@alert_name}.title") %>
+          <%= t("subscriptions.alerts.subscription_created.title") %>
         </h3>
         <div class="mt-2">
           <p class="text-sm leading-5 text-gray-500 dark:text-gray-300">
-            <%= t("subscriptions.alerts.#{@alert_name}.desc") %>
+            <%= t("subscriptions.alerts.subscription_created.desc") %>
           </p>
         </div>
       </div>
     </div>
     <div class="mt-5 sm:mt-6">
-      <span class="flex w-full rounded-md shadow-sm">
-        <button type="button" onClick={handleClose}>
-          <%= t('subscriptions.alerts.close') %>
-        </button>
-      </span>
+
     </div>
   </div>
 </div>

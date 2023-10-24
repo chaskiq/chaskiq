@@ -1,7 +1,7 @@
 class Apps::UserDataController < ApplicationController
   before_action :find_app
   before_action :set_settings_navigator
-  before_action :check_plan, only: [:create, :new, :update, :edit]
+  before_action :check_plan, only: %i[create new update edit]
 
   def index
     authorize! @app, to: :can_read_app_settings?, with: AppPolicy

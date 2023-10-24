@@ -1,0 +1,43 @@
+<div class="border-t border-gray-200 pt-2">
+  <h2 class="text-xl mb-2">Import Contacts</h2>
+
+  <%= form_for @contact_uploader, url: bulk_app_contacts_path(@app.key), multipart: true do |f| %>
+    <div>
+      <p class="mt-1 text-sm leading-5 text-gray-500">You can upload a csv or excel file in order to import contacts</p>
+    </div>
+    <div class="mt-6">
+      <fieldset class="mt-6">
+        <legend class="text-base font-medium text-gray-900 dark:text-gray-50">Import Type</legend>
+        <p class="text-sm leading-5 text-gray-500 dark:text-gray-100">Choose what kind of contacts you will import</p>
+        <div class="mt-4">
+          <div class="mt-4 flex items-center">
+            <%= f.radio_button :contact_type, "AppUser", label: "Identified users" %>
+            <!--<input id="leads" name="contact_type" type="radio" class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" value="leads">
+            <label for="leads" class="ml-3">
+              <span class="block text-sm leading-5 font-medium text-gray-700 dark:text-gray-300">Leads</span>
+            </label>-->
+          </div>
+          <div class="mt-4 flex items-center">
+            <!--<input id="users" name="contact_type" type="radio" class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" value="users">
+            <label for="users" class="ml-3">
+              <span class="block text-sm leading-5 font-medium text-gray-700 dark:text-gray-300">Users</span>
+            </label>-->
+
+            <%= f.radio_button :contact_type, "Lead", label: "Leads" %>
+          </div>
+          <div class="flex items-center justify-center bg-grey-lighter">
+            <label class="w-48 flex flex-col items-center px-2 py-3 bg-white dark:bg-gray-800 text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-black hover:text-white">
+              <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"></path>
+              </svg>
+              <span class="mt-2 text-xs leading-normal">Select a file</span>
+              <input type="file" class="hidden" name="contact_uploader[file]" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+      <%= f.submit %>
+    </div>
+  <% end %>
+</div>

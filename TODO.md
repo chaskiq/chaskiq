@@ -26,6 +26,8 @@ TODO.md
 + billing view
   + notifications
 
++ helpcenter add translations is ugly
+
 inbound settings
   + not updating predicates
 
