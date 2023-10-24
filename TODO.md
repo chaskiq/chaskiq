@@ -6,11 +6,11 @@ TODO.md
 
 
 + segments page
-
   + create contacts
   + upload contacts
 
 + conversations:
+  + assignment_rules
   + rendering plain version
   + editor: handle enter
   + editor: handle private message display: styles
@@ -26,10 +26,11 @@ TODO.md
 
 + app settings:
   + avatars
-+ billing view
-+ quick replies display in lang
+    + color inputs + change display of avatar in select change
 
-+ assignment_rules
++ billing view
+  + notifications
+
 
 + UpgradeButton UpgradeButton, search for upgrade button an implement those
 

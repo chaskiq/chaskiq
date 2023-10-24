@@ -126,10 +126,13 @@
 										This is your current plan
 									</p>
 								<% else %>
+								<%= link_to "buy", new_app_billing_path(@app.key, plan_id: p[:id]), data: {turbo: false} %>
+
 									<button 
 										class="bg-green-400 hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center"
 										data-product-id="<%= p[:id] %>"
-										data-action="click->modal#open click->paddle-subscription#open">
+										ddddata-action="click->modal#open click->paddle-subscription#open"
+										>
 										<%= p[:name] %>
 									</button>
 								<% end %>
@@ -157,15 +160,19 @@
 						<% plans.each do |plan| %>
 							<!-- PlanItemDescriptor Inlined -->
 							<td class="py-5 px-6">
-								<% if feature = plan[:features].find{|o| o["name"] === k.to_s } and feature["active"] %>
-									<%= heroicon("check") %>
-									<span class="text-xs uppercase font-bold text-gray-400 dark:text-gray-400">
-										<%= feature["count"] == 'unlimited' ? '∞' : "Up to #{feature['count']}" %>
-									</span>
-								<% else %>
-									<%= heroicon("x-mark") %>
-								<% end %>
-								<span class="sr-only">Included in <%= plan[:name] %></span>
+								<div class="flex flex-col items-center justify-center">
+									<% if feature = plan[:features].find{|o| o["name"] === k.to_s } and feature["active"] %>
+										<div class="w-6 h-6 text-green-500 bg-green-200 rounded-full">
+										<%= heroicon("check") %>
+										</div>
+										<span class="text-xs uppercase font-bold text-gray-400 dark:text-gray-400">
+											<%= feature["count"] == 'unlimited' ? '∞' : "Up to #{feature['count']}" %>
+										</span>
+									<% else %>
+										<%= heroicon("x-mark") %>
+									<% end %>
+									<span class="sr-only">Included in <%= plan[:name] %></span>
+								</div>
 							</td>
 						<% end %>
 					</tr>

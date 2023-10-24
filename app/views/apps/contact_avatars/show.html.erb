@@ -1,0 +1,76 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings' do %>
+
+		<%= render PageHeader::Component.new(title: I18n.t('settings.app.contact_avatars')) do %>
+
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: settings_menu_data(app: @app) ) do %>
+			
+			<%= form_for @app, url: app_contact_avatars_path(@app.key) do |form|%>
+				<div class="py-4">
+					<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
+						<%= I18n.t('settings.contact_avatars.title') %>
+					</p>
+					<p><%= I18n.t('settings.contact_avatars.hint') %></p>
+				</div>
+
+				<hr />
+
+				<%= form.fields_for :avatar_settings_objects, @app.avatar_settings_objects do |ff| %>
+
+					<div class="flex flex-row-reverse py-4">
+						<div class="w-3/4">
+
+							<%= ff.select :style, AvatarSettings.style_options, 
+								{}, {
+									label: t('settings.contact_avatars.choose_color'),
+									class: "avatar-select hidden",
+									data: {
+										'select-target': 'select', 
+										options: AvatarSettings.style_options.to_json 
+									}
+								}
+							%>
+
+							<div class="flex space-x-3">
+								<% ff.object.palette_objects.each_with_index do |palette_object, index| %>
+									<%= ff.fields_for :palette_objects, palette_object, child_index: index do |fff| %>
+										<div data-controller="color-picker">
+											<%= fff.hidden_field :color,
+												name: "app[avatar_settings_objects][palette_objects][]", data: {"color_picker_target": "input"} %>
+											<div class="color-wrapper"></div>
+										</div>
+									<% end %>
+								<% end %>
+							</div>
+						</div>
+
+						<div class="w-1/4 flex items-center justify-center">
+							<!--<Avatar
+								size={24}
+								src="https://www.gravatar.com/avatar/null?d=blank"
+								alt="string"
+								avatar_kind={avatarType}
+								palette={palette.map((o) => o).join(',')}
+							/>-->
+							<%= render(Avatar::Component.new(
+									src: "https://www.gravatar.com/avatar/null?d=blank", 
+									app: @app, size: 24,
+									classes: "avatar-component"
+							)) %>
+						</div>
+					</div>
+
+					<% end %>
+
+					<div class="py-4">
+						<%= form.submit(t("common.save"), class: "btn btn-success sm")%>
+					</div>
+
+			<% end %>
+
+		<% end %>
+	<% end %>
+<% end %>

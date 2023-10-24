@@ -189,14 +189,16 @@ Rails.application.routes.draw do
     end
     resources :user_data, controller: "apps/user_data"
     resources :quick_replies, controller: "apps/quick_replies"
-    resources :contact_avatars, controller: "apps/contact_avatars"
+    resource :contact_avatars, controller: "apps/contact_avatars"
     resources :tags, controller: "apps/tags"
     resources :security, controller: "apps/security"
     resources :email_forwarding, controller: "apps/email_forwarding"
     resources :oauth_applications, controller: "apps/oauth_applications"
 
-    resources :billing , controller: "apps/billing" do
+    resource :billing, controller: "apps/billing" do
       collection do
+        get :success
+        get :error
         get :transactions
       end
     end

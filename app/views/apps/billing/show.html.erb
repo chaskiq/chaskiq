@@ -1,3 +1,12 @@
+<% if @status == "success"%>
+	<%= render "success" %>
+<% end %>
+
+<% if @status == "error" %>
+	<%= render "error" %>
+<% end %>
+
+
 <%= render Content::Component.new do %>
 
 	<%= turbo_frame_tag 'app-settings' do %>

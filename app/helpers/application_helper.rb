@@ -47,12 +47,12 @@ module ApplicationHelper
       {
         label: I18n.t("subscriptions.tabs")[0],
         active: controller.controller_name == "billing" && controller.action_name == "index",
-        href: app_billing_index_path(app.key)
+        href: app_billing_path(app.key)
       },
       {
         label: I18n.t("subscriptions.tabs")[1],
         active: controller.controller_name == "billing" && controller.action_name == "transactions",
-        href: transactions_app_billing_index_path(app.key)
+        href: transactions_app_billing_path(app.key)
       }
     ]
   end

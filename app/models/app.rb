@@ -393,6 +393,19 @@ class App < ApplicationRecord
   end
 
   ### JSON DATA OBJECTS ###
+
+  def avatar_settings_objects
+    return AvatarSettings.new if avatar_settings.blank?
+    @avatar_settings_objects ||= AvatarSettings.new(avatar_settings)
+  end
+
+  def avatar_settings_objects=(attrs)
+    s = AvatarSettings.new(attrs)
+    self.avatar_settings = {
+      style: s.style, palette: s.palette_objects.map{|o| o.color.gsub("#", "") }
+    }
+  end
+
   def agent_editor_settings_objects
     return AgentEditorSettings.new if agent_editor_settings.blank?
 
@@ -753,4 +766,56 @@ class UserTasksSettings
   include ActiveModel::AttributeAssignment
   include ActiveModel::Model
   attr_accessor :delay
+end
+
+class AvatarSettings
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :palette, :style
+
+  def palette_objects=(colors)
+    @palette_objects = colors.map{|o| AvatarPaletteColor.new(color: o )}
+  end
+
+  def palette_objects
+    return @palette_objects if @palette_objects.present?
+
+    colors = palette.blank? ? default_palette : palette
+    colors = colors.is_a?(String) ? colors.split(",") : colors
+
+    @palette_objects = colors.map{|o| AvatarPaletteColor.new(color: o )}
+  end
+
+  def default_palette
+    %i[fc284f ff824a fea887 f6e7f7 d1d0d7]
+  end
+
+  def self.style_options
+    [
+      'marble',
+      'beam',
+      'pixel',
+      'sunset',
+      'ring',
+      'bauhaus',
+    ]
+  end
+
+  def new_record?
+    true
+  end
+end
+
+class AvatarPaletteColor
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :color
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
+  end
 end
