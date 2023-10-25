@@ -1,20 +1,11 @@
 TODO.md
-+ layout:
-  + sidebar
-+ dashboard:
-  + no sidebar
-
 
 + conversations:
   + rendering plain version
   + open video conversation
-  + editor_quick reply add to conversation
-  + bot tasks reply add to conversation
 
 + campaigns:
   + editor tour manager
-
-+ helpcenter add translations is ugly
 
 inbound settings
   + not updating predicates

@@ -21,7 +21,7 @@ class Apps::ArticlesSettingsController < ApplicationController
       app: @app
     }
     @article_setting = @app.article_settings.presence || @app.build_article_settings
-    
+
     new_language = params[:article_setting][:new_language]
     if new_language.present?
       flash.now[:notice] = "Laguage added"
@@ -43,7 +43,6 @@ class Apps::ArticlesSettingsController < ApplicationController
 
     flash.now[:notice] = "Laguage removed"
     render "update"
-
   end
 
   private

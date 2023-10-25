@@ -1,8 +1,10 @@
 class AppsController < ApplicationController
+
   def show
-    @app = App.find_by(key: params[:id])
+    @app = current_agent.apps.find_by(key: params[:id])
     # authorize! @app, to: :can_read_app?, with: AppPolicy
     @actions = set_actions
+    @navigator = false
   end
 
   def new
