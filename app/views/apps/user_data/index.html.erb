@@ -2,7 +2,7 @@
 
 	<%= turbo_frame_tag 'app-settings' do %>
 
-		<%= render PageHeader::Component.new(title: I18n.t('settings.app.app_settings')) do %>
+		<%= render PageHeader::Component.new(title: I18n.t('settings.app.user_data')) do %>
 			
 			
 			<%= render UpgradeButton::Component.new(
@@ -17,7 +17,7 @@
 					data: {
 					'turbo-frame': 'modal'
 					}, 
-					class: "btn btn-flat-dark md") 
+					class: "btn btn-flat-dark sm") 
 				%>
 			<% end %>
 		<% end %>

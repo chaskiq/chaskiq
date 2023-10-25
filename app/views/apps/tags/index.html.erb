@@ -2,14 +2,14 @@
 
 	<%= turbo_frame_tag 'app-settings' do %>
 
-		<%= render PageHeader::Component.new(title: I18n.t('settings.app.app_settings')) do %>
+		<%= render PageHeader::Component.new(title: I18n.t('settings.app.tags')) do %>
 
 			<%= link_to( I18n.t('common.add_new'), 
 				new_app_tag_path(@app.key), 
 				data: {
 				'turbo-frame': 'modal'
 				}, 
-				class: "btn btn-flat-dark md") 
+				class: "btn btn-flat-dark sm") 
 			%>
 		<% end %>
 

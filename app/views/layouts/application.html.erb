@@ -43,8 +43,12 @@
     <%= render partial: "shared/flash" %>
 
     <div class="page antialiased <%= cookies[:darkmode] %>" id="main-page" 
-      data-controller="modal-- slide-modal dark-mode" 
+      data-controller="modal-- slide-modal dark-mode connectivity" 
       data-modal-allow-background-close="false">
+
+      <div data-connectivity-target="notice" class="hidden py-2 fixed bg-red-500 w-full z-20 text-white text-xs flex items-center justify-center">
+        <span>You are offline. Check your internet connection.</span>
+      </div>
 
       <%= render "shared/flash" %>
 
