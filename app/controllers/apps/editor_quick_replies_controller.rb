@@ -9,13 +9,12 @@ class Apps::EditorQuickRepliesController < ApplicationController
     authorize! @app, to: :can_read_quick_replies?, with: AppPolicy
     q = params[:q]
 
-    if q.present?
-      @quick_replies = @app.quick_replies
-                   .ransack(title_cont: q)
-                   .result(distinct: true)
-    else
-      @quick_replies = @app.quick_replies
-    end
+    @quick_replies = if q.present?
+                       @app.quick_replies
+                           .ransack(title_cont: q)
+                           .result(distinct: true)
+                     else
+                       @app.quick_replies
+                     end
   end
-
 end

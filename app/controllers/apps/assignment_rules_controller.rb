@@ -1,5 +1,4 @@
 class Apps::AssignmentRulesController < ApplicationController
-
   before_action :find_app
   before_action :set_navigation
   # before_action :check_plan, only: [:update]
@@ -18,7 +17,7 @@ class Apps::AssignmentRulesController < ApplicationController
 
     @changed = false
   end
-  
+
   def destroy
     @assignment_rule = @app.assignment_rules.find(params[:id])
     @assignment_rule.destroy
@@ -34,7 +33,6 @@ class Apps::AssignmentRulesController < ApplicationController
   end
 
   def update
-
     @assignment_rule = @app.assignment_rules.find(params[:id])
 
     segment_predicate = params[:assignment_rule][:segment_predicate]
@@ -53,16 +51,10 @@ class Apps::AssignmentRulesController < ApplicationController
 
     @changed = false
 
-    if params["commit"] == "save" 
-      if @assignment_rule.save
-        flash.now[:notice] = "assignment rule updated"
-      end
-    end
-   
+    flash.now[:notice] = "assignment rule updated" if params["commit"] == "save" && @assignment_rule.save
   end
 
   def create
-
     @assignment_rule = @app.assignment_rules.new
 
     segment_predicate = params[:assignment_rule][:segment_predicate]
@@ -81,16 +73,10 @@ class Apps::AssignmentRulesController < ApplicationController
 
     @changed = false
 
-    if params["commit"] == "save" 
-      if @assignment_rule.save
-        flash.now[:notice] = "assignment rule saved"
-      end
-    end
-   
+    flash.now[:notice] = "assignment rule saved" if params["commit"] == "save" && @assignment_rule.save
   end
 
-
-  private 
+  private
 
   def set_navigation
     @navigator = "apps/conversations/navigator"

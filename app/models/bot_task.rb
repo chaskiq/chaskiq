@@ -12,6 +12,10 @@ class BotTask < Message
   store_accessor :settings,
                  %i[scheduling urls outgoing_webhook paths user_type bot_type]
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["name"]
+  end
+
   scope :enabled, -> { where(state: "enabled") }
   scope :disabled, -> { where(state: "disabled") }
 

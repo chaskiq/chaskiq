@@ -21,21 +21,20 @@ class AssignmentRule < ApplicationRecord
     ).compare
   end
 
-
   def self.default_conditions
     [
       {
-        type: 'match',
-        attribute: 'match',
-        comparison: 'and',
-        value: 'and',
+        type: "match",
+        attribute: "match",
+        comparison: "and",
+        value: "and"
       },
       {
-        type: 'string',
-        value: ['AppUser'],
-        attribute: 'type',
-        comparison: 'in',
-      },
+        type: "string",
+        value: ["AppUser"],
+        attribute: "type",
+        comparison: "in"
+      }
     ]
   end
 end
