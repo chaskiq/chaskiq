@@ -216,6 +216,16 @@ class ApplicationController < ActionController::Base
     turbo_stream.replace("flash", partial: "shared/flash", locals: { flash: flash })
   end
 
+  def track_resource_event(resource, action, data = {}, app_id = nil)
+    resource.log_async(
+      action: action,
+      user: current_agent,
+      data: data,
+      ip: request.remote_ip,
+      app_id: app_id
+    )
+  end
+
   # messenger auth. we could use another app controller to get rig of logic that we don't need
 
   def authorize_messenger

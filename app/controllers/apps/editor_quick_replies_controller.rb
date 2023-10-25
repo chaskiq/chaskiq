@@ -3,6 +3,8 @@ class Apps::EditorQuickRepliesController < ApplicationController
   def index
     authorize! @app, to: :can_read_quick_replies?, with: AppPolicy
     @quick_replies = @app.quick_replies
+
+    render "index", layout: false
   end
 
   def create
@@ -16,5 +18,15 @@ class Apps::EditorQuickRepliesController < ApplicationController
                      else
                        @app.quick_replies
                      end
+  end
+
+  def update
+    flash.now[:notice] = "quick reply sent"
+  end
+
+  def show
+    @locale = params[:lang] || I18n.default_locale
+    @quick_reply = @app.quick_replies.find(params[:id])
+    render "show", layout: false
   end
 end

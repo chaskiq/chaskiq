@@ -45,18 +45,24 @@ class Apps::ConversationMessagesController < ApplicationController
     authorize! conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
       app: @app
     }
-    # author = @app.agents.where("agents.email =?", current_agent.email).first
-    message = params[:conversation_message]
-    options = {
-      from: current_agent,
-      message: {
-        html_content: message["html"],
-        serialized_content: message["serialized"],
-        text_content: message["text"] || ActionController::Base.helpers.strip_tags(message["html"])
-      }
-    }
 
-    @message = params[:mode] == "note" ? conversation.add_private_note(options) : conversation.add_message(options)
+    message = params[:conversation_message]
+
+    if params[:botTaskId]
+      trigger = @app.bot_tasks.find(params[:botTaskId])
+      @message = conversation.add_trigger_message(trigger)
+    else
+      options = {
+        from: current_agent,
+        message: {
+          html_content: message["html"],
+          serialized_content: message["serialized"],
+          text_content: message["text"] || ActionController::Base.helpers.strip_tags(message["html"])
+        }
+      }
+
+      @message = params[:mode] == "note" ? conversation.add_private_note(options) : conversation.add_message(options)
+    end
 
     render turbo_stream: turbo_stream.prepend("conversation-messages-list-#{conversation.key}",
                                               partial: "apps/conversation_messages/part",

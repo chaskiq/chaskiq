@@ -63,6 +63,8 @@ class Apps::ContactsController < ApplicationController
     when "Lead"
       @app_user = @app.add_lead(resource_params.merge(additional_validations: true))
     end
+
+    track_resource_event(current_agent, :app_user_created, @app_user.saved_changes) if @app_user.errors.blank?
   end
 
   def bulk

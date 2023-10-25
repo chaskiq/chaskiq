@@ -267,7 +267,7 @@ export default class extends Controller {
   }
 
   async insertComment(url, data, callbacks) {
-    callbacks.before && callbacks.before();
+    callbacks && callbacks.before && callbacks.before();
 
     const response = await post(url, {
       body: data,

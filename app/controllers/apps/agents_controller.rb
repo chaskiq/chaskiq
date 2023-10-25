@@ -15,7 +15,10 @@ class Apps::AgentsController < ApplicationController
   def update
     @agent = @app.agents.find(params[:id])
     authorize! @app, to: :can_manage_profile?, with: AppPolicy
-    @agent.update(agent_params)
+    if @agent.update(agent_params)
+      track_resource_event(current_agent, :agent_update, agent.saved_changes, app.id)
+      # track_resource_event(current_agent, :agent_role_update, role.saved_changes, app.id) if role.errors.blank?
+    end
   end
 
   private

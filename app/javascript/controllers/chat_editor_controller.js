@@ -24,7 +24,13 @@ import { DirectUpload } from '@rails/activestorage';
 import { post, FetchRequest } from '@rails/request.js';
 
 export default class extends Controller {
-  static targets = ['wrapper', 'sendMode', 'submitButton', 'messageBg', 'label'];
+  static targets = [
+    'wrapper',
+    'sendMode',
+    'submitButton',
+    'messageBg',
+    'label',
+  ];
 
   handleAppFunc() {
     console.log('open app moadl');
@@ -42,6 +48,22 @@ export default class extends Controller {
     console.log('open quick moadl');
     const url = this.element.dataset.quickReplies;
     this.sendPost(url, {}, 'get');
+  }
+
+  insertResource(data) {
+    console.log('INSERT HERE THE THING', data);
+    document.querySelector('#modal').innerHTML = '';
+
+    switch (data.type) {
+      case 'quick_reply':
+        this.handleSubmit({ serialized: JSON.parse(data.content) });
+        break;
+      case 'bot_task':
+        this.insertComment(data);
+        break;
+      default:
+        break;
+    }
   }
 
   insertNote(formats, cb) {
@@ -68,8 +90,8 @@ export default class extends Controller {
     return true;
   }
 
-  submit(e){
-    this.handleSubmit(this.valueNotified)
+  submit(e) {
+    this.handleSubmit(this.valueNotified);
   }
 
   handleSubmit(value) {
@@ -86,31 +108,31 @@ export default class extends Controller {
       html,
       serialized: JSON.stringify(serialized),
       conversation: data.conversation,
-    })
+    });
 
     this.editorRef.commands.clearContent(true);
     return true;
   }
 
-  toggleMessageMode(e){
-    if (e.currentTarget.value == "note"){
-      this.messageBgTarget.classList.add("bg-amber-100")
-      this.messageBgTarget.classList.remove("bg-gray-50")
+  toggleMessageMode(e) {
+    if (e.currentTarget.value == 'note') {
+      this.messageBgTarget.classList.add('bg-amber-100');
+      this.messageBgTarget.classList.remove('bg-gray-50');
     } else {
-      this.messageBgTarget.classList.remove("bg-amber-100")
-      this.messageBgTarget.classList.add("bg-gray-50")
+      this.messageBgTarget.classList.remove('bg-amber-100');
+      this.messageBgTarget.classList.add('bg-gray-50');
     }
   }
 
   async insertComment(formats, cb) {
+    const messageMode = document.querySelector(
+      'input[name="response_type"]:checked'
+    ).value;
 
-    const messageMode = document.querySelector('input[name="response_type"]:checked').value;
-
-    const payload = {...formats, mode: messageMode }
+    const payload = { ...formats, mode: messageMode };
     const response = await post(this.actionPath, {
       body: JSON.stringify(payload),
     });
-
 
     // Check for redirects (status codes 3xx) and follow if necessary
     if (response.redirected) {
@@ -159,18 +181,17 @@ export default class extends Controller {
     console.log('NOTIFY TYPING');
   }
 
-
   toggleClass() {
     if (this.sendModeTarget.checked) {
-      this.submitButtonTarget.classList.add("hidden");
+      this.submitButtonTarget.classList.add('hidden');
     } else {
-      this.submitButtonTarget.classList.remove("hidden");
+      this.submitButtonTarget.classList.remove('hidden');
     }
   }
 
   initialize() {
     this.actionPath = this.element.dataset.editorActionPath;
-    this.messageMode = "public"
+    this.messageMode = 'public';
 
     console.log('INIT EDITOR FOR', this.actionPath);
     const root = createRoot(this.wrapperTarget);
@@ -183,10 +204,10 @@ export default class extends Controller {
         handleAppFunc={this.handleAppFunc.bind(this)}
         handleBotFunc={this.handleBotFunc.bind(this)}
         handleQuickRepliesFunc={this.handleQuickRepliesFunc.bind(this)}
-        notifyValue={(val, editorRef)=>{
-          this.valueNotified = val
-          this.editorRef = editorRef
-          console.log(this.valueNotified)
+        notifyValue={(val, editorRef) => {
+          this.valueNotified = val;
+          this.editorRef = editorRef;
+          console.log(this.valueNotified);
         }}
         handleReturn={(e, isEmptyDraft, value) => {
           console.log(e);
@@ -424,7 +445,7 @@ function EditorComponent({
 
   React.useEffect(() => {
     valRef.current = val; // Update the ref whenever `val` changes
-    notifyValue(val, editorRef.current)
+    notifyValue(val, editorRef.current);
   }, [val]);
 
   React.useEffect(() => {
@@ -502,10 +523,10 @@ function EditorComponent({
       }}
       onUpdate={(editor) => {
         editorRef.current = editor;
-        console.log("AAAAAA SE SALVOOOOO")
+        console.log('AAAAAA SE SALVOOOOO');
         setValue({
           serialized: editor.getJSON(),
-          html: editor.view.dom.innerText
+          html: editor.view.dom.innerText,
         });
         // this.pushEvent("update-content", {content: editor.getJSON() } )
       }}

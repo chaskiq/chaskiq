@@ -164,6 +164,27 @@ class Conversation < ApplicationRecord
     part
   end
 
+  def add_trigger_message(trigger)
+    author = app.agent_bots.first
+    step = trigger.paths.first&.with_indifferent_access&.[]("steps")&.find do |o|
+      o["messages"]&.any?
+    end
+
+    message = step[:messages].first
+
+    add_message(
+      step_id: step[:step_uid],
+      trigger_id: trigger.id,
+      from: author,
+      message: {
+        html_content: message[:html_content],
+        serialized_content: message[:serialized_content],
+        text_content: message[:html_content]
+      },
+      controls: message[:controls]
+    )
+  end
+
   def add_part_channel(part, opts)
     if opts[:provider].present? && opts[:message_source_id].present?
       part.conversation_part_channel_sources.new({

@@ -131,7 +131,18 @@ class Apps::ConversationsController < ApplicationController
       menu_items_response("priorize", -> { @conversation.toggle_priority })
     when "assignee"
       @agent = @app.agents.find(params[:conversation][:assignee_id])
-      menu_items_response("assignee", -> { @conversation.update(assignee_id: @agent.id) })
+      menu_items_response("assignee", lambda {
+        @conversation.update(assignee_id: @agent.id)
+
+        @conversation.log_async(
+          action: "assign_user",
+          user: current_agent,
+          data: { assignee: @agent.id },
+          ip: request.remote_ip
+        )
+
+        true
+      })
     when "tags"
       @conversation.tag_list = params[:conversation][:tag_list].reject(&:empty?)
       @conversation.save
@@ -147,7 +158,8 @@ class Apps::ConversationsController < ApplicationController
             conversation: @conversation,
             app: @app
           }
-        )
+        ),
+        turbo_stream.update("modal")
       ]
     end
   end
@@ -210,7 +222,8 @@ class Apps::ConversationsController < ApplicationController
         turbo_stream.replace(
           "conversation-#{item}-#{@conversation.key}",
           partial: "apps/conversations/menu_items/#{item}"
-        )
+        ),
+        turbo_stream.update("modal")
       ]
     end
   end

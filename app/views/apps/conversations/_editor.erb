@@ -9,8 +9,8 @@
 	data-turbo="false" 
 	data-controller="chat-editor"
 	data-form="<%= local_assigns[:form_id] %>"
-	data-quick-replies="<%= app_editor_quick_replies_path(@app.key) %>"
-	data-bot-tasks="<%= app_editor_bot_tasks_path(@app.key) %>"
+	data-quick-replies="<%= app_editor_quick_replies_path(@app.key, conversation_key: @conversation.key) %>"
+	data-bot-tasks="<%= app_editor_bot_tasks_path(@app.key, conversation_key: @conversation.key ) %>"
 	data-capabilities="<%= capabilities_app_packages_path(
 			@app.key, 
 			kind: 'conversations', 

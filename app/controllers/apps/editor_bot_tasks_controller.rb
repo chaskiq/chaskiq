@@ -3,6 +3,7 @@ class Apps::EditorBotTasksController < ApplicationController
 
   def index
     @bot_tasks = @app.bot_tasks
+    render "index", layout: false
   end
 
   def create
@@ -16,5 +17,10 @@ class Apps::EditorBotTasksController < ApplicationController
                  else
                    @app.bot_tasks
                  end
+  end
+
+  def show
+    @bot_task = @app.bot_tasks.find(params[:id])
+    render "show", layout: false
   end
 end
