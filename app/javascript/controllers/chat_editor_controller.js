@@ -24,7 +24,7 @@ import { DirectUpload } from '@rails/activestorage';
 import { post, FetchRequest } from '@rails/request.js';
 
 export default class extends Controller {
-  static targets = ['wrapper', 'sendMode'];
+  static targets = ['wrapper', 'sendMode', 'submitButton', 'messageBg', 'label'];
 
   handleAppFunc() {
     console.log('open app moadl');
@@ -68,6 +68,10 @@ export default class extends Controller {
     return true;
   }
 
+  submit(e){
+    this.handleSubmit(this.valueNotified)
+  }
+
   handleSubmit(value) {
     const { html, serialized } = value;
     // when conversation is new a form is provided with options
@@ -82,14 +86,31 @@ export default class extends Controller {
       html,
       serialized: JSON.stringify(serialized),
       conversation: data.conversation,
-    });
+    })
+
+    this.editorRef.commands.clearContent(true);
     return true;
   }
 
+  toggleMessageMode(e){
+    if (e.currentTarget.value == "note"){
+      this.messageBgTarget.classList.add("bg-amber-100")
+      this.messageBgTarget.classList.remove("bg-gray-50")
+    } else {
+      this.messageBgTarget.classList.remove("bg-amber-100")
+      this.messageBgTarget.classList.add("bg-gray-50")
+    }
+  }
+
   async insertComment(formats, cb) {
+
+    const messageMode = document.querySelector('input[name="response_type"]:checked').value;
+
+    const payload = {...formats, mode: messageMode }
     const response = await post(this.actionPath, {
-      body: JSON.stringify(formats),
+      body: JSON.stringify(payload),
     });
+
 
     // Check for redirects (status codes 3xx) and follow if necessary
     if (response.redirected) {
@@ -138,21 +159,20 @@ export default class extends Controller {
     console.log('NOTIFY TYPING');
   }
 
+
+  toggleClass() {
+    if (this.sendModeTarget.checked) {
+      this.submitButtonTarget.classList.add("hidden");
+    } else {
+      this.submitButtonTarget.classList.remove("hidden");
+    }
+  }
+
   initialize() {
     this.actionPath = this.element.dataset.editorActionPath;
+    this.messageMode = "public"
 
     console.log('INIT EDITOR FOR', this.actionPath);
-
-    /*render(
-      <ConversationEditor
-        insertNode={this.insertNote.bind(this)}
-        insertComment={this.insertComment.bind(this)}
-        typingNotifier={this.typingNotifier.bind(this)}
-        appendExtensions={extensions}
-      />,
-      this.element
-    );*/
-
     const root = createRoot(this.wrapperTarget);
 
     root.render(
@@ -163,6 +183,11 @@ export default class extends Controller {
         handleAppFunc={this.handleAppFunc.bind(this)}
         handleBotFunc={this.handleBotFunc.bind(this)}
         handleQuickRepliesFunc={this.handleQuickRepliesFunc.bind(this)}
+        notifyValue={(val, editorRef)=>{
+          this.valueNotified = val
+          this.editorRef = editorRef
+          console.log(this.valueNotified)
+        }}
         handleReturn={(e, isEmptyDraft, value) => {
           console.log(e);
           try {
@@ -336,6 +361,7 @@ function EditorComponent({
   handleReturn,
   handleAppFunc,
   handleBotFunc,
+  notifyValue,
   handleQuickRepliesFunc,
 }) {
   const [val, setValue] = React.useState(null);
@@ -398,6 +424,7 @@ function EditorComponent({
 
   React.useEffect(() => {
     valRef.current = val; // Update the ref whenever `val` changes
+    notifyValue(val, editorRef.current)
   }, [val]);
 
   React.useEffect(() => {
@@ -468,16 +495,17 @@ function EditorComponent({
       editorProps={{
         handleKeyDown: (view, event) => {
           if (event.key === 'Enter') {
-            editorRef.current?.commands?.clearContent(true);
+            // editorRef.current?.commands?.clearContent(true);
             return handleReturn && manageReturn(event, false);
           }
         },
       }}
       onUpdate={(editor) => {
         editorRef.current = editor;
+        console.log("AAAAAA SE SALVOOOOO")
         setValue({
           serialized: editor.getJSON(),
-          html: editor.view.dom.innerText,
+          html: editor.view.dom.innerText
         });
         // this.pushEvent("update-content", {content: editor.getJSON() } )
       }}

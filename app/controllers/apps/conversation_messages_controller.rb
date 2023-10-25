@@ -56,7 +56,7 @@ class Apps::ConversationMessagesController < ApplicationController
       }
     }
 
-    @message = conversation.add_message(options)
+    @message = params[:mode] == "note" ? conversation.add_private_note(options) : conversation.add_message(options)
 
     render turbo_stream: turbo_stream.prepend("conversation-messages-list-#{conversation.key}",
                                               partial: "apps/conversation_messages/part",

@@ -20,15 +20,41 @@
 	data-editor-action-path="<%= path %>" 
 	class="">
   
-	<div class="flex bg-gray-50 dark:bg-gray-800 dark:text-white text-black shadow-inner p-2">
+	<div data-chat-editor-target="messageBg"
+		 class="flex bg-gray-50 dark:bg-gray-800 dark:text-white text-black shadow-inner p-2">
 		<div class="w-full ">
-			<div class="border-b bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+			<div class="border-b dark:bg-gray-900 border-gray-200 dark:border-gray-800">
 			<nav class="-mb-px flex items-center">
-				<a href="#" class="whitespace-nowrap py-2 px-2 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">Reply</a>
-				<a href="#" class="whitespace-nowrap py-2 px-2 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">Private Note</a>
+				
+				<label for="replyRadio"
+					class="py-2 px-2 border-b-2"
+					data-chat-editor-target="label">
+					<input type="radio" checked name="response_type" value="public" 
+					id="replyRadio" data-action="change->chat-editor#toggleMessageMode" 
+					class="peer hidden">
+
+					<span class="peer-checked:font-bold whitespace-nowrap  border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 cursor-pointer">
+						Reply
+					<span>
+				</label>
+
+				<label for="privateNoteRadio"  
+					class="py-2 px-2 border-b-2"
+					data-chat-editor-target="label">
+					<input type="radio" name="response_type"  value="note" id="privateNoteRadio" data-action="change->chat-editor#toggleMessageMode" 
+					class="peer hidden">
+
+					<span class=" peer-checked:font-bold whitespace-nowrap  border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 cursor-pointer">
+						Private Note
+					<span>
+				</label>
+
+
+
 				<div class="flex flex-grow items-center justify-end pr-3">
 				<input id="send_mode" 
 					data-chat-editor-target="sendMode"
+					data-action="input->chat-editor#toggleClass"
 					type="checkbox" class="form-checkbox h-4 w-4 text-brand-600 transition duration-150 ease-in-out" checked="">
 				<label for="send_mode" class="ml-2 block text-xs leading-5 text-gray-900 dark:text-gray-100">
 					Publish on enter
@@ -40,18 +66,16 @@
 			<div>
 				<div
 					class="p-2 flex justify-between">
-					<div data-chat-editor-target="wrapper" class="flex-grow"></div>
+					<div data-chat-editor-target="wrapper" class="flex-grow self-end"></div>
 
 					<button class="hidden flex w-1/6 justify-center
 											bg-white hover:bg-gray-100 
 											text-gray-800 font-semibold py-2 
 											px-3 border-l border-gray-400 shadow items-center m-2 
 											rounded border" 
-						disabled="">
-						<svg fill="currentColor" viewBox="0 0 20 20" class="css-1dhg8p7">
-							<path d="M0,0 L20,10 L0,20 L0,0 Z M0,8 L10,10 L0,12 L0,8 Z" id="Combined-Shape">
-							</path>
-						</svg>
+						data-action="click->chat-editor#submit"
+						data-chat-editor-target="submitButton">
+						<%= heroicon("paper-airplane") %>
 					</button>
 				</div>
 
