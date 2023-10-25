@@ -1,0 +1,29 @@
+<%= form_for @assignment_rule, 
+url: @assignment_rule.persisted? ? app_assignment_rule_path(@app.key, @assignment_rule) : app_assignment_rules_path(@app.key),
+ data: {controller: 'segment-manager'} do |f| %>
+
+  <div id="segment-form-fields">
+    <%= render 'apps/segment_manager/form_fields', 
+      f: f, 
+      segment_manager: @segment_manager, 
+      url_form: "/aaa", 
+      incomplete: false, 
+      changed: @changed,
+      disable_deletion: true
+    %>
+  </div>
+
+  <%= f.text_field :title %>
+
+  <%= f.select :agent_id, options_for_select(@app.agents.map{|o| [o.display_name, o.id]} , f.object.agent_id), {}, {
+    data: {
+      'select-target': 'select', 
+      options: @app.agents.map{|o| {label: o.name, value: o.id} }.to_json 
+    },
+    label: false
+  } 
+  %>
+
+  <%= f.submit("save") %>
+
+<% end %>

@@ -20,4 +20,22 @@ class AssignmentRule < ApplicationRecord
       additional_fields: { "message_content" => text }
     ).compare
   end
+
+
+  def self.default_conditions
+    [
+      {
+        type: 'match',
+        attribute: 'match',
+        comparison: 'and',
+        value: 'and',
+      },
+      {
+        type: 'string',
+        value: ['AppUser'],
+        attribute: 'type',
+        comparison: 'in',
+      },
+    ]
+  end
 end

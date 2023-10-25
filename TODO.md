@@ -5,12 +5,7 @@ TODO.md
   + no sidebar
 
 
-+ segments page
-  + create contacts
-  + upload contacts
-
 + conversations:
-  + assignment_rules
   + rendering plain version
   + editor: handle enter
   + editor: handle private message display: styles
@@ -23,13 +18,13 @@ TODO.md
 + campaigns:
   + editor tour manager
 
-+ billing view
-  + notifications
 
 + helpcenter add translations is ugly
 
 inbound settings
   + not updating predicates
+
++ tracks on app controller reosurces
 
 
 # MESSENGER WIDGET
