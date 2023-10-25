@@ -31,13 +31,38 @@
 								</div>
 							}) 
 						}
+					},
+					{ name: :actions, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									#{ link_to "delete", app_articles_setting_path(@app.key, lang: record.locale),
+									class: "btn btn-danger sm",
+									data: {turbo_method: "delete", turbo_confirm: t("common.confirm_deletion_ready")} 
+									}
+								</div>
+							}) 
+						}
+					},
+					{ name: :default_language, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									#{ 
+										 f.radio_button :default_lang, record.locale
+									}
+								</div>
+							}) 
+						}
 					}
 				]
 			},
 			paginate: nil
 		)%>
 
-		<%= f.submit t("common.submit"), class: "btn btn-success" %>
+		<div class="mt-4 flex justify-end">
+			<%= f.submit t("common.submit"), class: "btn btn-success" %>
+		</div>
 
 	<% end %>
 <% end %>
