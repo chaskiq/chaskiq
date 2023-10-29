@@ -1,0 +1,31 @@
+
+
+
+<div id="step-editor">
+  <div data-controller="dante-editor" data-content="<%= @step.content %>">
+
+    <div class="relative z-0 p-1 mb-2 bg-gray-50 border shadow-sm">
+
+      <div data-dante-editor-target="container" class="h-[100px] overflow-scroll">
+      </div>
+
+    </div>
+
+    
+
+    <%= form_for @step, url: tour_step_app_campaign_path(@app.key, @campaign.id) do |f| %>
+
+      <%= f.hidden_field :content, data: {"dante-editor-target": "serializedInput"} %>
+      <%= f.hidden_field :target %>
+      <%= f.hidden_field :title %>
+      pos:  <%= @step.position %>
+      target <%= @step.target %>
+      <%= hidden_field_tag :position, @step.position %>
+      <%= f.submit("submit", class: "btn btn-success sm")%>
+    <% end %>
+  </div>
+  <div id="step-editor-status"></div>
+</div>
+
+
+

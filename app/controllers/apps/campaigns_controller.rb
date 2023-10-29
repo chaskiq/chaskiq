@@ -156,7 +156,7 @@ class Apps::CampaignsController < ApplicationController
 
     redirect_to app_campaigns_path(@app.key)
   end
-  
+
   def tour_editor
     @campaign = @app.messages.find(params[:id])
     render "apps/campaigns/tours/tour_editor", layout: "messenger"
@@ -165,39 +165,43 @@ class Apps::CampaignsController < ApplicationController
   def tour_step
     @campaign = @app.messages.find(params[:id])
 
-    default = {"target" => params[:target]}
-    step = (params[:position].present? ? @campaign.settings["steps"][params[:position].to_i] : default) rescue default
+    default = { "target" => params[:target] }
+    step = begin
+      (params[:position].present? ? @campaign.settings["steps"][params[:position].to_i] : default)
+    rescue StandardError
+      default
+    end
 
     @step = TourStepForm.new(
-      title: step["title"], 
-      content: step["content"], 
+      title: step["title"],
+      content: step["content"],
       target: step["target"],
       position: params[:position]
     )
 
     if request.post?
       @step = TourStepForm.new(
-        title: params[:tour_step_form][:title], 
-        content: params[:tour_step_form][:content], 
+        title: params[:tour_step_form][:title],
+        content: params[:tour_step_form][:content],
         target: params[:tour_step_form][:target]
       )
 
       # Fetch the current steps
       current_steps = @campaign.steps || []
 
-      index = params[:position].present? ?  params[:position].to_i : current_steps.size
-            
+      index = params[:position].present? ? params[:position].to_i : current_steps.size
+
       step_data = @step
 
-      puts "NEXT INDEX IS! #{index}"
-  
+      Rails.logger.debug { "NEXT INDEX IS! #{index}" }
+
       # Update the specific step at the desired index
       current_steps[index] = step_data
-  
+
       # Update the tour with the modified steps
       if @campaign.update(steps: current_steps)
         @step.position = index
-        @campaign.broadcast_step(@step) 
+        @campaign.broadcast_step(@step)
         render "apps/campaigns/tours/tour_step", layout: false and return
       end
     end

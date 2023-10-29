@@ -10,7 +10,7 @@ import {
   setLastActivity,
 } from './packages/messenger/src/client_messenger/activityUtils';
 
-import TourManager from "./tour_manager";
+import TourManager from './tour_manager';
 
 function getBrowserVisibilityProp() {
   if (typeof document.hidden !== 'undefined') {
@@ -192,7 +192,6 @@ window.Chaskiq = window.Chaskiq || {
       // send tour opener for editor
       window.opener &&
         window.opener.postMessage({ type: 'ENABLE_MANAGER_TOUR' }, '*');
-
     });
   },
   load: function (options) {
@@ -404,17 +403,13 @@ window.Chaskiq = window.Chaskiq || {
           this.handleFrameEvents(event.data.data);
           break;
         case 'chaskiq:tours':
-
           this.handleTourEditor(event.data);
-          break
+          break;
         default:
-
           if (event.data.tourManagerEnabled) {
-            console.log("EVENTO TOUR!", event)
+            console.log('EVENTO TOUR!', event);
 
-            this.tourManager = new TourManager(
-              {...event.data, ev: event }
-            )
+            this.tourManager = new TourManager({ ...event.data, ev: event });
             /*this.setState({
               tourManagerEnabled: event.data.tourManagerEnabled,
               ev: event,
@@ -422,18 +417,15 @@ window.Chaskiq = window.Chaskiq || {
           }
           break;
       }
-
-
-
     };
 
     console.log('LISTENING EVENTS ON FRAME EVENTS');
     window.addEventListener('message', this.frameEvents.bind(this));
   },
 
-  handleTourEditor: function(data){
-    console.log("RECIVED EVENT FROM TOUR EDITOR, SENDING TO TOURMANAGER", data)
-    this.tourManager.pushEvent(data)
+  handleTourEditor: function (data) {
+    console.log('RECIVED EVENT FROM TOUR EDITOR, SENDING TO TOURMANAGER', data);
+    this.tourManager.pushEvent(data);
   },
 
   handleFrameEvents: function (data) {
