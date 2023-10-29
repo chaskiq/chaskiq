@@ -16,7 +16,9 @@ class Agent < ApplicationRecord
           :rememberable,
           :validatable,
           :lockable,
-          :omniauthable, omniauth_providers: %i[doorkeeper]
+          :omniauthable, omniauth_providers: %i[doorkeeper auth0]
+
+  include OmniauthExtension
 
   has_many :app_packages, dependent: :nullify
   has_many :access_grants,

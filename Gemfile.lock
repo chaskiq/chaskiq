@@ -470,9 +470,15 @@ GEM
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
       rack-protection
+    omniauth-auth0 (3.1.1)
+      omniauth (~> 2)
+      omniauth-oauth2 (~> 1)
     omniauth-oauth2 (1.7.2)
       oauth2 (~> 1.4)
       omniauth (>= 1.9, < 3)
+    omniauth-rails_csrf_protection (1.0.1)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
     opensearch-api (2.1.0)
       multi_json
     opensearch-ruby (2.1.0)
@@ -810,7 +816,9 @@ DEPENDENCIES
   nightfury!
   nokogiri
   oauth (~> 0.5.5)
+  omniauth-auth0
   omniauth-oauth2
+  omniauth-rails_csrf_protection
   opensearch-ruby
   pg
   pg_search

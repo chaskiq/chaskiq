@@ -13,6 +13,11 @@
       </p>
     </div>
 
+
+    <!-- Place a login button anywhere on your application -->
+    <%= button_to 'Auth0 Login', '/auth/auth0', method: :post, data: { turbo: false } %>
+
+
     <%= form_for(resource, 
       as: resource_name, 
       url: session_path(resource_name),

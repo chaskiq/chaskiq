@@ -17,6 +17,12 @@ Rails.application.routes.draw do
     #    token_info: 'custom_authorizations'
   end
 
+  get '/auth/auth0/callback' => 'auth0#callback'
+  post '/auth/auth0/callback' => 'auth0#callback'
+
+  get '/auth/failure' => 'auth0#failure'
+  get '/auth/logout' => 'auth0#logout'
+
   resources :messenger do
     member do
       get :tester
