@@ -1,11 +1,10 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-
-  static targets = ["notice"]
+  static targets = ['notice'];
 
   initialize() {
-    console.log("CONNECTIVITY")
+    console.log('CONNECTIVITY');
     this.online = navigator.onLine;
     this.wasOffline = false;
   }
@@ -28,7 +27,7 @@ export default class extends Controller {
       console.log('YES IT WAS OFFLINE!');
       // onReconnect equivalent logic here (if needed)
     }
-    
+
     if (this.online) {
       this.wasOffline = false;
       console.log('>>>>>> HANDLE ONLINE!');

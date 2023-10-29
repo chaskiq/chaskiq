@@ -85,4 +85,27 @@ class Tour < Message
 
     tours.any?
   end
+
+  def steps_objects
+    return [] if self.settings["steps"].blank?
+    @steps_objects ||= self.settings["steps"].map{|o| TourStepForm.new(o)}
+  end
+
+
+  def broadcast_step(step)
+    broadcast_append_to self,
+      target: "tour_#{self.id}",
+      partial: "apps/campaigns/tours/tour_step_item",
+      locals: {
+        index: step.position,
+        step: step,
+        url: Rails.application.routes.url_helpers.tour_step_app_campaign_url(self.app.key, self, position: step.position)
+
+      }
+
+    broadcast_update_to self,
+      target: "chaskiq-tours-custom-events",
+      partial: "apps/campaigns/tours/custom_event",
+      locals: { data: step }
+  end
 end

@@ -156,6 +156,61 @@ class Apps::CampaignsController < ApplicationController
 
     redirect_to app_campaigns_path(@app.key)
   end
+  
+  def tour_editor
+    @campaign = @app.messages.find(params[:id])
+    render "apps/campaigns/tours/tour_editor", layout: "messenger"
+  end
+
+  def tour_step
+    @campaign = @app.messages.find(params[:id])
+
+    default = {"target" => params[:target]}
+    step = (params[:position].present? ? @campaign.settings["steps"][params[:position].to_i] : default) rescue default
+
+    @step = TourStepForm.new(
+      title: step["title"], 
+      content: step["content"], 
+      target: step["target"],
+      position: params[:position]
+    )
+
+    if request.post?
+      @step = TourStepForm.new(
+        title: params[:tour_step_form][:title], 
+        content: params[:tour_step_form][:content], 
+        target: params[:tour_step_form][:target]
+      )
+
+      # Fetch the current steps
+      current_steps = @campaign.steps || []
+
+      index = params[:position].present? ?  params[:position].to_i : current_steps.size
+            
+      step_data = @step
+
+      puts "NEXT INDEX IS! #{index}"
+  
+      # Update the specific step at the desired index
+      current_steps[index] = step_data
+  
+      # Update the tour with the modified steps
+      if @campaign.update(steps: current_steps)
+        @step.position = index
+        @campaign.broadcast_step(@step) 
+        render "apps/campaigns/tours/tour_step", layout: false and return
+      end
+    end
+
+    if request.delete?
+      current_steps = @campaign.settings["steps"]
+      current_steps.delete_at(params[:position].to_i)
+      @campaign.update(steps: current_steps)
+      render "apps/campaigns/tours/tour_editor", layout: false and return
+    end
+
+    render "apps/campaigns/tours/step_editor", layout: "messenger"
+  end
 
   private
 
@@ -214,6 +269,7 @@ class Apps::CampaignsController < ApplicationController
   def resource_params
     if params.keys.include?("banner")
       return params.require(:banner).permit(
+        :hidden_constraints,
         :dismiss_button, :serialized_content, :show_sender, :sender_id, :url,
         :action_text, :font_options, :bg_color, :placement,
         segments: {
@@ -237,6 +293,7 @@ class Apps::CampaignsController < ApplicationController
         :description,
         :scheduled_at,
         :scheduled_to,
+        :hidden_constraints,
         hidden_constraints: [],
         segments: {
           segment_predicate: [
@@ -252,6 +309,7 @@ class Apps::CampaignsController < ApplicationController
 
     if params.keys.include?("campaign")
       return params.require(:campaign).permit(
+        :hidden_constraints,
         :serialized_content, :timezone, :name, :from_name, :subject, :description, :scheduled_to, :scheduled_at,
         segments: {
           segment_predicate: [
@@ -267,6 +325,7 @@ class Apps::CampaignsController < ApplicationController
 
     if params.keys.include?("tour")
       params.require(:tour).permit(
+        :url, :hidden_constraints,
         :serialized_content, :timezone, :name, :from_name, :subject, :description, :scheduled_to, :scheduled_at,
         segments: {
           segment_predicate: [

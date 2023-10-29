@@ -8,7 +8,8 @@ export default class extends Controller {
 
   sendCustomEvent() {
     const eventData = this.element.dataset.values;
-    const event = new CustomEvent('ChaskiqEvent', {
+    const eventName = this.element.dataset.eventName || 'ChaskiqEvent';
+    const event = new CustomEvent(eventName, {
       detail: { data: eventData },
       bubbles: true,
     });

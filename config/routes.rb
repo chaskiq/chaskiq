@@ -80,6 +80,10 @@ Rails.application.routes.draw do
         get :deliver
         get :clone
         get :pause
+        get :tour_editor
+        get :tour_step
+        post :tour_step
+        delete :tour_step
       end
     end
 

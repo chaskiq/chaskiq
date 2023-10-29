@@ -1,5 +1,9 @@
 
-<div class="flex">
+<div class="flex" 
+  data-controller="tour-editor-client"
+  data-url=<%= app_campaign_url(@app.key, @campaign)%>
+  data-campaign="<%= @campaign.to_json %>"
+  >
   <div class="flex overflow-scroll py-10">
     <% @campaign.steps.each do |step|%>
       <div class="flex">
@@ -15,7 +19,7 @@
 
           <div class="max-h-[148px] overflow-hidden max-w-[140px] relative p-2">
             <div class="p-5"></div>
-            <%= raw Dante::Renderer.new(raw: JSON.parse(step["serialized_content"]).deep_symbolize_keys).render %>
+            <%= raw Dante::Renderer.new(raw: JSON.parse(step["content"]).deep_symbolize_keys).render %>
           </div>
         </div>
         <div class="flex items-center">
@@ -29,8 +33,8 @@
     <div class="flex">
       <div class="rounded-md border shadow-md flex items-center justify-start min-w-0 min-h-0">
         <div class="max-h-[148px] overflow-hidden max-w-[140px] relative p-2">
-          <button class="rounded-full p-3 border m-6">
-
+          <button class="rounded-full p-3 border m-6 cursor-pointer" 
+            data-action="click->tour-editor-client#enableEditor">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>

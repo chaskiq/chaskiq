@@ -10,6 +10,8 @@ import {
   setLastActivity,
 } from './packages/messenger/src/client_messenger/activityUtils';
 
+import TourManager from "./tour_manager";
+
 function getBrowserVisibilityProp() {
   if (typeof document.hidden !== 'undefined') {
     // Opera 12.10 and Firefox 18 and later support
@@ -145,6 +147,7 @@ window.Chaskiq = window.Chaskiq || {
       const json = await response.json;
 
       cb && cb(json);
+
       // Do whatever do you want with the response body
       // You also are able to call `response.html` or `response.json`, be aware that if you call `response.json` and the response contentType isn't `application/json` there will be raised an error.
     }
@@ -185,6 +188,11 @@ window.Chaskiq = window.Chaskiq || {
 
       setTimeout(() => this.updateDimensions(), 500);
       window.addEventListener('resize', this.updateDimensions.bind(this));
+
+      // send tour opener for editor
+      window.opener &&
+        window.opener.postMessage({ type: 'ENABLE_MANAGER_TOUR' }, '*');
+
     });
   },
   load: function (options) {
@@ -391,23 +399,41 @@ window.Chaskiq = window.Chaskiq || {
 
   listenFrameEvents: function () {
     this.frameEvents = (event) => {
-      // You can add security checks by verifying the event origin, etc.
-      // if (event.data.type === 'customEvent') {
-      // Handle the received data
-      // console.log('Received data from iframe:', event);
-      // }
-
       switch (event.data.type) {
         case 'chaskiq:event':
           this.handleFrameEvents(event.data.data);
           break;
+        case 'chaskiq:tours':
+
+          this.handleTourEditor(event.data);
+          break
         default:
+
+          if (event.data.tourManagerEnabled) {
+            console.log("EVENTO TOUR!", event)
+
+            this.tourManager = new TourManager(
+              {...event.data, ev: event }
+            )
+            /*this.setState({
+              tourManagerEnabled: event.data.tourManagerEnabled,
+              ev: event,
+            });*/
+          }
           break;
       }
+
+
+
     };
 
-    console.log('LISTENING EVENTS ON', this.frameEvents);
+    console.log('LISTENING EVENTS ON FRAME EVENTS');
     window.addEventListener('message', this.frameEvents.bind(this));
+  },
+
+  handleTourEditor: function(data){
+    console.log("RECIVED EVENT FROM TOUR EDITOR, SENDING TO TOURMANAGER", data)
+    this.tourManager.pushEvent(data)
   },
 
   handleFrameEvents: function (data) {

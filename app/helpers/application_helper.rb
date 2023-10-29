@@ -308,25 +308,25 @@ module ApplicationHelper
       {
         label: t("campaigns.tabs.stats"),
         href: edit_app_campaign_path(app.key, campaign, tab: "stats"),
-        active: false,
+        active: params[:tab] == "stats",
         turbo_frame: "_top"
       },
       {
         label: t("campaigns.tabs.settings"),
         href: edit_app_campaign_path(app.key, campaign, tab: "settings"),
-        active: false,
+        active: params[:tab] == "settings",
         turbo_frame: "_top"
       },
       {
         label: t("campaigns.tabs.audience"),
         href: edit_app_campaign_path(app.key, campaign, tab: "audience"),
-        active: false,
+        active: params[:tab] == "audience",
         turbo_frame: "_top"
       },
       {
         label: t("campaigns.tabs.editor"),
         href: edit_app_campaign_path(app.key, campaign, tab: "editor"),
-        active: false,
+        active: params[:tab] == "editor",
         turbo_frame: "_top"
       }
     ]
