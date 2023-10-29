@@ -18,7 +18,8 @@ class Apps::ArticlesSettingsController < ApplicationController
 
   def update
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @article_setting = @app.article_settings.presence || @app.build_article_settings
 

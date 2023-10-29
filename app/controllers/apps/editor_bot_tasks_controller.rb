@@ -7,7 +7,10 @@ class Apps::EditorBotTasksController < ApplicationController
   end
 
   def create
-    authorize! @app, to: :can_read_routing_bots?, with: AppPolicy
+    authorize! @app, to: :can_read_routing_bots?, with: AppPolicy, context: {
+      user: current_agent
+    }
+
     q = params[:q]
 
     @bot_tasks = if q.present?

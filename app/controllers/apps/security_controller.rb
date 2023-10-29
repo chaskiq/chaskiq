@@ -3,7 +3,9 @@ class Apps::SecurityController < ApplicationController
   before_action :set_settings_navigator
 
   def index
-    authorize! @app, to: :can_read_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_read_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @default_code_lang = params[:code_lang] || "ruby"
     @key_options = key_gen_options.find { |o| o[:id] == @default_code_lang }

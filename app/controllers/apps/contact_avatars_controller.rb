@@ -11,7 +11,9 @@ class Apps::ContactAvatarsController < ApplicationController
   def edit; end
 
   def update
-    authorize! @app, to: :can_manage_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_manage_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     flash.now[:notice] = "styles updated" if @app.update(resource_params)
 

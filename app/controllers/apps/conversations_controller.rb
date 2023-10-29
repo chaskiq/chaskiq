@@ -69,7 +69,8 @@ class Apps::ConversationsController < ApplicationController
     @sort = "newest"
 
     authorize! @app, to: :can_read_conversations?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     @conversation = @app.conversations.find_by(key: params[:id])
@@ -121,7 +122,8 @@ class Apps::ConversationsController < ApplicationController
     @conversation = @app.conversations.find_by(key: params[:id])
 
     authorize! @conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     case params[:step]
     when "state"
@@ -190,7 +192,8 @@ class Apps::ConversationsController < ApplicationController
     }
 
     authorize! @app, to: :can_manage_conversations?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     @conversation = @app.start_conversation(options)
@@ -202,7 +205,8 @@ class Apps::ConversationsController < ApplicationController
     @app_user = @app.app_users.find(params[:app_user_id]) if params[:app_user_id]
 
     authorize! @app, to: :can_manage_conversations?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     @conversation = @app.conversations.new(

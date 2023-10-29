@@ -71,7 +71,9 @@ class Apps::PackagesController < ApplicationController
   end
 
   def capabilities
-    authorize! @app, to: :show?, with: AppPolicy
+    authorize! @app, to: :show?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @location = params[:kind]
     @category = params[:category]

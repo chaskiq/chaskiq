@@ -4,7 +4,9 @@ class Apps::UserDataController < ApplicationController
   before_action :check_plan, only: %i[create new update edit]
 
   def index
-    authorize! @app, to: :can_read_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_read_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @data = (AppUser::ENABLED_SEARCH_FIELDS + AppUser::BROWSING_FIELDS).map do |item|
       {
@@ -16,19 +18,25 @@ class Apps::UserDataController < ApplicationController
   end
 
   def new
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @custom_field = CustomFieldRecord.new
   end
 
   def edit
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @tag = @app.custom_fields_objects.find { |o| o.name == params[:id] }
   end
 
   def update
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     resource_params = params.require(:custom_field_record).permit(:name, :type)
     @custom_field = @app.custom_fields_objects.find { |o| o.name == params[:id] }
@@ -44,7 +52,9 @@ class Apps::UserDataController < ApplicationController
   end
 
   def create
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @custom_field = CustomFieldRecord.new
     resource_params = params.require(:custom_field_record).permit(:name, :type)
@@ -62,7 +72,9 @@ class Apps::UserDataController < ApplicationController
   end
 
   def destroy
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @custom_fields = @app.custom_fields_objects.reject { |o| o.name == params[:id] }
     @app.custom_fields = @custom_fields.as_json

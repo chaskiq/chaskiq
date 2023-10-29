@@ -4,7 +4,8 @@ class Apps::CampaignsController < ApplicationController
 
   def index
     authorize! @app, to: :can_read_campaigns?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     @namespace = params[:namespace] || "campaigns"
@@ -14,7 +15,8 @@ class Apps::CampaignsController < ApplicationController
 
   def new
     authorize! @app, to: :can_manage_campaigns?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     @namespace = params[:namespace] || "campaigns"
@@ -23,7 +25,8 @@ class Apps::CampaignsController < ApplicationController
 
   def create
     authorize! @app, to: :can_manage_campaigns?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     @namespace = params[:namespace] || "campaigns"
@@ -40,7 +43,8 @@ class Apps::CampaignsController < ApplicationController
     @campaign = @app.messages.find(params[:id])
 
     authorize! @campaign, to: :can_read_campaigns?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     @collection = @campaign.metrics.page(params[:page]).per(10)
@@ -51,7 +55,8 @@ class Apps::CampaignsController < ApplicationController
     @campaign = @app.messages.find(params[:id])
 
     authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     case params[:tab]
@@ -76,7 +81,8 @@ class Apps::CampaignsController < ApplicationController
     @campaign = @app.messages.find(params[:id])
 
     authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     if params[:toggle]
@@ -116,7 +122,8 @@ class Apps::CampaignsController < ApplicationController
     @campaign = @app.messages.find(params[:id])
 
     authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     new_message = @campaign.dup
@@ -130,7 +137,8 @@ class Apps::CampaignsController < ApplicationController
   def deliver
     @campaign.send_newsletter
     authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     flash.now[:notice] = "Place was updated!"
@@ -139,7 +147,8 @@ class Apps::CampaignsController < ApplicationController
 
   def purge_metrics
     authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     # set_campaign(id)
     @campaign.metrics.destroy_all
@@ -151,7 +160,8 @@ class Apps::CampaignsController < ApplicationController
     @campaign = @app.messages.find(params[:id])
 
     authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     redirect_to app_campaigns_path(@app.key)

@@ -6,25 +6,33 @@ class Apps::QuickRepliesController < ApplicationController
   def index; end
 
   def show
-    authorize! @app, to: :can_read_quick_replies?, with: AppPolicy
+    authorize! @app, to: :can_read_quick_replies?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @quick_reply = @app.quick_replies.find(params[:id])
   end
 
   def new
-    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy
+    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @quick_reply = @app.quick_replies.new
   end
 
   def edit
-    authorize! @app, to: :can_wirte_quick_replies?, with: AppPolicy
+    authorize! @app, to: :can_wirte_quick_replies?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @quick_reply = @app.quick_replies.find(params[:id])
   end
 
   def update
-    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy
+    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @quick_reply = @app.quick_replies.find(params[:id])
 
@@ -61,7 +69,9 @@ class Apps::QuickRepliesController < ApplicationController
   end
 
   def create
-    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy
+    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @quick_reply = @app.quick_replies.new(resource_params)
     respond_to do |format|
@@ -88,7 +98,9 @@ class Apps::QuickRepliesController < ApplicationController
   end
 
   def destroy
-    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy
+    authorize! @app, to: :can_write_quick_replies?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @quick_reply = @app.quick_replies.find(params[:id])
     if @quick_reply.destroy

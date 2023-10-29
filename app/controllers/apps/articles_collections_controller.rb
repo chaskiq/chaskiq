@@ -15,7 +15,8 @@ class Apps::ArticlesCollectionsController < ApplicationController
 
   def edit
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @article_setting = @app.article_settings
     @article_collection = @app.article_collections.friendly.find(params[:id]) # .find(params[:id])
@@ -23,7 +24,8 @@ class Apps::ArticlesCollectionsController < ApplicationController
 
   def update
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @article_setting = @app.article_settings
     @article_collection = @app.article_collections.friendly.find(params[:id]) # .find(params[:id])
@@ -39,14 +41,16 @@ class Apps::ArticlesCollectionsController < ApplicationController
 
   def new
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @article_collection = @app.article_collections.new
   end
 
   def create
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @article_collection = @app.article_collections.new(
       resource_params
@@ -63,7 +67,8 @@ class Apps::ArticlesCollectionsController < ApplicationController
 
   def destroy
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @article_collection = @app.article_collections.friendly.find(params[:id])
     if @article_collection.destroy
@@ -77,7 +82,8 @@ class Apps::ArticlesCollectionsController < ApplicationController
 
   def sort
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     article_collection = @app.article_collections
     id = params.dig("articles_collection", "section", "id")

@@ -2,7 +2,9 @@ class Apps::DashboardsController < ApplicationController
   before_action :find_app
 
   def show
-    authorize! @app, to: :can_read_dashboard?, with: AppPolicy
+    authorize! @app, to: :can_read_dashboard?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @range = { from: 10.days.ago.to_s, to: Time.zone.now.to_s }
 

@@ -43,7 +43,8 @@ class Apps::ConversationMessagesController < ApplicationController
     conversation = @app.conversations.find_by(key: params[:conversation_id])
 
     authorize! conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
 
     message = params[:conversation_message]

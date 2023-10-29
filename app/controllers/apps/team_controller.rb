@@ -4,7 +4,9 @@ class Apps::TeamController < ApplicationController
 
   def index
     @active_tab = "team"
-    authorize! @app, to: :can_manage_team?, with: AppPolicy
+    authorize! @app, to: :can_manage_team?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @agents = @app.roles.includes(:agent)
                   .where("agents.invitation_token": nil) # agents.with_attached_avatar.where(invitation_token: nil)
@@ -38,7 +40,7 @@ class Apps::TeamController < ApplicationController
     @agent = @agent_role&.agent
 
     authorize! @agent, to: :update_agent_role?, with: AppPolicy, context: {
-      role: @app.roles.find_by(agent_id: current_user.id)
+      role: @app.roles.find_by(agent_id: current_agent.id)
     }
 
     data = params.require(:agent).permit(
@@ -63,7 +65,9 @@ class Apps::TeamController < ApplicationController
   def new; end
 
   def create
-    authorize! @app, to: :invite_user?, with: AppPolicy
+    authorize! @app, to: :invite_user?, with: AppPolicy, context: {
+      user: current_agent
+    }
     @agent = @app.agents.find_by(email: email)
 
     if agent.blank?
@@ -79,6 +83,11 @@ class Apps::TeamController < ApplicationController
 
   def destroy
     @agent_role = @app.roles.find_by(id: params[:id])
+
+    authorize! @agent, to: :update_agent_role?, with: AppPolicy, context: {
+      role: @app.roles.find_by(agent_id: current_agent.id)
+    }
+
     if @agent_role.destroy
       flash.now[:notice] = "Place was updated!"
       redirect_to app_team_path(@app.key)

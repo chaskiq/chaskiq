@@ -1,14 +1,20 @@
 class Apps::EditorQuickRepliesController < ApplicationController
   before_action :find_app
   def index
-    authorize! @app, to: :can_read_quick_replies?, with: AppPolicy
+    authorize! @app, to: :can_read_quick_replies?, with: AppPolicy, context: {
+      user: current_agent
+    }
+
     @quick_replies = @app.quick_replies
 
     render "index", layout: false
   end
 
   def create
-    authorize! @app, to: :can_read_quick_replies?, with: AppPolicy
+    authorize! @app, to: :can_read_quick_replies?, with: AppPolicy, context: {
+      user: current_agent
+    }
+
     q = params[:q]
 
     @quick_replies = if q.present?

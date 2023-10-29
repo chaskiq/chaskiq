@@ -4,7 +4,9 @@ class Apps::ReportsController < ApplicationController
   before_action :set_dashboard
 
   def show
-    authorize! @app, to: :can_read_reports?, with: AppPolicy
+    authorize! @app, to: :can_read_reports?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     if params[:id] == "overview"
       @integration = {
@@ -28,7 +30,9 @@ class Apps::ReportsController < ApplicationController
   end
 
   def index
-    authorize! @app, to: :can_read_reports?, with: AppPolicy
+    authorize! @app, to: :can_read_reports?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @integration = {
       name: "overview",

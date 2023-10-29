@@ -2,17 +2,24 @@ class Apps::BotsController < ApplicationController
   before_action :find_app
 
   def index
-    authorize! @app, to: :can_read_routing_bots?, with: AppPolicy
+    authorize! @app, to: :can_read_routing_bots?, with: AppPolicy, context: {
+      user: current_agent
+    }
+
     redirect_to leads_app_bots_path(@app.key)
   end
 
   def show
     @bot = @app.bot_tasks.find(params[:id])
-    authorize! @bot, to: :can_read_routing_bots?, with: AppPolicy
+    authorize! @bot, to: :can_read_routing_bots?, with: AppPolicy, context: {
+      user: current_agent
+    }
   end
 
   def new
-    authorize! @app, to: :can_manage_routing_bots?, with: AppPolicy
+    authorize! @app, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @bot = @app.bot_tasks.new(bot_type: params[:kind])
 
@@ -20,7 +27,9 @@ class Apps::BotsController < ApplicationController
   end
 
   def create
-    authorize! @app, to: :can_manage_routing_bots?, with: AppPolicy
+    authorize! @app, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @bot = @app.bot_tasks.create({
                                    title: params[:bot_task][:title],
@@ -33,7 +42,9 @@ class Apps::BotsController < ApplicationController
 
   def edit
     @bot = @app.bot_tasks.find(params[:id])
-    authorize! @bot, to: :can_manage_routing_bots?, with: AppPolicy
+    authorize! @bot, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @collection = @bot.metrics.page(params[:page]).per(params[:per])
 
@@ -71,7 +82,9 @@ class Apps::BotsController < ApplicationController
 
   def update
     @bot = @app.bot_tasks.find(params[:id])
-    authorize! @bot, to: :can_manage_routing_bots?, with: AppPolicy
+    authorize! @bot, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @tab = params[:tab]
 
@@ -145,7 +158,9 @@ class Apps::BotsController < ApplicationController
 
     @bot_task = collection.find(id)
 
-    authorize! @bot_Taks, to: :can_manage_routing_bots?, with: AppPolicy
+    authorize! @bot_Taks, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @bot_task.insert_at(position + 1)
 

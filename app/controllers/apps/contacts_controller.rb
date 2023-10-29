@@ -2,7 +2,9 @@ class Apps::ContactsController < ApplicationController
   before_action :find_app
 
   def new
-    authorize! @app, to: :can_manage_users?, with: AppPolicy
+    authorize! @app, to: :can_manage_users?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @app_user = @app.app_users.new(type: AppUser)
 
@@ -21,7 +23,9 @@ class Apps::ContactsController < ApplicationController
   end
 
   def search
-    authorize! @app, to: :can_read_users?, with: AppPolicy
+    authorize! @app, to: :can_read_users?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     if Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true" && @app.searchkick_enabled?
       @collection = AppUser.search(
@@ -38,7 +42,9 @@ class Apps::ContactsController < ApplicationController
   end
 
   def show
-    authorize! @app, to: :can_read_users?, with: AppPolicy
+    authorize! @app, to: :can_read_users?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @app_user = @app.app_users.find(params[:id])
     @user_data = { id: @app_user.id, lat: @app_user.lat,
@@ -55,7 +61,9 @@ class Apps::ContactsController < ApplicationController
   end
 
   def create
-    authorize! @app, to: :can_write_users?, with: AppPolicy
+    authorize! @app, to: :can_write_users?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     case params[:app_user][:type]
     when "AppUser"
@@ -68,7 +76,9 @@ class Apps::ContactsController < ApplicationController
   end
 
   def bulk
-    authorize! @app, to: :can_write_users?, with: AppPolicy
+    authorize! @app, to: :can_write_users?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     if request.get?
       @contact_uploader = ContactUploader.new(contact_type: "AppUser")

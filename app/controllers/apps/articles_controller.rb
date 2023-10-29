@@ -63,7 +63,8 @@ class Apps::ArticlesController < ApplicationController
 
   def add_uncategorized
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @articles = @app.articles.without_collection.page(params[:page]).per(params[:page])
     collection = @app.article_collections.friendly.find(params[:collection_id])
@@ -83,7 +84,8 @@ class Apps::ArticlesController < ApplicationController
 
   def uncategorized
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @articles = @app.articles.without_collection.page(params[:page]).per(params[:page])
     render partial: "uncategorized_form"

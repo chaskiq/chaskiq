@@ -15,10 +15,9 @@
 
 
 
+  <% if Chaskiq::Config.get("AUTH0_ENABLED") == "true" %>
     <%- if devise_mapping.omniauthable? %>
       <%- resource_class.omniauth_providers.each do |provider| %>
-
-
         <div>
           <%= button_to omniauth_authorize_path(resource_name, provider), data: { turbo: false },
             class: "w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-800 rounded-md shadow-sm bg-white dark:bg-black text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900" do %>
@@ -26,9 +25,9 @@
             <%= provider %>
           <% end %>
         </div>
-
       <% end %>
     <% end %>
+  <% end %>
 
 
   <%- if controller_name != 'sessions' %>

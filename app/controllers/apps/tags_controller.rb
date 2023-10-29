@@ -3,24 +3,32 @@ class Apps::TagsController < ApplicationController
   before_action :set_settings_navigator
 
   def index
-    authorize! @app, to: :can_read_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_read_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @tags = @app.tag_list_objects
   end
 
   def new
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
     @tag = TagListRecord.new
   end
 
   def edit
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @tag = @app.tag_list_objects.find { |o| o.name == params[:id] }
   end
 
   def update
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @tag = @app.tag_list_objects.find { |o| o.name == params[:id] }
     @tag.assign_attributes(resource_params)
@@ -35,7 +43,9 @@ class Apps::TagsController < ApplicationController
   end
 
   def create
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @tag = TagListRecord.new
     @tag.assign_attributes(resource_params)
@@ -51,7 +61,9 @@ class Apps::TagsController < ApplicationController
   end
 
   def destroy
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @tags = @app.tag_list_objects.reject { |o| o.name == params[:id] }
     @app.tag_list = @tags.as_json

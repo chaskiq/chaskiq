@@ -15,14 +15,16 @@ class Apps::ArticlesSectionsController < ApplicationController
 
   def edit
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @article_section = @article_collection.sections.new
   end
 
   def update
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @article_section = @app.sections.friendly.find(params[:id])
     if @article_section.errors.blank?
@@ -37,7 +39,8 @@ class Apps::ArticlesSectionsController < ApplicationController
 
   def create
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @article_collection = @app.article_collections.find(params[:collection_section][:article_collection_id])
 
@@ -55,7 +58,8 @@ class Apps::ArticlesSectionsController < ApplicationController
 
   def destroy
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     @article_section = @app.sections.friendly.find(params[:id])
 
@@ -70,7 +74,8 @@ class Apps::ArticlesSectionsController < ApplicationController
 
   def sort
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app
+      app: @app,
+      user: current_agent
     }
     article = @app.articles.find(params[:section][:id])
     section_to = begin

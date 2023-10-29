@@ -4,7 +4,9 @@ class Apps::WebhooksController < ApplicationController
   before_action :check_plan, only: [:create]
 
   def index
-    authorize! @app, to: :can_read_outgoing_webhooks?, with: AppPolicy
+    authorize! @app, to: :can_read_outgoing_webhooks?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     @webhooks = @app.outgoing_webhooks.enabled if !params[:kind] || params[:kind] != "disabled"
     @webhooks = @app.outgoing_webhooks.disabled if params[:kind] == "disabled"
@@ -12,17 +14,23 @@ class Apps::WebhooksController < ApplicationController
   end
 
   def new
-    authorize! @app, to: :can_write_outgoing_webhooks?, with: AppPolicy
+    authorize! @app, to: :can_write_outgoing_webhooks?, with: AppPolicy, context: {
+      user: current_agent
+    }
     @webhook = @app.outgoing_webhooks.new
   end
 
   def edit
-    authorize! @app, to: :can_write_outgoing_webhooks?, with: AppPolicy
+    authorize! @app, to: :can_write_outgoing_webhooks?, with: AppPolicy, context: {
+      user: current_agent
+    }
     @webhook = @app.outgoing_webhooks.find(params[:id])
   end
 
   def create
-    authorize! @app, to: :can_write_outgoing_webhooks?, with: AppPolicy
+    authorize! @app, to: :can_write_outgoing_webhooks?, with: AppPolicy, context: {
+      user: current_agent
+    }
     resource_params = params.require(:outgoing_webhook).permit(:state, :url, tag_list: [])
     @webhook = @app.outgoing_webhooks.new(resource_params)
     if @webhook.save
