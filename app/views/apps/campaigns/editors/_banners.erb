@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "campaign-editor-form" do %>
   <%= form_for @campaign, 
-    url: app_campaign_path(@app.key, @campaign, namespace: :banner),
+    url: app_campaign_path(@app.key, @campaign),
     data: {controller: "draft-save"} do |f| %>
 
     <div class="border rounded-md flex flex-col shadow-md">
@@ -13,6 +13,7 @@
       </div>
 
       <%= hidden_field_tag :tab, "editor" %>
+      <%= hidden_field_tag :namespace, "banners" %>
 
       <div class="bg-white">
         <div class="relative" style="height: 272px;">

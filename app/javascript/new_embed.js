@@ -95,6 +95,20 @@ window.Chaskiq = window.Chaskiq || {
       </div>
     `;
   },
+  userAutoMessageFrame: function(url){
+    const style = `
+      display: block;
+      border: 0px;
+      z-index: 1000;
+      width: 350px;
+      position: absolute;
+      height: 70vh;
+      bottom: 49px;
+      right: 6px;
+    `;
+    return `<iframe src="${url}" id="chaskiq-user-auto-messages" width="100%" height="100%" style="${style}" id="chaskiqBannerFrame"></iframe>`;
+ 
+  },
   getTemplate: function (url) {
     return `
       <div id="chaskiq-messenger-body" class="fixed w-[376px] right-[14px] bottom-[14px] z-[2147483647]">
@@ -292,6 +306,26 @@ window.Chaskiq = window.Chaskiq || {
     this.pushEvent('messenger:track_click', {
       trackable_id: this.banner.id,
     });
+  },
+
+  loadUserAutoMessages(data){
+    
+    const ids = data.data.map((o)=> o.id).join(",")
+    const url = `${this.options.domain}/messenger/${this.options.app_id}/campaigns/user_auto_messages?ids=${ids}&token=${this.token}`;
+
+    const existingFrame = document.querySelector("#chaskiq-user-auto-messages")
+
+    if(existingFrame){
+      existingFrame.src = url
+    } else {
+      const templateString = this.userAutoMessageFrame(url);
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(templateString, 'text/html');
+      const bannerElement = doc.body.firstChild;
+
+      // Append the content to the body
+      document.body.appendChild(bannerElement);
+    }
   },
 
   loadBanner() {
@@ -509,6 +543,7 @@ window.Chaskiq = window.Chaskiq || {
 
   listenFrameEvents: function () {
     this.frameEvents = (event) => {
+   
       switch (event.data.type) {
         case 'chaskiq:event':
           this.handleFrameEvents(event.data.data);
@@ -518,17 +553,20 @@ window.Chaskiq = window.Chaskiq || {
           break;
         case 'chaskiq:banners':
           this.receiveBanners(event.data.data);
+          break;
         case 'chaskiq:connected':
           this.handleConnected();
+          break;
+        case 'chaskiq:user_auto_message':
+          this.loadUserAutoMessages(event.data)
+          break;
+        case 'chaskiq:user_auto_messages':
+          this.handleUserAutoMessageEvents(event.data.data)
+          break;
         default:
           if (event.data.tourManagerEnabled) {
-            console.log('EVENTO TOUR!', event);
-
+            console.log('TOUR MANAGER INIT EVENT!', event);
             this.tourManager = new TourManager({ ...event.data, ev: event });
-            /*this.setState({
-              tourManagerEnabled: event.data.tourManagerEnabled,
-              ev: event,
-            });*/
           }
           break;
       }
@@ -560,6 +598,26 @@ window.Chaskiq = window.Chaskiq || {
         break;
       case 'banner:close':
         this.closeBanner();
+        break;
+      default:
+        break;
+    }
+  },
+
+  handleUserAutoMessageEvents: function(data){
+    switch (data.action) {
+      case "removeFrame":
+        document.querySelector("#chaskiq-user-auto-messages").remove()
+        break;
+      case "read":
+        this.pushEvent('messenger:track_open', {
+          trackable_id: data.id,
+        });
+        break;
+      case "dismiss":
+        this.pushEvent('messenger:track_close', {
+          trackable_id: data.id,
+        });
         break;
       default:
         break;

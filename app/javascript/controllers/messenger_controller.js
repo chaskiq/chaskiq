@@ -83,13 +83,18 @@ export default class extends Controller {
           break;
         case 'tours:receive':
           break;
+        case 'messages:receive':
+          message = {
+            type: 'chaskiq:user_auto_message',
+            data: data.data,
+          };
+          window.parent.postMessage(message, '*');
+          break
         case 'banners:receive':
           message = {
             type: 'chaskiq:banners',
             data: data.data,
           };
-
-          // console.log("SENDING EVENT TP PARENT FRAME", message)
           window.parent.postMessage(message, '*');
           break;
         default:
@@ -173,6 +178,10 @@ export default class extends Controller {
       case 'messenger:track_close':
         this.pushEvent('track_close', event.data.data);
         break;
+      case 'messenger:track_open':
+        this.pushEvent('track_open', event.data.data);
+        break;
+      
       default:
         break;
     }

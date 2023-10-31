@@ -34,6 +34,7 @@ class MessengerController < ApplicationController
     when "get_banners_for_user" then get_banners_for_user(@app_user)
     when "track_click" then track_click(params["messenger"])
     when "track_close" then track_close(params["messenger"])
+    when "track_open" then track_open(params["messenger"])
     when "track_tour_finished" then track_tour_finished(params["messenger"])
     when "track_tour_skipped" then track_tour_skipped(params["messenger"])
 
@@ -93,6 +94,10 @@ class MessengerController < ApplicationController
   end
 
   private
+
+  def get_messages_for_user
+    UserAutoMessage.broadcast_message_to_user(@app_user)
+  end
 
   def get_banners_for_user(user)
     Banner.broadcast_banner_to_user(user)

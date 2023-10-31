@@ -110,7 +110,7 @@ class Apps::CampaignsController < ApplicationController
       @campaign.update(resource_params)
     else
       @tab = "editor"
-      @namespace = "banner"
+      @namespace = params[:namespace]
       if params[:draft].present?
         @campaign.assign_attributes(resource_params)
       else
