@@ -35,11 +35,16 @@ inbound settings
 + settings for:
   + close conversation
 
-
 + bots retrieval
+
+
++ user auto messages 
+  + display if activeMessenger, implement this function
+
 + inline conversations
+
 + tours retrieval
   + tours save
   + tours preview
 
-+ banner retrieval
++ tours receive

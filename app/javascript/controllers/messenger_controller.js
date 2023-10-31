@@ -89,7 +89,7 @@ export default class extends Controller {
             data: data.data,
           };
           window.parent.postMessage(message, '*');
-          break
+          break;
         case 'banners:receive':
           message = {
             type: 'chaskiq:banners',
@@ -181,7 +181,7 @@ export default class extends Controller {
       case 'messenger:track_open':
         this.pushEvent('track_open', event.data.data);
         break;
-      
+
       default:
         break;
     }

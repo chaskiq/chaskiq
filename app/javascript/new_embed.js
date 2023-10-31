@@ -95,7 +95,7 @@ window.Chaskiq = window.Chaskiq || {
       </div>
     `;
   },
-  userAutoMessageFrame: function(url){
+  userAutoMessageFrame: function (url) {
     const style = `
       display: block;
       border: 0px;
@@ -107,7 +107,6 @@ window.Chaskiq = window.Chaskiq || {
       right: 6px;
     `;
     return `<iframe src="${url}" id="chaskiq-user-auto-messages" width="100%" height="100%" style="${style}" id="chaskiqBannerFrame"></iframe>`;
- 
   },
   getTemplate: function (url) {
     return `
@@ -308,15 +307,14 @@ window.Chaskiq = window.Chaskiq || {
     });
   },
 
-  loadUserAutoMessages(data){
-    
-    const ids = data.data.map((o)=> o.id).join(",")
+  loadUserAutoMessages(data) {
+    const ids = data.data.map((o) => o.id).join(',');
     const url = `${this.options.domain}/messenger/${this.options.app_id}/campaigns/user_auto_messages?ids=${ids}&token=${this.token}`;
 
-    const existingFrame = document.querySelector("#chaskiq-user-auto-messages")
+    const existingFrame = document.querySelector('#chaskiq-user-auto-messages');
 
-    if(existingFrame){
-      existingFrame.src = url
+    if (existingFrame) {
+      existingFrame.src = url;
     } else {
       const templateString = this.userAutoMessageFrame(url);
       const parser = new DOMParser();
@@ -543,7 +541,6 @@ window.Chaskiq = window.Chaskiq || {
 
   listenFrameEvents: function () {
     this.frameEvents = (event) => {
-   
       switch (event.data.type) {
         case 'chaskiq:event':
           this.handleFrameEvents(event.data.data);
@@ -558,10 +555,10 @@ window.Chaskiq = window.Chaskiq || {
           this.handleConnected();
           break;
         case 'chaskiq:user_auto_message':
-          this.loadUserAutoMessages(event.data)
+          this.loadUserAutoMessages(event.data);
           break;
         case 'chaskiq:user_auto_messages':
-          this.handleUserAutoMessageEvents(event.data.data)
+          this.handleUserAutoMessageEvents(event.data.data);
           break;
         default:
           if (event.data.tourManagerEnabled) {
@@ -604,17 +601,17 @@ window.Chaskiq = window.Chaskiq || {
     }
   },
 
-  handleUserAutoMessageEvents: function(data){
+  handleUserAutoMessageEvents: function (data) {
     switch (data.action) {
-      case "removeFrame":
-        document.querySelector("#chaskiq-user-auto-messages").remove()
+      case 'removeFrame':
+        document.querySelector('#chaskiq-user-auto-messages').remove();
         break;
-      case "read":
+      case 'read':
         this.pushEvent('messenger:track_open', {
           trackable_id: data.id,
         });
         break;
-      case "dismiss":
+      case 'dismiss':
         this.pushEvent('messenger:track_close', {
           trackable_id: data.id,
         });
