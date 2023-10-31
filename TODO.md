@@ -6,8 +6,6 @@ TODO.md
   + rendering plain version
   + open video conversation
 
-+ campaigns:
-  + editor tour manager
 
 inbound settings
   + not updating predicates
@@ -41,4 +39,7 @@ inbound settings
 + bots retrieval
 + inline conversations
 + tours retrieval
+  + tours save
+  + tours preview
+
 + banner retrieval

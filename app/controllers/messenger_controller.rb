@@ -31,6 +31,12 @@ class MessengerController < ApplicationController
     case params[:event]
     when "send_message" then register_visitor_ping
     when "request_trigger" then request_trigger
+    when "get_banners_for_user" then get_banners_for_user(@app_user)
+    when "track_click" then track_click(params["messenger"])
+    when "track_close" then track_close(params["messenger"])
+    when "track_tour_finished" then track_tour_finished(params["messenger"])
+    when "track_tour_skipped" then track_tour_skipped(params["messenger"])
+
     end
 
     head :ok
@@ -88,6 +94,10 @@ class MessengerController < ApplicationController
 
   private
 
+  def get_banners_for_user(user)
+    Banner.broadcast_banner_to_user(user)
+  end
+
   def needs_privacy_consent
     privacy_consent_required = @app.privacy_consent_required
     user_privacy_consent = @app_user.privacy_consent
@@ -136,5 +146,40 @@ class MessengerController < ApplicationController
     @home_apps = home_apps
 
     @needs_privacy_consent = needs_privacy_consent
+  end
+
+  def track_open(data)
+    @app_user.track_open(
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
+    )
+  end
+
+  def track_close(data)
+    @app_user.track_close(
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
+    )
+  end
+
+  def track_click(data)
+    @app_user.track_click(
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
+    )
+  end
+
+  def track_tour_finished(data)
+    @app_user.track_finish(
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
+    )
+  end
+
+  def track_tour_skipped(data)
+    @app_user.track_skip(
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
+    )
   end
 end

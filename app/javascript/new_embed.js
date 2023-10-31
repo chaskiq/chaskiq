@@ -9,6 +9,8 @@ import {
   getDiff,
   setLastActivity,
 } from './packages/messenger/src/client_messenger/activityUtils';
+import UrlPattern from 'url-pattern';
+import UAParser from 'ua-parser-js';
 
 import TourManager from './tour_manager';
 
@@ -59,6 +61,37 @@ const primeClosedHTML = `
 `;
 
 window.Chaskiq = window.Chaskiq || {
+
+
+
+  bannerFrame: function(url){
+
+    let result;
+    const {placement, mode} = this.banner.banner_data
+
+    if (placement === "top" && mode === "floating") {
+        result = "top: 8"
+    } else if (placement === "top") {
+        result = "top: 0"
+    } else if (placement === "bottom" && mode === "floating") {
+        result = "bottom: 8"
+    } else if (placement === "bottom" || placement === "fixed") {
+        result = "bottom: 0"
+    }
+
+    const height = mode === "floating" ? "88px" : "60px";
+    const style = `
+      position: fixed;
+      left: 0px;
+      width: 100%;
+      height: ${height};
+      border: transparent;
+      z-index: 4000000000;
+      ${result};
+    `
+    return `<iframe src="${url}" width="100%" height="100%" style="${style}" id="chaskiqBannerFrame"></iframe>`
+  },
+
   frameTemplate: function (url) {
     return `
       <div id="messenger-frame" class="css-13u6xjo">
@@ -165,12 +198,14 @@ window.Chaskiq = window.Chaskiq || {
     this.setup((data) => {
       console.log(data);
       this.userData = data;
+      this.banner = null
 
       if (!data.enabled_for_user) {
         console.log('MESSENGER NOT ENABLED FOR USER');
         return;
       }
 
+      this.token = data.token
       const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${data.token}`;
       const templateString = this.getTemplate(url);
       const parser = new DOMParser();
@@ -193,6 +228,87 @@ window.Chaskiq = window.Chaskiq || {
       window.opener &&
         window.opener.postMessage({ type: 'ENABLE_MANAGER_TOUR' }, '*');
     });
+  },
+
+  // check url pattern before trigger tours
+  receiveTours(tours) {
+    const filteredTours = tours.filter((o) => {
+      // eslint-disable-next-line no-useless-escape
+      const pattern = new UrlPattern(o.url.replace(/^.*\/\/[^\/]+/, ''));
+      const url = document.location.pathname;
+      return pattern.match(url);
+    });
+
+    if (filteredTours.length > 0) this.tours = filteredTours
+  },
+
+
+  fetchBanner(id) {
+   this.pushEvent("messenger:fetch_banner", id)
+  },
+
+  getBanner() {
+    return (
+      localStorage.getItem('chaskiq-banner') &&
+      JSON.parse(localStorage.getItem('chaskiq-banner'))
+    );
+  },
+
+  getBannerID() {
+    const banner = this.getBanner();
+    return banner?.id;
+  },
+
+  receiveBanners(banner) {
+    this.persistBannerCache(banner);
+    this.banner = banner
+    //this.setState({ banner: banner }, () => {
+    this.pushEvent('messenger:track_open', {
+      trackable_id: this.banner.id,
+    });
+
+    this.loadBanner()
+    //});
+  },
+
+  persistBannerCache(banner) {
+    localStorage.setItem('chaskiq-banner', JSON.stringify(banner));
+  },
+
+  clearBannerCache() {
+    this.banner = null
+    localStorage.removeItem('chaskiq-banner');
+  },
+
+  closeBanner() {
+    if (!this.banner) return;
+
+    this.pushEvent('messenger:track_close', {
+      trackable_id: this.banner.id,
+    });
+
+    this.clearBannerCache();
+
+    document.querySelector("#chaskiqBannerFrame").remove()
+  },
+
+  bannerActionClick(url) {
+    window.open(url, '_blank');
+    this.pushEvent('messenger:track_click', {
+      trackable_id: this.banner.id,
+    });
+  },
+
+  loadBanner(){
+    const url = `${this.options.domain}/messenger/${this.options.app_id}/campaigns/${this.banner.id}?token=${this.token}`;
+
+    const templateString = this.bannerFrame(url);
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(templateString, 'text/html')
+    const bannerElement = doc.body.firstChild;
+
+    // Append the content to the body
+    document.body.appendChild(bannerElement);
   },
   load: function (options) {
     this.options = options;
@@ -392,7 +508,7 @@ window.Chaskiq = window.Chaskiq || {
     });
 
     window.addEventListener('locationchange', () => {
-      //this.registerVisit();
+      this.registerVisit();
     });
   },
 
@@ -403,8 +519,12 @@ window.Chaskiq = window.Chaskiq || {
           this.handleFrameEvents(event.data.data);
           break;
         case 'chaskiq:tours':
-          this.handleTourEditor(event.data);
+          this.handleTourEditor(event.data.data);
           break;
+        case 'chaskiq:banners':
+          this.receiveBanners(event.data.data)
+        case 'chaskiq:connected':
+          this.handleConnected()
         default:
           if (event.data.tourManagerEnabled) {
             console.log('EVENTO TOUR!', event);
@@ -429,6 +549,8 @@ window.Chaskiq = window.Chaskiq || {
   },
 
   handleFrameEvents: function (data) {
+
+    console.log(data)
     switch (data.type) {
       case 'conversations:unreads':
         this.updateCounters(data.data.value);
@@ -436,15 +558,54 @@ window.Chaskiq = window.Chaskiq || {
       case 'messenger:toggle':
         this.toggle();
         break;
+      case 'messenger:connected':
+        this.handleConnected()
+        break;
+      case 'banner:click':
+        this.bannerActionClick(data.url)
+        break;
+      case 'banner:close':
+        this.closeBanner()
+        break;
       default:
         break;
     }
   },
 
+  registerVisit(){
+    const parser = new UAParser();
+
+    const results = parser.getResult();
+
+    const data = {
+      title: document.title,
+      url: document.location.href,
+      browser_version: results.browser.version,
+      browser_name: results.browser.name,
+      os_version: results.os.version,
+      os: results.os.name,
+    };
+    console.log('PUSH EVENT HERE', data);
+    this.pushEvent('messenger:register_visit', data);
+  },
+
+  handleConnected() {
+    this.registerVisit();
+
+    if (!this.banner && !this.bannerID) {
+      this.pushEvent('messenger:get_banners_for_user', {});
+    }
+
+    // will fetch banner from the server
+    if (!this.banner && this.bannerID) {
+      this.fetchBanner(this.bannerID);
+    }
+    // this.processTriggers()
+  },
+
   updateCounters: function (count) {
     document.querySelector('.cache-emo-xlbvmj').innerHTML = count;
   },
-
   pushEvent: async function (eventType, data) {
     /*const url = `${this.options.domain}/messenger/${this.options.app_id}/events?event=${eventType}&token=${this.userData.token}`
 
@@ -501,5 +662,5 @@ window.Chaskiq = window.Chaskiq || {
   cleanup: function () {
     //clean all the listeners here!
     // window.removeEventListener('beforeunload', onUnload);
-  },
-};
+  }
+}

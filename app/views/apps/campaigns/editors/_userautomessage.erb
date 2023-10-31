@@ -1,7 +1,6 @@
 <%= turbo_frame_tag "campaign-editor-form" do %>
   <%= form_for @campaign, url: app_campaign_path(@app.key, @campaign) do |f| %>
 
-  ooijojoij
     <%= hidden_field_tag :namespace, :user_auto_messages %>
 
     <div class="border rounded-md flex flex-col shadow-md mb-4">
@@ -13,8 +12,6 @@
           <div class="border border-gray-600 rounded-full h-3 w-3 bg-green-500"></div>
         </div>
       </div>
-
-    
 
       <div class="bg-white p-3">
         <div class="flex justify-end">

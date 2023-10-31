@@ -3,14 +3,18 @@
 require "rails_helper"
 
 describe Alert::Component do
-  let(:options) { {} }
+  let(:options) { {
+      title: "foo",
+      message: "foo",
+      status: "notice"
+    } 
+  }
   let(:component) { Alert::Component.new(**options) }
 
   subject { rendered_component }
 
   it "renders" do
     render_inline(component)
-
-    is_expected.to have_css "div"
+    expect(page).to have_css(".alert")
   end
 end

@@ -2,9 +2,9 @@
 
 class Banner::Component < ApplicationViewComponent
   option :mode, default: -> { "" }
-  option :placement, default: -> { "" }
-  option :bg_color, default: -> { "" }
-  option :show_sender, default: -> { "" }
+  option :placement, default: -> { "top" }
+  option :bg_color, default: -> { "#000" }
+  option :show_sender, default: -> { true }
   option :action_text, default: -> { "" }
   option :dismiss_button, default: -> { "" }
   option :sender_data, default: -> { "" }
@@ -21,14 +21,18 @@ class Banner::Component < ApplicationViewComponent
 
   def placement_option
     if placement == "top" && mode == "floating"
-      { top: 8 }
+      { top: '8px' }
     elsif placement == "top"
-      { top: 0 }
+      { top: '0px' }
     elsif placement == "bottom" && mode == "floating"
-      { bottom: 8 }
+      { bottom: '8px' }
     elsif placement == "bottom" || placement == "fixed"
-      { bottom: 0 }
+      { bottom: '0px' }
     end
+  end
+
+  def default_placement_option
+    {top: '8px'}
   end
 
   def style_string
@@ -37,7 +41,7 @@ class Banner::Component < ApplicationViewComponent
       width: "100%",
       height: "72px"
       # fontSize: "16px",
-    }.merge!(placement_option)
+    }.merge!(placement_option || default_placement_option)
 
     style_string = hash.map { |key, value| "#{key}: #{value};" }.join(" ")
   end

@@ -3,14 +3,16 @@
 require "rails_helper"
 
 describe CodeBox::Component do
-  let(:options) { {} }
+  let(:options) { {
+    code: "{}",
+    lang: "ruby"
+  } }
   let(:component) { CodeBox::Component.new(**options) }
 
   subject { rendered_component }
 
   it "renders" do
     render_inline(component)
-
-    is_expected.to have_css "div"
+    expect(page).to have_css("pre")
   end
 end

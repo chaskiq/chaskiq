@@ -2,8 +2,10 @@
   #= content_tag :banner_wrapp, data: { font_options: font_options, placement: placement, bg_color: bg_color, mode: mode } do 
 %>
 <div class="banner-wrapp" 
+  data-controller="<%= identifier %>"
   style="<%= style_string %>">
-  <div class="w mode-<%= placement %>">
+  <div class="w mode-<%= mode %>">
+
     <div class="color" style="background-color: <%= bg_color %>">
       <div class="content-wrapp">
         <div class="content-centered">
@@ -18,14 +20,15 @@
 
         <div class="action-wrapper">
           <% if action_text && url %>
-            <%= button_to action_text, url, method: :put, class: 'link', remote: true %>
+            <%= link_to action_text, "#", data: {url: url, action: "click->#{identifier}#clickBanner"}, class: "link" %>
+            <% #= button_to action_text, url, method: :put, class: 'link', remote: true %>
           <% end %>
         </div>
 
         <div class="button-wrapper">
           <% if dismiss_button %>
-            <%= button_to "aaa", class: "dismiss-button", method: :delete, remote: true do %>
-              <%= heroicon("x-mark") %> 
+            <%= link_to "#", data: {url: url, action: "click->#{identifier}#closeBanner"}, class: "dismiss-button" do %>
+              <%= heroicon("x-mark") %>
             <% end %>
             
           <% end %>

@@ -10,7 +10,6 @@ describe PageHeader::Component do
 
   it "renders" do
     render_inline(component)
-
-    is_expected.to have_css "div"
+    expect(page).to have_css("div")
   end
 end

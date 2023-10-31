@@ -28,13 +28,16 @@
 
   &.btn-success {
     @apply outline-none 
-        rounded-md 
-        bg-green-400 
-        text-white
-        hover:bg-green-500 
-        focus:outline-none 
-        focus:border-green-700 
-        focus:shadow-outline;
+			rounded-md 
+			bg-green-400 
+			text-white
+			hover:bg-green-500 
+			focus:outline-none 
+			focus:border-green-700 
+			focus:shadow-outline
+			border 
+			border-green-500 
+			dark:border-green-300 ;
   }
 
   &.btn-flat {
@@ -42,7 +45,6 @@
 			items-center 
 			border 
 			border-transparent 
-			text-xs 
 			font-medium 
 			rounded 
 			text-indigo-700 
@@ -94,7 +96,7 @@
 			border-gray-300 
 			dark:border-gray-800 
 			shadow-sm 
-			text-sm 
+			
 			font-medium 
 			rounded-md 
 			text-gray-700 
@@ -119,7 +121,7 @@
 			border 
 			border-gray-900 
 			shadow-sm 
-			text-sm 
+	
 			font-medium 
 			rounded-md 
 			text-gray-100

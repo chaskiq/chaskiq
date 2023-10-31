@@ -110,7 +110,12 @@ class Apps::CampaignsController < ApplicationController
       @campaign.update(resource_params)
     else
       @tab = "editor"
-      @campaign.update(resource_params)
+      @namespace = "banner"
+      if params[:draft].present?
+        @campaign.assign_attributes(resource_params)
+      else
+        @campaign.update(resource_params)
+      end
     end
   end
 
@@ -283,9 +288,13 @@ class Apps::CampaignsController < ApplicationController
   def resource_params
     if params.keys.include?("banner")
       return params.require(:banner).permit(
+        :name, :description, :scheduled_at, 
+        :scheduled_to, 
+        :mode,
         :hidden_constraints,
         :dismiss_button, :serialized_content, :show_sender, :sender_id, :url,
         :action_text, :font_options, :bg_color, :placement,
+        hidden_constraints: [],
         segments: {
           segment_predicate: [
             :type,

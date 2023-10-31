@@ -1,5 +1,7 @@
 <%= turbo_frame_tag "campaign-editor-form" do %>
-  <%= form_for @campaign, url: app_campaign_path(@app.key, @campaign, namespace: :banner) do |f| %>
+  <%= form_for @campaign, 
+    url: app_campaign_path(@app.key, @campaign, namespace: :banner),
+    data: {controller: "draft-save"} do |f| %>
 
     <div class="border rounded-md flex flex-col shadow-md">
       <div class="bg-gray-300">
@@ -10,8 +12,10 @@
         </div>
       </div>
 
+      <%= hidden_field_tag :tab, "editor" %>
+
       <div class="bg-white">
-        <div class="relative" style="height: 72px;">
+        <div class="relative" style="height: 272px;">
 
           <%= render Banner::Component.new(
             **@campaign.banner_data, 
@@ -52,20 +56,22 @@
 
       <div class="flex space-x-4">
 
-        <div class="flex flex-col w-1/3 justify-between">
+        <div class="flex flex-col w-1/3 justify-">
 
           <div class="flex flex-col pr-6 justify-between">
-            <%= f.check_box :dismiss_button %>
-            <%= f.check_box :show_sender %>
+            <%= f.check_box :dismiss_button, data: {action: "draft-save#submit"} %>
+            <%= f.check_box :show_sender, data: {action: "draft-save#submit"} %>
             <%= f.select :sender_id, @app.agents.humans.map{|o| 
               [(o.display_name || o.email), o.id]
-            }, {} %>
+            }, {
+              data: {action: "draft-save#submit"}
+            } %>
           </div>
         </div>
 
         <div class="flex flex-col w-1/3 justify-between">
-          <%= f.text_field :url %>
-          <%= f.text_field :action_text %>
+          <%= f.text_field :url, data: {action: "input->draft-save#submit"} %>
+          <%= f.text_field :action_text, data: {action: "input->draft-save#submit"} %>
         </div>
 
         <div class="flex flex-col w-1/3 justify-between">
@@ -80,22 +86,24 @@
             ['Roboto+Mono', 'Roboto+Mono'],
             ['Pt+Sans', 'Pt+Sans'],
             ['Ubuntu', 'Ubuntu'],
-            ], {} 
+            ], {data: {action: "draft-save#submit"}} 
           %>
-          <%= f.color_field :bg_color %>
+          <%= f.color_field :bg_color, data: {action: "draft-save#submit"} %>
 
           <div class="flex flex-wrap justify-between space-y-4">
-            <%= f.radio_button :placement, :top, label: :top %>
-            <%= f.radio_button :placement, :bottom, label: :bottom %>
+            <%= f.radio_button :placement, :top, label: :top, data: {action: "draft-save#submit"} %>
+            <%= f.radio_button :placement, :bottom, label: :bottom, data: {action: "draft-save#submit"} %>
           </div>
           <div class="flex flex-wrap justify-between space-y-4">
-            <%= f.radio_button :placement, :fixed, label: :fixed %>
-            <%= f.radio_button :placement, :inline, label: :inline %>
+            <%= f.radio_button :mode, :floating, label: :floating, data: {action: "draft-save#submit"} %>
+            <%= f.radio_button :mode, :inline, label: :inline, data: {action: "draft-save#submit"} %>
           </div>
         </div>
       </div>
 
-      <%= f.submit %>
+      <div class="flex justify-end py-4">
+        <%= f.submit("Save", class: "btn btn-success md", commit: "save") %>
+      </div>
 
     </div>
 

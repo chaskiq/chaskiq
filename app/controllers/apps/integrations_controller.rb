@@ -11,8 +11,8 @@ class Apps::IntegrationsController < ApplicationController
     case params[:kind]
     when "available"
       # authorize! object, to: :manage?, with: AppPolicy, context: {
-      #user: current_agent
-      #}
+      # user: current_agent
+      # }
       integrations = @app.app_package_integrations.map(&:app_package_id)
       @app_packages = if integrations.any?
                         AppPackage.where.not("id in(?)", integrations)

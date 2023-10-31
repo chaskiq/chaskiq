@@ -2,8 +2,7 @@
 <%= turbo_frame_tag "campaign-settings-form" do %>
   <%= form_for @campaign, url: app_campaign_path(@app.key, @campaign, tab: "settings") do |form| %>
 
-
-    <%= form.object.errors.full_messages %>
+    <% #= form.object.errors.full_messages %>
     <%= hidden_field_tag :namespace, @namespace %>
 
     <%= render FieldRenderer::Component.new(
@@ -11,7 +10,7 @@
       definitions: @campaign.config_fields
     ) %>
 
-    <%= form.submit %>
+    <%= form.submit(class: "btn btn-success md") %>
 
   <% end %>
 <% end %>

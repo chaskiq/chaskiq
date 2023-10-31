@@ -3,14 +3,15 @@
 require "rails_helper"
 
 describe UpgradeButton::Component do
-  let(:options) { {} }
+  let(:options) { {
+    plan: Plan.all.first
+  } }
   let(:component) { UpgradeButton::Component.new(**options) }
 
   subject { rendered_component }
 
   it "renders" do
     render_inline(component)
-
-    is_expected.to have_css "div"
+    expect(page).to have_css("div")
   end
 end

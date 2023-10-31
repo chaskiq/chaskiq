@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       post :events
     end
 
+    resources :campaigns, controller: "messenger/campaigns"
     resource :auth, controller: "messenger/auth"
 
     resources :conversations, controller: "messenger/conversations" do

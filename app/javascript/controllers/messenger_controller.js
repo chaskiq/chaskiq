@@ -1,7 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import { post, get } from '@rails/request.js';
 import { debounce } from 'lodash';
-import UAParser from 'ua-parser-js';
 import { FetchRequest } from '@rails/request.js';
 
 import { DirectUpload } from '@rails/activestorage/src/direct_upload';
@@ -56,7 +55,7 @@ export default class extends Controller {
     this.eventsHandler = function (event) {
       console.log('Received custom event with data:', event.detail.data);
       const data = JSON.parse(event.detail.data);
-
+      let message 
       switch (data.type) {
         case 'triggers:receive':
           this.pushEvent('request_trigger', {
@@ -65,7 +64,7 @@ export default class extends Controller {
           });
           break;
         case 'conversations:unreads':
-          const message = {
+          message = {
             type: 'chaskiq:event',
             data: data,
           };
@@ -82,7 +81,17 @@ export default class extends Controller {
           }
 
           break;
+        case 'tours:receive':
+          break
+        case 'banners:receive':
+          message = {
+            type: 'chaskiq:banners',
+            data: data.data,
+          };
 
+          // console.log("SENDING EVENT TP PARENT FRAME", message)
+          window.parent.postMessage(message, '*');
+          break
         default:
           break;
       }
@@ -150,6 +159,20 @@ export default class extends Controller {
       case 'messenger:mobile':
         this.isMobileValue = event.data.data;
         break;
+      case 'messenger:register_visit':
+        this.registerVisit(event.data.data)
+        break;
+      case 'messenger:fetch_banner':
+        this.fetchBanner()
+        break;
+      case 'messenger:get_banners_for_user':
+        this.pushEvent('get_banners_for_user')
+      case 'messenger:track_click':
+        this.pushEvent("track_click", event.data.data)
+        break
+      case 'messenger:track_close':
+        this.pushEvent("track_close", event.data.data)
+        break
       default:
         break;
     }
@@ -174,7 +197,7 @@ export default class extends Controller {
           if (element.hasAttribute('connected')) {
             console.log('Element is connected');
             // Trigger your function here
-            this.registerVisit();
+            this.handleConnected()
           } else {
             console.log('Element is disconnected');
           }
@@ -187,23 +210,37 @@ export default class extends Controller {
     });
   }
 
-  registerVisit() {
-    const parser = new UAParser();
-
-    const results = parser.getResult();
-
-    const data = {
-      title: document.title,
-      url: document.location.href,
-      browser_version: results.browser.version,
-      browser_name: results.browser.name,
-      os_version: results.os.version,
-      os: results.os.name,
-    };
-    console.log('PUSH EVENT HERE', data);
+  registerVisit(data) {
     this.pushEvent('send_message', { browser_data: data });
-    // this.App.events.perform('send_message', data);
   }
+
+
+  handleConnected(){
+    const message = {
+      type: 'chaskiq:event',
+      data: {
+        type: 'messenger:connected',
+        data: {},
+      },
+    };
+
+    window.parent.postMessage(message, '*');
+  }
+  // BANNER
+
+
+  fetchBanner(){
+    debugger
+  }
+
+
+  // 
+
+
+
+
+
+
 
   async pushEvent(eventType, data) {
     const url = `${this.element.dataset.url}/events?event=${eventType}`;

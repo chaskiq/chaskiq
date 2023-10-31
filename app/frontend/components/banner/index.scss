@@ -21,12 +21,20 @@
 
     &.mode-floating {
       @apply px-2 sm:px-6 lg:px-8;
+
+      .color {
+        @apply rounded-lg shadow-lg;
+      }
     }
   }
+
+
 
   .color {
     @apply p-2 sm:p-3;
     background-color: bg_color;
+
+
 
     &.mode-floating {
       @apply rounded-lg shadow-lg;
@@ -51,7 +59,7 @@
 
   .content-text {
     min-width: 250px;
-    @apply ml-3 font-medium text-white truncate;
+    @apply ml-3 font-light text-white truncate text-lg;
   }
 
   .avatar {
@@ -61,7 +69,7 @@
   .action-wrapper {
     @apply order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto;
 
-    button.link {
+    button.link, a.link {
       @apply flex items-center w-full sm:w-auto justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-white;
       color: bg_color;
     }
@@ -70,7 +78,7 @@
   .button-wrapper {
     @apply order-2 flex-shrink-0 sm:order-3 sm:ml-2;
 
-    button {
+    button, a {
       @apply -mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none bg-transparent;
       border: none;
 
