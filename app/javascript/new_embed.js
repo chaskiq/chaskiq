@@ -61,25 +61,21 @@ const primeClosedHTML = `
 `;
 
 window.Chaskiq = window.Chaskiq || {
-
-
-
-  bannerFrame: function(url){
-
+  bannerFrame: function (url) {
     let result;
-    const {placement, mode} = this.banner.banner_data
+    const { placement, mode } = this.banner.banner_data;
 
-    if (placement === "top" && mode === "floating") {
-        result = "top: 8"
-    } else if (placement === "top") {
-        result = "top: 0"
-    } else if (placement === "bottom" && mode === "floating") {
-        result = "bottom: 8"
-    } else if (placement === "bottom" || placement === "fixed") {
-        result = "bottom: 0"
+    if (placement === 'top' && mode === 'floating') {
+      result = 'top: 8';
+    } else if (placement === 'top') {
+      result = 'top: 0';
+    } else if (placement === 'bottom' && mode === 'floating') {
+      result = 'bottom: 8';
+    } else if (placement === 'bottom' || placement === 'fixed') {
+      result = 'bottom: 0';
     }
 
-    const height = mode === "floating" ? "88px" : "60px";
+    const height = mode === 'floating' ? '88px' : '60px';
     const style = `
       position: fixed;
       left: 0px;
@@ -88,8 +84,8 @@ window.Chaskiq = window.Chaskiq || {
       border: transparent;
       z-index: 4000000000;
       ${result};
-    `
-    return `<iframe src="${url}" width="100%" height="100%" style="${style}" id="chaskiqBannerFrame"></iframe>`
+    `;
+    return `<iframe src="${url}" width="100%" height="100%" style="${style}" id="chaskiqBannerFrame"></iframe>`;
   },
 
   frameTemplate: function (url) {
@@ -198,14 +194,14 @@ window.Chaskiq = window.Chaskiq || {
     this.setup((data) => {
       console.log(data);
       this.userData = data;
-      this.banner = null
+      this.banner = null;
 
       if (!data.enabled_for_user) {
         console.log('MESSENGER NOT ENABLED FOR USER');
         return;
       }
 
-      this.token = data.token
+      this.token = data.token;
       const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${data.token}`;
       const templateString = this.getTemplate(url);
       const parser = new DOMParser();
@@ -239,12 +235,11 @@ window.Chaskiq = window.Chaskiq || {
       return pattern.match(url);
     });
 
-    if (filteredTours.length > 0) this.tours = filteredTours
+    if (filteredTours.length > 0) this.tours = filteredTours;
   },
 
-
   fetchBanner(id) {
-   this.pushEvent("messenger:fetch_banner", id)
+    this.pushEvent('messenger:fetch_banner', id);
   },
 
   getBanner() {
@@ -261,13 +256,13 @@ window.Chaskiq = window.Chaskiq || {
 
   receiveBanners(banner) {
     this.persistBannerCache(banner);
-    this.banner = banner
+    this.banner = banner;
     //this.setState({ banner: banner }, () => {
     this.pushEvent('messenger:track_open', {
       trackable_id: this.banner.id,
     });
 
-    this.loadBanner()
+    this.loadBanner();
     //});
   },
 
@@ -276,7 +271,7 @@ window.Chaskiq = window.Chaskiq || {
   },
 
   clearBannerCache() {
-    this.banner = null
+    this.banner = null;
     localStorage.removeItem('chaskiq-banner');
   },
 
@@ -289,7 +284,7 @@ window.Chaskiq = window.Chaskiq || {
 
     this.clearBannerCache();
 
-    document.querySelector("#chaskiqBannerFrame").remove()
+    document.querySelector('#chaskiqBannerFrame').remove();
   },
 
   bannerActionClick(url) {
@@ -299,12 +294,12 @@ window.Chaskiq = window.Chaskiq || {
     });
   },
 
-  loadBanner(){
+  loadBanner() {
     const url = `${this.options.domain}/messenger/${this.options.app_id}/campaigns/${this.banner.id}?token=${this.token}`;
 
     const templateString = this.bannerFrame(url);
     const parser = new DOMParser();
-    const doc = parser.parseFromString(templateString, 'text/html')
+    const doc = parser.parseFromString(templateString, 'text/html');
     const bannerElement = doc.body.firstChild;
 
     // Append the content to the body
@@ -522,9 +517,9 @@ window.Chaskiq = window.Chaskiq || {
           this.handleTourEditor(event.data.data);
           break;
         case 'chaskiq:banners':
-          this.receiveBanners(event.data.data)
+          this.receiveBanners(event.data.data);
         case 'chaskiq:connected':
-          this.handleConnected()
+          this.handleConnected();
         default:
           if (event.data.tourManagerEnabled) {
             console.log('EVENTO TOUR!', event);
@@ -549,8 +544,7 @@ window.Chaskiq = window.Chaskiq || {
   },
 
   handleFrameEvents: function (data) {
-
-    console.log(data)
+    console.log(data);
     switch (data.type) {
       case 'conversations:unreads':
         this.updateCounters(data.data.value);
@@ -559,20 +553,20 @@ window.Chaskiq = window.Chaskiq || {
         this.toggle();
         break;
       case 'messenger:connected':
-        this.handleConnected()
+        this.handleConnected();
         break;
       case 'banner:click':
-        this.bannerActionClick(data.url)
+        this.bannerActionClick(data.url);
         break;
       case 'banner:close':
-        this.closeBanner()
+        this.closeBanner();
         break;
       default:
         break;
     }
   },
 
-  registerVisit(){
+  registerVisit() {
     const parser = new UAParser();
 
     const results = parser.getResult();
@@ -662,5 +656,5 @@ window.Chaskiq = window.Chaskiq || {
   cleanup: function () {
     //clean all the listeners here!
     // window.removeEventListener('beforeunload', onUnload);
-  }
-}
+  },
+};

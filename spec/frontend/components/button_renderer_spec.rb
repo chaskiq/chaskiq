@@ -3,10 +3,12 @@
 require "rails_helper"
 
 describe ButtonRenderer::Component do
-  let(:options) { {
-    id: "oli",
-    label: "aaa"
-  } }
+  let(:options) do
+    {
+      id: "oli",
+      label: "aaa"
+    }
+  end
   let(:component) { ButtonRenderer::Component.new(**options) }
 
   subject { rendered_component }

@@ -3,12 +3,13 @@
 require "rails_helper"
 
 describe Alert::Component do
-  let(:options) { {
+  let(:options) do
+    {
       title: "foo",
       message: "foo",
       status: "notice"
-    } 
-  }
+    }
+  end
   let(:component) { Alert::Component.new(**options) }
 
   subject { rendered_component }

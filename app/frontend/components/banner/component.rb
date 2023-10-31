@@ -21,18 +21,18 @@ class Banner::Component < ApplicationViewComponent
 
   def placement_option
     if placement == "top" && mode == "floating"
-      { top: '8px' }
+      { top: "8px" }
     elsif placement == "top"
-      { top: '0px' }
+      { top: "0px" }
     elsif placement == "bottom" && mode == "floating"
-      { bottom: '8px' }
+      { bottom: "8px" }
     elsif placement == "bottom" || placement == "fixed"
-      { bottom: '0px' }
+      { bottom: "0px" }
     end
   end
 
   def default_placement_option
-    {top: '8px'}
+    { top: "8px" }
   end
 
   def style_string

@@ -3,10 +3,12 @@
 require "rails_helper"
 
 describe Content::Component do
-  let(:options) { {
-    data: "",
-    label: ""
-  } }
+  let(:options) do
+    {
+      data: "",
+      label: ""
+    }
+  end
   let(:component) { Content::Component.new(**options) }
 
   subject { rendered_component }

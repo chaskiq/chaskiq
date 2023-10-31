@@ -55,7 +55,7 @@ export default class extends Controller {
     this.eventsHandler = function (event) {
       console.log('Received custom event with data:', event.detail.data);
       const data = JSON.parse(event.detail.data);
-      let message 
+      let message;
       switch (data.type) {
         case 'triggers:receive':
           this.pushEvent('request_trigger', {
@@ -82,7 +82,7 @@ export default class extends Controller {
 
           break;
         case 'tours:receive':
-          break
+          break;
         case 'banners:receive':
           message = {
             type: 'chaskiq:banners',
@@ -91,7 +91,7 @@ export default class extends Controller {
 
           // console.log("SENDING EVENT TP PARENT FRAME", message)
           window.parent.postMessage(message, '*');
-          break
+          break;
         default:
           break;
       }
@@ -160,19 +160,19 @@ export default class extends Controller {
         this.isMobileValue = event.data.data;
         break;
       case 'messenger:register_visit':
-        this.registerVisit(event.data.data)
+        this.registerVisit(event.data.data);
         break;
       case 'messenger:fetch_banner':
-        this.fetchBanner()
+        this.fetchBanner();
         break;
       case 'messenger:get_banners_for_user':
-        this.pushEvent('get_banners_for_user')
+        this.pushEvent('get_banners_for_user');
       case 'messenger:track_click':
-        this.pushEvent("track_click", event.data.data)
-        break
+        this.pushEvent('track_click', event.data.data);
+        break;
       case 'messenger:track_close':
-        this.pushEvent("track_close", event.data.data)
-        break
+        this.pushEvent('track_close', event.data.data);
+        break;
       default:
         break;
     }
@@ -197,7 +197,7 @@ export default class extends Controller {
           if (element.hasAttribute('connected')) {
             console.log('Element is connected');
             // Trigger your function here
-            this.handleConnected()
+            this.handleConnected();
           } else {
             console.log('Element is disconnected');
           }
@@ -214,8 +214,7 @@ export default class extends Controller {
     this.pushEvent('send_message', { browser_data: data });
   }
 
-
-  handleConnected(){
+  handleConnected() {
     const message = {
       type: 'chaskiq:event',
       data: {
@@ -228,19 +227,11 @@ export default class extends Controller {
   }
   // BANNER
 
-
-  fetchBanner(){
-    debugger
+  fetchBanner() {
+    debugger;
   }
 
-
-  // 
-
-
-
-
-
-
+  //
 
   async pushEvent(eventType, data) {
     const url = `${this.element.dataset.url}/events?event=${eventType}`;

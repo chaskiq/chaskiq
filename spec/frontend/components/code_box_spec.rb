@@ -3,10 +3,12 @@
 require "rails_helper"
 
 describe CodeBox::Component do
-  let(:options) { {
-    code: "{}",
-    lang: "ruby"
-  } }
+  let(:options) do
+    {
+      code: "{}",
+      lang: "ruby"
+    }
+  end
   let(:component) { CodeBox::Component.new(**options) }
 
   subject { rendered_component }

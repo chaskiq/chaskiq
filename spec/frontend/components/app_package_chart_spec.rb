@@ -3,11 +3,13 @@
 require "rails_helper"
 
 describe AppPackageChart::Component do
-  let(:options) { {
-    data: {},
-    name: "",
-    icon: ""
-  } }
+  let(:options) do
+    {
+      data: {},
+      name: "",
+      icon: ""
+    }
+  end
   let(:component) { AppPackageChart::Component.new(**options) }
 
   subject { rendered_component }

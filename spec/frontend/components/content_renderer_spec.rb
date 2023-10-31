@@ -3,13 +3,13 @@
 require "rails_helper"
 
 describe ContentRenderer::Component do
-  let(:options) { 
+  let(:options) do
     {
       id: "",
       values: "",
       path: ""
-    } 
-  }
+    }
+  end
   let(:component) { ContentRenderer::Component.new(**options) }
 
   subject { rendered_component }

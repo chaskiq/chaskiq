@@ -166,8 +166,8 @@ group :test do
   %w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
     gem lib # , :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
-  gem "capybara"
   gem "brakeman"
+  gem "capybara"
   gem "code-scanning-rubocop", require: false
   gem "database_cleaner-active_record"
   gem "database_cleaner-redis"

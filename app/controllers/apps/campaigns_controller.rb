@@ -288,8 +288,8 @@ class Apps::CampaignsController < ApplicationController
   def resource_params
     if params.keys.include?("banner")
       return params.require(:banner).permit(
-        :name, :description, :scheduled_at, 
-        :scheduled_to, 
+        :name, :description, :scheduled_at,
+        :scheduled_to,
         :mode,
         :hidden_constraints,
         :dismiss_button, :serialized_content, :show_sender, :sender_id, :url,

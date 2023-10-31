@@ -3,9 +3,11 @@
 require "rails_helper"
 
 describe UpgradeButton::Component do
-  let(:options) { {
-    plan: Plan.all.first
-  } }
+  let(:options) do
+    {
+      plan: Plan.all.first
+    }
+  end
   let(:component) { UpgradeButton::Component.new(**options) }
 
   subject { rendered_component }
