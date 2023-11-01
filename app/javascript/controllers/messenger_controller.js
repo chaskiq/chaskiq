@@ -157,6 +157,7 @@ export default class extends Controller {
   }
 
   iframeEventsReceiver(event) {
+    console.log("IFRAME RECEIVER EVENT", event)
     switch (event.data.eventType) {
       case 'messenger:toggled':
         this.openValue = event.data.data;
@@ -175,11 +176,17 @@ export default class extends Controller {
       case 'messenger:track_click':
         this.pushEvent('track_click', event.data.data);
         break;
+      case 'messenger:track_tour_finished':
+        this.pushEvent('track_tour_finished', event.data.data);
+        break;
       case 'messenger:track_close':
         this.pushEvent('track_close', event.data.data);
         break;
       case 'messenger:track_open':
         this.pushEvent('track_open', event.data.data);
+        break;
+      case 'messenger:load_user_tour':
+        this.handleUserTourLoad(event.data.data)
         break;
 
       default:
@@ -233,6 +240,29 @@ export default class extends Controller {
     };
 
     window.parent.postMessage(message, '*');
+  }
+
+  async handleUserTourLoad(data){
+    const url = `${data.url}`;
+
+    const request = new FetchRequest('get', url);
+
+    const response = await request.perform();
+    if (response.ok) {
+      const json = await response.json
+      
+      const message = {
+        type: 'chaskiq:event',
+        data: {
+          type: 'messenger:user_tour',
+          data: json,
+        },
+      };
+  
+      window.parent.postMessage(message, '*');
+    } else {
+      console.error('error fetching tour');
+    }
   }
   // BANNER
 

@@ -47,6 +47,14 @@ class Tour < Message
       ),
       add_stat_field(
         name: "ClickRateCount",
+        label: "Open/Click rate",
+        keys: [
+          { name: "open", color: "#F4F5F7" },
+          { name: "click", color: "#0747A6" }
+        ]
+      ),
+      add_stat_field(
+        name: "FinishRateCount",
         label: "Open/Finish rate",
         keys: [
           { name: "open", color: "#F4F5F7" },
@@ -84,6 +92,18 @@ class Tour < Message
     end
 
     tours.any?
+  end
+
+  def steps_for_driver
+    settings["steps"].map do |step|
+      {
+        element: step["target"], 
+        popover: { 
+          title: 'Title', 
+          description: Dante::Renderer.new(raw: JSON.parse(step["content"]).deep_symbolize_keys).render
+        } 
+      }
+    end
   end
 
   def steps_objects
