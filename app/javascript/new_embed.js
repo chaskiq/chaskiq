@@ -307,12 +307,12 @@ window.Chaskiq = window.Chaskiq || {
     });
   },
 
-  loadUserTour(){
-    const url = "http://localhost:3000/messenger/kLNE8uApck2uRH8phAGWpGNJ/campaigns/16"
+  loadUserTour() {
+    const url =
+      'http://localhost:3000/messenger/kLNE8uApck2uRH8phAGWpGNJ/campaigns/16';
 
-    this.pushEvent("messenger:load_user_tour", {url: url})
+    this.pushEvent('messenger:load_user_tour', { url: url });
   },
-
 
   loadUserAutoMessages(data) {
     const ids = data.data.map((o) => o.id).join(',');
@@ -585,37 +585,36 @@ window.Chaskiq = window.Chaskiq || {
     this.tourManager.pushEvent(data);
   },
 
-  runUserTour: function(data){
-
-    const steps = data.data.steps_for_driver
+  runUserTour: function (data) {
+    const steps = data.data.steps_for_driver;
 
     this.userTour = window.driver.js.driver({
       steps: steps,
-      onNextClick: (e, step) =>{
-        this.userTour.moveNext()
+      onNextClick: (e, step) => {
+        this.userTour.moveNext();
 
         this.pushEvent('messenger:track_click', {
           trackable_id: data.data.id,
         });
 
-        if(step.popover.nextBtnText === "Done"){
+        if (step.popover.nextBtnText === 'Done') {
           this.pushEvent('messenger:track_tour_finished', {
             trackable_id: data.data.id,
           });
         }
       },
       onPrevClick: (e) => {
-        this.userTour.movePrevious()
+        this.userTour.movePrevious();
         this.pushEvent('messenger:track_click', {
           trackable_id: data.data.id,
         });
       },
       onCloseClick: (e) => {
-        this.userTour.moveNext()
+        this.userTour.moveNext();
         this.pushEvent('messenger:track_tour_skipped', {
           trackable_id: data.data.id,
         });
-      }
+      },
     });
 
     this.userTour.drive();
@@ -644,7 +643,7 @@ window.Chaskiq = window.Chaskiq || {
         this.closeBanner();
         break;
       case 'messenger:user_tour':
-        this.runUserTour(data)
+        this.runUserTour(data);
         break;
       default:
         break;
@@ -701,8 +700,7 @@ window.Chaskiq = window.Chaskiq || {
     }
     // this.processTriggers()
 
-    this.loadUserTour()
-
+    this.loadUserTour();
   },
 
   updateCounters: function (count) {

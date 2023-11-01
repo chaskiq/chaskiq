@@ -97,11 +97,11 @@ class Tour < Message
   def steps_for_driver
     settings["steps"].map do |step|
       {
-        element: step["target"], 
-        popover: { 
-          title: 'Title', 
+        element: step["target"],
+        popover: {
+          title: "Title",
           description: Dante::Renderer.new(raw: JSON.parse(step["content"]).deep_symbolize_keys).render
-        } 
+        }
       }
     end
   end

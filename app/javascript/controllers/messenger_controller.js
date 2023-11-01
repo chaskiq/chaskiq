@@ -157,7 +157,7 @@ export default class extends Controller {
   }
 
   iframeEventsReceiver(event) {
-    console.log("IFRAME RECEIVER EVENT", event)
+    console.log('IFRAME RECEIVER EVENT', event);
     switch (event.data.eventType) {
       case 'messenger:toggled':
         this.openValue = event.data.data;
@@ -186,7 +186,7 @@ export default class extends Controller {
         this.pushEvent('track_open', event.data.data);
         break;
       case 'messenger:load_user_tour':
-        this.handleUserTourLoad(event.data.data)
+        this.handleUserTourLoad(event.data.data);
         break;
 
       default:
@@ -242,15 +242,15 @@ export default class extends Controller {
     window.parent.postMessage(message, '*');
   }
 
-  async handleUserTourLoad(data){
+  async handleUserTourLoad(data) {
     const url = `${data.url}`;
 
     const request = new FetchRequest('get', url);
 
     const response = await request.perform();
     if (response.ok) {
-      const json = await response.json
-      
+      const json = await response.json;
+
       const message = {
         type: 'chaskiq:event',
         data: {
@@ -258,7 +258,7 @@ export default class extends Controller {
           data: json,
         },
       };
-  
+
       window.parent.postMessage(message, '*');
     } else {
       console.error('error fetching tour');
