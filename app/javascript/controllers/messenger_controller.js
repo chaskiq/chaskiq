@@ -82,6 +82,11 @@ export default class extends Controller {
 
           break;
         case 'tours:receive':
+          message = {
+            type: 'chaskiq:user_tour_receive',
+            data: data.data,
+          };
+          window.parent.postMessage(message, '*');
           break;
         case 'messages:receive':
           message = {

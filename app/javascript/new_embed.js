@@ -307,11 +307,23 @@ window.Chaskiq = window.Chaskiq || {
     });
   },
 
-  loadUserTour() {
-    const url =
-      'http://localhost:3000/messenger/kLNE8uApck2uRH8phAGWpGNJ/campaigns/16';
+  loadUserTour(data) {
+    const pattern = new UrlPattern(data.url.replace(/^.*\/\/[^\/]+/, ''));
+    const currentLocation = document.location.pathname;
+    if(pattern.match(currentLocation)){
+      const url = this.messengerUrl(`/campaigns/${data.id}`)
+      this.pushEvent('messenger:load_user_tour', { url: url });
+    }
+  },
 
-    this.pushEvent('messenger:load_user_tour', { url: url });
+  messengerUrl(path, params= {}){
+
+    const newParams = {...params, token: this.token }
+
+    const paramsAsUrl = new URLSearchParams(newParams).toString();
+
+    return `${this.options.domain}/messenger/${this.options.app_id}/${path}?${paramsAsUrl}`;
+
   },
 
   loadUserAutoMessages(data) {
@@ -567,6 +579,9 @@ window.Chaskiq = window.Chaskiq || {
         case 'chaskiq:user_auto_messages':
           this.handleUserAutoMessageEvents(event.data.data);
           break;
+        case 'chaskiq:user_tour_receive':
+          this.loadUserTour(event.data.data);
+          break;
         default:
           if (event.data.tourManagerEnabled) {
             console.log('TOUR MANAGER INIT EVENT!', event);
@@ -699,8 +714,6 @@ window.Chaskiq = window.Chaskiq || {
       this.fetchBanner(this.bannerID);
     }
     // this.processTriggers()
-
-    this.loadUserTour();
   },
 
   updateCounters: function (count) {
