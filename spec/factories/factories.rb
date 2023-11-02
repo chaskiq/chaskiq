@@ -28,6 +28,32 @@ FactoryBot.define do
 end
 
 FactoryBot.define do
+  factory :conversation do
+  end
+
+  factory :conversation_part do
+  end
+
+  factory :conversation_part_block do
+    blocks {
+      {
+        app_package: "app_package",
+        schema: []
+      }
+    }
+  end
+
+  factory :conversation_part_event do
+    data {
+      {
+        element: "button",
+        label: "Test"
+      }
+    }
+  end
+end
+
+FactoryBot.define do
   factory :user_auto_message, class: "UserAutoMessage" do
     name { "some Campaign" }
     subject { "Hello" }

@@ -3,7 +3,17 @@
 require "rails_helper"
 
 describe ConversationPartAskOption::Component do
-  let(:options) { {} }
+  let(:app) { FactoryBot.create(:app) }
+  let(:conversation) { FactoryBot.create(:conversation, app: app) }
+  let(:conversation_part) { FactoryBot.create(:conversation_part, conversation: conversation)}
+  let!(:conversation_part_event) { FactoryBot.create(:conversation_part_event, conversation_part: conversation_part) }
+
+  let(:options) do
+    {
+      app: app,
+      message: conversation_part
+    }
+  end
   let(:component) { ConversationPartAskOption::Component.new(**options) }
 
   subject { rendered_component }
