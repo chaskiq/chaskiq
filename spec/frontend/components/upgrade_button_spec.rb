@@ -25,7 +25,6 @@ describe UpgradeButton::Component do
       it "renders" do
         render_inline(component)
         expect(page).to have_css("div")
-        binding.pry
         expect(page).to have_text(I18n.t("subscriptions.features.#{feature}.upgrade_message"))
       end
     end
