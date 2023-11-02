@@ -6,7 +6,7 @@
 		class="bg-yellow-300 flex overflow-hidden p-2 rounded-md mx-auto">
 		<div class="flex flex-col justify-between">
 			<span class="text-xs text-center">
-			
+
 				<Moment fromNow ago>
 					<%= @message.created_at %>
 				</Moment>
@@ -22,7 +22,7 @@
 			</span>
 
 			<p class="text-md text-center font-bold">
-				<%= @message.message.action %> 
+				<%= @message.message.action %>
 				<%= @message.message.data['name'] || @message.message.data['email'] %>
 			</p>
 		</div>
