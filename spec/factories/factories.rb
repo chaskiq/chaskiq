@@ -43,6 +43,10 @@ FactoryBot.define do
     }
   end
 
+  factory :conversation_part_content do
+    serialized_content { {content: "my-content"}.as_json }
+  end
+
   factory :conversation_part_event do
     data {
       {
@@ -95,5 +99,11 @@ end
 FactoryBot.define do
   factory :metric, class: "Metric" do
     trackable { nil }
+  end
+end
+
+FactoryBot.define do
+  factory :user do
+    email { "user@example.com" }
   end
 end
