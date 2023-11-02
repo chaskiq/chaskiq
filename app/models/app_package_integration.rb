@@ -191,6 +191,10 @@ class AppPackageIntegration < ApplicationRecord
     "#{Chaskiq::Config.get('HOST')}/api/v1/oauth/callback/#{encoded_id}"
   end
 
+  def global_oauth_callback
+    "#{Chaskiq::Config.get('HOST')}/api/v1/oauth/global/callback"
+  end
+
   def receive_oauth_code(params)
     klass = message_api_klass.receive_oauth_code(params, self)
   end
