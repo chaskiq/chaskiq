@@ -26,15 +26,15 @@ class Api::V1::Hooks::ProviderController < ApplicationController
     response_handler(response)
   end
 
-  def find_application_package
-    @integration_pkg = AppPackageIntegration.decode(params[:id])
-    app = @integration_pkg.app
-  end
-
   def oauth
     response = @integration_pkg.receive_oauth_code(params)
-    pkg = AppPackageIntegration.decode(params[:id])
+    pkg = AppPackageIntegration.decode(params[:id] || params[:state])
     redirect_to "/apps/#{pkg.app.key}/integrations"
+  end
+
+  def find_application_package
+    @integration_pkg = AppPackageIntegration.decode(params[:id] || params[:state])
+    app = @integration_pkg.app
   end
 
   def resolve_status(response)

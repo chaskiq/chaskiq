@@ -5,8 +5,8 @@
 	>
 		<div
 			class="bg-green-400
-			flex 
-			overflow-hidden p-2 
+			flex
+			overflow-hidden p-2
 			rounded-md mx-auto text-white"
 		>
 			<div class="flex flex-col justify-between">
@@ -29,11 +29,11 @@
 				</span>
 
 				<p class="text-md text-center text-bold">
-					<%= 
+					<%=
 						case @message.message.data.dig('element')
-						when "button"  
+						when "button"
 							"<strong>reply button:</strong> #{@message.message.data["label"]}".html_safe
-						else 
+						else
 						"eehm"
 						end
 					%>
@@ -52,7 +52,7 @@
 					data-step="<%= a.to_json %>"
 					data-step-id="<%= @message.step_id %>"
 					data-trigger-id="<%= @message.trigger_id %>"
-					data-action="messenger#handleStepControlClick" 
+					data-action="messenger#handleStepControlClick"
 					class="btn sm btn-outlined">
 					<%= a["label"] %>
 				</button>
