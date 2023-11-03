@@ -18,7 +18,7 @@ describe UpgradeButton::Component do
 
   context "when SUBSCRIPTIONS_ENABLED is true" do
     before do
-      stub_const('ENV', 'SUBSCRIPTIONS_ENABLED' => "true")
+      stub_const("ENV", "SUBSCRIPTIONS_ENABLED" => "true")
     end
 
     context "and app allows feature" do
@@ -34,19 +34,19 @@ describe UpgradeButton::Component do
 
       it "renders empty" do
         render_inline(component)
-        expect(page).to have_content('')
+        expect(page).to have_content("")
       end
     end
   end
 
   context "when SUBSCRIPTIONS_ENABLED is false" do
     before do
-      stub_const('ENV', 'SUBSCRIPTIONS_ENABLED' => "false")
+      stub_const("ENV", "SUBSCRIPTIONS_ENABLED" => "false")
     end
 
     it "renders empty" do
       render_inline(component)
-      expect(page).to have_content('')
+      expect(page).to have_content("")
     end
   end
 end

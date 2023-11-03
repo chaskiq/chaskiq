@@ -5,7 +5,7 @@ require "rails_helper"
 describe ConversationPartAskOption::Component do
   let(:app) { FactoryBot.create(:app) }
   let(:conversation) { FactoryBot.create(:conversation, app: app) }
-  let(:conversation_part) { FactoryBot.create(:conversation_part, conversation: conversation)}
+  let(:conversation_part) { FactoryBot.create(:conversation_part, conversation: conversation) }
   let!(:conversation_part_event) { FactoryBot.create(:conversation_part_event, conversation_part: conversation_part) }
 
   let(:options) do
