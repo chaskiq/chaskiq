@@ -90,7 +90,7 @@ window.Chaskiq = window.Chaskiq || {
 
   frameTemplate: function (url) {
     return `
-      <div id="messenger-frame" class="css-13u6xjo display-mode-inline">
+      <div id="messenger-frame" class="css-13u6xjo">
         <iframe src="${url}" width="100%" height="100%" style="border:none"></iframe>
       </div>
     `;
@@ -130,23 +130,11 @@ window.Chaskiq = window.Chaskiq || {
     this.options = options;
   },
   toggle: function (e) {
-    //const frame = document.getElementById('messenger-frame');
-
-    //if (frame) {
-    //  frame.remove();
-    //} else {
     const wrapper = document.querySelector('#frame-wrapper');
-
     if (wrapper && wrapper.dataset.open === 'true') {
-      //const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
-      //wrapper.innerHTML = this.frameTemplate(url);
-      wrapper.style.display = 'none';
-      wrapper.dataset.open = 'false';
-      this.pushEvent('messenger:toggled', false);
+      this.close(wrapper)
     } else {
-      wrapper.style.display = '';
-      wrapper.dataset.open = 'true';
-      this.pushEvent('messenger:toggled', true);
+      this.open(wrapper)
     }
     console.log('TOGGLE');
 
@@ -170,11 +158,19 @@ window.Chaskiq = window.Chaskiq || {
   },
   close: function (e) {
     document.getElementById('chaskiq-prime').innerHTML = primeClosedHTML;
-    this.toggle();
+    const wrapper = document.querySelector('#frame-wrapper');
+    //const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
+    //wrapper.innerHTML = this.frameTemplate(url);
+    wrapper.style.display = 'none';
+    wrapper.dataset.open = 'false';
+    this.pushEvent('messenger:toggled', false);
   },
   open: function (e) {
     document.getElementById('chaskiq-prime').innerHTML = primeOpenedHTML;
-    this.toggle();
+    const wrapper = document.querySelector('#frame-wrapper');
+    wrapper.style.display = '';
+    wrapper.dataset.open = 'true';
+    this.pushEvent('messenger:toggled', true);
   },
   setup: async function (cb) {
     const url = `${this.options.domain}/messenger/${this.options.app_id}/auth`;
@@ -208,6 +204,7 @@ window.Chaskiq = window.Chaskiq || {
       console.log(data);
       this.userData = data;
       this.banner = null;
+      this.inline_conversations = data.inline_conversations;
 
       if (!data.enabled_for_user) {
         console.log('MESSENGER NOT ENABLED FOR USER');
@@ -580,6 +577,9 @@ window.Chaskiq = window.Chaskiq || {
         case 'chaskiq:user_tour_receive':
           this.loadUserTour(event.data.data);
           break;
+        case 'chaskiq:messenger_close':
+          this.close()
+          break;
         default:
           if (event.data.tourManagerEnabled) {
             console.log('TOUR MANAGER INIT EVENT!', event);
@@ -659,8 +659,20 @@ window.Chaskiq = window.Chaskiq || {
       case 'messenger:user_tour':
         this.runUserTour(data);
         break;
+      case 'messenger:inline_mode':
+        this.setDisplayMode(data.value)
+        break;
       default:
         break;
+    }
+  },
+
+  setDisplayMode: function(value){
+    const el = document.getElementById("messenger-frame")
+    if(value){
+      el.classList.add("display-mode-inline")
+    } else {
+      el.classList.remove("display-mode-inline")
     }
   },
 
@@ -777,3 +789,42 @@ window.Chaskiq = window.Chaskiq || {
     // window.removeEventListener('beforeunload', onUnload);
   },
 };
+
+
+class ChaskiqMessengerEncrypted {
+ 
+  constructor(props) {
+    this.props = props;
+
+    window.Chaskiq.load({
+      app_id: this.props.app_id,
+      encData: this.props.data,
+      data: this.props.data,
+      encryptedMode: true,
+      domain: this.props.domain,
+      ws: this.props.ws,
+      lang: this.props.lang,
+      wrapperId: this.props.wrapperId || 'ChaskiqMessengerRoot',
+    });
+
+    this.unload = () => {
+      this.sendCommand('unload', {});
+    };
+
+    this.sendCommand = (action, data = {}) => {
+      const event = new CustomEvent('chaskiq_events', {
+        bubbles: true,
+        detail: { action: action, data: data },
+      });
+      window.document.body.dispatchEvent(event);
+    };
+
+    this.shutdown = () => {
+      this.sendCommand('shutdown', null);
+    };
+
+    //messenger.render();
+  }
+}
+
+window.ChaskiqMessengerEncrypted =  ChaskiqMessengerEncrypted

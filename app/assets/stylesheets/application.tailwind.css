@@ -726,6 +726,10 @@
     height: 38px;
   }
 
+  .inlineControlButtons{ 
+    display: none;
+  }
+
   .display-mode-inline {
     .cache-emo-1c9rau9 {
       background: none;
@@ -734,6 +738,10 @@
     }
     .cache-emo-dddhpq {
       border:none;
+    }
+
+    .inlineControlButtons{
+      display: flex;
     }
   }
   

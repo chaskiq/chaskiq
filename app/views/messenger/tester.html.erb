@@ -25,7 +25,7 @@
 
     <script type="text/javascript">
       window.onload = function() { 
-        Chaskiq.load(
+        /*Chaskiq.load(
           { 
             //selector: "#someId",
             domain: '<%= Chaskiq::Config.get("HOST") %>',
@@ -34,7 +34,16 @@
             data: <%= raw @encrypted_data %>,
             lang: "USER_LANG_OR_DEFAULTS_TO_BROWSER_LANG" 
           }
-        ); 
+        ); */
+
+        window.c = new window.ChaskiqMessengerEncrypted({
+          domain: '<%= Chaskiq::Config.get("HOST") %>',
+          ws: '<%= Rails.application.config.action_cable.url %>',
+          app_id: "<%= @app.key %>",
+          data: <%= raw @encrypted_data %>,
+          lang: "USER_LANG_OR_DEFAULTS_TO_BROWSER_LANG" 
+        })
+
       }
     </script> 
   </body>
