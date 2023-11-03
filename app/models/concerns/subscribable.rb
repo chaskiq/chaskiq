@@ -28,9 +28,9 @@ module Subscribable
   end
 
   def payment_attribute(key)
-    if PaymentServices::StripeService == payment_service
+    if payment_service == PaymentServices::StripeService
       send("stripe_#{key}".to_sym)
-    elsif PaymentServices::Paddle == payment_service
+    elsif payment_service == PaymentServices::Paddle
       send("paddle_#{key}".to_sym)
     end
   end
@@ -52,7 +52,7 @@ module Subscribable
   end
 
   def blocked?
-    return unless subscriptions_enabled?
+    return false unless subscriptions_enabled?
     raise Plan::PlanError, { code: "feature", message: "plan not meet on feature" }.to_json if canceled?
   end
 end

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
-
+import { Label } from './shared';
 const DropDown = styled.div`
   ${tw`relative inline-block text-left w-full`}
 
@@ -11,7 +11,7 @@ const DropDown = styled.div`
   }
 
   .content-wrap {
-    ${tw`rounded-md bg-white dark:bg-gray-900 shadow-xs`}
+    ${tw`rounded-md bg-white dark:bg-gray-800 shadow-xs`}
     height: 130px;
     overflow: auto;
   }
@@ -26,16 +26,19 @@ type ItemButtonProps = {
 
 const ItemButton = styled.button<ItemButtonProps>`
   ${() => tw`w-full text-left block px-4 py-2 text-sm leading-5
-    text-gray-700 hover:bg-gray-100 hover:text-gray-900
-    focus:outline-none focus:bg-gray-100 focus:text-gray-900`}
+    text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900
+    dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:text-gray-100 dark:focus:bg-gray-900 dark:focus:text-gray-100
+    focus:outline-none `}
 
   ${(props) => (props.selected ? tw`bg-gray-100` : '')}
 `;
 
 const SelectButton = styled.button`
   ${() => tw`inline-flex justify-between w-full rounded-md
-  border border-gray-300 px-4 py-2 bg-white text-sm
-  leading-5 font-medium text-gray-700 hover:text-gray-500
+  border border-gray-300 px-4 py-2 
+  bg-white text-gray-700 hover:text-gray-500
+  dark:bg-black dark:text-white
+  text-sm leading-5 font-medium
   focus:outline-none focus:border-blue-300 focus:shadow-outline
   active:bg-gray-100 active:text-gray-800 transition ease-in-out duration-150`}
 
@@ -62,7 +65,7 @@ export function DropdownRenderer({ field }) {
   return (
     <DropDown>
       <div>
-        {field.label && <p>{field.label}</p>}
+        {field.label && <Label>{field.label}</Label>}
         <span className="rounded-md shadow-sm">
           <SelectButton
             onClick={() => setOpen(!open)}

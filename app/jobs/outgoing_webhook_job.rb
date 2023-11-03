@@ -18,7 +18,7 @@ class OutgoingWebhookJob < ApplicationJob
 
     app.outgoing_webhooks
        .tagged_with(event.action)
-       .where(state: "enabled").each do |webhook|
+       .where(state: "enabled").find_each do |webhook|
       OutgoingWebhookDispatcherJob.perform_later(
         webhook_id: webhook.id,
         payload: payload

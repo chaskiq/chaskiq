@@ -8,16 +8,15 @@ module Mutations
     end
 
     def app_users(app, per, page)
-      @app_users = @segment.execute_query
-      if Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true" && app.searchkick_enabled?
-        @app_users = @segment.es_search(page, per).includes(taggings: :tag)
-      else
-        @segment.execute_query
-                .page(page)
-                .per(per)
-                .includes(taggings: :tags)
-                .fast_page
-      end
+      @app_users = if Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true" && app.searchkick_enabled?
+                     @segment.es_search(page, per).includes(taggings: :tag)
+                   else
+                     @segment.execute_query
+                             .page(page)
+                             .per(per)
+                             .includes(taggings: :tag)
+                             .fast_page
+                   end
     end
 
     argument :app_key, String, required: true

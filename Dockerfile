@@ -64,7 +64,7 @@ COPY --chown=docker:docker . /usr/src/app/
 # Clean up temp files and Yarn cache folder
 RUN NODE_OPTIONS="--max-old-space-size=2048" \
     RAILS_ENV=${APP_ENV} \
-    SECRET_KEY_BASE=`bin/rake secret` \
+    SECRET_KEY_BASE=`bin/rails secret` \
     bundle exec rails assets:precompile --trace \
     && rm -rf /usr/src/app/node_modules /usr/src/app/tmp/cache/* /tmp/* \
     && yarn cache clean

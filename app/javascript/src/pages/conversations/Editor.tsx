@@ -237,7 +237,7 @@ function EEDropdown({ items, selectedItem, setSelectedItem }) {
           <li
             key={`channel-item-${o.name}`}
             onClick={() => selectItem(o)}
-            className="cursor-default select-none px-4 py-2 hover:text-white hover:bg-black"
+            className="cursor-pointer select-none px-4 py-2 hover:text-white hover:bg-gray-400 dark:hover:text-black dark:hover:bg-gray-600 dark:text-white"
             role="option"
             tabIndex={-1}
           >

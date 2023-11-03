@@ -38,12 +38,14 @@ module ApplicationCable
     def get_session_data
       params = request.query_parameters
 
-      OriginValidator.new(
-        app: app.domain_url,
-        host: env["HTTP_ORIGIN"]
-      ).is_valid?
+      if app.present?
+        OriginValidator.new(
+          app: app.domain_url,
+          host: env["HTTP_ORIGIN"]
+        ).is_valid?
 
-      find_user(get_user_data)
+        find_user(get_user_data)
+      end
     end
 
     rescue_from StandardError, with: :report_error
@@ -87,7 +89,8 @@ module ApplicationCable
         nil
       end
       return nil unless data.is_a?(Hash)
-      return data&.with_indifferent_access if app.compare_user_identifier(data)
+
+      data&.with_indifferent_access if app.compare_user_identifier(data)
     end
 
     def authorize_by_encrypted_params
