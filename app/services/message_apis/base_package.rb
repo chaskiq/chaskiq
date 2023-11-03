@@ -1,0 +1,48 @@
+module MessageApis
+  class BasePackage
+    def initialize(config:)
+      @config = config
+    end
+
+    def trigger(event); end
+
+    def process_event(params, package); end
+
+    def enqueue_process_event(params, package)
+      HookMessageReceiverJob.perform_later(
+        id: package.id,
+        params: params.permit!.to_h
+      )
+      { status: :ok }
+    end
+
+    # triggered when a new chaskiq message is created
+    # will triggered just after the ws notification
+    def notify_message(conversation:, part:, channel:)
+      # TODO: ? redis cache here for provider / channel id / part
+      provider = self.class::PROVIDER
+
+      return if part
+                .conversation_part_channel_sources
+                .find_by(provider: provider).present?
+
+      # message = part.message.as_json
+      response = send_message(conversation, part)
+
+      return if response.nil?
+
+      response_data = JSON.parse(
+        response.respond_to?(:body) ? response.body : response
+      )
+
+      message_id = get_message_id(response_data)
+
+      return if message_id.blank?
+
+      part.conversation_part_channel_sources.create(
+        provider: provider,
+        message_source_id: message_id
+      )
+    end
+  end
+end
