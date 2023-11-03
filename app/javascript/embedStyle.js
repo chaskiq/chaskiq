@@ -27,6 +27,10 @@ export const embedCss = `
     overflow: hidden;
 }
 
+.display-mode-inline{
+  box-shadow: none !important;
+}
+
 @media (max-width: 768px) {
     .css-13u6xjo {
         animation: 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both running animation-33401f;

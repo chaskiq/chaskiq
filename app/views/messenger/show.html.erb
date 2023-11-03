@@ -1,6 +1,8 @@
 <div data-controller="messenger" 
   id="chaskiq-messenger"
   data-messenger-open-value="<%= params[:open] || "false" %>"
+  data-action="mouseenter->messenger#handleMouseOver mouseleave->messenger#handleMouseLeave"
+  data-messenger-inline-conversations-value="<%= @app.inline_new_conversations_value %>"
   data-url="<%= messenger_path(@app.key) %>"
   class="justify-start overflow-hidden absolute inset-0 flex flex-col">
   

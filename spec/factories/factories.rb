@@ -35,25 +35,25 @@ FactoryBot.define do
   end
 
   factory :conversation_part_block do
-    blocks {
+    blocks do
       {
         app_package: "app_package",
         schema: []
       }
-    }
+    end
   end
 
   factory :conversation_part_content do
-    serialized_content { {content: "my-content"}.as_json }
+    serialized_content { { content: "my-content" }.as_json }
   end
 
   factory :conversation_part_event do
-    data {
+    data do
       {
         element: "button",
         label: "Test"
       }
-    }
+    end
   end
 end
 

@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe FilterMenu::Component do
   let(:title) { "This is a title" }
-  let(:description) { "This is a description"}
+  let(:description) { "This is a description" }
   let(:label) { "foo" }
   let(:options) do
     {

@@ -22,7 +22,8 @@ class Messenger::AuthController < ApplicationController
     render json: {
       token: token,
       enabled_for_user: enabled_for_user,
-      inbound_settings: @app.inbound_settings
+      inbound_settings: @app.inbound_settings,
+      inline_conversations: ActiveModel::Type::Boolean.new.cast(@app.inline_new_conversations)
     }
   end
 

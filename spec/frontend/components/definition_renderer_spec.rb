@@ -31,7 +31,7 @@ describe DefinitionRenderer::Component do
     expect(page).to have_css("div")
 
     location_input = page.find_css('input[type="hidden"][name="ctx[location]"]').first
-    expect(location_input['value']).to eq(location)
+    expect(location_input["value"]).to eq(location)
 
     expect(page).to have_text(text)
   end

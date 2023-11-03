@@ -17,6 +17,24 @@
           <% end %>
         </div>
       <% end %>
+
+      <div class="fixed top-0 w-full hidden z-50" 
+        data-messenger-target="inlineControlButtons">
+       
+       <div class="flex justify-between items-center px-4 inlineControlButtons">
+
+        <button class="bg-indigo-100 hover:bg-indigo-200 text-blac font-bold py-1 px-2 rounded text-xs" 
+          data-action="click->messenger#inlineShowMore">
+          <%= t("messenger.show_more") %>
+        </button>
+
+        <button class="bg-indigo-100 hover:bg-indigo-200 text-black font-bold p-1 rounded-full text-xs" 
+          data-action="click->messenger#inlineClose">
+          <%= heroicon("x-mark") %>
+        </button>
+       </div>
+
+      </div>
       
       <div class="cache-emo-1prjld7 fade-in-bottom"
         data-infinite-scroll-target="entries"

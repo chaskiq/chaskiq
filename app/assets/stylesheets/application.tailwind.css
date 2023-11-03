@@ -198,6 +198,21 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0px 21px 4px -20px inset;
   }
 
+  .display-mode-inline {
+   .cache-emo-ngqrd3 {
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    #chaskiq-header {
+      display: none
+    }
+
+    .cache-emo-1c9rau9 {
+
+    }
+  }
+
   .cache-emo-a8p4ui {
     position: fixed;
     inset: 0px;
@@ -653,6 +668,16 @@
     outline: transparent;
   }
 
+   .display-mode-inline {
+    .cache-emo-168wfpv  {
+      box-shadow: rgba(0, 0, 0, 0.38) 4px 4px 1px;
+      bottom: -2px;
+      left: 8px;
+      width: 96%;
+      border-radius: 8px !important;
+    }
+  }
+
   .cache-emo-168wfpv:focus {
     background-color: rgb(255, 255, 255);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 100px 0px;
@@ -699,6 +724,25 @@
     color: gray;
     padding: 11px 0px 0px;
     height: 38px;
+  }
+
+  .inlineControlButtons{ 
+    display: none;
+  }
+
+  .display-mode-inline {
+    .cache-emo-1c9rau9 {
+      background: none;
+      border-radius: 0 0 6px 6px;
+      bottom: 10px;
+    }
+    .cache-emo-dddhpq {
+      border:none;
+    }
+
+    .inlineControlButtons{
+      display: flex;
+    }
   }
   
 

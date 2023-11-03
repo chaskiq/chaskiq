@@ -31,6 +31,7 @@ export default class extends Controller {
     'conversation',
     'animated',
     'loader',
+    'inlineControlButtons',
   ];
 
   static values = {
@@ -38,6 +39,7 @@ export default class extends Controller {
     open: { type: Boolean, default: true },
     isMobile: { type: Boolean, default: false },
     loading: { type: Boolean, default: false },
+    inlineConversations: { type: Boolean, default: false },
   };
 
   initialize() {
@@ -70,7 +72,7 @@ export default class extends Controller {
           };
 
           // console.log("SENDING EVENT TP PARENT FRAME", message)
-          window.parent.postMessage(message, '*');
+          this.sendEventToFrame(message);
 
           if (this.openValue) {
             console.log('React on open with', data);
@@ -82,20 +84,25 @@ export default class extends Controller {
 
           break;
         case 'tours:receive':
+          message = {
+            type: 'chaskiq:user_tour_receive',
+            data: data.data,
+          };
+          this.sendEventToFrame(message);
           break;
         case 'messages:receive':
           message = {
             type: 'chaskiq:user_auto_message',
             data: data.data,
           };
-          window.parent.postMessage(message, '*');
+          this.sendEventToFrame(message);
           break;
         case 'banners:receive':
           message = {
             type: 'chaskiq:banners',
             data: data.data,
           };
-          window.parent.postMessage(message, '*');
+          this.sendEventToFrame(message);
           break;
         default:
           break;
@@ -123,13 +130,72 @@ export default class extends Controller {
     console.log('MESSENGER INITIALIZED');
   }
 
+  handleMouseOver(e) {
+    if (!this.element.classList.contains('display-mode-inline')) return;
+    if (!this.hasInlineControlButtonsTarget) return;
+    this.inlineControlButtonsTarget.classList.remove('hidden');
+  }
+
+  handleMouseLeave(e) {
+    if (!this.hasInlineControlButtonsTarget) return;
+    this.inlineControlButtonsTarget.classList.add('hidden');
+  }
+
+  inlineShowMore(e) {
+    e.preventDefault();
+    this.clearDisplayInlineMode(() => {
+      console.log('clear inline mode');
+    });
+  }
+
+  inlineClose(e) {
+    this.clearDisplayInlineMode(() => {
+      this.openValue = false;
+    });
+  }
+
   handleReceivedNewMessageFromClosed(data) {
-    this.goTo(
-      `${this.element.dataset.url}/conversations/${data.conversation_key}`,
-      () => {
-        this.toggle();
-      }
+    this.handleDisplayMode(() =>
+      this.goTo(
+        `${this.element.dataset.url}/conversations/${data.conversation_key}`,
+        () => {
+          this.toggle();
+        }
+      )
     );
+  }
+
+  handleDisplayMode(cb = null) {
+    if (this.inlineConversationsValue) {
+      this.setDisplayInlineMode(cb);
+    } else {
+      this.clearDisplayInlineMode(cb);
+    }
+  }
+
+  setDisplayInlineMode(cb = null) {
+    this.element.classList.add('display-mode-inline');
+
+    const message = {
+      type: 'chaskiq:event',
+      data: {
+        type: 'messenger:inline_mode',
+        value: true,
+      },
+    };
+
+    this.sendEventToFrame(message);
+
+    cb & cb();
+  }
+
+  clearDisplayInlineMode(cb = null) {
+    this.element.classList.remove('display-mode-inline');
+    cb & cb();
+  }
+
+  sendEventToFrame(message) {
+    window.parent.postMessage(message, '*');
   }
 
   toggle() {
@@ -141,11 +207,17 @@ export default class extends Controller {
       },
     };
 
-    window.parent.postMessage(message, '*');
+    this.sendEventToFrame(message);
   }
 
   openValueChanged() {
     console.log('FRAME TOGGLED', this.openValue);
+    if (!this.openValue) {
+      const message = {
+        type: 'chaskiq:messenger_close',
+      };
+      this.sendEventToFrame(message);
+    }
   }
 
   currentConversationKey() {
@@ -239,7 +311,7 @@ export default class extends Controller {
       },
     };
 
-    window.parent.postMessage(message, '*');
+    this.sendEventToFrame(message);
   }
 
   async handleUserTourLoad(data) {
@@ -259,18 +331,11 @@ export default class extends Controller {
         },
       };
 
-      window.parent.postMessage(message, '*');
+      this.sendEventToFrame(message);
     } else {
       console.error('error fetching tour');
     }
   }
-  // BANNER
-
-  fetchBanner() {
-    debugger;
-  }
-
-  //
 
   async pushEvent(eventType, data) {
     const url = `${this.element.dataset.url}/events?event=${eventType}`;

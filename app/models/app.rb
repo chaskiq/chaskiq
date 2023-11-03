@@ -124,6 +124,10 @@ class App < ApplicationRecord
     end
   end
 
+  def inline_new_conversations_value
+    ActiveModel::Type::Boolean.new.cast(inline_new_conversations)
+  end
+
   def packages_integrations_in_use
     app_package_integrations.joins(:app_package).where.not("app_packages.name" => default_packages)
   end

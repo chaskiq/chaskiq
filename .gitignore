@@ -21,7 +21,6 @@ dist
 !/log/.keep
 !/tmp/.keep
 
-app/services/message_apis/**/*
 # ContentShowcase ArticleSearch Qualifier InboxSections ContactFields
 !app/services/message_apis/block_manager.rb
 !app/services/message_apis/base_package.rb
@@ -36,6 +35,8 @@ app/services/message_apis/**/*
 !app/services/message_apis/csat/*
 !app/services/message_apis/inbox_sections/*
 !app/services/message_apis/ui_catalog/*
+
+app/services/message_apis/**/*
 
 app/services/message_apis/.git
 
