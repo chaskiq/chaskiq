@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe PadderRenderer::Component do
-  let(:options) { {} }
+  let(:options) { { size: 1 } }
   let(:component) { PadderRenderer::Component.new(**options) }
 
   subject { rendered_component }

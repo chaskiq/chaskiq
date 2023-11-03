@@ -1,5 +1,5 @@
 	<div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
-	
+
 		<div class="table min-w-full">
 			<div class="table-header-group <%= 'hidden' if @headless %> border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
 				<% if @sortable %>
@@ -15,9 +15,9 @@
 			</div>
 
 			<div class="table-row-group bg-white dark:bg-gray-900"
-				
+
 				<% if @sortable%>
-					data-controller="sortable" 
+					data-controller="sortable"
 					data-handle=".cursor-move"
 					data-url="<%= @sortable %>"
 					<% if @sortable_group %>
@@ -27,11 +27,11 @@
 			>
 
 				<% @data.each_with_index do |record, index| %>
-					<div 
+					<div
 						data-id="<%= record.try(:id) || index %>"
-						id="<%= "#{record.class.table_name}-#{record.try(:id) || index}" %>" 
+						id="<%= "#{record.class.table_name}-#{record.try(:id) || index}" %>"
 						class="table-row hover:bg-gray-50 dark:hover:bg-gray-800">
-								
+
 						<% if @sortable %>
 							<div class="table-cell align-middle px-6 py-4 whitespace-nowrap border-b">
 								<div class="cursor-move btn btn-dark-flat">
@@ -39,7 +39,7 @@
 								</div>
 							</div>
 						<% end %>
-								
+
 						<% @config[:columns].each do |c| %>
 							<div class="table-cell align-middle px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900">
 								<% if c[:render] %>

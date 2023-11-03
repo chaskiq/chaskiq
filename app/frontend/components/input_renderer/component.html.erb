@@ -3,8 +3,8 @@
 
   <label for="<%= @name %>"><%= @label %></label>
 
-	<input 
-		type="text" 
+	<input
+		type="text"
 		auto-complete="off"
 		value="<%= @value %>"
 		id="<%= @id %>"
@@ -14,8 +14,8 @@
 	<% if @action %>
 
 		<%= render ButtonRenderer::Component.new(
-			id: @id, 
-			label: nil, 
+			id: @id,
+			label: nil,
 			action: {"type"=>'submit'}
 			) do %>
 			<div>
@@ -23,7 +23,7 @@
 			</div>
 		<% end %>
 
-	
+
 	<% end %>
 
 	<!--
