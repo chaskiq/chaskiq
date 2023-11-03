@@ -1,7 +1,7 @@
 <div class="list list-wrapper">
 	<% @field.each do |item| %>
     <div class="list-item" pointer={onClick} divider={true}>
-      <div class="list-item-b" 
+      <div class="list-item-b"
 			 data-action--nono="click->definitions-renderer#dispatchAction">
         <div class="content">
           <div class="avatar-content">
@@ -34,7 +34,7 @@
 											<%= item["tertiary_text"] %>
 										<% end %>
 									</div>
-								
+
 								</div>
 							</div>
 						</div>
@@ -43,8 +43,8 @@
 
           <% if item["action"] %>
 						<%= render ButtonRenderer::Component.new(
-							id: item["id"], 
-							label: item["label"], 
+							id: item["id"],
+							label: item["label"],
 							action: {"type"=>'submit'}
 							) do %>
 							<div>
