@@ -3,7 +3,7 @@
 class EmptyView::Component < ApplicationViewComponent
   option :subtitle
   option :title
-  option :text
+  option :text, default: -> { "" }
   option :icon, default: -> {}
   option :shadow_less, default: -> {}
   option :classes, default: -> {}

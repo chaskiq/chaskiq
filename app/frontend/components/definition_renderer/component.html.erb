@@ -16,7 +16,7 @@
 	<% if @app_package %>
 	data-path="<%= app_package_path(@app.key, @app_package) %>">
 	<% end %>
-	<form 
+	<form
 		data-definition-renderer-target="form"
 		data-kind="<%= @blocks[:kind] %>"
 		data-location-nonon="<%= @location %>"
@@ -52,17 +52,17 @@
 
 		<% @schema.each do |item| %>
 			<%= case item["type"]
-				when "text" 
+				when "text"
 					render PadderRenderer::Component.new(size: @size  ) do
 						render TextRenderer::Component.new(
 							text: item['text'],
 							align: item['align'],
 							style: item['style']
-						) 
+						)
 					end
 				when "list" then render ListRenderer::Component.new(
 					field: item['items'],
-				) 
+				)
 				when "image" then render ImageRenderer::Component.new(
 					url: item['url'],
 					height: item['height'],
@@ -70,7 +70,7 @@
 					align: item['align'],
 					rounded: item['rounded']
 				)
-				when "button" 
+				when "button"
 					render PadderRenderer::Component.new(size: @size  ) do
 						render ButtonRenderer::Component.new(
 							id: item['id'],
@@ -80,22 +80,22 @@
 							size: @size || item['size'],
 							align: item['align'],
 							frame: @frame
-						) 
+						)
 					end
-				when "data-table" 
+				when "data-table"
 					render PadderRenderer::Component.new(size: @size  ) do
 						render DataTableRenderer::Component.new(
 							id: item['id'],
 							items: item['items'],
 							size: @size || item['size']
-						) 
+						)
 					end
 				when "content" then render ContentRenderer::Component.new(
 					id: item['id'],
 					values: {values: @values}.to_json,
 					path: content_app_package_path(@app.key, @app_package, @ctx)
 				)
-				when "input"  
+				when "input"
 					render PadderRenderer::Component.new(size: @size  ) do
 						render InputRenderer::Component.new(
 							id: item['id'],
@@ -103,13 +103,13 @@
 							errors: item['errors'],
 							label: item['label'],
 							save_state: item['save_state'],
-							value: item['value'],  
-							action: item['action'], 
+							value: item['value'],
+							action: item['action'],
 							disabled: item['disabled'],
-							loading: item['loading'], 
-							name: item['name'],   
+							loading: item['loading'],
+							name: item['name'],
 							hint: item['hint'],
-							size: @size || item['size'] 
+							size: @size || item['size']
 						)
 					end
 				when "textarea"
@@ -120,12 +120,12 @@
 							errors: item['errors'],
 							label: item['label'],
 							save_state: item['save_state'],
-							value: item['value'],   
+							value: item['value'],
 							disabled: item['disabled'],
-							loading: item['loading'], 
-							name: item['name'],   
+							loading: item['loading'],
+							name: item['name'],
 							hint: item['hint'],
-							size: @size || item['size'] 
+							size: @size || item['size']
 						)
 					end
 				when "hidden"
@@ -151,10 +151,10 @@
 						options: item["options"],
 						direction: item["direction"]
 						)
-				else 
-				
+				else
+
 				"---- no definition for #{item["type"]} #{item}--- \n"
-					
+
 				end %>
 
 		<% end %>
