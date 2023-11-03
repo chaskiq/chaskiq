@@ -31,7 +31,7 @@ export default class extends Controller {
     'conversation',
     'animated',
     'loader',
-    'inlineControlButtons'
+    'inlineControlButtons',
   ];
 
   static values = {
@@ -39,7 +39,7 @@ export default class extends Controller {
     open: { type: Boolean, default: true },
     isMobile: { type: Boolean, default: false },
     loading: { type: Boolean, default: false },
-    inlineConversations: {type: Boolean, default: false}
+    inlineConversations: { type: Boolean, default: false },
   };
 
   initialize() {
@@ -130,70 +130,72 @@ export default class extends Controller {
     console.log('MESSENGER INITIALIZED');
   }
 
-  handleMouseOver(e){
-    if(!this.element.classList.contains('display-mode-inline')) return
-    if(!this.hasInlineControlButtonsTarget) return
-    this.inlineControlButtonsTarget.classList.remove("hidden")
+  handleMouseOver(e) {
+    if (!this.element.classList.contains('display-mode-inline')) return;
+    if (!this.hasInlineControlButtonsTarget) return;
+    this.inlineControlButtonsTarget.classList.remove('hidden');
   }
 
-  handleMouseLeave(e){
-    if(!this.hasInlineControlButtonsTarget) return
-    this.inlineControlButtonsTarget.classList.add("hidden")
+  handleMouseLeave(e) {
+    if (!this.hasInlineControlButtonsTarget) return;
+    this.inlineControlButtonsTarget.classList.add('hidden');
   }
 
-  inlineShowMore(e){
-    e.preventDefault()
-    this.clearDisplayInlineMode(()=>{ console.log("clear inline mode") })
+  inlineShowMore(e) {
+    e.preventDefault();
+    this.clearDisplayInlineMode(() => {
+      console.log('clear inline mode');
+    });
   }
 
-  inlineClose(e){
-    this.clearDisplayInlineMode(()=>{
-      this.openValue = false
-    })
+  inlineClose(e) {
+    this.clearDisplayInlineMode(() => {
+      this.openValue = false;
+    });
   }
 
   handleReceivedNewMessageFromClosed(data) {
-    this.handleDisplayMode(()=>
+    this.handleDisplayMode(() =>
       this.goTo(
         `${this.element.dataset.url}/conversations/${data.conversation_key}`,
         () => {
           this.toggle();
         }
       )
-    )
+    );
   }
 
-  handleDisplayMode(cb = null){
-    if(this.inlineConversationsValue){
-      this.setDisplayInlineMode(cb)
+  handleDisplayMode(cb = null) {
+    if (this.inlineConversationsValue) {
+      this.setDisplayInlineMode(cb);
     } else {
-      this.clearDisplayInlineMode(cb)
+      this.clearDisplayInlineMode(cb);
     }
   }
 
-  setDisplayInlineMode(cb = null){
-    this.element.classList.add("display-mode-inline")
+  setDisplayInlineMode(cb = null) {
+    this.element.classList.add('display-mode-inline');
 
     const message = {
       type: 'chaskiq:event',
-      data: { 
-        type: "messenger:inline_mode",
-        value: true
-      }
-    }
+      data: {
+        type: 'messenger:inline_mode',
+        value: true,
+      },
+    };
 
-    this.sendEventToFrame(message)
+    this.sendEventToFrame(message);
 
-    cb & cb()
+    cb & cb();
   }
 
-  clearDisplayInlineMode(cb = null){
-    this.element.classList.remove("display-mode-inline")
-    cb & cb()
+  clearDisplayInlineMode(cb = null) {
+    this.element.classList.remove('display-mode-inline');
+    cb & cb();
   }
 
-  sendEventToFrame(message){
-    window.parent.postMessage(message, "*");
+  sendEventToFrame(message) {
+    window.parent.postMessage(message, '*');
   }
 
   toggle() {
@@ -210,11 +212,11 @@ export default class extends Controller {
 
   openValueChanged() {
     console.log('FRAME TOGGLED', this.openValue);
-    if(!this.openValue){
+    if (!this.openValue) {
       const message = {
         type: 'chaskiq:messenger_close',
-      }
-      this.sendEventToFrame(message)
+      };
+      this.sendEventToFrame(message);
     }
   }
 

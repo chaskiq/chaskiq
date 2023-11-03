@@ -125,7 +125,7 @@ class App < ApplicationRecord
   end
 
   def inline_new_conversations_value
-    ActiveModel::Type::Boolean.new.cast(self.inline_new_conversations)
+    ActiveModel::Type::Boolean.new.cast(inline_new_conversations)
   end
 
   def packages_integrations_in_use

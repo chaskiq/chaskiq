@@ -132,9 +132,9 @@ window.Chaskiq = window.Chaskiq || {
   toggle: function (e) {
     const wrapper = document.querySelector('#frame-wrapper');
     if (wrapper && wrapper.dataset.open === 'true') {
-      this.close(wrapper)
+      this.close(wrapper);
     } else {
-      this.open(wrapper)
+      this.open(wrapper);
     }
     console.log('TOGGLE');
 
@@ -578,7 +578,7 @@ window.Chaskiq = window.Chaskiq || {
           this.loadUserTour(event.data.data);
           break;
         case 'chaskiq:messenger_close':
-          this.close()
+          this.close();
           break;
         default:
           if (event.data.tourManagerEnabled) {
@@ -660,19 +660,19 @@ window.Chaskiq = window.Chaskiq || {
         this.runUserTour(data);
         break;
       case 'messenger:inline_mode':
-        this.setDisplayMode(data.value)
+        this.setDisplayMode(data.value);
         break;
       default:
         break;
     }
   },
 
-  setDisplayMode: function(value){
-    const el = document.getElementById("messenger-frame")
-    if(value){
-      el.classList.add("display-mode-inline")
+  setDisplayMode: function (value) {
+    const el = document.getElementById('messenger-frame');
+    if (value) {
+      el.classList.add('display-mode-inline');
     } else {
-      el.classList.remove("display-mode-inline")
+      el.classList.remove('display-mode-inline');
     }
   },
 
@@ -790,9 +790,7 @@ window.Chaskiq = window.Chaskiq || {
   },
 };
 
-
 class ChaskiqMessengerEncrypted {
- 
   constructor(props) {
     this.props = props;
 
@@ -827,4 +825,4 @@ class ChaskiqMessengerEncrypted {
   }
 }
 
-window.ChaskiqMessengerEncrypted =  ChaskiqMessengerEncrypted
+window.ChaskiqMessengerEncrypted = ChaskiqMessengerEncrypted;
