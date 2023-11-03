@@ -71,7 +71,7 @@
 					rounded: item['rounded']
 				)
 				when "button"
-					render PadderRenderer::Component.new(size: @size  ) do
+					render PadderRenderer::Component.new(size: @size) do
 						render ButtonRenderer::Component.new(
 							id: item['id'],
 							variant: item['variant'] || 'default',
@@ -83,7 +83,7 @@
 						)
 					end
 				when "data-table"
-					render PadderRenderer::Component.new(size: @size  ) do
+					render PadderRenderer::Component.new(size: @size) do
 						render DataTableRenderer::Component.new(
 							id: item['id'],
 							items: item['items'],

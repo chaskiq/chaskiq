@@ -146,7 +146,7 @@ class Apps::CampaignsController < ApplicationController
       user: current_agent
     }
 
-    flash.now[:notice] = "Place was updated!"
+    flash.now[:notice] = t("status_messages.updated_success")
     render "show"
   end
 
@@ -157,7 +157,7 @@ class Apps::CampaignsController < ApplicationController
     }
     # set_campaign(id)
     @campaign.metrics.destroy_all
-    flash.now[:notice] = "Place was updated!"
+    flash.now[:notice] = t("status_messages.deleted_success")
     render "show"
   end
 

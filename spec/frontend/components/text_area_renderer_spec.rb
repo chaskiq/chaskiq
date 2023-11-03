@@ -14,7 +14,7 @@ describe TextAreaRenderer::Component do
       loading: "",
       name: "",
       hint: "",
-      errors: "",
+      errors: ""
     }
   end
   let(:component) { TextAreaRenderer::Component.new(**options) }

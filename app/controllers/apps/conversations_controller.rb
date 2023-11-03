@@ -149,7 +149,7 @@ class Apps::ConversationsController < ApplicationController
       @conversation.tag_list = params[:conversation][:tag_list].reject(&:empty?)
       @conversation.save
 
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
 
       render turbo_stream: [
         flash_stream,

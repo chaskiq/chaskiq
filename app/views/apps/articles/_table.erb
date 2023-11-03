@@ -6,7 +6,7 @@
 							raw(%{
 								<div class="flex items-center">
 									<div class="flex items-center text-lg font-bold">
-										#{link_to record.title, app_article_path(@app.key, record), class: "truncate w-64"}
+										#{link_to record.title, app_article_path(@app.key, record), class: "truncate w-64", data: {turbo_frame: "_top" }}
 									</div>
 								</div>
 							}) 

@@ -40,7 +40,7 @@ class Apps::OauthApplicationsController < ApplicationController
     resource_params = params.require(:doorkeeper_application).permit(:name, :redirect_uri, :scopes, :confidential)
     @oauth_application = @app.oauth_applications.new(resource_params)
     if @oauth_application.save
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       # render turbo_stream: [
       #	flash_stream,
       # turbo_stream.replace(
@@ -62,7 +62,7 @@ class Apps::OauthApplicationsController < ApplicationController
     resource_params = params.require(:doorkeeper_application).permit(:name, :redirect_uri, :scopes, :confidential)
     @oauth_application = @app.oauth_applications.find(params[:id])
     if @oauth_application.update(resource_params)
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       render turbo_stream: [
         flash_stream,
         turbo_stream.replace(

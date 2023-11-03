@@ -185,4 +185,27 @@
       /*active:bg-indigo-200;*/
     }
   }
+
+
+	.text-input-button {
+
+		@apply -ml-px relative inline-flex items-center
+			text-sm leading-5 font-medium
+			dark:bg-gray-900 dark:text-gray-200 
+			rounded-r-md text-gray-700 bg-gray-100 hover:text-gray-500 
+			transition ease-in-out duration-150;
+		
+		@apply bg-gray-900 
+			dark:bg-gray-700 
+      hover:bg-gray-600 
+      active:bg-gray-100 
+      active:text-gray-700
+			border-t-[2px]
+			border-b-[2px]
+      border-r
+			hover:border-gray-600 
+      border-gray-900;
+
+
+	}
 }

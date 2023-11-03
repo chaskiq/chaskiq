@@ -20,41 +20,49 @@ class Apps::ArticlesController < ApplicationController
   end
 
   def update
+    if params[:toggle]
+      @article.toggle
+      flash.now[:notice] = "Article state changed to #{@article.reload.state}"
+      render "update" and return
+    end
+
     I18n.with_locale(params[:locale] || I18n.default_locale) do
       @article.update(resource_params)
     end
 
-    authorize! @article, to: :can_read_help_center?, with: AppPolicy
+    authorize! @article, to: :can_read_help_center?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     if @article.errors.blank?
-      flash[:success] = "Object was successfully updated"
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("articles.updated_success")
       render turbo_stream: [flash_stream]
       # redirect_to app_article_path(@app.key, @article)
     else
-      flash[:error] = "Something went wrong"
+      flash[:error] = t("articles.updated_error")
       render "show"
     end
   end
 
   def create
     @article = @app.articles.new(resource_params)
-    authorize! @article, to: :can_read_help_center?, with: AppPolicy
-
+    authorize! @article, to: :can_read_help_center?, with: AppPolicy, context: {
+      user: current_agent
+    }
     if @article.save
-      flash[:success] = "Object successfully created"
       redirect_to app_article_path(@app.key, @article)
     else
-      flash[:error] = "Something went wrong"
       render "new"
     end
   end
 
   def destroy
-    authorize! @article, to: :can_read_help_center?, with: AppPolicy
+    authorize! @article, to: :can_read_help_center?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     if @article.destroy
-      flash[:success] = "Object was successfully deleted."
+      flash[:success] = "Article was successfully deleted."
     else
       flash[:error] = "Something went wrong"
     end

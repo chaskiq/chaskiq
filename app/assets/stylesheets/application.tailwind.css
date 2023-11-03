@@ -66,7 +66,10 @@
   }
 
   .input, input[type=datetime-local] {
-    @apply py-2 px-2 block w-full shadow-sm focus:ring-gray-500 focus:border-gray-500 sm:text-sm border-gray-500 border rounded-md dark:bg-black;
+    @apply shadow appearance-none border border-gray-300 
+        dark:border-gray-700
+         rounded w-full py-2 px-3 text-gray-700 dark:bg-gray-900 dark:border-gray-700 dark:text-white
+        leading-tight focus:outline-none focus:shadow-outline;
   }
 
 

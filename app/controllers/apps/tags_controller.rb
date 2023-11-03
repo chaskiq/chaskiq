@@ -35,7 +35,7 @@ class Apps::TagsController < ApplicationController
     @app.tag_list = @app.tag_list_objects.as_json
 
     if @app.save
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       redirect_to app_tags_path(@app.key)
     else
       render "new", status: :unprocessable_entity
@@ -53,7 +53,7 @@ class Apps::TagsController < ApplicationController
     @app.tag_list = @app.tag_list_objects.as_json
 
     if @app.save
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       redirect_to app_tags_path(@app.key)
     else
       render "new", status: :unprocessable_entity
@@ -68,7 +68,7 @@ class Apps::TagsController < ApplicationController
     @tags = @app.tag_list_objects.reject { |o| o.name == params[:id] }
     @app.tag_list = @tags.as_json
     @app.save
-    flash.now[:notice] = "Place was updated!"
+    flash.now[:notice] = t("status_messages.deleted_success")
     redirect_to app_tags_path(@app.key)
   end
 

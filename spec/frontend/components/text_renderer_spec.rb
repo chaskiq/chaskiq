@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe TextRenderer::Component do
-  let(:text){ "foo" }
+  let(:text) { "foo" }
   let(:options) { { text: text } }
   let(:component) { TextRenderer::Component.new(**options) }
 

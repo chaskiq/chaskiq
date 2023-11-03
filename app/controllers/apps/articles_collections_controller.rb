@@ -31,9 +31,9 @@ class Apps::ArticlesCollectionsController < ApplicationController
     @article_collection = @app.article_collections.friendly.find(params[:id]) # .find(params[:id])
 
     if @article_collection.update(resource_params)
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       # render turbo_stream: [flash_stream]
-      redirect_to app_articles_collections_path(@app.key), notice: "epa!", status: :see_other
+      redirect_to app_articles_collections_path(@app.key), status: :see_other
     else
       render "edit", status: :unprocessable_entity
     end
@@ -56,7 +56,7 @@ class Apps::ArticlesCollectionsController < ApplicationController
       resource_params
     )
     if @article_collection.save
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       # render turbo_stream: [flash_stream]
       redirect_to app_articles_collections_path(@app.key)
       # redirect_to app_team_index_path(@app.key), notice: "epa!", status: 303
@@ -72,7 +72,7 @@ class Apps::ArticlesCollectionsController < ApplicationController
     }
     @article_collection = @app.article_collections.friendly.find(params[:id])
     if @article_collection.destroy
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.deleted_success")
       redirect_to app_articles_collections_path(@app.key)
     else
       flash[:error] = "Something went wrong"
@@ -91,7 +91,7 @@ class Apps::ArticlesCollectionsController < ApplicationController
 
     collection = article_collection.find(id)
     collection.insert_at(position + 1)
-    flash.now[:notice] = "Place was updated!"
+    flash.now[:notice] = t("status_messages.updated_success")
     render turbo_stream: [flash_stream]
   end
 

@@ -19,7 +19,7 @@
 
   <%= render DefinitionRenderer::Component.new(
       schema: @blocks["definitions"], 
-      size: 'sm', 
+      size: @location == "home" ? "" : "sm", 
       values: {},
       blocks: @blocks,
       location: @location,

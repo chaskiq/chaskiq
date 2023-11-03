@@ -64,6 +64,11 @@ class Article < ApplicationRecord
     end
   end
 
+  def toggle
+    new_state = state == "published" ? "draft" : "published"
+    update(state: new_state)
+  end
+
   def set_published_at
     self.published_at = Time.zone.now
     save

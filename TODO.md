@@ -1,7 +1,5 @@
 TODO.md
 
-+ submit buttons
-
 + conversations:
   + rendering plain version
   + open video conversation
@@ -39,8 +37,16 @@ inbound settings
 + user auto messages 
   + display if activeMessenger, implement this function
 
-+ inline conversations
-
 + tours manager
   + tours save
   + tours preview
+
+
++ display block
+  appBlockAppPackage
+
+
+
+improvements UI
+
+select label false not working

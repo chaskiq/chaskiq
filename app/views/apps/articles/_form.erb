@@ -1,0 +1,243 @@
+<%= form_for @article , url: app_article_path(@app.key, @article, locale: params[:locale]) do |f| %>
+		<div class="py-8 xl:py-10">
+				<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-5xl xl:grid xl:grid-cols-3">
+						<div class="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200 xl:dark:border-gray-900">
+								<div>
+										<div>
+												<div class="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6 dark:border-gray-900">
+														<div>
+																<h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+																	<%= @article.title %>
+																</h1>
+																<p class="mt-2 text-sm text-gray-500 dark:text-gray-300">
+																		<span>
+																			<%= I18n.t('articles.written_by') %> 
+																			<%= link_to app_agent_path(@app.key, @article.author), 
+																				class: "font-medium text-gray-900 dark:text-gray-100", data: {turbo_frame: "_top"} do %>
+																				<%= @article.author.display_name %>
+																			<% end %>
+																		</span>
+
+																		<% if @article.collection.present? %>
+																			<span>
+																			in 
+																			<%= link_to app_agent_path(@article.author), 
+																				class: "font-medium text-gray-900 dark:text-gray-100" do %>
+																					<%= @article.collection.title %>
+																			<% end %>
+																			</span>
+																		<% end %>
+																</p>
+														</div>
+
+														<div class="mt-4 flex space-x-3 md:mt-0">
+																
+																<%= f.submit(t("common.save"), class: "btn btn-success")%>
+											
+															  <%= render Toggle::Component.new(
+																	id: 'campaign-toggle', 
+																	label: I18n.t("articles.state.#{@article.state}"), 
+																	checked: @article.state != "draft", 
+																	disabled: false, 
+																	url: app_article_path(@app.key, @article.id, toggle: "toggle"),
+																	on_change: '')
+																%>	
+														</div>
+												</div>
+
+											<!-- 
+												<aside class="mt-8 xl:hidden">
+														<h2 class="sr-only">Details</h2>
+														<div class="mt-6 border-t border-b border-gray-200 py-6 space-y-8 dark:border-gray-900">
+																<div>
+																		<h2 class="text-sm font-medium text-gray-500">Autor</h2>
+																		<ul class="mt-3 space-y-3">
+																				<li class="flex justify-start">
+																						<a href="#" class="flex items-center space-x-3">
+																								<div class="flex flex-shrink-0 items-center">
+																										<span class="inline-block relative">
+																												<img
+																														class="h-6 w-6 rounded-full bg-white"
+																														src="https://app.chaskiq.io/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbXdEIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--827f2d0b5794f7bb660c48b79e228655bd857bed/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVdscGFRPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--cf24ea7784b3789671bb09c4029aca003c26b32d/me.jpg"
+																														alt="https://app.chaskiq.io/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbXdEIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--827f2d0b5794f7bb660c48b79e228655bd857bed/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVdscGFRPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--cf24ea7784b3789671bb09c4029aca003c26b32d/me.jpg"
+																												/>
+																										</span>
+																								</div>
+																								<div class="text-sm font-medium text-gray-900 dark:text-gray-100">Miguel Michelson</div>
+																						</a>
+																				</li>
+																		</ul>
+																		<div class="flex">
+																				<div class="flex items-center">
+																					<div class="mb-4 w-32">
+																						<%= f.collection_select :author_id, @app.agents, :id, :name %>
+																					</div>
+																				</div>
+																				<div class="flex items-center">
+																					<strong class="m-2">In</strong>
+																					<div class="mb-4 w-32">
+																						<%= f.collection_select :article_collection_id, @app.article_collections, :id, :title %>
+																					</div>
+																				</div>
+																		</div>
+
+																		<div class="mb-4">
+																				<label class="block text-gray-700 dark:text-white text-sm font-bold mb-2"></label>
+																				<input
+																						class="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 dark:bg-black dark:text-white leading-tight focus:outline-none focus:shadow-outline"
+																						type="text"
+																						placeholder="Escribe el título del artículo"
+																						id="article-title"
+																						margin="normal"
+																						value="Install Chaskiq on Ubuntu for Development"
+																				/>
+																		</div>
+
+																		<div class="mb-4">
+																				<div class="mt-6">
+																						<div class="">
+																								<textarea
+																										id="about"
+																										rows="3"
+																										class="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-900 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+																										placeholder="Añadir un resumen para encontrar el artículo más tarde"
+																								></textarea>
+																						</div>
+																				</div>
+																		</div>
+
+																</div>
+														</div>
+												</aside>
+											-->
+
+
+											<% I18n.with_locale(params[:locale] || I18n.default_locale) do %>
+
+
+												<div class="py-3 xl:pt-6 xl:pb-0">
+													<h2 class="sr-only">Description</h2>
+													<div class="prose max-w-none">
+														<div>
+																
+																<%
+																	article_menu_data = @app.article_settings.available_locales.map do |locale|
+																		{
+																			label: langs_options.find{|o| o[:value] == locale.to_s }.try(:[], :label),
+																			href: app_article_path(@app.key, @article, locale: locale),
+																			active: I18n.locale == locale
+																		}
+																	end
+																%>
+
+																<%= render Tabs::Component.new(	items: article_menu_data ) do %>
+
+																	<div class="relative z-0 p-6 shadow rounded border bg-yellow-50 dark:border-pink-800 dark:bg-gray-800 border-yellow-100 mb-4 my-4">
+																		<div data-controller="dante-editor" 
+																			data-content="<%= @article.serialized_content.to_json %>">
+																			<div data-dante-editor-target="container"></div>
+
+																			<%= f.fields_for :article_content do |ff|%>
+																				<%= ff.hidden_field :id %>
+																				<%= ff.hidden_field :serialized_content, 
+																					data: {"dante-editor-target": "serializedInput"},
+																					value: f.object.serialized_content.to_json
+																				%>
+																			<% end %>
+																			<% #= f.hidden_field :html_content , data: {"dante-editor-target": "htmlInput"}%>
+																		</div>
+																	</div>
+
+																<% end %>
+														</div>
+													</div>
+												</div>
+
+											<% end %>
+
+										</div>
+								</div>
+						</div>
+
+						<aside class="hidden xl:block xl:pl-8">
+								<h2 class="sr-only">Details</h2>
+								<div class="space-y-5">
+										<div class="flex items-center space-x-2">
+												<svg class="h-5 w-5 text-green-500" x-description="Heroicon name: solid/lock-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+														<path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z"></path>
+												</svg>
+												<span class="text-green-700 text-sm font-medium">
+													<%= t("articles.state.#{@article.state}")%>
+												</span>
+										</div>
+								</div>
+								<div class="mt-6 border-t border-b border-gray-200 py-6 space-y-8 dark:border-gray-900">
+										<div>
+												<h2 class="text-sm font-medium text-gray-500">
+													<%= t("articles.author") %>
+												</h2>
+												<ul class="mt-3 space-y-3">
+														<li class="flex justify-start">
+																<a href="#" class="flex items-center space-x-3">
+																		<div class="flex flex-shrink-0 items-center">
+																				<span class="inline-block relative">
+																					<%= image_tag @article.author.avatar_url, class: "h-6 w-6 rounded-full bg-white" %>
+																				</span>
+																		</div>
+																		<div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+																			<%= @article.author.display_name %>
+																		</div>
+																</a>
+														</li>
+												</ul>
+												<div class="flex">
+														<div class="flex items-center">
+																<div class="mb-4 w-32">
+
+																	<%= f.select :author_id, options_for_select(@app.agents.map{|o| [o.display_name, o.id]}, f.object.author_id), {}, {
+																		data: {
+																			'select-target': 'select', 
+																			options: @app.agents.map{|o| {label: o.display_name, value: o.id} }.to_json 
+																		},
+																		label: false
+																	} 
+																	%>
+
+																</div>
+														</div>
+														<div class="flex items-center">
+																<strong class="m-2 pb-3">In</strong>
+																<div class="mb-4 w-32">
+																		<%= f.select :article_collection_id, options_for_select(
+																			@app.article_collections.map{|o| [o.title, o.id] }, f.object.article_collection_id
+																			), {}, {
+																			data: {
+																				'select-target': 'select', 
+																				options: @app.article_collections.map{|o| {label: o.title, value: o.id} }.to_json 
+																			},
+																			label: false
+																		} 
+																		%>
+																</div>
+														</div>
+
+												</div>
+												<div class="mb-4">
+													<%= f.text_field :title, placeholder: t("articles.create_article.placeholder")  %>
+												</div>
+												<div class="mb-4">
+														<div class="mt-6">
+																<div class="">
+																		<%= f.text_area :description,
+																			class: "shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-900 mb-3 leading-tight focus:outline-none focus:shadow-outline",
+																			placeholder: t("articles.create_article.description_placeholder") 
+																		%>
+																</div>
+														</div>
+												</div>
+										</div>
+								</div>
+						</aside>
+				</div>
+		</div>
+	<% end %>

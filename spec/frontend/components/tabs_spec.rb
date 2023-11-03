@@ -3,18 +3,18 @@
 require "rails_helper"
 
 describe Tabs::Component do
-  let(:label_1) { "item 1" }
-  let(:label_2) { "item 2" }
+  let(:label1) { "item 1" }
+  let(:label2) { "item 2" }
   let(:options) do
     {
       items: [
         {
           href: "https://example.com",
-          label: label_1
+          label: label1
         },
         {
           href: "https://www.google.com",
-          label: label_2
+          label: label2
         }
       ]
     }
@@ -28,8 +28,8 @@ describe Tabs::Component do
 
     expect(page).to have_css("div")
     expect(page).to have_css("a", count: 2)
-    expect(page).to have_text(label_1)
-    expect(page).to have_text(label_2)
+    expect(page).to have_text(label1)
+    expect(page).to have_text(label2)
     expect(page).to have_css("span", count: 2)
   end
 end

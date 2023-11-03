@@ -31,7 +31,7 @@ class Apps::PackagesController < ApplicationController
     @app_package = current_agent.app_packages.create(resource_params)
 
     if @app_package.errors.blank?
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       redirect_to app_integrations_path(@app.key, kind: :yours)
     else
       render "new", status: :unprocessable_entity
@@ -53,7 +53,7 @@ class Apps::PackagesController < ApplicationController
     )
 
     if @app_package.update(resource_params)
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       redirect_to app_integrations_path(@app.key, kind: :yours)
     else
       render "edit", status: :unprocessable_entity
@@ -63,7 +63,7 @@ class Apps::PackagesController < ApplicationController
   def destroy
     @app_package = current_agent.app_packages.find(params[:id])
     if @app_package.destroy
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.deleted_success")
       redirect_to app_integrations_path(@app.key, kind: :yours)
     else
       render "new", status: :unprocessable_entity

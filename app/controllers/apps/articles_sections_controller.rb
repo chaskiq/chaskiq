@@ -28,7 +28,7 @@ class Apps::ArticlesSectionsController < ApplicationController
     }
     @article_section = @app.sections.friendly.find(params[:id])
     if @article_section.errors.blank?
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       # render turbo_stream: [flash_stream]
       redirect_to app_articles_collection_path(@app.key, @article_section)
     else
@@ -47,7 +47,7 @@ class Apps::ArticlesSectionsController < ApplicationController
     @article_section = @article_collection.sections.create(resource_params)
 
     if @article_section.errors.blank?
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.created_success")
       # render turbo_stream: [flash_stream]
       redirect_to app_articles_collection_path(@app.key, @article_collection)
     else
@@ -64,7 +64,7 @@ class Apps::ArticlesSectionsController < ApplicationController
     @article_section = @app.sections.friendly.find(params[:id])
 
     if @article_section.destroy
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.deleted_success")
       redirect_to app_articles_collection_path(@app.key, @article_section.collection)
     else
       flash[:error] = "Something went wrong"
@@ -87,7 +87,7 @@ class Apps::ArticlesSectionsController < ApplicationController
 
     article.update(section: section_to)
     article.insert_at(position)
-    flash.now[:notice] = "Place was updated!"
+    flash.now[:notice] = t("status_messages.updated_success")
     render turbo_stream: [flash_stream]
   end
 

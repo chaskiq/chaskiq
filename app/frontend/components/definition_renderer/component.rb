@@ -2,13 +2,12 @@
 
 class DefinitionRenderer::Component < ApplicationViewComponent
   option :schema
-  option :size
   option :app_package, default: -> {}
   option :location
   option :category, default: -> {}
   option :values, default: -> { {} }
   option :blocks
-  option :size, default: -> { "sm" }
+  option :size, default: -> { "" }
   option :theme, default: -> {}
   option :conversation_key, default: -> {}
   option :message_key, default: -> {}

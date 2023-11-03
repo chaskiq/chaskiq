@@ -16,7 +16,7 @@ export default class extends Controller {
   }
 
   sendPutRequest(event) {
-    put(event.currentTarget.dataset.url)
+    put(event.currentTarget.dataset.url, {responseKind: "turbo"})
       .then(response => {
         if (response.ok) {
           return response.text();

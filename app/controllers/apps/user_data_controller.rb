@@ -44,7 +44,7 @@ class Apps::UserDataController < ApplicationController
     @app.custom_fields = @app.custom_fields_objects.as_json
 
     if @app.save
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       redirect_to app_user_data_path(@app.key)
     else
       render "new", status: :unprocessable_entity
@@ -64,7 +64,7 @@ class Apps::UserDataController < ApplicationController
     @app.custom_fields = @app.custom_fields_objects.as_json
 
     if @app.save
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       redirect_to app_user_data_path(@app.key)
     else
       render "new", status: :unprocessable_entity
@@ -79,7 +79,7 @@ class Apps::UserDataController < ApplicationController
     @custom_fields = @app.custom_fields_objects.reject { |o| o.name == params[:id] }
     @app.custom_fields = @custom_fields.as_json
     @app.save
-    flash.now[:notice] = "Place was updated!"
+    flash.now[:notice] = t("status_messages.updated_success")
     redirect_to app_user_data_path(@app.key)
   end
 

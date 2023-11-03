@@ -53,7 +53,7 @@ class Apps::TeamController < ApplicationController
 
     # this is a bad pattern, consider nested attribs on @agent_role
     if @agent_role.update(role: role) && @agent.update(data)
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       render turbo_stream: [flash_stream]
       # redirect_to app_team_index_path(@app.key), notice: "epa!", status: 303
     else
@@ -89,7 +89,7 @@ class Apps::TeamController < ApplicationController
     }
 
     if @agent_role.destroy
-      flash.now[:notice] = "Place was updated!"
+      flash.now[:notice] = t("status_messages.deleted_success")
       redirect_to app_team_path(@app.key)
     end
   end

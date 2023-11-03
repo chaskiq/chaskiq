@@ -3,17 +3,17 @@
 require "rails_helper"
 
 describe ListRenderer::Component do
-  let(:title_1) { "Foo" }
-  let(:title_2) { "Bar" }
+  let(:title1) { "Foo" }
+  let(:title2) { "Bar" }
   let(:options) do
     {
       field: [
         {
           "image" => "https://example.com/image.png",
-          "title" => title_1
+          "title" => title1
         },
         {
-          "title" => title_2
+          "title" => title2
         }
       ]
     }
