@@ -3,7 +3,14 @@
 require "rails_helper"
 
 describe Table::Component do
-  let(:options) { {} }
+  let(:options) do
+    {
+      data: [],
+      config: {
+        columns: []
+      }
+    }
+  end
   let(:component) { Table::Component.new(**options) }
 
   subject { rendered_component }

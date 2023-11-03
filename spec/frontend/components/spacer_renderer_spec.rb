@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe SpacerRenderer::Component do
-  let(:options) { {} }
+  let(:options) { { size: 1 } }
   let(:component) { SpacerRenderer::Component.new(**options) }
 
   subject { rendered_component }
