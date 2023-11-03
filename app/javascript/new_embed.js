@@ -90,7 +90,7 @@ window.Chaskiq = window.Chaskiq || {
 
   frameTemplate: function (url) {
     return `
-      <div id="messenger-frame" class="css-13u6xjo">
+      <div id="messenger-frame" class="css-13u6xjo display-mode-inline">
         <iframe src="${url}" width="100%" height="100%" style="border:none"></iframe>
       </div>
     `;
@@ -310,20 +310,18 @@ window.Chaskiq = window.Chaskiq || {
   loadUserTour(data) {
     const pattern = new UrlPattern(data.url.replace(/^.*\/\/[^\/]+/, ''));
     const currentLocation = document.location.pathname;
-    if(pattern.match(currentLocation)){
-      const url = this.messengerUrl(`/campaigns/${data.id}`)
+    if (pattern.match(currentLocation)) {
+      const url = this.messengerUrl(`/campaigns/${data.id}`);
       this.pushEvent('messenger:load_user_tour', { url: url });
     }
   },
 
-  messengerUrl(path, params= {}){
-
-    const newParams = {...params, token: this.token }
+  messengerUrl(path, params = {}) {
+    const newParams = { ...params, token: this.token };
 
     const paramsAsUrl = new URLSearchParams(newParams).toString();
 
     return `${this.options.domain}/messenger/${this.options.app_id}/${path}?${paramsAsUrl}`;
-
   },
 
   loadUserAutoMessages(data) {
@@ -605,6 +603,7 @@ window.Chaskiq = window.Chaskiq || {
 
     this.userTour = window.driver.js.driver({
       steps: steps,
+      allowClose: false,
       onNextClick: (e, step) => {
         this.userTour.moveNext();
 

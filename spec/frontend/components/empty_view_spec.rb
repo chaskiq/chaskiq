@@ -3,7 +3,11 @@
 require "rails_helper"
 
 describe EmptyView::Component do
-  let(:options) { {} }
+  let(:options) { {
+    subtitle: "foo",
+    title: "title",
+    text: "text"
+  } }
   let(:component) { EmptyView::Component.new(**options) }
 
   subject { rendered_component }

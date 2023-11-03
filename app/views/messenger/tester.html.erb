@@ -6,14 +6,11 @@
     <% #= javascript_include_tag "new_application", "data-turbo-track": "reload", defer: true %>
     <%= javascript_include_tag "new_embed", "data-turbo-track": "reload", defer: true %>
 
-    <script src="https://unpkg.com/@sjmc11/tourguidejs/dist/tour.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@sjmc11/tourguidejs/dist/css/tour.min.css">
-
     <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
   </head>
 
-  <body>
+  <body style="background:red;">
 
 
     <div id="uno"> uno </div>
@@ -32,7 +29,7 @@
           { 
             //selector: "#someId",
             domain: '<%= Chaskiq::Config.get("HOST") %>',
-            ws:  '<%= Rails.application.config.action_cable.url %>',
+            ws: '<%= Rails.application.config.action_cable.url %>',
             app_id: "<%= @app.key %>",
             data: <%= raw @encrypted_data %>,
             lang: "USER_LANG_OR_DEFAULTS_TO_BROWSER_LANG" 

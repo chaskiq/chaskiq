@@ -6,7 +6,6 @@ TODO.md
   + rendering plain version
   + open video conversation
 
-
 inbound settings
   + not updating predicates
 
@@ -37,14 +36,11 @@ inbound settings
 
 + bots retrieval
 
-
 + user auto messages 
   + display if activeMessenger, implement this function
 
 + inline conversations
 
-+ tours retrieval
++ tours manager
   + tours save
   + tours preview
-
-+ tours receive

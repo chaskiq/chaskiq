@@ -2,7 +2,7 @@
   id="chaskiq-messenger"
   data-messenger-open-value="<%= params[:open] || "false" %>"
   data-url="<%= messenger_path(@app.key) %>"
-  class="justify-start overflow-hidden absolute inset-0 flex flex-col">
+  class="justify-start overflow-hidden absolute inset-0 flex flex-col display-mode-inline">
   
   <div id="chaskiq-streams" data-turbo-permanent="true">
     <% #= Time.now.to_i %>
