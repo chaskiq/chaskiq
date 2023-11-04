@@ -1,0 +1,32 @@
+<%= render Tabs::Component.new(items: team_menu_data(app: @app)) do %>
+	<%= render Table::Component.new(
+			data: @teams, 
+			config: {
+				columns: [
+					{ name: :name },
+          {name: :role},
+					{name: :actions, render: lambda{|record|
+						%{
+							<div class="flex space-x-3">
+							#{
+								[
+								link_to( "edit link", edit_app_team_group_path(@app.key, record), data: {
+									'turbo-frame': 'modal'
+									}, class: "btn btn-outlined sm"),
+                 link_to( "manage paticipants", participants_app_team_group_path(@app.key, record), data: {
+									'turbo-frame': 'modal'
+									}, class: "btn btn-outlined sm"),
+								button_to( 'remove', 
+									app_team_group_path(@app.key, record), method: :delete, class: "btn btn-danger sm"),
+							].join(" ")
+							}
+							</div>
+						}.html_safe
+							
+						}
+					}
+				]
+			},
+			paginate: paginate(@teams)
+		)%>
+<% end %>

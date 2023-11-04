@@ -82,7 +82,13 @@ module ApplicationHelper
        href: app_invitations_path(app.key),
        label: I18n.t("settings.team.invitations"),
        active: controller.controller_name == "invitations"
-     }]
+     },
+     {
+        href: app_team_groups_path(app.key),
+        label: "Teams",
+        active: controller.controller_name == "team_groups"
+      }
+    ]
   end
 
   def settings_menu_data(app:)

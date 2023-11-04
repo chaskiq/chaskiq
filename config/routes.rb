@@ -225,6 +225,15 @@ Rails.application.routes.draw do
         get :invitations 
       end
     end
+
+    resources :team_groups, controller: "apps/team_groups" do
+      member do 
+        get :participants
+        post :participants
+        delete :participants
+      end
+    end
+    
     resources :integrations, controller: 'apps/integrations'
   end
 

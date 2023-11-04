@@ -1,0 +1,55 @@
+
+<h3 class="text-xl leading-6 font-semibold text-gray-900 dark:text-gray-100">
+  Add new agent
+</h3>
+
+
+<% if @agent_team.errors.present? %>
+  <%= @agent_team.errors.full_messages.join %>
+<% end %>
+
+<%= form_for @agent_team, url: participants_app_team_group_path(@app.key, @team.id) do |f| %>
+
+    <div class="flex items-center justify-between space-x-3">
+      <div class="flex-grow">
+        <%= f.select :role, options_for_select(@app.roles.map{|o| [o.agent.display_name, o.id]}, f.object.role_id), {}, {
+          data: {
+              'select-target': 'select', 
+              options: @app.roles.map{|o| {label: o.agent.display_name, value: o.id} }.to_json 
+              },
+              label: false
+            } 
+        %>
+      </div>
+
+      <%= f.submit("Add", class: "inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2") do %>
+        <div class="flex items-center justify-between">
+          <%= heroicon("plus") %>
+          <span>Add</span>
+        </div>
+      <% end %>
+    </div>
+<% end %>
+
+
+<div class="border-b border-gray-200">
+  <ul role="list" id="agent-role-list" 
+    class="divide-y divide-gray-200 dark:divide-gray-600">
+
+    <% @team.roles.each  do |role| %>
+      <li class="flex py-4">
+        <%= image_tag role.agent.avatar_url, class: "h-10 w-10 rounded-full"  %>
+        <div class="flex justify-between w-full items-center">
+          <div class="ml-3 flex flex-col">
+            <span class="text-sm font-medium text-gray-900"><%= role.agent.display_name %></span>
+            <span class="text-sm text-gray-500"><%= role.agent.display_name %></span>
+          </div>
+          <%= link_to "Remove",
+             participants_app_team_group_path(@app.key, @team, role: role.id), 
+             class: "btn btn-danger xs",
+             data: {turbo_frame: "modal", turbo_method: :delete} %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

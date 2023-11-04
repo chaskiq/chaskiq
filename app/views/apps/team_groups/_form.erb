@@ -1,0 +1,20 @@
+<% url = @team.new_record? ? app_team_groups_path(@app.key) : app_team_group_path(@app.key, @team) %>
+
+<%= form_for @team, url: url  do |f| %>
+
+  <%= f.text_field :name %>
+
+  <%= f.text_area :description %>
+
+  <%= f.select :role, options_for_select( PermissionsService.list.keys ), {}, {
+    data: {
+      'select-target': 'select', 
+      options: PermissionsService.list.keys.map{|o| {label: o, value: o} }.to_json 
+    },
+    label: false
+  } 
+  %>
+
+  <%= f.submit(class: "btn btn-success md") %>
+
+<% end %>
