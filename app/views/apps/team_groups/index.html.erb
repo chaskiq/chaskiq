@@ -1,7 +1,7 @@
 <%= render Content::Component.new do %>
 
 	<%= render PageHeader::Component.new(title: I18n.t('settings.team.title')) do %>
-		<%= link_to( t('settings.team.add_new'), 
+		<%= link_to( t('settings.agent_teams.add_team'),
 			new_app_team_group_path(@app.key), 
 			data: {
 			'turbo-frame': 'modal'

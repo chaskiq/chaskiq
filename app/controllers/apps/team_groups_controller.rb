@@ -1,5 +1,4 @@
 class Apps::TeamGroupsController < ApplicationController
-
   before_action :find_app
   before_action :set_settings_navigator
 
@@ -68,5 +67,4 @@ class Apps::TeamGroupsController < ApplicationController
   def resource_params
     params.require(:team).permit(:name, :description, :role)
   end
-
 end

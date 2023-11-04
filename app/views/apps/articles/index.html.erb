@@ -3,6 +3,11 @@
 	<%= turbo_frame_tag 'app-settings' do %>
 
 		<%= render PageHeader::Component.new(title: I18n.t('articles.title') ) do %>
+			<%= link_to t('articles.new'), 
+				new_app_article_path(@app.key ), 
+				class: "btn btn-flat-dark sm",
+				data: {turbo_frame: "modal"}
+			%>
 		<% end %>
 
 		<%= render Tabs::Component.new(	items: articles_menu_data(app: @app) ) do %>

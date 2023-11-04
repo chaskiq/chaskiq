@@ -76,19 +76,21 @@ module ApplicationHelper
     [{
       href: app_team_index_path(app.key),
       label: I18n.t("settings.team.title"),
+      turbo_frame: "_top",
       active: controller.controller_name == "team"
     },
      {
        href: app_invitations_path(app.key),
        label: I18n.t("settings.team.invitations"),
+       turbo_frame: "_top",
        active: controller.controller_name == "invitations"
      },
      {
-        href: app_team_groups_path(app.key),
-        label: "Teams",
-        active: controller.controller_name == "team_groups"
-      }
-    ]
+       href: app_team_groups_path(app.key),
+       label: "Teams",
+       turbo_frame: "_top",
+       active: controller.controller_name == "team_groups"
+     }]
   end
 
   def settings_menu_data(app:)

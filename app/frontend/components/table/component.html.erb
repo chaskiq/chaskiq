@@ -59,10 +59,13 @@
 	<% if @paginate.present? %>
 		<div class="px-4 py-3 flex items-center justify-between sm:px-6--">
 			<div class="flex-1 flex justify-between items-center">
-				<%= @paginate %>
-				<button class="transition duration-150 ease-in-out  css-1n1bu9a" disabled="">Prev</button>
-				<p class="text-sm leading-5 text-gray-700 dark:text-gray-50">Showing<span class="font-medium ml-1 mr-1">1</span>to<span class="font-medium ml-1 mr-1">2</span>of<span class="font-medium ml-1 mr-1">29</span>results</p>
-				<button class="transition duration-150 ease-in-out  css-1n1bu9a">Next</button>
+				<%= link_to_prev_page @paginate, 'Prev', class: "btn btn-outlined" %>
+
+				<p class="text-sm leading-5 text-gray-700 dark:text-gray-50">
+					Showing<span class="font-medium ml-1 mr-1"><%= @paginate.size %></span>of<span class="font-medium ml-1 mr-1"><%= results.total_count %>
+				</p>
+
+				<%= link_to_next_page @paginate, 'Next' , class: "btn btn-outlined" %>
 			</div>
 		</div>
 	<% end %>

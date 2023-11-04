@@ -1,0 +1,13 @@
+  <%= form_for @article, url: app_articles_path(@app.key) do |f| %>
+      <%= f.text_field :title %>
+      <%= f.text_area :description %>
+      <%= f.select :author_id, options_for_select(@app.agents.map{|o| [o.display_name, o.id]}, f.object.author_id), {}, {
+        data: {
+          'select-target': 'select', 
+          options: @app.agents.map{|o| {label: o.display_name, value: o.id} }.to_json 
+        }
+      } 
+      %>
+
+      <%= f.submit(class: "btn btn-success sm") %>
+  <% end %>

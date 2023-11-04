@@ -46,7 +46,7 @@ class SegmentManagerService
     @segment.assign_attributes(predicates: predicates.as_json)
 
     @segment.execute_query.page(params[:page] || 1)
-            .per(params[:per] || 20)
+            .per(params[:per] || 15)
   end
 end
 
