@@ -1,9 +1,10 @@
 <% m = local_assigns[:message] || c.latest_message %>
 
-<div class="cache-emo-23jgg8" id="<%= "conversation-row-#{c.key}" %>">
-  <%= link_to messenger_conversation_path(app.key, c.key), 
-  data: {action: "click->messenger#animateOnClick"},
-  class: "cache-emo-gju6b1" do %>
+<%= link_to messenger_conversation_path(app.key, c.key), 
+  class: "cache-emo-23jgg8 block",
+  data: {action: "click->messenger#animateOnClick"} do %>
+
+  <div class="cache-emo-gju6b1">
     <div class="cache-emo-1pycdun pointer-events-none">
       <%= image_tag m.authorable.avatar_url %>
     </div>
@@ -22,14 +23,13 @@
       </div>
       <div class="cache-emo-4pfvla">
         <% if m.message.is_a?(ConversationPartContent)%>
-          <% #= m.id %>
           <% if m.message&.serialized_content.nil? %>
-            <%= sanitize_plain m.message.html_content %>
+            <%= sanitize_plain( m.message.html_content, tags: %w["b em"]) %>
           <% else %>
-            <%= sanitize_plain(m.message.html_from_serialized) %>
+            <%= sanitize_plain(m.message.html_from_serialized, tags: %w["b em"]) %>
           <% end %>
         <% end %>
       </div>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

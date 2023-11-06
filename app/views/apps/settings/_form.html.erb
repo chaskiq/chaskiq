@@ -7,7 +7,8 @@
 		</div>
 
 		<div class="sm:col-span-2">
-			<%= f.uploader_field :logo, display: 'image' %>
+			<%= image_tag f.object.logo.variant(resize_to_limit: [100, 100]).processed if f.object.logo.present? %>
+			<%= f.file_field :logo, direct_upload: true %>
 		</div>
 
 		<div class="sm:col-span-3">

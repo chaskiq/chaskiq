@@ -3,9 +3,10 @@ in: "in",
 class: "cache-emo-smxb2e" do %>
 
   <% if user.new_messages.value %>
-    <div class="cache-emo-sfyuaf"
-      data-messenger-target="animated"
-      data-in="fade-in-right" 
+    <div class="cache-emo-sfyuaf" 
+      data-messenger-target="animated" 
+      data-in="fade-in-right"
+      data-content="<%= user.new_messages.value %>" 
       data-out="fade-out-right">
       <%= user.new_messages.value %>
     </div>

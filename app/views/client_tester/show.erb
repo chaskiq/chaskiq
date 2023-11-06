@@ -19,6 +19,8 @@
 <% content_for :body do %>
   <%= render "store" %>
 
+
+  <!-- old messenger 
   <script>
     (function(d,t) {
       var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
@@ -35,6 +37,28 @@
       }
     })(document,"script");
   </script>
+  <!-->
+
+
+    <script>
+    (function(d,t) {
+      var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=`${"<%= Chaskiq::Config.get("HOST") %>"}/new_embed.js`
+      s.parentNode.insertBefore(g,s);
+      g.onload=function(){
+        window.chaskiqMessenger = new window.ChaskiqMessengerEncrypted({
+          domain: "<%= Chaskiq::Config.get("HOST") %>",
+          ws:  '<%= Rails.application.config.action_cable.url %>',
+          data: <%= raw @encrypted_data %>,
+          lang: "<%= @lang %>",
+          app_id: "<%= @app.key %>"
+        })
+      }
+    })(document,"script");
+
+    </script>
+
+
 
   <script>
 

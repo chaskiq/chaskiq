@@ -494,7 +494,7 @@ module ApplicationHelper
     end
   end
 
-  def sanitize_plain(content)
-    sanitize(content, tags: %w[strong em a], attributes: %w[href])
+  def sanitize_plain(content, tags: %w[strong em a] )
+    sanitize(content, tags: tags, attributes: %w[href])
   end
 end

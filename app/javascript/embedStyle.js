@@ -11,7 +11,16 @@ export const embedCss = `
   }
 }
 
+.cache-emo-xlbvmj[data-content="0"] {
+    display: none;
+  }
 
+
+.prime-toggle {
+    width: 33px;
+    height: 33px;
+    margin: 10px;
+}
 .prime-container {
     transition: transform 0.2s ease-in-out;
   }
@@ -67,6 +76,8 @@ export const embedCss = `
   }
 }
 
+
+
 .cache-emo-xlbvmj {
     position: absolute;
     height: 1.5rem;
@@ -100,7 +111,21 @@ export const embedCss = `
     float: right;
     margin: 16px 8px;
     animation: 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both running animation-yi2a6m;
+
+    transition: transform 0.2s ease-out; /* Smooth transition for the transform property */
+    user-select: none; /* Prevent text selection */
+  
 }
+
+.cache-emo-1ttjy62:active {
+    transform: scale(0.95); /* Shrink the button to 95% of its size when active/pressed */
+}
+  
+.cache-emo-1ttjy62:not(:active) {
+transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Apply the bounce effect on release */
+}
+
+
 
 #prime-wrapper {
     z-index: 10000;

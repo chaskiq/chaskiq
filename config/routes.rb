@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   post '/graphql', to: 'graphql#execute'
   post '/api/graphql', to: 'api/graphql#execute'
   get :widget, to: 'widgets#show', path: '/embed'
+  get :widget, to: 'widgets#new_embed', path: '/new_embed'
 
   resource :playground, controller: "playground"
 

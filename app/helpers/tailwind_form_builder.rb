@@ -111,7 +111,7 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
         @template.image_tag("logo.png", width: "100px", hight: "100px", "data-upload-preview-target": "output") +
           @template.tag.div(class: "") do
             @template.label_tag(method, nil, class: "block text-gray-700 dark:text-white text-sm font-bold mb-2") +
-              @template.file_field_tag(method,
+              @template.file_field_tag("#{@object_name}[#{method}]",
                                        "data-action": "upload-preview#readURL",
                                        "data-upload-preview-target": "input",
                                        class: "form-control-file photo_upload cursor-pointer absolute block py-2 px-4 w-full opacity-0 pin-r pin-t")

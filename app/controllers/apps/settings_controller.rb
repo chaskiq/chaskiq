@@ -15,6 +15,7 @@ class Apps::SettingsController < ApplicationController
     request_params = params.require(:app).permit(
       :domain_url,
       :name,
+      :logo,
       :domain_url,
       :outgoing_email_domain,
       :tagline,

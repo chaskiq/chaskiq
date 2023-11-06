@@ -105,12 +105,14 @@
 
 
 
+/* CHASKIQ MESSENGER STYLES; WE SHOULD SEPARATE THIS IN ITS OWN FILE AND RENAME SOME CLASSES */
+
 #chaskiq-messenger header::before {
     content: "";
     inset: 0px;
     position: absolute;
     opacity: 0.38;
-    background-image: url(https://www.toptal.com/designers/subtlepatterns/patterns/dot-grid.png);
+    background-image: var(--background);
     background-size: 610px 610px, cover;
     pointer-events: none;
 }
@@ -139,6 +141,11 @@
     }
 
   }
+}
+
+
+.cache-emo-sfyuaf[data-content="0"] {
+  display: none;
 }
 
   .cache-emo-4n3175 {
