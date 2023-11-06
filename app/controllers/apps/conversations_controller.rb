@@ -33,7 +33,7 @@ class Apps::ConversationsController < ApplicationController
     @filter = params.dig(:conversation_search_service, :filter).presence || "opened"
     @sort = params.dig(:conversation_search_service, :sort).presence || "newest"
 
-    @conversations = search_service.search.page(params[:page]).per(10)
+    @conversations = search_service.search
 
     render turbo_stream: [
 
@@ -227,6 +227,7 @@ class Apps::ConversationsController < ApplicationController
   end
 
   def search_service
+
     session[:search_params] ||= {}
     session[:search_params] = session[:search_params].merge(search_params)
 
@@ -237,8 +238,8 @@ class Apps::ConversationsController < ApplicationController
       options: {
         app: @app,
         per: 10,
-        page: session[:search_params]["page"],
-        term: session[:search_params]["term"],
+        page: params["page"],
+        term: params["term"],
         sort: session[:search_params]["sort"],
         tag: session[:search_params]["tag"],
         agent_id: session[:search_params]["agent_id"],

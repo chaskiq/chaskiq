@@ -6,15 +6,13 @@
 				<%= form_for pkg, 
 					url: content_app_package_path(@app.key, pkg.app_package.name), method: :post do |f| %>
 					<%= hidden_field_tag "ctx[location]", "fixed_sidebar"  %>
-					<%= f.submit pkg.app_package.name, class: "text-gray-700 dark:text-white
-					rounded-md flex 
-					justify-center 
-					cursor-pointer bg-gray-50 dark:bg-black
-					hover:bg-gray-100 dark:hover:bg-gray-800 
-					h-10 w-full 
-					items-center 
-					text-2xl font-semibold 
-					my-5 overflow-hidden" %>
+					<%= f.submit pkg.app_package.name.first, 
+						data: {
+          		"controller"=> "tippy", 
+							"content": pkg.app_package.name, 
+							"placement": 'left', 
+        		}, 
+						class: "cursor-pointer bg-white dark:bg-gray-900 dark:text-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden" %>
 				<% end %>
 			</li>
 		<% end %>

@@ -1,21 +1,21 @@
 <%= turbo_stream.update(@identifier) do %>
 
-  <!--
-  <div class="p-6">
-    <div class="flex items-start justify-between">
-      <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 bg:text-gray-100">
-      Integration packages
-      </h3>
-      <div class="ml-3 flex h-7 items-center">
-        <%= link_to capabilities_app_packages_path( @app.key,  kind: "fixed_sidebar"), 
-          class: "rounded-md bg-white text-gray-400 hover:text-gray-500 dark:bg-black dark:text-gray-100 dark:hover:text-gray-300 focus:ring-2 focus:ring-indigo-500" do %>
-          <span class="sr-only">Close panel</span>
-          <%= heroicon("x-mark") %>
-        <% end %>
+  <% if @identifier == "fixed-app-packages" %>
+    <div class="p-6">
+      <div class="flex items-start justify-between">
+        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 bg:text-gray-100">
+        Integration packages
+        </h3>
+        <div class="ml-3 flex h-7 items-center">
+          <%= link_to capabilities_app_packages_path( @app.key,  kind: "fixed_sidebar"), 
+            class: "rounded-md bg-white text-gray-400 hover:text-gray-500 dark:bg-black dark:text-gray-100 dark:hover:text-gray-300 focus:ring-2 focus:ring-indigo-500" do %>
+            <span class="sr-only">Close panel</span>
+            <%= heroicon("x-mark") %>
+          <% end %>
+        </div>
       </div>
     </div>
-  </div>
-  -->
+  <% end %>  
 
   <%= render DefinitionRenderer::Component.new(
       schema: @blocks["definitions"], 
