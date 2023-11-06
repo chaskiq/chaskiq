@@ -3,7 +3,7 @@
 class WidgetsController < ApplicationController
   include ActionView::Helpers::AssetUrlHelper
 
-  protect_from_forgery except: [:show, :new_embed]
+  protect_from_forgery except: %i[show new_embed]
 
   def show
     respond_to do |format|

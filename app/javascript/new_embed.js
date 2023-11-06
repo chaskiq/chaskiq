@@ -46,7 +46,7 @@ const primeClosedHTML = `
     <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
   </svg>
 </div>
-`
+`;
 
 window.Chaskiq = window.Chaskiq || {
   bannerFrame: function (url) {
@@ -120,14 +120,14 @@ window.Chaskiq = window.Chaskiq || {
   toggle: function (e) {
     const wrapper = document.querySelector('#frame-wrapper');
 
-    console.log('INIT: TOGGLE', wrapper.dataset.open );
+    console.log('INIT: TOGGLE', wrapper.dataset.open);
 
     if (wrapper && wrapper.dataset.open === 'true') {
       this.close(wrapper);
     } else {
       this.open(wrapper);
     }
-    console.log('END: TOGGLE', wrapper.dataset.open );
+    console.log('END: TOGGLE', wrapper.dataset.open);
 
     /*if (!this.state.open && this.props.kind !== 'AppUser') {
       // console.log("idleSessionRequired", this.idleSessionRequired())
@@ -150,37 +150,35 @@ window.Chaskiq = window.Chaskiq || {
   close: function (e) {
     //document.getElementById('chaskiq-prime').innerHTML = primeClosedHTML;
     const wrapper = document.querySelector('#frame-wrapper');
-    console.log('INIT: TOGGLE', wrapper.dataset.open );
+    console.log('INIT: TOGGLE', wrapper.dataset.open);
 
-    if (wrapper && !wrapper.dataset.open === "false") return
+    if (wrapper && !wrapper.dataset.open === 'false') return;
     ////const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
     ////wrapper.innerHTML = this.frameTemplate(url);
     wrapper.style.display = 'none';
     wrapper.dataset.open = 'false';
     this.pushEvent('messenger:toggled', false);
 
-
     const container = document.getElementById('primeContainer');
     const svg = container.querySelector('.prime-toggle');
-    svg.setAttribute("viewBox", "0 0 24 24")
+    svg.setAttribute('viewBox', '0 0 24 24');
     container.classList.remove('prime-rotated');
     //svg.setAttribute('onclick', 'togglePrime()');
-      // Update the SVG path for the "opened" state
+    // Update the SVG path for the "opened" state
     svg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" 
       d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
-    />`
+    />`;
   },
   open: function (e) {
     //document.getElementById('chaskiq-prime').innerHTML = primeOpenedHTML;
     const wrapper = document.querySelector('#frame-wrapper');
     console.log('OPEN THIS', wrapper.dataset.open);
 
-    if (wrapper && wrapper.dataset.open === "true") return
+    if (wrapper && wrapper.dataset.open === 'true') return;
 
     wrapper.style.display = '';
     wrapper.dataset.open = 'true';
     this.pushEvent('messenger:toggled', true);
-
 
     // Toggle the class for rotation animation
     const container = document.getElementById('primeContainer');
@@ -189,7 +187,8 @@ window.Chaskiq = window.Chaskiq || {
     svg.setAttribute('viewBox', '0 0 24 24');
     //svg.setAttribute('onclick', 'Chaskiq.toggle()');
     // Update the SVG path for the "closed" state
-    svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />'
+    svg.innerHTML =
+      '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />';
   },
   setup: async function (cb) {
     const url = `${this.options.domain}/messenger/${this.options.app_id}/auth`;
@@ -597,7 +596,7 @@ window.Chaskiq = window.Chaskiq || {
           this.loadUserTour(event.data.data);
           break;
         case 'chaskiq:messenger_close':
-           this.close();
+          this.close();
           break;
         default:
           if (event.data.tourManagerEnabled) {
@@ -747,8 +746,7 @@ window.Chaskiq = window.Chaskiq || {
   },
 
   updateCounters: function (count) {
-
-    const status = document.querySelector('.prime-status')
+    const status = document.querySelector('.prime-status');
     status.innerHTML = count;
     status.setAttribute('data-content', count);
   },
