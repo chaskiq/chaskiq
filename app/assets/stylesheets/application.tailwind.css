@@ -43,8 +43,9 @@
 
 
   .navigator-item {
-    @apply text-brand hover:text-brand bg-gray-200 dark:bg-gray-900 
-        hover:text-gray-600 
+    @apply text-brand 
+        hover:text-brand 
+        bg-gray-200 
         hover:bg-gray-100
         dark:bg-gray-900
         dark:hover:bg-gray-900
@@ -63,6 +64,10 @@
         font-medium 
         text-gray-900 
         rounded-md transition ease-in-out duration-150;
+  }
+
+  a > input[type="radio"]:checked + .navigator-item  {
+    @apply bg-gray-500 text-white;
   }
 
   .input, input[type=datetime-local] {
@@ -896,10 +901,12 @@
 }
 
 .dda{
-  bottom: 457px;
-  height: 30px;
-  left: -264px;
-  position: absolute;
+    bottom: 35px;
+    height: 279px;
+    left: -264px;
+    position: absolute;
+    width: 299px;
+    background: white;
 }
 
 

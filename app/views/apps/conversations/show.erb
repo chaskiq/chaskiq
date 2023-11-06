@@ -58,11 +58,11 @@
 								<div id="info"></div>
 							</div>
 							<div class="justify-end hidden">
-									<button class="expand-viewer">
-										<svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" title="Fullscreen" class="css-13s0wde">
-												<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
-										</svg>
-									</button>
+								<button class="expand-viewer">
+									<svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" title="Fullscreen" class="css-13s0wde">
+											<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
+									</svg>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -71,7 +71,8 @@
 
 			<div
 				id="conversation-overflow"
-				class="overflow-y-scroll" style="height: calc(100vh - 220px);">
+				class="overflow-y-scroll" 
+				style="height: calc(100vh - 199px);">
 					<%= turbo_frame_tag 'conversation-messages', 
 						src: app_conversation_conversation_messages_path(
 							@app.key, 
@@ -81,7 +82,7 @@
 					<% end %>
 			</div>
 
-			<div class="bg-gray-100 m-2 rounded-sm shadow-md">
+			<div class="bg-gray-100 mb-2 mx-2 rounded-sm shadow-md">
 				<%= render 'editor' %>
 			</div>
 

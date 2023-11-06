@@ -416,6 +416,19 @@ export default class extends Controller {
     }
   }
 
+  async goToAppPackageFrame(data, cb) {
+    const url = data.url;
+    const urlWithToken = `${url}&messengerFrame=true`;
+    const response = await get(urlWithToken, {
+      responseKind: 'turbo-stream',
+    });
+
+    if (response.ok) {
+      cb && cb(response);
+      console.log('Navigated to: ', url);
+    }
+  }
+
   async goTo(url, cb) {
     const response = await get(url, {
       responseKind: 'turbo-stream',

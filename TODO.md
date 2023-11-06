@@ -4,8 +4,6 @@ TODO.md
   + rendering plain version
   + open video conversation
 
-+ create article
-
 
 inbound settings
   + not updating predicates
@@ -51,5 +49,3 @@ inbound settings
 
 
 improvements UI
-
-select label false not working

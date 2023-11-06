@@ -6,7 +6,7 @@ class Apps::ConversationMessagesController < ApplicationController
     @messages = @conversation.messages
                              .order("id desc")
                              .page(params[:page])
-                             .per(2)
+                             .per(6)
 
     Rails.logger.debug { "PAGES #{params[:page]} #{@messages.map(&:id)}" }
 

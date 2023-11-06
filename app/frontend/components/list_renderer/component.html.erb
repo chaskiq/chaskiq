@@ -1,8 +1,14 @@
-<div class="list list-wrapper">
+<div class="list list-wrapper divide-x-2">
 	<% @field.each do |item| %>
-    <div class="list-item" pointer={onClick} divider={true}>
-      <div class="list-item-b"
-			 data-action--nono="click->definitions-renderer#dispatchAction">
+    <div class="list-item cursor-pointer" 
+			<% if item["action"] %>
+				data-action="<%= action_method(item["action"]) %>"
+				data-field-json="<%= item.to_json %>"
+			<% end %>
+			>
+      <div 
+				class="list-item-b"
+			 	data-action--nono="click->definitions-renderer#dispatchAction">
         <div class="content">
           <div class="avatar-content">
             <!--{avatar && avatar}-->
@@ -40,28 +46,6 @@
 						</div>
 
           </div>
-
-          <% if item["action"] %>
-						<%= render ButtonRenderer::Component.new(
-							id: item["id"],
-							label: item["label"],
-							action: {"type"=>'submit'}
-							) do %>
-							<div>
-								<svg
-									class="action-svg"
-									fill="currentColor"
-									viewBox="0 0 20 20">
-									<path
-										fillRule="evenodd"
-										d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-										clipRule="evenodd"
-									>
-									</path>
-								</svg>
-							</div>
-						<% end %>
-          <% end %>
         </div>
       </div>
     </div>

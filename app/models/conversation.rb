@@ -30,6 +30,14 @@ class Conversation < ApplicationRecord
   before_create :add_default_assigne
   after_create :convert_visitor_to_lead, if: :visitor_participant?
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[admins app_id assignee_id blocked blocked_reason closed_at created_at first_agent_reply id id_value key latest_admin_visible_comment_at latest_update_at latest_user_visible_comment_at main_participant_id parts_count priority read_at reply_count state subject updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[app assignee audits base_tags conversation_channels conversation_part_channel_sources events latest_message main_participant message_blocks messages public_latest_message tag_taggings taggings tags]
+  end
+
   after_create :add_created_event
 
   attr_accessor :initiator
@@ -275,16 +283,16 @@ class Conversation < ApplicationRecord
   end
 
   def notify_conversation_list
-    broadcast_append_later_to app,
-                              :conversations,
-                              # action: "prepend",
-                              target: "conversation-list-#{app.key}",
-                              partial: "apps/conversations/conversation",
-                              locals: {
-                                app: app,
-                                conversation: self
-                                # conversation: {a: 1}
-                              }
+    broadcast_prepend_to app,
+                         :conversations,
+                         # action: "prepend",
+                         target: "conversation-list-#{app.key}",
+                         partial: "apps/conversations/conversation",
+                         locals: {
+                           app: app,
+                           conversation: self
+                           # conversation: {a: 1}
+                         }
 
     # broadcast_replace_later_to app,
     #  :conversations ,

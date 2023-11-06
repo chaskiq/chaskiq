@@ -51,11 +51,11 @@
       <input 
         class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" 
         placeholder="<%= t('conversations.menu.search') %>"
-        value=""
+        value="<%= @search_service.term %>"
         data-controller="attribute-clone"
-      data-clone-to="#conversation_search_service_term"
-      data-value=""
-      data-action="input->attribute-clone#cloneTo"
+        data-clone-to="#conversation_search_service_term"
+        data-value=""
+        data-action="keydown.enter->attribute-clone#cloneTo"
       >
   </div>
 

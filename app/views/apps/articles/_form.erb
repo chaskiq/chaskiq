@@ -21,8 +21,8 @@
 																		<% if @article.collection.present? %>
 																			<span>
 																			in 
-																			<%= link_to app_agent_path(@article.author), 
-																				class: "font-medium text-gray-900 dark:text-gray-100" do %>
+																			<%= link_to app_articles_collection_path(@app.key, @article.collection.id), 
+																				class: "font-medium text-gray-900 dark:text-gray-100", data: {turbo_frame: "_top"} do %>
 																					<%= @article.collection.title %>
 																			<% end %>
 																			</span>
@@ -133,7 +133,8 @@
 																<%= render Tabs::Component.new(	items: article_menu_data ) do %>
 
 																	<div class="relative z-0 p-6 shadow rounded border bg-yellow-50 dark:border-pink-800 dark:bg-gray-800 border-yellow-100 mb-4 my-4">
-																		<div data-controller="dante-editor" 
+																		<div data-controller="dante-editor"
+																			data-editor-options="<%= {menuBarFixed: true}.to_json %>"
 																			data-content="<%= @article.serialized_content.to_json %>">
 																			<div data-dante-editor-target="container"></div>
 

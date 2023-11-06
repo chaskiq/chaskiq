@@ -31,6 +31,14 @@ class ConversationPart < ApplicationRecord
 
   delegate :broadcast_key, to: :conversation
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[app_user_id authorable_id authorable_type boolean conversation_id created_at email_message_id id id_value key message message_id messageable_id messageable_type private_note read_at source step_id string trigger_id updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[authorable conversation conversation_part_channel_sources message_block message_content message_event message_source messageable]
+  end
+
   def touch_conversation
     return if @touching_read
 

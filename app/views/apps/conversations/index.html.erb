@@ -12,8 +12,6 @@
       <div data-controller="infinite-scroll" 
          class="<%= params[:id] ? 'hidden' : '' %> w-full min-w-[367px] md:w-4/12 h-screen md:border-r sm:block border-gray-200 dark:border-gray-900">
          
-         <%= turbo_stream_from @app, :conversations %>
-
          <%= render "apps/conversations/search_filters", 
             sort: @sort, 
             filter: @filter 
@@ -32,6 +30,7 @@
                <%= f.text_field :agent_id, "data-action": "change->search-conversations#handleChange" %>
                <%= f.text_field :filter, "data-action": "change->search-conversations#handleChange" %>
                <%= f.text_field :sort, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.text_field :channel_id, "data-action": "change->search-conversations#handleChange" %>
                <%= f.submit %>
             <% end %>
          </div>

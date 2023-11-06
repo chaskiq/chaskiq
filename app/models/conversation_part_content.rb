@@ -10,6 +10,10 @@ class ConversationPartContent < ApplicationRecord
                  "conversation_part_id")
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[conversation_part_id created_at html_content id id_value serialized_content text_content updated_at]
+  end
+
   def parsed_content
     JSON.parse(serialized_content)
   end

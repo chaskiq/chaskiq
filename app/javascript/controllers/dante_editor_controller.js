@@ -44,7 +44,7 @@ export default class extends Controller {
 
     root.render(
       <EditorComponent
-        upload={this.upload}
+        upload={this.uploadHandler}
         ctx={this}
         initialValue={serializedContent ? JSON.parse(serializedContent) : null}
         callback={this.updateContent}
@@ -52,6 +52,21 @@ export default class extends Controller {
         theme={theme}
       ></EditorComponent>
     );
+  }
+
+  //function uploadHandler({ serviceUrl, _signedBlobId, imageBlock }) {
+  //  imageBlock.uploadCompleted(serviceUrl);
+  //}
+
+  uploadHandler(file, imageBlock) {
+    const url = '/api/v1/direct_uploads';
+    const upload = new DirectUpload(file, url);
+    upload.create((error, blob) => {
+      if (error) {
+      } else {
+        imageBlock(blob);
+      }
+    });
   }
 
   updateContent(a, ctx) {

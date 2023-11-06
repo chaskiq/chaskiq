@@ -53,6 +53,11 @@
       <%= render "shared/flash" %>
 
       <% if @app.present? && @app.persisted? %>
+
+        <div data-turbo-permanent id="app-stream">
+          <%= turbo_stream_from @app, :conversations %>
+        </div>
+
         <% #= turbo_frame_tag "content" , data: {'history-target': 'contentframe'} do %>
           <div class="h-screen flex overflow-hidden bg-white dark:bg-gray-900 dark:text-white">
             <%= render "shared/nav" %>

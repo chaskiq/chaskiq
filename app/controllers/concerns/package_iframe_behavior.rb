@@ -6,14 +6,18 @@ module PackageIframeBehavior
   def package_iframe
     if params[:token]
       data = CHASKIQ_FRAME_VERIFIER.verify(params[:token])
+
+      @app = App.find_by(key: data[:app_id])
+
       # in case an user_token is provided
       if params[:user_token].present?
         data.merge!({
                       current_user: CHASKIQ_FRAME_VERIFIER.verify(params[:user_token])
                     })
+      elsif !data[:current_user] && session[:messenger_session_id]
+        app_user = @app.app_users.find_by(session_id: session[:messenger_session_id])
+        data[:user] = app_user
       end
-
-      @app = App.find_by(key: data[:app_id])
 
       pkg = AppPackageIntegration.find(data[:package_id])
       html = pkg.presenter.sheet_view(data)
@@ -62,6 +66,13 @@ module PackageIframeBehavior
           params[:frame],
           inline: html.html_safe
         )
+      ] and return
+    end
+
+    if params[:messengerFrame]
+      render turbo_stream: [
+        turbo_stream.update("bbbb", inline: html.html_safe),
+        turbo_stream.replace("header-content", partial: "messenger/base_header", locals: { app: @app })
       ] and return
     end
 

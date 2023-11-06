@@ -189,6 +189,17 @@ export default class extends Controller {
     }
   }
 
+  uploadHandler(file, imageBlock) {
+    const url = '/api/v1/direct_uploads';
+    const upload = new DirectUpload(file, url);
+    upload.create((error, blob) => {
+      if (error) {
+      } else {
+        imageBlock(blob);
+      }
+    });
+  }
+
   initialize() {
     this.actionPath = this.element.dataset.editorActionPath;
     this.messageMode = 'public';
@@ -201,6 +212,7 @@ export default class extends Controller {
         //upload={this.upload}
         //ctx={this}
         //initialValue={null}
+        upload={this.uploadHandler}
         handleAppFunc={this.handleAppFunc.bind(this)}
         handleBotFunc={this.handleBotFunc.bind(this)}
         handleQuickRepliesFunc={this.handleQuickRepliesFunc.bind(this)}
@@ -377,8 +389,8 @@ const QuickRepliesBlockConfig = (options: {}) => {
 function EditorComponent({
   callback,
   ctx,
-  upload,
   initialValue,
+  upload,
   handleReturn,
   handleAppFunc,
   handleBotFunc,

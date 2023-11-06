@@ -75,10 +75,28 @@ export default class Controller extends BaseController {
     }
   }
 
+  get chatMessengerController() {
+    return this.application.getControllerForElementAndIdentifier(
+      document.querySelector('[data-controller=messenger]'),
+      'messenger'
+    );
+  }
+
   visitLink(e) {
     e.preventDefault()
     const url = e.currentTarget.dataset.actionUrl
     window.location = url
+  }
+
+  visitFrame(e) {
+    e.preventDefault()
+    const json = JSON.parse(e.currentTarget.dataset.fieldJson)
+    console.log("VISIT FRAME", json)
+
+    if(this.chatMessengerController){
+      console.log("MESSENGER CONTRIKER", this.chatMessengerController) 
+      this.chatMessengerController.goToAppPackageFrame(json.action)
+    }
   }
 
   configurePath() {

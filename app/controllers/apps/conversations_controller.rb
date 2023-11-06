@@ -6,10 +6,8 @@ class Apps::ConversationsController < ApplicationController
     @filter = "opened"
     @sort = "newest"
     @conversations = search_service.search
-                                   .includes(:main_participant)
-                                   .page(params[:page]).per(10)
 
-    if request.headers["Turbo-Frame"].present?
+    if params[:page].present?
       render turbo_stream: [
         turbo_stream.append(
           "conversation-list-#{@app.key}",
@@ -35,11 +33,7 @@ class Apps::ConversationsController < ApplicationController
     @filter = params.dig(:conversation_search_service, :filter).presence || "opened"
     @sort = params.dig(:conversation_search_service, :sort).presence || "newest"
 
-    @conversations = search_service.search
-    @conversations = @conversations
-                     .includes(:main_participant)
-                     .order("id desc")
-                     .page(params[:page]).per(10)
+    @conversations = search_service.search.page(params[:page]).per(10)
 
     render turbo_stream: [
 
@@ -75,9 +69,6 @@ class Apps::ConversationsController < ApplicationController
 
     @conversation = @app.conversations.find_by(key: params[:id])
     @conversations = search_service.search
-    @conversations = @conversations
-                     .includes(:main_participant)
-                     .page(params[:page]).per(10)
 
     if request.headers["Turbo-Frame"].present?
       turbo_stream.replace(
@@ -168,6 +159,7 @@ class Apps::ConversationsController < ApplicationController
 
   def edit
     @conversation = @app.conversations.find_by(key: params[:id])
+    render "edit", layout: false
   end
 
   def create
@@ -212,6 +204,8 @@ class Apps::ConversationsController < ApplicationController
     @conversation = @app.conversations.new(
       main_participant_id: @app_user&.id
     )
+
+    render "new", layout: false
   end
 
   private
@@ -233,14 +227,30 @@ class Apps::ConversationsController < ApplicationController
   end
 
   def search_service
+    session[:search_params] ||= {}
+    session[:search_params] = session[:search_params].merge(search_params)
+
+    Rails.logger.debug session[:search_params]
+
+    # Use the merged parameters from the session
     @search_service ||= ConversationSearchService.new(
       options: {
         app: @app,
-        term: params.dig(:conversation_search_service, :term),
-        sort: params.dig(:conversation_search_service, :sort),
-        tag: params.dig(:conversation_search_service, :tag),
-        agent_id: params.dig(:conversation_search_service, :agent_id)
+        per: 10,
+        page: session[:search_params]["page"],
+        term: session[:search_params]["term"],
+        sort: session[:search_params]["sort"],
+        tag: session[:search_params]["tag"],
+        agent_id: session[:search_params]["agent_id"],
+        channel_id: session[:search_params]["channel_id"]
       }
+    )
+  end
+
+  # Use this method to fetch and sanitize parameters
+  def search_params
+    params.fetch(:conversation_search_service, {}).permit(
+      :page, :term, :sort, :tag, :agent_id, :filter, :channel_id
     )
   end
 end

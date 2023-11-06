@@ -49,6 +49,15 @@ class Apps::ArticlesController < ApplicationController
     authorize! @article, to: :can_read_help_center?, with: AppPolicy, context: {
       user: current_agent
     }
+
+    @article.assign_attributes(
+      article_content_attributes: {
+        html_content: nil,
+        serialized_content: nil,
+        text_content: nil
+      }
+    )
+
     if @article.save
       redirect_to app_article_path(@app.key, @article)
     else

@@ -493,4 +493,8 @@ module ApplicationHelper
       name
     end
   end
+
+  def sanitize_plain(content)
+    sanitize(content, tags: %w[strong em a], attributes: %w[href])
+  end
 end

@@ -79,4 +79,12 @@ class Article < ApplicationRecord
   rescue StandardError
     nil
   end
+
+  def html_from_serialized
+    json = serialized_content
+    return if json.blank?
+
+    data = ActiveSupport::HashWithIndifferentAccess.new(json)
+    Dante::Renderer.new(raw: data).render
+  end
 end
