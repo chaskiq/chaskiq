@@ -2,9 +2,8 @@ import { Controller } from '@hotwired/stimulus';
 import moment from 'moment';
 
 export default class extends Controller {
-
   initialize() {
-    this.updateTimeAgo()
+    this.updateTimeAgo();
   }
 
   updateTimeAgo() {

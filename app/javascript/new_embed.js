@@ -49,7 +49,7 @@ const primeOpenedHTML = `
     </path>
 </svg>
 </div>
-`
+`;
 
 /*
 `
@@ -65,8 +65,6 @@ const primeOpenedHTML = `
   `;
 
 */
-
-
 
 const primeClosedHTML = `
   <div style="transition: all 0.2s ease-in-out 0s; transform: rotate(180deg);">
@@ -157,16 +155,17 @@ window.Chaskiq = window.Chaskiq || {
 
     const container = document.getElementById('primeContainer');
     const svg = container.querySelector('.prime-toggle');
-  
+
     // Toggle the class for rotation animation
     container.classList.toggle('prime-rotated');
-  
+
     // Check the state and change the SVG path and other attributes as needed
     if (container.classList.contains('prime-rotated')) {
       svg.setAttribute('viewBox', '0 0 212.982 212.982');
       //svg.setAttribute('onclick', 'Chaskiq.toggle()');
       // Update the SVG path for the "closed" state
-      svg.innerHTML = '<path d="M131.804 106.491l75.936-75.936c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.491 81.18 30.554 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.989 6.99-6.989 18.323 0 25.312l75.937 75.936-75.937 75.937c-6.989 6.99-6.989 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0l75.937-75.937 75.937 75.937c6.989 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.322 0-25.312l-75.936-75.936z" fill="#f3f3f3" fill-rule="evenodd" clip-rule="evenodd"></path>      ';
+      svg.innerHTML =
+        '<path d="M131.804 106.491l75.936-75.936c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.491 81.18 30.554 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.989 6.99-6.989 18.323 0 25.312l75.937 75.936-75.937 75.937c-6.989 6.99-6.989 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0l75.937-75.937 75.937 75.937c6.989 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.322 0-25.312l-75.936-75.936z" fill="#f3f3f3" fill-rule="evenodd" clip-rule="evenodd"></path>      ';
     } else {
       svg.setAttribute('viewBox', '0 0 60 60');
       //svg.setAttribute('onclick', 'togglePrime()');
@@ -194,22 +193,22 @@ window.Chaskiq = window.Chaskiq || {
     document.dispatchEvent(event);
   },
   close: function (e) {
-    console.log("NOT IMPLEMENTED; USE Chaskiq.toggle")
+    console.log('NOT IMPLEMENTED; USE Chaskiq.toggle');
     //document.getElementById('chaskiq-prime').innerHTML = primeClosedHTML;
-    //const wrapper = document.querySelector('#frame-wrapper');
+    const wrapper = document.querySelector('#frame-wrapper');
     ////const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
     ////wrapper.innerHTML = this.frameTemplate(url);
     //wrapper.style.display = 'none';
-    //wrapper.dataset.open = 'false';
-    //this.pushEvent('messenger:toggled', false);
+    wrapper.dataset.open = 'false';
+    this.pushEvent('messenger:toggled', false);
   },
   open: function (e) {
-    console.log("NOT IMPLEMENTED; USE Chaskiq.toggle")
+    console.log('NOT IMPLEMENTED; USE Chaskiq.toggle');
     //document.getElementById('chaskiq-prime').innerHTML = primeOpenedHTML;
-    //const wrapper = document.querySelector('#frame-wrapper');
-    //wrapper.style.display = '';
-    //wrapper.dataset.open = 'true';
-    //this.pushEvent('messenger:toggled', true);
+    const wrapper = document.querySelector('#frame-wrapper');
+    wrapper.style.display = '';
+    wrapper.dataset.open = 'true';
+    this.pushEvent('messenger:toggled', true);
   },
   setup: async function (cb) {
     const url = `${this.options.domain}/messenger/${this.options.app_id}/auth`;

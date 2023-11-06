@@ -64,6 +64,14 @@ export default class Controller extends BaseController {
     }
   }
 
+  openUrl(e){
+    const data = JSON.parse(e.currentTarget.dataset.fieldJson)
+    console.log("URL", data.action.url)
+    const url = data?.action?.url
+    if(!url) return
+    window.open(url, '_blank')
+  }
+
   resolvePath(kind){
      switch (kind) {
       case 'configure':

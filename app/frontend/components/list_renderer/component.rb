@@ -6,10 +6,14 @@ class ListRenderer::Component < ApplicationViewComponent
   def action_method(action)
     return "click->definition-renderer#sendForm" if action.blank?
 
-    case action["type"]
-    when "frame" then "click->definition-renderer#visitFrame"
-    when "submit", "url" then "click->definition-renderer#sendForm"
-    when "link" then "click->definition-renderer#visitLink"
-    end
+    action_map = {
+      "url" => "click->definition-renderer#openUrl",
+      "frame" => "click->definition-renderer#visitFrame",
+      "submit" => "click->definition-renderer#sendForm",
+      "link" => "click->definition-renderer#visitLink"
+    }
+
+    action_map[action["type"]]
+
   end
 end
