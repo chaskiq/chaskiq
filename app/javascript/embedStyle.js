@@ -11,6 +11,15 @@ export const embedCss = `
   }
 }
 
+
+.prime-container {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .prime-rotated {
+    transform: rotate(180deg);
+  }
+
 .css-13u6xjo {
     animation: 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both running animation-33401f;
     z-index: 2147483000;

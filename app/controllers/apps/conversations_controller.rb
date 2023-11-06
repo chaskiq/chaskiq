@@ -227,7 +227,6 @@ class Apps::ConversationsController < ApplicationController
   end
 
   def search_service
-
     session[:search_params] ||= {}
     session[:search_params] = session[:search_params].merge(search_params)
 

@@ -17,8 +17,8 @@
 							<%= conversation.main_participant.display_name %>
 						</span>
 						<span class="text-xs leading-5 font-light text-gray-300 dark:text-gray-300">
-							<time datetime="<%= latest&.updated_at %>">
-								<%= time_ago_in_words conversation&.updated_at %>
+							<time data-controller="moment" datetime="<%= latest&.updated_at.to_i %>">
+								<%= latest&.updated_at %>
 							</time>
 						</span>
 					</div>

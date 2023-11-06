@@ -15,7 +15,7 @@
         <div class="cache-emo-q9wuna">
           <%= m.authorable.display_name %>
         </div>
-        <time datetime="<%= m.updated_at.to_i %>" 
+        <time data-controller="moment" datetime="<%= m.updated_at.to_i %>" 
           style="float: right; color: rgb(89, 89, 89); width: 115px; margin: 0px 10px; font-size: 0.8em; text-transform: unset; text-align: right; font-weight: 500;">
           <%= m.updated_at %>
         </time>
@@ -24,9 +24,9 @@
         <% if m.message.is_a?(ConversationPartContent)%>
           <% #= m.id %>
           <% if m.message&.serialized_content.nil? %>
-            <%= sanitize m.message.html_content %>
+            <%= sanitize_plain m.message.html_content %>
           <% else %>
-            <%= sanitize m.message.html_from_serialized %>
+            <%= sanitize_plain(m.message.html_from_serialized) %>
           <% end %>
         <% end %>
       </div>

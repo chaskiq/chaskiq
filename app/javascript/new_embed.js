@@ -40,6 +40,19 @@ function getIsDocumentHidden() {
 }
 
 const primeOpenedHTML = `
+<div id="primeContainer" class="prime-container">
+<div class="prime-status"></div>
+<svg class="prime-toggle" onclick="Chaskiq.close()" viewBox="0 0 60 60" style="height: 28px; width: 28px;">
+    <path fill="#f3f3f3" d="M10 25.465h13a1 1 0 1 0 0-2H10a1 1 0 1 0 0 2zM36 29.465H10a1 1 0 1 0 0 2h26a1 1 0 1 0 0-2zM36 35.465H10a1 1 0 1 0 0 2h26a1 1 0 1 0 0-2z">
+    </path>
+    <path fill="#f3f3f3" d="M54.072 2.535l-34.142-.07c-3.27 0-5.93 2.66-5.93 5.93v5.124l-8.07.017c-3.27 0-5.93 2.66-5.93 5.93v21.141c0 3.27 2.66 5.929 5.93 5.929H12v10a1 1 0 0 0 1.74.673l9.704-10.675 16.626-.068c3.27 0 5.93-2.66 5.93-5.929v-.113l5.26 5.786a1.002 1.002 0 0 0 1.74-.673v-10h1.07c3.27 0 5.93-2.66 5.93-5.929V8.465a5.937 5.937 0 0 0-5.928-5.93zM44 40.536a3.934 3.934 0 0 1-3.934 3.929l-17.07.07a1 1 0 0 0-.736.327L14 53.949v-8.414a1 1 0 0 0-1-1H5.93A3.934 3.934 0 0 1 2 40.606V19.465a3.935 3.935 0 0 1 3.932-3.93L15 15.516h.002l25.068-.052a3.934 3.934 0 0 1 3.93 3.93v21.142zm14-10.93a3.934 3.934 0 0 1-3.93 3.929H52a1 1 0 0 0-1 1v8.414l-5-5.5V19.395c0-3.27-2.66-5.93-5.932-5.93L16 13.514v-5.12a3.934 3.934 0 0 1 3.928-3.93l34.141.07h.002a3.934 3.934 0 0 1 3.93 3.93v21.142z">
+    </path>
+</svg>
+</div>
+`
+
+/*
+`
   <div style="transition: all 0.2s ease-in-out 0s;">
     <div class="cache-emo-xlbvmj" class="prime-status"></div>
     <svg onclick="Chaskiq.close()" viewBox="0 0 60 60" palette="[object Object]" style="height: 28px; width: 28px; margin: 13px;">
@@ -50,6 +63,10 @@ const primeOpenedHTML = `
     </svg>
   </div>
   `;
+
+*/
+
+
 
 const primeClosedHTML = `
   <div style="transition: all 0.2s ease-in-out 0s; transform: rotate(180deg);">
@@ -138,6 +155,26 @@ window.Chaskiq = window.Chaskiq || {
     }
     console.log('TOGGLE');
 
+    const container = document.getElementById('primeContainer');
+    const svg = container.querySelector('.prime-toggle');
+  
+    // Toggle the class for rotation animation
+    container.classList.toggle('prime-rotated');
+  
+    // Check the state and change the SVG path and other attributes as needed
+    if (container.classList.contains('prime-rotated')) {
+      svg.setAttribute('viewBox', '0 0 212.982 212.982');
+      //svg.setAttribute('onclick', 'Chaskiq.toggle()');
+      // Update the SVG path for the "closed" state
+      svg.innerHTML = '<path d="M131.804 106.491l75.936-75.936c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.491 81.18 30.554 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.989 6.99-6.989 18.323 0 25.312l75.937 75.936-75.937 75.937c-6.989 6.99-6.989 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0l75.937-75.937 75.937 75.937c6.989 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.322 0-25.312l-75.936-75.936z" fill="#f3f3f3" fill-rule="evenodd" clip-rule="evenodd"></path>      ';
+    } else {
+      svg.setAttribute('viewBox', '0 0 60 60');
+      //svg.setAttribute('onclick', 'togglePrime()');
+      // Update the SVG path for the "opened" state
+      svg.innerHTML = `<path fill="#f3f3f3" d="M10 25.465h13a1 1 0 1 0 0-2H10a1 1 0 1 0 0 2zM36 29.465H10a1 1 0 1 0 0 2h26a1 1 0 1 0 0-2zM36 35.465H10a1 1 0 1 0 0 2h26a1 1 0 1 0 0-2z"></path>
+      <path fill="#f3f3f3" d="M54.072 2.535l-34.142-.07c-3.27 0-5.93 2.66-5.93 5.93v5.124l-8.07.017c-3.27 0-5.93 2.66-5.93 5.93v21.141c0 3.27 2.66 5.929 5.93 5.929H12v10a1 1 0 0 0 1.74.673l9.704-10.675 16.626-.068c3.27 0 5.93-2.66 5.93-5.929v-.113l5.26 5.786a1.002 1.002 0 0 0 1.74-.673v-10h1.07c3.27 0 5.93-2.66 5.93-5.929V8.465a5.937 5.937 0 0 0-5.928-5.93zM44 40.536a3.934 3.934 0 0 1-3.934 3.929l-17.07.07a1 1 0 0 0-.736.327L14 53.949v-8.414a1 1 0 0 0-1-1H5.93A3.934 3.934 0 0 1 2 40.606V19.465a3.935 3.935 0 0 1 3.932-3.93L15 15.516h.002l25.068-.052a3.934 3.934 0 0 1 3.93 3.93v21.142zm14-10.93a3.934 3.934 0 0 1-3.93 3.929H52a1 1 0 0 0-1 1v8.414l-5-5.5V19.395c0-3.27-2.66-5.93-5.932-5.93L16 13.514v-5.12a3.934 3.934 0 0 1 3.928-3.93l34.141.07h.002a3.934 3.934 0 0 1 3.93 3.93v21.142z"></path>`;
+    }
+
     /*if (!this.state.open && this.props.kind !== 'AppUser') {
       // console.log("idleSessionRequired", this.idleSessionRequired())
       if (this.idleSessionRequired() && this.isElapsedTimeUp()) {
@@ -157,20 +194,22 @@ window.Chaskiq = window.Chaskiq || {
     document.dispatchEvent(event);
   },
   close: function (e) {
-    document.getElementById('chaskiq-prime').innerHTML = primeClosedHTML;
-    const wrapper = document.querySelector('#frame-wrapper');
-    //const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
-    //wrapper.innerHTML = this.frameTemplate(url);
-    wrapper.style.display = 'none';
-    wrapper.dataset.open = 'false';
-    this.pushEvent('messenger:toggled', false);
+    console.log("NOT IMPLEMENTED; USE Chaskiq.toggle")
+    //document.getElementById('chaskiq-prime').innerHTML = primeClosedHTML;
+    //const wrapper = document.querySelector('#frame-wrapper');
+    ////const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${this.userData.token}`;
+    ////wrapper.innerHTML = this.frameTemplate(url);
+    //wrapper.style.display = 'none';
+    //wrapper.dataset.open = 'false';
+    //this.pushEvent('messenger:toggled', false);
   },
   open: function (e) {
-    document.getElementById('chaskiq-prime').innerHTML = primeOpenedHTML;
-    const wrapper = document.querySelector('#frame-wrapper');
-    wrapper.style.display = '';
-    wrapper.dataset.open = 'true';
-    this.pushEvent('messenger:toggled', true);
+    console.log("NOT IMPLEMENTED; USE Chaskiq.toggle")
+    //document.getElementById('chaskiq-prime').innerHTML = primeOpenedHTML;
+    //const wrapper = document.querySelector('#frame-wrapper');
+    //wrapper.style.display = '';
+    //wrapper.dataset.open = 'true';
+    //this.pushEvent('messenger:toggled', true);
   },
   setup: async function (cb) {
     const url = `${this.options.domain}/messenger/${this.options.app_id}/auth`;
