@@ -14,6 +14,5 @@ class ListRenderer::Component < ApplicationViewComponent
     }
 
     action_map[action["type"]]
-
   end
 end

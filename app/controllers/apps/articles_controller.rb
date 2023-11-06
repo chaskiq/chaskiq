@@ -20,7 +20,7 @@ class Apps::ArticlesController < ApplicationController
   end
 
   def update
-    if params[:toggle]
+    if params[:toggle] && !params["commit"]
       @article.toggle
       flash.now[:notice] = "Article state changed to #{@article.reload.state}"
       render "update" and return
