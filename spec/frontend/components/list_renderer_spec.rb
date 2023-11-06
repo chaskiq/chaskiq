@@ -27,7 +27,7 @@ describe ListRenderer::Component do
 
     expect(page).to have_css("div.list-wrapper")
     expect(page).to have_css("img", count: 1)
-    expect(page).to have_text(title_1)
-    expect(page).to have_text(title_2)
+    expect(page).to have_text(title1)
+    expect(page).to have_text(title2)
   end
 end

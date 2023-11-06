@@ -66,13 +66,27 @@ export const embedCss = `
     }
 }
 
-@keyframes animation-yi2a6m {
-  0% {
-      transform: rotate(-45deg);
-  }
 
-  100% {
-      transform: translateY(-8px);
+
+// 0% {
+//     transform: rotate(-45deg);
+// }
+// 
+// 100% {
+//     transform: translateY(-8px);
+// }
+
+
+@keyframes animation-yi2a6m {
+ 
+  from {
+    transform: scale(0);
+
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
@@ -110,8 +124,7 @@ export const embedCss = `
     background: rgb(81, 5, 146);
     float: right;
     margin: 16px 8px;
-    animation: 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both running animation-yi2a6m;
-
+    animation: animation-yi2a6m 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both running;
     transition: transform 0.2s ease-out; /* Smooth transition for the transform property */
     user-select: none; /* Prevent text selection */
   
@@ -119,10 +132,11 @@ export const embedCss = `
 
 .cache-emo-1ttjy62:active {
     transform: scale(0.95); /* Shrink the button to 95% of its size when active/pressed */
+    transition: transform 0.1s ease-out; /* Faster transition for the pressing effect */
 }
   
 .cache-emo-1ttjy62:not(:active) {
-transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Apply the bounce effect on release */
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Apply the bounce effect on release */
 }
 
 
