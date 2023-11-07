@@ -228,7 +228,7 @@ class BotTask < Message
   attr_accessor :new_path_title, :current_path
 
   def bot_paths_objects
-    return @bot_paths_objects = [] if paths.blank?
+    return @bot_paths_objects = default_new_conversation_path.map { |o| BotPath.new(o) } if paths.blank?
 
     @bot_paths_objects ||= (paths.map { |o| BotPath.new(o) } || [])
   end
@@ -418,13 +418,16 @@ class BotPathStepSchema
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_accessor :id,
+  attr_accessor :disabled,
+                :id,
                 :label,
                 :text,
                 :element,
                 :next_step_uuid,
                 :type,
+                :height,
                 :hint,
+                :items,
                 :placeholder,
                 :style,
                 :value,
@@ -437,6 +440,7 @@ class BotPathStepSchema
                 # :messages,
                 :step_uid,
                 :name,
+                :url,
                 :_destroy
 
   def marked_for_destruction?

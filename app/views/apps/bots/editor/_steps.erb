@@ -24,8 +24,8 @@
 		</div>
 	<% end %>
 
-	<template 
-		data-nested-form-target="template" 
+	<template
+		data-nested-form-target="template"
 		id="messagesTemplate-<%= f.object.id %>">
 		<%= f.fields_for :steps, BotPathStep.new(type: "messages", messages: [{}]), child_index: 'NEW_RECORD' do |fff| %>
 			<div class="step-container" id="step-container-NEW_RECORD">
@@ -40,11 +40,11 @@
 		<% end %>
 	</template>
 
-	<template 
-		data-nested-form-target="template" 
+	<template
+		data-nested-form-target="template"
 		id="waitTemplate-<%= f.object.id %>">
-		<%= f.fields_for :steps, 
-			BotPathStep.new({ type: "messages", controls: {type: "wait_for_reply"} }), 
+		<%= f.fields_for :steps,
+			BotPathStep.new({ type: "messages", controls: {type: "wait_for_reply"} }),
 			child_index: "NEW_RECORD" do |fff| %>
 			<div class="step-container" id="step-container-NEW_RECORD">
 				<div class="border-- border-red-600--">

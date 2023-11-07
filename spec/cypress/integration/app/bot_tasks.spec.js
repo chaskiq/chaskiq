@@ -7,7 +7,7 @@ describe('Bot Tasks', function () {
   beforeEach(() => {
     cy.appEval(`
       require 'app_packages_catalog'
-      AppPackagesCatalog.update_all 
+      AppPackagesCatalog.update_all
     `)
   })
 
@@ -55,7 +55,7 @@ describe('Bot Tasks', function () {
 
           cy.contains('Add to messenger home').click().then(() => {
             cy.contains('Send App').should('not.be.disabled')
-            
+
             cy.get('[data-cy=send-app-ContentShowcase').click()
             cy.contains('Hello, World')
 
