@@ -36,7 +36,7 @@ class Apps::InvitationsController < ApplicationController
           format.html { app_invitations_path(@app.key) }
           format.turbo_stream { redirect_to app_invitations_path(@app.key) }
         end
-        #redirect_to app_team_index_path(@app.key)
+        # redirect_to app_team_index_path(@app.key)
       else
         render "create", status: :unprocessable_entity
       end
@@ -45,13 +45,13 @@ class Apps::InvitationsController < ApplicationController
       flash.now[:notice] = I18n.t("settings.team.invitation_success")
       respond_to do |format|
         format.html { app_invitations_path(@app.key) }
-        format.turbo_stream { redirect_to app_invitations_path(@app.key)  }
+        format.turbo_stream { redirect_to app_invitations_path(@app.key) }
       end
-      
-      #render turbo_stream: [
+
+      # render turbo_stream: [
       #  flash_stream,
       #  turbo_stream.update("modal")
-      #]
+      # ]
     end
   end
 end

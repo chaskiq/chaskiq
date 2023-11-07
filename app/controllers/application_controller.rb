@@ -19,14 +19,13 @@ class ApplicationController < ActionController::Base
     @frame = request.headers["Turbo-Frame"]
 
     respond_to do |format|
-      format.html { 
+      format.html do
         render "errors/402", layout: @frame ? false : "application"
-      }
-      format.turbo_stream {
+      end
+      format.turbo_stream do
         flash_stream
-      }
+      end
     end
-    
   end
 
   def render_plan_not_meet

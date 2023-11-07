@@ -27,7 +27,9 @@
 				<%= I18n.t('identified_users.lang') %>
 			</p>
 
-      <%= render 'code_examples' %>
+      <%= turbo_frame_tag "code_examples" do %>
+        <%= render 'code_examples' %>
+      <% end %>
 
       <p><%= raw I18n.t('identified_users.hint2') %></p>
 

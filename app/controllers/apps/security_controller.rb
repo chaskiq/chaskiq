@@ -8,9 +8,13 @@ class Apps::SecurityController < ApplicationController
     }
 
     @default_code_lang = params[:code_lang] || "ruby"
+
+    @showkey = true if params[:show]
+
+    @encryption_key = @showkey ? @app.encryption_key : "*******"
+
     @key_options = key_gen_options.find { |o| o[:id] == @default_code_lang }
     @script = setup_script
-    @showkey = true if params[:show]
   end
 
   private
@@ -25,7 +29,7 @@ class Apps::SecurityController < ApplicationController
         code: %{
 				OpenSSL::HMAC.hexdigest(
 					'sha256', # hash function
-					'#{@app.encryption_key}', # secret key (keep safe!)
+					'#{@encryption_key}', # secret key (keep safe!)
 					current_user.email
 				)}
       },
@@ -35,7 +39,7 @@ class Apps::SecurityController < ApplicationController
         id: "nodejs",
         code: %{
 				const crypto = require('crypto');
-				const hmac = crypto.createHmac('sha256', '#{@app.encryption_key}');
+				const hmac = crypto.createHmac('sha256', '#{@encryption_key}');
 				hmac.update('Message');
 				console.log(hmac.digest('hex'));`,
 			}
@@ -48,7 +52,7 @@ class Apps::SecurityController < ApplicationController
 				hash_hmac(
 					'sha256', // hash function
 					$user->email, // user's id
-					'#{@app.encryption_key}' // secret key (keep safe!)
+					'#{@encryption_key}' // secret key (keep safe!)
 				);}
       },
       {
@@ -59,7 +63,7 @@ class Apps::SecurityController < ApplicationController
 				import hmac
 				import hashlib
 				hmac.new(
-					b'#{@app.encryption_key}', # secret key (keep safe!)
+					b'#{@encryption_key}', # secret key (keep safe!)
 					bytes(request.user.id, encoding='utf-8'), # user's id
 					digestmod=hashlib.sha256 # hash function
 				).hexdigest()
@@ -87,7 +91,7 @@ class Apps::SecurityController < ApplicationController
 				}
 
 				func main() {
-						fmt.Println(ComputeHmac256("Message", "secret")) // #{@app.encryption_key}
+						fmt.Println(ComputeHmac256("Message", "secret")) // #{@encryption_key}
 				}
 
 				}
