@@ -10,7 +10,7 @@
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
     <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
 
-      <%= form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put }) do |f| %>
+      <%= form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put, data: { turbo: false } }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
         <%= f.hidden_field :invitation_token, readonly: true %>
 
@@ -27,7 +27,7 @@
         <% end %>
 
         <div class="py-4 w-full">
-          <%= f.submit t("devise.invitations.edit.submit_button"), 
+          <%= f.submit t("devise.invitations.edit.submit_button"),
             class: "btn btn-success sm w-full" %>
         </div>
       <% end %>

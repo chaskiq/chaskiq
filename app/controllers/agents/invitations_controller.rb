@@ -13,15 +13,23 @@ class Agents::InvitationsController < Devise::InvitationsController
 
   def update
     super do |resource|
-      if request.format == "json" && resource.errors.empty?
+      invitation_accepted = resource.errors.empty?
+
+      if request.format == "json" && !invitation_accepted
         return respond_with_navigational(resource, status: :success) do
           render json: @token
         end
       end
 
-      redirect_to home_path
-      # respond_with_navigational(resource)
+      if invitation_accepted
+        sign_in(resource_name, resource)
+        return respond_with resource, location: after_accept_path_for(resource)
+      end
     end
+  end
+
+  def after_accept_path_for(resource)
+    agents_path # redirects to the root of the app
   end
 
   private
