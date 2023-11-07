@@ -10,14 +10,14 @@
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
     <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
 
-      <%= form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put }) do |f| %>
+      <%= form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put, data: { turbo: false } }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
         <%= f.hidden_field :invitation_token, readonly: true %>
 
         <% if f.object.class.require_password_on_accepting %>
           <div class="field">
             <%= f.label :password, class: "block text-sm font-medium leading-5 text-gray-700" %>
-            <%= f.password_field :password, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+            <%= f.password_field :password, placeholder: "Type your password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
           </div>
 
           <div class="field my-2">
@@ -27,7 +27,7 @@
         <% end %>
 
         <div class="py-4 w-full">
-          <%= f.submit t("devise.invitations.edit.submit_button"), 
+          <%= f.submit t("devise.invitations.edit.submit_button"),
             class: "btn btn-success sm w-full" %>
         </div>
       <% end %>
