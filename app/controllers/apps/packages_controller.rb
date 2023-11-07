@@ -122,9 +122,9 @@ class Apps::PackagesController < ApplicationController
                                    }.with_indifferent_access
                                  })
 
-    pp @blocks
-    puts "CLBLBLBLBL"
-    puts @blocks[:kind]
+    Rails.logger.debug @blocks
+    Rails.logger.debug "CLBLBLBLBL"
+    Rails.logger.debug @blocks[:kind]
     case @blocks[:kind]
     when "configure", nil
       @blocks[:kind] = "configure" if @blocks[:kind].blank?
@@ -227,7 +227,7 @@ class Apps::PackagesController < ApplicationController
         turbo_stream.update("modal")
       ]
 
-    when "conversations"
+    when "conversations", "bots"
 
       # TODO: esto es el paso final, pero en realidad deberiasmo
       # crear un paso mas del form y aceptar y de ahi ejecutar esto
@@ -237,14 +237,15 @@ class Apps::PackagesController < ApplicationController
 
       @blocks = @blocks.with_indifferent_access
 
-      
-
-      
       @submit = true
-      @method = insert_app_package_path(@app.key, @package_name, namespace: "conversations")
+      @method = insert_app_package_path(@app.key, @package_name, namespace: @location)
       payload = {
         "blocks" => @blocks,
-        "conversation_key" => @conversation_key
+        "conversation_key" => @conversation_key,
+        "bot_id" => @bot_id,
+        "bot_step_id" => @bot_step_id,
+        "bot_path_id" => @bot_path_id,
+        "category" => params.dig(:ctx, :category) || params[:category]
       }
       @token = CHASKIQ_VERIFIER.generate(payload, purpose: :app_packages)
 
@@ -252,9 +253,8 @@ class Apps::PackagesController < ApplicationController
         "modal",
         template: "apps/packages/configure"
       ), status: :accepted and return
-        
-    
-    when "bots"
+
+    when "botsss"
       @category = params.dig(:ctx, :category) || params[:category]
       @bot = @app.bot_tasks.find(@bot_id)
 
@@ -262,19 +262,18 @@ class Apps::PackagesController < ApplicationController
     end
   end
 
-
   def insert
-
     @package_name = params[:id]
 
     payload = CHASKIQ_VERIFIER.verify(params[:token], purpose: :app_packages)
 
-    @conversation = @app.conversations.find_by(key: payload["conversation_key"])
-    author = @app.agents.where("agents.email =?",
-      current_agent.email).first # if current_user.is_a?(Agent)
-
     case params[:namespace]
     when "conversations"
+
+      @conversation = @app.conversations.find_by(key: payload["conversation_key"])
+      author = @app.agents.where("agents.email =?",
+                                 current_agent.email).first # if current_user.is_a?(Agent)
+  
       controls = {
         app_package: @package_name,
         schema: payload["blocks"]["definitions"],
@@ -292,7 +291,15 @@ class Apps::PackagesController < ApplicationController
         turbo_stream.update("modal"),
         flash_stream
       ]
-    else
+    when "bots"
+      @category = payload["category"]
+      @bot = @app.bot_tasks.find(payload["bot_id"])
+      @bot_id = payload["bot_id"]
+      @bot_path_id = payload["bot_path_id"]
+      @bot_step_id = payload["bot_step_id"]
+      @blocks = payload["blocks"]
+      
+      render "apps/bots/editor/package"
     end
   end
 

@@ -420,7 +420,9 @@ class BotPathStepSchema
 
   attr_accessor :id,
                 :label,
+                :disabled,
                 :text,
+                :items,
                 :element,
                 :next_step_uuid,
                 :type,
@@ -433,6 +435,8 @@ class BotPathStepSchema
                 :variant,
                 :app_package,
                 :width,
+                :height,
+                :url,
                 # :controls,
                 # :messages,
                 :step_uid,
