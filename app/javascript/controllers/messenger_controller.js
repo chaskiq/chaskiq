@@ -429,7 +429,7 @@ export default class extends Controller {
     }
   }
 
-  async goTo(url, cb) {
+  async goTo(url, cb = null) {
     const response = await get(url, {
       responseKind: 'turbo-stream',
     });
