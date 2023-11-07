@@ -17,7 +17,7 @@
         <% if f.object.class.require_password_on_accepting %>
           <div class="field">
             <%= f.label :password, class: "block text-sm font-medium leading-5 text-gray-700" %>
-            <%= f.password_field :password, class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+            <%= f.password_field :password, placeholder: "Type your password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
           </div>
 
           <div class="field my-2">

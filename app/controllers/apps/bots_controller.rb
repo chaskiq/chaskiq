@@ -36,8 +36,12 @@ class Apps::BotsController < ApplicationController
                                    paths: [],
                                    bot_type: params[:bot_task][:bot_type] || "outbound"
                                  })
-    # params.permit(:title, :paths, :bot_type)
-    redirect_to app_bot_path(@app.key, @bot.id)
+    if @bot.errors.blank?
+      # params.permit(:title, :paths, :bot_type)
+      redirect_to edit_app_bot_path(@app.key, @bot.id)
+    else
+      render "create"
+    end
   end
 
   def edit
@@ -220,7 +224,7 @@ class Apps::BotsController < ApplicationController
     collection = @app.bot_tasks.for_outbound if mode == "outbound"
     collection = collection.where(state: filters["state"]) if filters["state"].present?
     @collection = handle_bot_tasks_filters(filters, collection).ordered
-                                                               .page(params[:page]).per(3)
+                                                               .page(params[:page]).per(10)
   end
 
   def audience_handler

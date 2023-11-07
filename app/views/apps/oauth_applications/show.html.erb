@@ -9,14 +9,14 @@
             <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500 dark:text-gray-300">
               <%= I18n.t('settings.api.details')%>
             </p>
-            <div class="flex">
+            <div class="flex space-x-2">
 
               <%= link_to( t('common.edit') , 
                 edit_app_oauth_application_path(@app.key, @oauth_application), 
                 data: {
                   'turbo-frame': 'modal'
                 }, 
-                class: "btn btn-flat-dark sm") 
+                class: "btn btn-outlined sm") 
               %>
 
               <button class="btn btn-danger sm">

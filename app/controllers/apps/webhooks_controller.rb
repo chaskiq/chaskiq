@@ -45,7 +45,7 @@ class Apps::WebhooksController < ApplicationController
       redirect_to app_webhooks_path(@app.key)
     else
       # I18n.t('settings.webhooks.create_error')
-      render "new", status: :unprocessable_entity
+      render "create"
     end
   end
 

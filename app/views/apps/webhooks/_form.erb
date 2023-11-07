@@ -1,7 +1,8 @@
 <%= render "shared/modal" do %>
+
 	<%= form_for @webhook, 
 		url: form_url, 
-		data: {'turbo-frame': '_top' } do |f|%>
+		data: {'turbo_frame': '_top' } do |f|%>
 
 		<%= f.text_field :url, 
 			label: 'url for outgoing webhook', 
@@ -36,6 +37,8 @@
 			checked: f.object.is_enabled
 		%>
 
-		<%= f.submit(t("common.submit"), class: "btn btn-success")%>
+		<div class="my-4 justify-end flex">
+			<%= f.submit(t("common.submit"), class: "btn btn-success")%>
+		</div>
 	<% end %>
 <% end %>
