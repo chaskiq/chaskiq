@@ -3,18 +3,20 @@
 
   <%= render PageHeader::Component.new(title: campaign_name(@namespace) ) %>
 
-  <% #= turbo_frame_tag "campaign-settings-form" do %>
+  <div class="py-4">
     <%= form_for @campaign, url: app_campaigns_path(@app.key, @campaign) do |form| %>
 
-      <%= form.object.errors.full_messages %>
+    
       <%= hidden_field_tag :namespace, @namespace %>
       <%= render FieldRenderer::Component.new(
         form: form, 
         definitions: @campaign.config_fields
       ) %>
 
-      <%= form.submit %>
+      <div class="my-4 flex justify-end max-w-2xl">
+      <%= form.submit(class: "btn btn-success") %>
+      </div>
 
     <% end %>
-  <% # end %>
+  </div>
 <% end %>

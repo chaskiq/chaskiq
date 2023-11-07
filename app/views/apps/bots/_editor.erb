@@ -31,7 +31,7 @@
 
 						<div class="mt-2 flex justify-center">
 							<%= link_to(edit_app_bot_path(@app.key, @bot, mode: 'new-step'), 
-								data: {'turbo-frame': 'modal' }, class: "self-center btn btn-flat-dark") do %>
+								data: {'turbo-frame': 'modal' }, class: "self-center btn btn-flat-dark sm") do %>
 								<div class="flex space-x-2 items-center">
 									<%= heroicon("plus") %>
 									<%= I18n.t('common.add_new') %>
