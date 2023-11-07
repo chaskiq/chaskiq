@@ -32,11 +32,11 @@ describe('Login Spec', function () {
                 .type('test test')
                 .should('have.value', 'test test')
 
-              cy.get('input[name="app[domainUrl]"]')
+              cy.get('input[name="app[domain_url]"]')
                 .type('http://test.cl')
                 .should('have.value', 'http://test.cl')
 
-              findButtonByName('Save').click().then(() => {
+              cy.get("input[type='submit']").click().then(() => {
                 //cy.get('body').should('contain', 'Visit activity')
                 //cy.get('body').should('contain', 'New conversations')
                 //cy.get('body').should('contain', 'Resolutions')
@@ -53,7 +53,7 @@ describe('Login Spec', function () {
                 cy.get("a[aria-label='Conversations']")
                   .click({ force: true }).then(() => {
                     cy.get('body').should('contain', 'Conversations')
-                    cy.get('body').should('contain', 'Assignment Rules')
+                    cy.get('body').should('contain', 'Agent routing Rules')
                   })
 
                 cy.get("a[aria-label='Campaigns']")

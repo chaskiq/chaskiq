@@ -4,7 +4,7 @@ class Apps::ArticlesController < ApplicationController
   before_action :check_plan, only: %i[update create]
 
   def index
-    articles = @app.articles
+    articles = @app.articles.order("id desc")
     articles = articles.send(resource_type) if resource_type
     @articles = articles.page(params[:page]).per(params[:per])
   end
@@ -59,9 +59,9 @@ class Apps::ArticlesController < ApplicationController
     )
 
     if @article.save
-      redirect_to app_article_path(@app.key, @article)
+      redirect_to app_article_path(@app.key, @article), status: :see_other
     else
-      render "new"
+      render "create"
     end
   end
 

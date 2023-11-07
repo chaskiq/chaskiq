@@ -162,15 +162,15 @@ export function login () {
 
   cy.wait(1000)
 
-  cy.get('input[name="email"]')
+  cy.get('input[type="email"]')
     .type('test@test.cl').should('have.value', 'test@test.cl')
 
-  cy.get('input[name="password"]')
+  cy.get('input[type="password"]')
     .type('123456').should('have.value', '123456')
 
-  cy.get('button[type="submit"]').click()
+  cy.get('button[data-cy="connect"]').click()
 
-  cy.get('body').should('contain', 'Welcome to Chaskiq')
+  cy.get('body').should('contain', 'Welcome to')
 }
 
 export function findButtonByName (name) {

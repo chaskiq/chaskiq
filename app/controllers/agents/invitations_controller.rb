@@ -4,8 +4,8 @@ class Agents::InvitationsController < Devise::InvitationsController
   skip_before_action :verify_authenticity_token, only: [:update]
 
   def edit
-    render_empty
-    # super
+    # render_empty
+    super
     # super do |resource|
     #  render html: '', :layout => 'application' and return
     # end
@@ -18,7 +18,9 @@ class Agents::InvitationsController < Devise::InvitationsController
           render json: @token
         end
       end
-      respond_with_navigational(resource)
+
+      redirect_to home_path
+      # respond_with_navigational(resource)
     end
   end
 

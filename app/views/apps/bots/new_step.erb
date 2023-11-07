@@ -1,7 +1,7 @@
 <%= render "shared/modal" do %>
 	<%= form_for BotPath.new, url: app_bot_path(@app.key, @bot, mode: 'add-path'), method: :patch do |f|%>
-		<%= f.text_field :title, hint: t("doorkeeper.applications.help.name") %>
+		<%= f.text_field :title, placeholder: "write path title" %>
 		
-		<%= f.submit(t("common.submit"), class: "btn btn-success")%>
+		<%= f.submit(t("common.submit"), class: "btn btn-success", data: {cy: "bot-task-create-path"})%>
 	<% end %>
 <% end %>

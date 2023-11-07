@@ -38,6 +38,8 @@ class Article < ApplicationRecord
   extend FriendlyId
   friendly_id :title, use: :scoped, scope: %i[app_id article_collection_id article_section_id]
 
+  validates :title, presence: true
+
   has_many_attached :images
 
   translates :title, :description

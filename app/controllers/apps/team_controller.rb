@@ -75,10 +75,11 @@ class Apps::TeamController < ApplicationController
       @role = @app.roles.find_or_initialize_by(agent_id: @agent.id)
       @role.save
       track_resource_event(current_agent, :agent_invite, nil, @app.id)
-
     else
       @agent.deliver_invitation
     end
+
+    redirect_to app_team_path(@app.key)
   end
 
   def destroy

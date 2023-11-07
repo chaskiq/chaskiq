@@ -24,20 +24,20 @@ describe('Bot Tasks', function () {
         cy.get('body').should('contain', 'Bot Tasks')
 
         cy.contains('Outbound').click()
-        cy.contains('Create a new one').click()
+        cy.contains('Create New Task').click()
 
-        cy.get('input#title').type('my super task')
+        cy.get('input#bot_task_title').type('my super task')
         cy.get('[data-cy="bot-task-create"]').click()
 
         cy.contains('Editor').click()
 
-        cy.contains('Add new path').click()
+        cy.contains('Add New').click()
         cy.get('input[placeholder="write path title"]').type('foo')
         cy.get('[data-cy="bot-task-create-path"]').click()
 
         cy.contains('foo').click()
 
-        cy.contains('Add new conversation part').click().then(() => {
+        // cy.contains('Add new conversation part').click().then(() => {
           cy.contains('Add App').click()
           cy.get('[data-cy=add-package-ContentShowcase]').click()
 
@@ -46,12 +46,12 @@ describe('Bot Tasks', function () {
 
           cy.contains('Customize').click()
 
-          cy.get('input[name="heading"]').type('Hello, World')
-          cy.get('input[name="page_url"]').type('https://github.com/rails/rails')
+          cy.get('input[name="ctx[values][heading]"]').type('Hello, World')
+          cy.get('input[name="ctx[values][page_url]"]').type('https://github.com/rails/rails')
           cy.contains('autofill inputs with page details').click()
 
-          cy.get('input[name="title"]').should('have.value', 'GitHub - rails/rails: Ruby on Rails')
-          cy.get('input[name="cover_image"]').should('not.have.value', '')
+          cy.get('input[name="ctx[values][title]"]').should('have.value', 'GitHub - rails/rails: Ruby on Rails')
+          cy.get('input[name="ctx[values][cover_image]"]').should('not.have.value', '')
 
           cy.contains('Add to messenger home').click().then(() => {
             cy.contains('Send App').should('not.be.disabled')
@@ -60,7 +60,7 @@ describe('Bot Tasks', function () {
             cy.contains('Hello, World')
 
           })
-        })
+        //})
       })
   })
 })

@@ -1,6 +1,6 @@
 <% url = @team.new_record? ? app_team_groups_path(@app.key) : app_team_group_path(@app.key, @team) %>
 
-<%= form_for @team, url: url  do |f| %>
+<%= form_for @team, url: url, data: {turbo_frame: "_top"}  do |f| %>
 
   <%= f.text_field :name %>
 

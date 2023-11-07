@@ -1,4 +1,4 @@
-  <%= form_for @article, url: app_articles_path(@app.key) do |f| %>
+  <%= form_for @article, url: app_articles_path(@app.key), data: {turbo_frame: "_top"} do |f| %>
       <%= f.text_field :title %>
       <%= f.text_area :description %>
       <%= f.select :author_id, options_for_select(@app.agents.map{|o| [o.display_name, o.id]}, f.object.author_id), {}, {

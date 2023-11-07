@@ -1,5 +1,5 @@
 <%= turbo_frame_tag 'bot-task-editor' do %>
-	<%= @tab %>
+	<% #= @tab %>
 	<div 
 		data-controller="bots">
 		<%= form_for @bot, url: app_bot_path(@app.key, @bot, tab: @tab) do |f| %>
@@ -103,6 +103,9 @@
 														</div>
 
 														<div class="my-3" data-nested-form-target="links">
+
+															<h3 class="py-2"> Add new conversation part </h3>
+
 															<%= link_to "Add message", "#", 
 																class: "btn btn-outlined", 
 																data: { 

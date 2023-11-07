@@ -15,7 +15,18 @@ class ApplicationController < ActionController::Base
 
   def render_unauthorized
     flash.now[:error] = "not authorized"
-    render "errors/402"
+    @navigator = false
+    @frame = request.headers["Turbo-Frame"]
+
+    respond_to do |format|
+      format.html { 
+        render "errors/402", layout: @frame ? false : "application"
+      }
+      format.turbo_stream {
+        flash_stream
+      }
+    end
+    
   end
 
   def render_plan_not_meet

@@ -1,4 +1,11 @@
 class AppsController < ApplicationController
+  before_action :authenticate_agent!
+
+  def index
+    @apps = current_agent.apps.page(params[:page]).per(30)
+    render "home/show"
+  end
+
   def show
     @app = current_agent.apps.find_by(key: params[:id])
     # authorize! @app, to: :can_read_app?, with: AppPolicy
@@ -8,11 +15,15 @@ class AppsController < ApplicationController
 
   def new
     @app = current_agent.apps.new
-    authorize! current_agent, to: :create_app?, with: AppPolicy
+    authorize! current_agent, to: :create_app?, with: AppPolicy, context: {
+      user: current_agent
+    }
   end
 
   def create
-    authorize! current_agent, to: :create_app?, with: AppPolicy
+    authorize! current_agent, to: :create_app?, with: AppPolicy, context: {
+      user: current_agent
+    }
 
     permitted_params = params.require(:app).permit(:name, :domain_url, :tagline)
     @app = current_agent.apps.create(permitted_params)

@@ -5,8 +5,11 @@
 <div class="flex" data-controller="playground">
   <div class="w-1/2 h-screen overflow-auto">
 
-    <div class="bg-gray-200 p-4 flex space-x-3 items-center"><a href="/">&lt;-</a>
-      <img src="/assets/favicon-ACTZGCJR.digested.png" width="40" class="border-sm">
+    <div class="bg-gray-200 p-4 flex space-x-3 items-center">
+      <a href="/" class="border-2 p-2 hover:bg-gray-500 bg-gray-400 text-white rounded-md">
+        <%= heroicon("chevron-left") %>
+      </a>
+      <%= image_tag "favicon.png", width: "40", class: "border-sm" %>
       <p class="text-lg font-bold">CHASKIQ BLOCKS PLAYGROUND</p>
     </div>
     

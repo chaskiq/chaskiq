@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  layout "hotwire"
   before_action :authenticate_agent!
-  def show; end
+
+  def show
+    @apps = current_agent.apps.page(params[:page]).per(30)
+    render "home/show"
+  end
 end

@@ -10,9 +10,11 @@
 			%>
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: articles_menu_data(app: @app) ) do %>
-			<%= render Hints::Component.new(type: "articles")%>
-			<%= render 'table'%>
+		<%= turbo_frame_tag "aaaa" do %>
+			<%= render Tabs::Component.new(	items: articles_menu_data(app: @app) ) do %>
+				<%= render Hints::Component.new(type: "articles")%>
+				<%= render 'table'%>
+			<% end %>
 		<% end %>
 
 	<% end %>

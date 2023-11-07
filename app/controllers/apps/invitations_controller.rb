@@ -5,8 +5,9 @@ class Apps::InvitationsController < ApplicationController
   def index
     @active_tab = "invitations"
     @agents = @app.agents.invitation_not_accepted
+                  .order("id desc")
                   .page(params[:page])
-                  .per(params[:per] || 2)
+                  .per(params[:per] || 12)
   end
 
   def update
@@ -20,7 +21,7 @@ class Apps::InvitationsController < ApplicationController
   end
 
   def create
-    authorize! @app, to: :invite_user?, with: AppPolicy, context: {
+    authorize! @app, to: :can_manage_teams?, with: AppPolicy, context: {
       user: current_agent
     }
     @agent = @app.agents.find_by(email: params[:agent][:email])
@@ -30,14 +31,27 @@ class Apps::InvitationsController < ApplicationController
       @role = @app.roles.find_or_initialize_by(agent_id: @agent.id)
       if @role.save
         flash.now[:notice] = I18n.t("settings.team.invitation_success")
-        render turbo_stream: [flash_stream]
+        # render turbo_stream: [flash_stream,  turbo_stream.update("modal")]
+        respond_to do |format|
+          format.html { app_invitations_path(@app.key) }
+          format.turbo_stream { redirect_to app_invitations_path(@app.key) }
+        end
+        #redirect_to app_team_index_path(@app.key)
       else
-        render "new", status: :unprocessable_entity
+        render "create", status: :unprocessable_entity
       end
     else
       @agent.deliver_invitation
       flash.now[:notice] = I18n.t("settings.team.invitation_success")
-      render turbo_stream: [flash_stream]
+      respond_to do |format|
+        format.html { app_invitations_path(@app.key) }
+        format.turbo_stream { redirect_to app_invitations_path(@app.key)  }
+      end
+      
+      #render turbo_stream: [
+      #  flash_stream,
+      #  turbo_stream.update("modal")
+      #]
     end
   end
 end

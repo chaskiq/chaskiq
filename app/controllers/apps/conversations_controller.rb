@@ -5,6 +5,12 @@ class Apps::ConversationsController < ApplicationController
   def index
     @filter = "opened"
     @sort = "newest"
+
+    authorize! @app, to: :can_read_conversations?, with: AppPolicy, context: {
+      app: @app,
+      user: current_agent
+    }
+
     @conversations = search_service.search
 
     if params[:page].present?
