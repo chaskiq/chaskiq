@@ -16,6 +16,7 @@
 	<% if @app_package %>
 	data-path="<%= app_package_path(@app.key, @app_package) %>">
 	<% end %>
+
 	<form
 		data-definition-renderer-target="form"
 		data-kind="<%= @blocks[:kind] %>"
@@ -150,6 +151,18 @@
 						options: item["options"],
 						direction: item["direction"]
 						)
+				when "checkbox"
+					render PadderRenderer::Component.new(size: @size) do
+						render CheckboxRenderer::Component.new(
+							id: item["id"],
+							type: item["type"],
+							text: item["text"],
+							options: item["options"],
+							save_state: item['save_state'],
+							value: item['value'],
+							disabled: item['disabled'],
+						)
+					end
 				else
 
 				"---- no definition for #{item["type"]} #{item}--- \n"

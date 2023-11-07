@@ -122,8 +122,12 @@ class Apps::PackagesController < ApplicationController
                                    }.with_indifferent_access
                                  })
 
+    pp @blocks
+    puts "CLBLBLBLBL"
+    puts @blocks[:kind]
     case @blocks[:kind]
     when "configure", nil
+      @blocks[:kind] = "configure" if @blocks[:kind].blank?
       render turbo_stream: turbo_stream.replace(
         "modal",
         template: "apps/packages/configure"
@@ -229,12 +233,51 @@ class Apps::PackagesController < ApplicationController
       # crear un paso mas del form y aceptar y de ahi ejecutar esto
       @conversation = @app.conversations.find_by(key: @conversation_key)
 
-      author = @app.agents.where("agents.email =?",
-                                 current_agent.email).first # if current_user.is_a?(Agent)
+      @blocks[:kind] = "submit" if @blocks[:kind].blank?
 
+      @blocks = @blocks.with_indifferent_access
+
+      
+
+      
+      @submit = true
+      @method = insert_app_package_path(@app.key, @package_name, namespace: "conversations")
+      payload = {
+        "blocks" => @blocks,
+        "conversation_key" => @conversation_key
+      }
+      @token = CHASKIQ_VERIFIER.generate(payload, purpose: :app_packages)
+
+      render turbo_stream: turbo_stream.replace(
+        "modal",
+        template: "apps/packages/configure"
+      ), status: :accepted and return
+        
+    
+    when "bots"
+      @category = params.dig(:ctx, :category) || params[:category]
+      @bot = @app.bot_tasks.find(@bot_id)
+
+      render "apps/bots/editor/package"
+    end
+  end
+
+
+  def insert
+
+    @package_name = params[:id]
+
+    payload = CHASKIQ_VERIFIER.verify(params[:token], purpose: :app_packages)
+
+    @conversation = @app.conversations.find_by(key: payload["conversation_key"])
+    author = @app.agents.where("agents.email =?",
+      current_agent.email).first # if current_user.is_a?(Agent)
+
+    case params[:namespace]
+    when "conversations"
       controls = {
         app_package: @package_name,
-        schema: @blocks[:definitions],
+        schema: payload["blocks"]["definitions"],
         type: "app_package"
       }
 
@@ -245,12 +288,11 @@ class Apps::PackagesController < ApplicationController
 
       flash.now[:notice] = "Package added"
 
-      render turbo_stream: [flash_stream]
-    when "bots"
-      @category = params.dig(:ctx, :category) || params[:category]
-      @bot = @app.bot_tasks.find(@bot_id)
-
-      render "apps/bots/editor/package"
+      render turbo_stream: [
+        turbo_stream.update("modal"),
+        flash_stream
+      ]
+    else
     end
   end
 

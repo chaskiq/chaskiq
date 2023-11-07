@@ -5,5 +5,9 @@
 
   &.sm {
     @apply py-1 px-2;
+
+    .text {
+      @apply text-sm;
+    }
   }
 }

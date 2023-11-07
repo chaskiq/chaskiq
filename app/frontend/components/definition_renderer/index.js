@@ -17,6 +17,7 @@ export default class Controller extends BaseController {
     e.preventDefault()
   }
 
+
   // from buttons
   async sendForm(e) {
     console.log('SEND FORM', e)
@@ -25,6 +26,7 @@ export default class Controller extends BaseController {
     let data = serialize(this.formTarget, { hash: true })
     const field = JSON.parse(e.currentTarget.dataset.fieldJson)
     data['ctx']['field'] = field
+   
     data['ctx']['values'] = data.ctx.values || {}
     // console.log("DATA", data)
 
@@ -32,6 +34,7 @@ export default class Controller extends BaseController {
     console.log("GO TO:", this.formTarget.dataset )
     
     const kk = this.formTarget.dataset.kind || field.action.type
+
     // this.formTarget.dataset.kind
     const response = await post(this.resolvePath(kk), {
       body: JSON.stringify(data),

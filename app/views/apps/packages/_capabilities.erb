@@ -1,6 +1,12 @@
 <%= render "shared/modal" do %>
+
+		<h3 class="mb-4 text-xl leading-6 font-semibold text-gray-900 dark:text-gray-100">
+			Send App Package
+		</h3>
+
 		<div class="h-64 overflow-auto">
-			<div>
+
+			<div class="my-2">
 					<div class="
 						bg-white 
 						shadow 
@@ -41,7 +47,8 @@
 																				<input type="hidden" name="bot_step_id" value="<%= @bot_step_id %>">
 																				<input type="hidden" name="bot_path_id" value="<%= @bot_path_id %>">
 
-																				<button type="submit" class="transition duration-150 ease-in-out  css-zwcswv" 
+																				<button type="submit" 
+																					class="btn btn-success sm" 
 																					data-cy="add-package-<%= pkg.app_package.name %>">
 																					Add
 																				</button>

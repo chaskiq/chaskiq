@@ -67,14 +67,12 @@ describe('Conversations Spec', function () {
         cy.get('input[name="ctx[values][cover_image]"]').should('not.have.value', '')
 
         cy.contains('Add to messenger home').click().then(() => {
-          // TODO: THIS VERSION DOES NOT HAVE PREVIEW; IT SENDS DIRECTLY
-          //cy.contains('Send App').should('not.be.disabled')
-          //cy.get('[data-cy=send-app-ContentShowcase]').click().then(() => {
-          //  cy.contains('Hello, World')
-          //})
-
+          cy.contains('Send App').should('not.be.disabled')
+          cy.get('[data-cy=send-app-ContentShowcase]').click().then(() => {
+            cy.contains('Hello, World')
+          })
           cy.contains("CONTENTSHOWCASE")
-          
+    
         })
       })
   })

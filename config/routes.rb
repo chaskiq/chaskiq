@@ -181,6 +181,7 @@ Rails.application.routes.draw do
     resources :assignment_rules, controller: "apps/assignment_rules"
     resources :packages, controller: "apps/packages" do
       member do
+        post :insert
         post :configure
         post :content
         post :submit
