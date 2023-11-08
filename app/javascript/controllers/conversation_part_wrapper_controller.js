@@ -21,7 +21,6 @@ export default class extends Controller {
   }
 
   playSound() {
-    
     this.pling.volume = 0.4;
     this.pling.play();
   }

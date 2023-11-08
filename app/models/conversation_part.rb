@@ -132,10 +132,12 @@ class ConversationPart < ApplicationRecord
         data: as_json }
     )
 
-
     partial_method = was_created? ? :prepend : :update
-    partial_target = was_created? ? 
-      "conversation-messages-list-#{conversation.key}" : "conversation-part-#{key}"
+    partial_target = if was_created?
+                       "conversation-messages-list-#{conversation.key}"
+                     else
+                       "conversation-part-#{key}"
+                     end
 
     broadcast_render_to(
       conversation.app, :conversations,
@@ -145,8 +147,8 @@ class ConversationPart < ApplicationRecord
         message: self,
         notified: true,
         partial_method: partial_method,
-        partial_target: partial_target    
-      }  
+        partial_target: partial_target
+      }
     )
   end
 
