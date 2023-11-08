@@ -7,7 +7,7 @@ describe('Conversations Spec', function () {
   beforeEach(() => {
     cy.appEval(`
       require 'app_packages_catalog'
-      AppPackagesCatalog.update_all 
+      AppPackagesCatalog.update_all
     `)
   })
 
@@ -16,13 +16,13 @@ describe('Conversations Spec', function () {
 
     cy.appEval(`
       app_user = App.last.add_user(
-        email: 'test@test2.cl', 
+        email: 'test@test2.cl',
         name: 'ebola boli',
         first_name: 'some user'
       )
-      
+
       App.last.start_conversation(
-        message: { 
+        message: {
           text_content: 'hi from test backend',
           serialized_content: MessageApis::BlockManager.serialized_text("some text from backend")
         },
@@ -71,8 +71,7 @@ describe('Conversations Spec', function () {
           cy.get('[data-cy=send-app-ContentShowcase]').click().then(() => {
             cy.contains('Hello, World')
           })
-          cy.contains("CONTENTSHOWCASE")
-    
+          cy.contains("ContentShowcase")
         })
       })
   })
