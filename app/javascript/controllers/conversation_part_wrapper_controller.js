@@ -9,7 +9,7 @@ export default class extends Controller {
     this.pling = new Audio('/sounds/BLIB.wav');
     if (dataset.read !== 'true') {
       if (dataset.viewerType !== dataset.author) {
-        this.playSound();
+        // this.playSound();
         this.markAsRead();
       }
       // to retrieve triggers and next messages
@@ -21,6 +21,7 @@ export default class extends Controller {
   }
 
   playSound() {
+    
     this.pling.volume = 0.4;
     this.pling.play();
   }

@@ -282,29 +282,6 @@ class Conversation < ApplicationRecord
                         locals: { data: data }
   end
 
-  def notify_conversation_list
-    broadcast_prepend_to app,
-                         :conversations,
-                         # action: "prepend",
-                         target: "conversation-list-#{app.key}",
-                         partial: "apps/conversations/conversation",
-                         locals: {
-                           app: app,
-                           conversation: self
-                           # conversation: {a: 1}
-                         }
-
-    # broadcast_replace_later_to app,
-    #  :conversations ,
-    #  target: "conversation-item-#{self.conversation.key}",
-    #  partial: "apps/conversations/conversation",
-    #  action: "replace",
-    #  locals: {
-    #    app: self.app,
-    #    conversation: self.conversation
-    #  }
-  end
-
   private
 
   def handle_part_details(part, opts)

@@ -1,7 +1,6 @@
 TODO.md
 
 + conversations:
-  + rendering plain version
   + open video conversation
 
 
@@ -10,9 +9,18 @@ inbound settings
 
 + trackers on app controller reosurces
 
++ general pling
+
++ remove home apps
+
+
+
+APP PACKAGES:
+  confirm phase not
 
 # MESSENGER WIDGET
 
++ general pling
 + animations transitions
 
 + widget script

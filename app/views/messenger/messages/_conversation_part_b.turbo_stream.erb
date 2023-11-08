@@ -7,8 +7,10 @@
   } %>
 <% end %>
 
-<%= turbo_stream.update "chaskiq-custom-events" do %>
-  <%= render "messenger/custom_event", data: data %>
+<% if !message.read? && message.authorable_type == "Agent" %>
+  <%= turbo_stream.update "chaskiq-custom-events" do %>
+    <%= render "shared/pling", data: data %>
+  <% end %>
 <% end %>
 
 <% if message.was_created? %>

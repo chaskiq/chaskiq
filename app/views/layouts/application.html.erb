@@ -53,6 +53,9 @@
 
       <% if @app.present? && @app.persisted? %>
 
+        <div id="chaskiq-panel-custom-events"></div>
+
+
         <div data-turbo-permanent id="app-stream">
           <%= turbo_stream_from @app, :conversations %>
         </div>

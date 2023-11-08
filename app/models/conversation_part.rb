@@ -132,30 +132,22 @@ class ConversationPart < ApplicationRecord
         data: as_json }
     )
 
-    # hotwire part
-    if was_created?
-      broadcast_prepend_to conversation.app,
-                           :conversations,
-                           target: "conversation-messages-list-#{conversation.key}",
-                           partial: "apps/conversation_messages/part",
-                           locals: {
-                             app: conversation.app,
-                             message: self,
-                             notified: true
-                           }
-    else
-      broadcast_update_to conversation.app,
-                          :conversations,
-                          target: "conversation-part-#{key}",
-                          partial: "apps/conversation_messages/part",
-                          locals: {
-                            app: conversation.app,
-                            message: self,
-                            notified: true
-                          }
-    end
 
-    conversation.notify_conversation_list
+    partial_method = was_created? ? :prepend : :update
+    partial_target = was_created? ? 
+      "conversation-messages-list-#{conversation.key}" : "conversation-part-#{key}"
+
+    broadcast_render_to(
+      conversation.app, :conversations,
+      partial: "apps/conversations/new_message_notification",
+      locals: {
+        app: conversation.app,
+        message: self,
+        notified: true,
+        partial_method: partial_method,
+        partial_target: partial_target    
+      }  
+    )
   end
 
   def notify_app_users
@@ -169,25 +161,6 @@ class ConversationPart < ApplicationRecord
              data: conversation.main_participant.new_messages.value }
 
     MessengerEventsChannel.broadcast_to(broadcast_key, data)
-
-    # broadcast_update_to conversation.app, conversation.main_participant,
-    #                    target: "chaskiq-custom-events",
-    #                    partial: "messenger/custom_event",
-    #                    locals: { data: data }
-
-    # hotwire part
-    # if was_created?
-    #   broadcast_prepend_to conversation.app, conversation.main_participant,
-    #                        # action: "append",
-    #                        target: "conversation-#{conversation.key}",
-    #                        partial: "messenger/messages/conversation_part",
-    #                        locals: {
-    #                          app: conversation.app,
-    #                          message: self,
-    #                          notified: true
-    #                        }
-
-    # else
 
     data = {
       type: "conversations:unreads",
@@ -205,16 +178,6 @@ class ConversationPart < ApplicationRecord
                           notified: true,
                           data: data
                         }
-
-    # broadcast_update_to conversation.app, conversation.main_participant,
-    #                    target: "conversation-part-#{key}",
-    #                    partial: "messenger/messages/conversation_part",
-    #                    locals: {
-    #                      app: conversation.app,
-    #                      message: self,
-    #                      notified: true
-    #                    }
-    # end
   end
 
   def enqueue_channel_notification
