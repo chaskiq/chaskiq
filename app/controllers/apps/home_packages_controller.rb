@@ -27,11 +27,12 @@ class Apps::HomePackagesController < ApplicationController
   def destroy
     id = params[:id].to_i
 
-    @app.send(@resource_kind).delete_at(id)
+    home_apps = @app.send(@resource_kind)
+    home_apps.delete_at(id)
 
-    @app.save
+    @app.save(@resource_kind => home_apps)
 
-    @app_packages = @resources || []
+    @app_packages = @app.send(@resource_kind) || []
 
     render turbo_stream: turbo_stream.replace(
       "home-sortable",

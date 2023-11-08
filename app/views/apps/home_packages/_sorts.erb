@@ -31,8 +31,7 @@
 				<div class="flex flex-col items-center">
 					<div class="cursor-move btn btn-dark-flat">+</div>
 
-					<%= button_to app_home_package_path(
-						@app.key, index), 
+					<%= button_to app_home_package_path(@app.key, index), 
 						method: :delete , class: 'h-10 w-10' do %>
 						<svg fill="currentColor" viewBox="0 0 20 20" class="css-1dhg8p7">
 							<path 
