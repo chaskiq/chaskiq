@@ -174,6 +174,7 @@ export default class extends Controller {
 
   scrollToBottom() {
     const overflow = document.getElementById('conversation-overflow');
+    if(!overflow) return
     overflow.scrollTop = overflow.scrollHeight;
   }
 

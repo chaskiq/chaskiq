@@ -42,7 +42,6 @@ class Apps::ContactsController < ApplicationController
   end
 
   def show
-
     authorize! @app, to: :can_read_users?, with: AppPolicy, context: {
       user: current_agent
     }

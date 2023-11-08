@@ -16,6 +16,7 @@
     "@headlessui/react": "^1.5.0",
     "@hotwired/stimulus": "^3.2.1",
     "@hotwired/turbo-rails": "^7.3.0",
+    "@hotwired/turbo": "git+https://github.com/michelson/turbo.git#build",
     "@medv/finder": "^2.1.0",
     "@nivo/calendar": "^0.79.0",
     "@nivo/core": "^0.79.0",
@@ -162,7 +163,9 @@
   "browser": {
     "path": "path-browserify"
   },
-  "resolutions": {},
+  "resolutions": {
+    "@hotwired/turbo": "git+https://github.com/michelson/turbo.git#build"
+  },
   "scripts": {
     "format:js": "npx eslint --silent --fix ./app/javascript",
     "format:ruby": "rubocop -A",
