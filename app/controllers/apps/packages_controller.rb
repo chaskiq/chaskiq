@@ -273,7 +273,7 @@ class Apps::PackagesController < ApplicationController
       @conversation = @app.conversations.find_by(key: payload["conversation_key"])
       author = @app.agents.where("agents.email =?",
                                  current_agent.email).first # if current_user.is_a?(Agent)
-  
+
       controls = {
         app_package: @package_name,
         schema: payload["blocks"]["definitions"],
@@ -298,7 +298,7 @@ class Apps::PackagesController < ApplicationController
       @bot_path_id = payload["bot_path_id"]
       @bot_step_id = payload["bot_step_id"]
       @blocks = payload["blocks"]
-      
+
       render "apps/bots/editor/package"
     end
   end
