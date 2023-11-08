@@ -43,11 +43,12 @@
 									<div>
 											<div class="space-x-3 mt-2 flex items-center text-sm leading-5 text-gray-500 justify-end">
 
-												<%=  link_to( I18n.t('common.add'), 
-																	new_app_integration_path(@app.key, app_package: app_package.id), 
+												<%=  link_to( I18n.t('common.add'),
+																	new_app_integration_path(@app.key, app_package: app_package.id),
 																	data: {
-																	'turbo-frame': 'modal'
-																	}, 
+																	'turbo-frame': 'modal',
+																	'cy': "services-#{app_package.name.downcase}-add"
+																	},
 																	class: "btn btn-outlined sm")
 												%>
 

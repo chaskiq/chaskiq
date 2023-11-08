@@ -9,7 +9,7 @@
 				<% end %>
 				<% @config[:columns].each do |c|%>
 					<div class="table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-						<%= c[:name] %>
+						<%= c[:name].to_s.humanize.titleize %>
 					</div>
 				<% end %>
 			</div>
