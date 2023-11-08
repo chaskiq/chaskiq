@@ -88,9 +88,9 @@ class MessengerController < ApplicationController
   end
 
   def home_apps
-    return @app.visitor_home_apps if @app_user.is_a?(Visitor)
+    return @app.visitor_home_apps.to_a if @app_user.is_a?(Visitor)
 
-    @app.user_home_apps
+    @app.user_home_apps.to_a
   end
 
   private
