@@ -138,6 +138,7 @@ class Apps::BotsController < ApplicationController
       )
       @bot.paths = [] if @bot.paths.nil?
       @bot.paths = @bot.paths << bot_path.as_json
+      @bot.save
       render turbo_stream: [
         turbo_stream.replace(
           "bot-task-editor",

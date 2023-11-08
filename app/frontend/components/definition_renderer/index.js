@@ -95,8 +95,9 @@ export default class Controller extends BaseController {
 
   visitLink(e) {
     e.preventDefault()
+    const json = JSON.parse(e.currentTarget.dataset.fieldJson)
     const url = e.currentTarget.dataset.actionUrl
-    window.location = url
+    window.location = url || json?.action?.url
   }
 
   visitFrame(e) {
