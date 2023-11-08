@@ -31,22 +31,13 @@ describe('Settings Spec', function () {
         cy.contains("Access List")
         cy.contains("Actions")
 
-        cy.contains('td', 'chaskiq bot')  
-          .siblings()
-          /*.within(() => {
-            cy.contains('button', 'Edit') 
-            cy.contains('button', 'Delete') 
-          }) */                         
-          .contains('td', 'chaskiq bot') 
-        
-        cy.contains('td', 'test@test.cl')  
-          .siblings()
-         /* .within(() => {
-            cy.contains('button', 'Edit') 
-            cy.contains('button', 'Delete') 
-            cy.contains('span', 'admin') 
-          }) */                            
-          .contains('td', 'sharleena') 
+        cy.contains('div', 'chaskiq bot')
+        cy.contains('a', 'edit link')
+        cy.contains('button', 'remove')
+
+        cy.contains('div', 'test@test.cl')
+
+        cy.contains('div', 'sharleena')
 
         cy.contains('Invitations').click()
 

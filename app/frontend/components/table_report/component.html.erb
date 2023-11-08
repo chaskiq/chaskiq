@@ -1,5 +1,5 @@
 	<div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
-	
+
 		<div class="table min-w-full">
 			<div class="table-header-group <%= 'hidden' if @headless %> border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
 				<% @config[:columns].each do |c|%>
@@ -12,7 +12,7 @@
 			<div class="table-row-group bg-white dark:bg-black">
 
 				<% @data.each_with_index do |record, index| %>
-					<div 
+					<div
 						class="table-row hover:bg-gray-50 dark:hover:bg-gray-800">
 						<% @config[:columns].each do |c| %>
 							<div class="table-cell align-middle px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900">
