@@ -147,6 +147,7 @@ group :development, :test do
   gem "cypress-on-rails", "~> 1.0"
   gem "execjs"
   gem "pry"
+  gem "pry-remote"
   # gem "debug", platforms: %i[mri mingw x64_mingw]
 end
 

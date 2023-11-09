@@ -520,6 +520,9 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
       spoon (~> 0.0)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
     psych (5.1.1)
       stringio
     psych (5.1.1-java)
@@ -677,6 +680,7 @@ GEM
       multi_json (~> 1.10)
     simpleidn (0.2.1)
       unf (~> 0.1.4)
+    slop (3.6.0)
     smart_properties (1.17.0)
     spoon (0.0.6)
       ffi
@@ -839,6 +843,7 @@ DEPENDENCIES
   php_serialize (~> 1.2)
   propshaft
   pry
+  pry-remote
   puma (~> 6.0)
   rack-cors (~> 1.0)
   rails (= 7.1.1)
