@@ -115,6 +115,12 @@
     fill: inherit !important;
 }
 
+div[data-controller="chat-editor"] .ProseMirror {
+  overflow-y: auto;
+  max-height: 9rem;
+}
+
+
 /* CHASKIQ MESSENGER STYLES; WE SHOULD SEPARATE THIS IN ITS OWN FILE AND RENAME SOME CLASSES */
 
 #chaskiq-messenger header::before {
