@@ -80,11 +80,13 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}`)
         .then(() => {
-          cy.get('iframe:first')
+          /*cy.get('iframe:first')
             .then(function ($iframe) {
               const $body = $iframe.contents().find('body')
               cy.wrap($body).find('#chaskiq-prime').click()
-            })
+            })*/
+
+          cy.get('#chaskiq-prime').click()
 
           cy.get('iframe:first')
             .then(function ($iframe) {
@@ -125,11 +127,13 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
         .then(() => {
-          cy.get('iframe:first')
+          /*cy.get('iframe:first')
             .then(function ($iframe) {
               const $body = $iframe.contents().find('body')
               cy.wrap($body).find('#chaskiq-prime').click()
-            })
+            })*/
+
+          cy.get('#chaskiq-prime').click()
 
           cy.get('iframe:first')
             .then(function ($iframe) {
@@ -165,11 +169,13 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
         .then(() => {
-          cy.get('iframe:first')
+          /*cy.get('iframe:first')
             .then(function ($iframe) {
               const $body = $iframe.contents().find('body')
               cy.wrap($body).find('#chaskiq-prime').click()
-            })
+            })*/
+
+          cy.get("#chaskiq-prime").click()
 
           cy.get('iframe:first')
             .then(function ($iframe) {
@@ -208,11 +214,13 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
         .then(() => {
-          cy.get('iframe:first')
+          /*cy.get('iframe:first')
             .then(function ($iframe) {
               const $body = $iframe.contents().find('body')
               cy.wrap($body).find('#chaskiq-prime').click()
-            })
+            })*/
+
+          cy.get('#chaskiq-prime').click()
 
           cy.get('iframe:first')
             .then(function ($iframe) {
@@ -225,7 +233,7 @@ describe('Visitor home apps', function () {
     })
   })
 
-  it.only('add package, frame', function () {
+  it('add package, frame', function () {
     cy.appScenario('basic')
 
     addAppPackage('UiCatalog')
@@ -268,7 +276,10 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
 
-      getIframeBody('iframe:first').find('#chaskiq-prime').click()
+
+      // getIframeBody('iframe:first').find('#chaskiq-prime').click()
+
+      cy.get('#chaskiq-prime').click()
 
       getIframeBody('iframe:first').xpath(
         '/html/body/main/div/div[2]/div/div[1]/div[2]/div/form/div[2]/div/ul/div'
