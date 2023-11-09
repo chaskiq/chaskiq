@@ -86,13 +86,13 @@ describe('Visitor home apps', function () {
               cy.wrap($body).find('#chaskiq-prime').click()
             })*/
 
-          cy.get('#chaskiq-prime').click()
-
-          cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              expect($body.html()).to.contain('Welcome to Chaskiq mr user')
-            })
+          cy.get('#chaskiq-prime').click().then(() => {
+            cy.get('iframe:first')
+              .then(function ($iframe) {
+                const $body = $iframe.contents().find('body')
+                expect($body.html()).to.contain('Welcome to Chaskiq mr user')
+              })
+          })
         })
     })
   })
@@ -127,19 +127,13 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
         .then(() => {
-          /*cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              cy.wrap($body).find('#chaskiq-prime').click()
-            })*/
-
-          cy.get('#chaskiq-prime').click()
-
-          cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              expect($body.html()).to.contain('Welcome to Chaskiq mr anonimous')
-            })
+          cy.get('#chaskiq-prime').click().then(() => {
+            cy.get('iframe:first')
+              .then(function ($iframe) {
+                const $body = $iframe.contents().find('body')
+                expect($body.html()).to.contain('Welcome to Chaskiq mr anonimous')
+              })
+          })
         })
     })
   })
@@ -169,20 +163,14 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
         .then(() => {
-          /*cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              cy.wrap($body).find('#chaskiq-prime').click()
-            })*/
-
-          cy.get("#chaskiq-prime").click()
-
-          cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              cy.wrap($body).contains('Click this action').click()
-              cy.wrap($body).contains('yes!!!!!')
-            })
+          cy.get("#chaskiq-prime").click().then(() => {
+            cy.get('iframe:first')
+              .then(function ($iframe) {
+                const $body = $iframe.contents().find('body')
+                cy.wrap($body).contains('Click this action').click()
+                cy.wrap($body).contains('yes!!!!!')
+              })
+          })
         })
     })
   })
@@ -214,21 +202,15 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
         .then(() => {
-          /*cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              cy.wrap($body).find('#chaskiq-prime').click()
-            })*/
-
-          cy.get('#chaskiq-prime').click()
-
-          cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              cy.wrap($body).contains('Click this action').click()
-              cy.wrap($body).contains('dynamic').click()
-              cy.wrap($body).contains('yes!!!!!')
-            })
+          cy.get('#chaskiq-prime').click().then(() => {
+            cy.get('iframe:first')
+              .then(function ($iframe) {
+                const $body = $iframe.contents().find('body')
+                cy.wrap($body).contains('Click this action').click()
+                cy.wrap($body).contains('dynamic').click()
+                cy.wrap($body).contains('yes!!!!!')
+              })
+          })
         })
     })
   })
@@ -276,23 +258,20 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
 
+      cy.get('#chaskiq-prime').click().then(() => {
+        getIframeBody('iframe:first').xpath(
+          '/html/body/main/div/div[2]/div/div[1]/div[2]/div/form/div[2]/div/ul/div'
+        ).click()
 
-      // getIframeBody('iframe:first').find('#chaskiq-prime').click()
-
-      cy.get('#chaskiq-prime').click()
-
-      getIframeBody('iframe:first').xpath(
-        '/html/body/main/div/div[2]/div/div[1]/div[2]/div/form/div[2]/div/ul/div'
-      ).click()
-
-      cy.wait(1000)
-      getIframeBody('iframe:first')
-        .find('#package-frame')
-        .its('0.contentDocument').should('exist')
-        .its('body').should('not.be.undefined')
-        .then(($iframe) => {
-          cy.wrap($iframe).contains('my friend')
-        })
+        cy.wait(1000)
+        getIframeBody('iframe:first')
+          .find('#package-frame')
+          .its('0.contentDocument').should('exist')
+          .its('body').should('not.be.undefined')
+          .then(($iframe) => {
+            cy.wrap($iframe).contains('my friend')
+          })
+      })
     })
   })
 
@@ -339,20 +318,20 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}`)
 
-      getIframeBody('iframe:first').find('#chaskiq-prime').click()
+      cy.get('#chaskiq-prime').click().then(() => {
+        getIframeBody('iframe:first').xpath(
+          '/html/body/main/div/div[2]/div/div[1]/div[2]/div/form/div[2]/div/ul/div'
+        ).click()
 
-      getIframeBody('iframe:first').xpath(
-        '/html/body/main/div/div[2]/div/div[1]/div[2]/div/form/div[2]/div/ul/div'
-      ).click()
-
-      cy.wait(1000)
-      getIframeBody('iframe:first')
-        .find('#package-frame')
-        .its('0.contentDocument').should('exist')
-        .its('body').should('not.be.undefined')
-        .then(($iframe) => {
-          cy.wrap($iframe).contains('my friend')
-        })
+        cy.wait(1000)
+        getIframeBody('iframe:first')
+          .find('#package-frame')
+          .its('0.contentDocument').should('exist')
+          .its('body').should('not.be.undefined')
+          .then(($iframe) => {
+            cy.wrap($iframe).contains('my friend')
+          })
+      })
     })
   })
 })
