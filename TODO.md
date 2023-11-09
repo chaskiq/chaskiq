@@ -9,10 +9,7 @@ inbound settings
 
 + trackers on app controller reosurces
 
-+ general pling
-
-+ remove home apps
-
++ conversation part dropdown
 
 
 APP PACKAGES:

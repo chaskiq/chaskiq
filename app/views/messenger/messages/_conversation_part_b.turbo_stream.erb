@@ -13,13 +13,7 @@
   <% end %>
 <% end %>
 
-<% if message.was_created? %>
-  <%= turbo_stream.prepend_all "#conversation-#{message.conversation.key}" do %>
-    <%= render "messenger/messages/conversation_part", **local_assigns %>
-  <% end %>
-
-<% else %>
-  <%= turbo_stream.update_all "#conversation-part-#{message.key}" do %>
-    <%= render "messenger/messages/conversation_part", **local_assigns %>
-  <% end %>
+<%= turbo_stream.send(partial_method, partial_target) do %>
+  <%= render "messenger/messages/conversation_part", **local_assigns %>
 <% end %>
+

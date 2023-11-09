@@ -23,15 +23,23 @@ export default class Controller extends BaseController {
     console.log('SEND FORM', e)
     e.preventDefault()
 
-    let data = serialize(this.formTarget, { hash: true })
-    const field = JSON.parse(e.currentTarget.dataset.fieldJson)
-    data['ctx']['field'] = field
-   
-    data['ctx']['values'] = data.ctx.values || {}
-    // console.log("DATA", data)
+    let formData = serialize(this.formTarget, { hash: true, empty: true })
 
-    console.log(field.action.type)
-    console.log("GO TO:", this.formTarget.dataset )
+    const field = JSON.parse(e.currentTarget.dataset.fieldJson);
+    let data = {
+      ctx: {
+        field: field,
+        ...formData.message, // Spread the contents of formData.message into ctx
+        values: { ...formData } // Start with a shallow copy of formData
+      }
+    };
+
+    // Delete the message key from the values object since it's already spread into ctx
+    delete data.ctx.values.message;
+      
+    // console.log("DATA", data)
+    // console.log(field.action.type)
+    // console.log("GO TO:", this.formTarget.dataset )
     
     const kk = this.formTarget.dataset.kind || field.action.type
 

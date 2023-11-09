@@ -7,13 +7,9 @@
 .input-wrapper {
  & input {
     @apply border relative shadow-sm block w-full;
-    @apply block w-full transition ease-in-out duration-150 sm:text-sm sm:leading-5;
-
+    @apply block w-full transition ease-in-out duration-150;
+    @apply dark:bg-black p-3 m-0 pr-10 focus:shadow-outline sm:text-sm font-light;
     margin: 0px !important;
-    @apply dark:bg-black;
-
-    @apply p-3 m-0 pr-10 focus:shadow-outline sm:text-sm sm:leading-5;
-  
   }
 
   &.shadow {
@@ -24,7 +20,7 @@
     @apply rounded-none rounded-l-md;
   }
 
- & label {
+  & label {
     @apply block text-gray-700 dark:text-gray-200 font-bold mb-2;
   }
 

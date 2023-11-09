@@ -7,6 +7,7 @@ class DefinitionRenderer::Component < ApplicationViewComponent
   option :category, default: -> {}
   option :values, default: -> { {} }
   option :blocks
+  option :disabled, default: -> {false}
   option :size, default: -> { "" }
   option :theme, default: -> {}
   option :conversation_key, default: -> {}

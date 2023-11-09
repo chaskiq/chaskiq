@@ -105,6 +105,16 @@
 
 
 
+.inlineTooltip-button svg {
+  display: inline!important;
+  vertical-align: unset!important;
+  color: inherit !important;
+}
+
+.inlineTooltip-button.scale svg path {
+    fill: inherit !important;
+}
+
 /* CHASKIQ MESSENGER STYLES; WE SHOULD SEPARATE THIS IN ITS OWN FILE AND RENAME SOME CLASSES */
 
 #chaskiq-messenger header::before {

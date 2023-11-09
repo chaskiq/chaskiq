@@ -7,7 +7,7 @@
 				<label>
 					<input
 						name="<%= o["name"] || o["id"] %>"
-						disabled="<%= @disabled || o["disabled"] || @save_state == "saved"  %>"
+						<%= @disabled || o["disabled"] || @save_state == "saved" ? "disabled" : "" %>
 						type="checkbox"
 						checked="<%= @value == o["id"] %>"
 					/>

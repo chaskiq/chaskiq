@@ -7,9 +7,10 @@
 		<input
 			type="text"
 			auto-complete="off"
+			placeholder="<%= @placeholder %>"
 			value="<%= @value %>"
 			id="<%= @id %>"
-			name="ctx[values][<%= @id || @name %>]"
+			name="<%= @id || @name %>"
 		></input>
 
 		<% if @action %>
@@ -17,11 +18,12 @@
 			<%= render ButtonRenderer::Component.new(
 					id: @id,
 					label: nil,
+					size: @size,
 					variant: "text-input-button",
 					action: {"type"=>'submit'}
 				) do %>
 				<div>
-					<%= heroicon("arrow-small-right")%>
+					<%= heroicon("arrow-small-right", variant: @size == "sm" ? "mini" : "solid")%>
 				</div>
 			<% end %>
 

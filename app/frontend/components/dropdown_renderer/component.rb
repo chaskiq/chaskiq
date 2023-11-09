@@ -6,5 +6,6 @@ class DropdownRenderer::Component < ApplicationViewComponent
   option :variant
   option :direction
   option :label
+  option :value
   option :options
 end

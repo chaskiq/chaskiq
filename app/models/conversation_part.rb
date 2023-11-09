@@ -132,7 +132,7 @@ class ConversationPart < ApplicationRecord
         data: as_json }
     )
 
-    partial_method = was_created? ? :prepend : :update
+    partial_method = was_created? ? :prepend : :replace
     partial_target = if was_created?
                        "conversation-messages-list-#{conversation.key}"
                      else
@@ -172,12 +172,22 @@ class ConversationPart < ApplicationRecord
       }
     }
 
+
+    partial_method = was_created? ? :prepend : :replace
+    partial_target = if was_created?
+                       "conversation-#{conversation.key}"
+                     else
+                       "conversation-part-#{key}"
+                     end
+
     broadcast_render_to conversation.app, conversation.main_participant,
                         partial: "messenger/messages/conversation_part_b",
                         locals: {
                           app: conversation.app,
                           message: self,
                           notified: true,
+                          partial_method: partial_method,
+                          partial_target: partial_target,
                           data: data
                         }
   end

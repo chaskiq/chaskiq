@@ -175,7 +175,7 @@ class Apps::PackagesController < ApplicationController
                                      current_user: @app.app_users.first,
                                      # current_user: current_agent,
                                      field: params[:ctx][:field],
-                                     values: params[:ctx][:values],
+                                     values: params[:ctx][:values].permit!,
                                      message_key: @message_key,
                                      conversation_key: @conversation_key
                                    }.with_indifferent_access

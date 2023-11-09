@@ -25,7 +25,8 @@
 			when "app_package"
 				render ConversationPartBlock::Component.new(
 					message: message, 
-					app: app, 
+					app: app,
+					viewer: "visitor",
 					frame: "conversations-#{ message.key }-#{message.messageable["app_package"]}"
 				)
 			when "ask_option", "data_retrieval"
