@@ -71,9 +71,14 @@ window.Chaskiq = window.Chaskiq || {
       height: ${height};
       border: transparent;
       z-index: 4000000000;
-      ${result};
-    `;
-    return `<iframe src="${url}" width="100%" height="100%" style="${style}" id="chaskiqBannerFrame"></iframe>`;
+      ${result};`;
+
+    return `<iframe src="${url}" 
+      width="100%" 
+      data-cy="banner-wrapper"
+      height="100%" 
+      style="${style}" 
+      id="chaskiqBannerFrame"></iframe>`;
   },
 
   frameTemplate: function (url) {
