@@ -789,7 +789,7 @@ DEPENDENCIES
   capybara
   chronic (~> 0.10.2)
   code-scanning-rubocop
-  cypress-on-rails (~> 1.0)
+  cypress-on-rails (~> 1.6)
   database_cleaner-active_record
   database_cleaner-redis
   deep_cloneable

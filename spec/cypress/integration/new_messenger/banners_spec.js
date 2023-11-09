@@ -21,6 +21,7 @@ describe('Banners Spec', function () {
         cy.get('iframe[data-cy=banner-wrapper]')
           .then(function ($iframe) {
             const $body = $iframe.contents().find('body')
+            debugger
             cy.wrap($body).find('button').click()
             cy.visit(`/tester/${appKey}`)
             cy.get('iframe[data-cy=banner-wrapper]').should('not.exist')
