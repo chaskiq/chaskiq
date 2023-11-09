@@ -172,7 +172,6 @@ class ConversationPart < ApplicationRecord
       }
     }
 
-
     partial_method = was_created? ? :prepend : :replace
     partial_target = if was_created?
                        "conversation-#{conversation.key}"
