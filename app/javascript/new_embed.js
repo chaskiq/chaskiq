@@ -190,10 +190,49 @@ window.Chaskiq = window.Chaskiq || {
     svg.innerHTML =
       '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />';
   },
+
+  cookieNamespace: function () {
+    // old app keys have hypens, we get rid of this
+    const app_id = this.options.app_id.replace('-', '');
+    return `chaskiq_session_id_${app_id}`;
+  },
+
+  cookieSessionNamespace: function () {
+    // old app keys have hypens, we get rid of this
+    const app_id = this.options.app_id.replace('-', '');
+    return `chaskiq_ap_session_${app_id}`;
+  },
+
+  sessionCookieNamespace: function () {
+    const app_id = this.options.app_id.replace('-', '');
+    return `chaskiq_ap_session_${app_id}`;
+  },
+
+  getSession: function () {
+    // cookie rename, if we wet an old cookie update to new format and expire it
+    const oldCookie = getCookie('chaskiq_session_id');
+    if (getCookie('chaskiq_session_id')) {
+      this.checkCookie(oldCookie); // will append a appkey
+      deleteCookie('chaskiq_session_id');
+    }
+    return getCookie(this.cookieNamespace()) || '';
+  },
+
+  checkCookie: function (val) {
+    //console.log("SET COOKIE ", val, this.cookieNamespace())
+    setCookie(this.cookieNamespace(), val, 365);
+
+    if (!getCookie(this.cookieNamespace())) {
+      // falbacks to direct hostname
+      // console.info("cookie not found, fallabck to:")
+      setCookie(this.cookieNamespace(), val, 365, window.location.hostname);
+    }
+  },
+
   setup: async function (cb) {
     const url = `${this.options.domain}/messenger/${this.options.app_id}/auth`;
     const request = new FetchRequest('post', url, {
-      body: JSON.stringify({ name: 'Request.JS' }),
+      body: JSON.stringify({ name: 'Chaskiq Auth Request' }),
     });
     request.addHeader('session-id', this.getSession());
     request.addHeader('user-data', JSON.stringify(this.options.data));
@@ -201,6 +240,19 @@ window.Chaskiq = window.Chaskiq || {
     const response = await request.perform();
     if (response.ok) {
       const json = await response.json;
+
+      const u = json.user;
+      if (u.kind === 'AppUser') {
+        if (u.session_value) {
+          setCookie(this.cookieSessionNamespace(), u.session_value, 7);
+        }
+      } else {
+        if (u.session_id) {
+          this.checkCookie(u.session_id);
+        } else {
+          deleteCookie(this.cookieNamespace());
+        }
+      }
 
       cb && cb(json);
 
@@ -399,40 +451,6 @@ window.Chaskiq = window.Chaskiq || {
     // what will happen is that the livechat will be still connected
 
     // this.openOnLoad.current = open;
-  },
-  cookieNamespace: function () {
-    // old app keys have hypens, we get rid of this
-    const app_id = this.options.app_id.replace('-', '');
-    return `chaskiq_session_id_${app_id}`;
-  },
-  cookieSessionNamespace: function () {
-    // old app keys have hypens, we get rid of this
-    const app_id = this.options.app_id.replace('-', '');
-    return `chaskiq_ap_session_${app_id}`;
-  },
-  sessionCookieNamespace: function () {
-    const app_id = this.options.app_id.replace('-', '');
-    return `chaskiq_ap_session_${app_id}`;
-  },
-  getSession: function () {
-    // cookie rename, if we wet an old cookie update to new format and expire it
-    const oldCookie = getCookie('chaskiq_session_id');
-    if (getCookie('chaskiq_session_id')) {
-      this.checkCookie(oldCookie); // will append a appkey
-      deleteCookie('chaskiq_session_id');
-    }
-    return getCookie(this.cookieNamespace()) || '';
-  },
-
-  checkCookie: function (val) {
-    //console.log("SET COOKIE ", val, this.cookieNamespace())
-    setCookie(this.cookieNamespace(), val, 365);
-
-    if (!getCookie(this.cookieNamespace())) {
-      // falbacks to direct hostname
-      // console.info("cookie not found, fallabck to:")
-      setCookie(this.cookieNamespace(), val, 365, window.location.hostname);
-    }
   },
 
   toggleMessenger: function () {

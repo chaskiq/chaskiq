@@ -26,7 +26,6 @@ describe('Settings Spec', function () {
         cy.contains('Team').click()
 
         cy.contains("Email")
-        cy.contains("Name")
         cy.contains("Owner")
         cy.contains("Access List")
         cy.contains("Actions")

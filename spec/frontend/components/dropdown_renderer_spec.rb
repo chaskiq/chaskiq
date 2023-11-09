@@ -10,6 +10,7 @@ describe DropdownRenderer::Component do
       variant: "flat-dark",
       direction: "right",
       label: "label",
+      value: "dd",
       options: [
         {
           href: "https://example.com",
@@ -32,8 +33,8 @@ describe DropdownRenderer::Component do
 
   it "renders" do
     render_inline(component)
-    expect(page).to have_css("div")
-    expect(page).to have_css("a", count: options[:options].size)
+    expect(page).to have_css("select")
+    expect(page).to have_css("option", count: options[:options].size + 1)
     expect(page).to have_text(options[:options][0][:text])
     expect(page).to have_text(options[:options][1][:text])
   end

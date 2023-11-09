@@ -22,6 +22,11 @@ class Messenger::AuthController < ApplicationController
     render json: {
       token: token,
       enabled_for_user: enabled_for_user,
+      user: {
+        session_value: session_value,
+        session_id: @app_user.session_id,
+        kind: @app_user.type
+      },
       inbound_settings: @app.inbound_settings,
       inline_conversations: ActiveModel::Type::Boolean.new.cast(@app.inline_new_conversations)
     }
@@ -33,6 +38,8 @@ class Messenger::AuthController < ApplicationController
   end
 
   private
+
+  class EULocationError < StandardError; end
 
   def get_user_data_from_auth
     # it will find the session from cookie
@@ -72,25 +79,25 @@ class Messenger::AuthController < ApplicationController
 
   def handle_encrypted_auth
     if @user_data.present? && @user_data[:email].present?
-      app_user =  get_user_by_email ||
-                  @app.add_user(email: @user_data[:email])
+      @app_user =  get_user_by_email ||
+                   @app.add_user(email: @user_data[:email])
 
-      merge_user_data(app_user)
+      merge_user_data(@app_user)
       options = {
-        properties: app_user.properties.merge(@user_data[:properties]),
+        properties: @app_user.properties.merge(@user_data[:properties]),
         lang: I18n.locale
       }
 
       # set_session_cookie
-      # binding.pry
 
       handle_user_merge
 
-      app_user.update(options)
+      @app_user.update(options)
     else
       visitor = (get_user_by_session || add_vistor)
       visitor.update(lang: I18n.locale)
       merge_user_data(visitor.reload)
+      @app_user = visitor
     end
   end
 
@@ -160,9 +167,8 @@ class Messenger::AuthController < ApplicationController
     u = @app.add_anonymous_user(options)
   end
 
-  class EULocationError < StandardError; end
-
   def session_value
+    return nil if @app_user.blank?
     return nil if @app_user.email.blank?
     return nil if @app_user.kind != "AppUser"
 
@@ -173,6 +179,7 @@ class Messenger::AuthController < ApplicationController
   def app_user
     valid_origin?
     # raise EULocationError.new("GDPR consent needed") if eu_location?
+    @user_data = get_user_data_from_auth
     @app_user ||= get_user_by_email || get_user_by_session
   end
 
@@ -190,7 +197,7 @@ class Messenger::AuthController < ApplicationController
   end
 
   def get_user_by_session
-    session_id = request.headers["HTTP_SESSION_ID"]
+    session_id = request.headers["HTTP_SESSION_ID"] || @app_user[:session_id]
     return nil if session_id.blank?
 
     @app.get_non_users_by_session(session_id)

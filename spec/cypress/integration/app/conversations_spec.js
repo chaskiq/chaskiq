@@ -59,12 +59,12 @@ describe('Conversations Spec', function () {
 
         cy.contains('Customize').click()
 
-        cy.get('input[name="ctx[values][heading]"]').type('Hello, World')
-        cy.get('input[name="ctx[values][page_url]"]').type('https://github.com/rails/rails')
+        cy.get('input[name=heading]').type('Hello, World')
+        cy.get('input[name=page_url]').type('https://github.com/rails/rails')
         cy.contains('autofill inputs with page details').click()
 
-        cy.get('input[name="ctx[values][title]"]').should('have.value', 'GitHub - rails/rails: Ruby on Rails')
-        cy.get('input[name="ctx[values][cover_image]"]').should('not.have.value', '')
+        cy.get('input[name=title]').should('have.value', 'GitHub - rails/rails: Ruby on Rails')
+        cy.get('input[name=cover_image]').should('not.have.value', '')
 
         cy.contains('Add to messenger home').click().then(() => {
           cy.contains('Send App').should('not.be.disabled')

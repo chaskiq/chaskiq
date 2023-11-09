@@ -20,7 +20,7 @@ describe DefinitionRenderer::Component do
       blocks: {
         kind: "bar"
       }
-    }
+    }.with_indifferent_access
   end
   let(:component) { DefinitionRenderer::Component.new(**options) }
 
@@ -30,7 +30,7 @@ describe DefinitionRenderer::Component do
     render_inline(component)
     expect(page).to have_css("div")
 
-    location_input = page.find_css('input[type="hidden"][name="ctx[location]"]').first
+    location_input = page.find_css('input[type="hidden"][name="message[location]"]').first
     expect(location_input["value"]).to eq(location)
 
     expect(page).to have_text(text)
