@@ -21,7 +21,7 @@ describe('Privacy Spec', function () {
         expect(res).to.equal('en')
       })
       cy.wrap($body).contains('Yes, Accept').click()
-    }, { params: { lang: 'en' } })
+    }, { params: { lang: 'en', old_embed: true } })
   })
 
   it('data protection all es', function () {
@@ -39,7 +39,7 @@ describe('Privacy Spec', function () {
       })
 
       cy.wrap($body).contains('Si, Confirmar').click()
-    }, { params: { lang: 'es' } })
+    }, { params: { lang: 'es', old_embed: true } })
   })
 
   it('data protection none es', function () {
@@ -54,6 +54,6 @@ describe('Privacy Spec', function () {
       })
 
       expect($body.html()).to.not.contain('Si, Confirmar')
-    }, { params: { lang: 'es' } })
+    }, { params: { lang: 'es', old_embed: true } })
   })
 })

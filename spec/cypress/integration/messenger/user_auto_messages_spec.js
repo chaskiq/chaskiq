@@ -10,9 +10,9 @@ describe('Conversation Spec', function () {
         text: "Hey",
         hidden_constraints: { hidden_constraints: ['open'] }
       }).then(() => {
-        cy.visit(`/tester/${appKey}`).then(() => {
+        cy.visit(`/tester/${appKey}?old_embed=true`).then(() => {
           cy.get('#messageFrame')
-          cy.visit(`/tester/${appKey}`).then(() => {
+          cy.visit(`/tester/${appKey}?old_embed=true`).then(() => {
             cy.get('#messageFrame').should('not.exist')
           })
         })
@@ -30,9 +30,9 @@ describe('Conversation Spec', function () {
         text: "Hey",
         hidden_constraints: { hidden_constraints: ['close'] }
       }).then(() => {
-        cy.visit(`/tester/${appKey}`).then(() => {
+        cy.visit(`/tester/${appKey}?old_embed=true`).then(() => {
           cy.get('#messageFrame')
-          cy.visit(`/tester/${appKey}`).then(() => {
+          cy.visit(`/tester/${appKey}?old_embed=true`).then(() => {
             cy.get('#messageFrame').should('exist')
             cy.get('#messageFrame').then(function ($iframe) {
               const $body = $iframe.contents().find('body')

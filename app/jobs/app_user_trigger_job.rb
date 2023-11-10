@@ -41,4 +41,27 @@ class AppUserTriggerJob < ApplicationJob
     conversation.add_trigger_message(trigger)
     # conversation = @app.start_conversation(options)
   end
+
+  def add_message(trigger, conversation)
+    author = @app.agent_bots.first
+
+    step = trigger.paths.first&.with_indifferent_access["steps"]
+                  .find do |o|
+      o["messages"].any?
+    end
+
+    message = step[:messages].first
+
+    @message = conversation.add_message(
+      step_id: step[:step_uid],
+      trigger_id: trigger.id,
+      from: author,
+      message: {
+        html_content: message[:html_content],
+        serialized_content: message[:serialized_content],
+        text_content: message[:html_content]
+      },
+      controls: message[:controls]
+    )
+  end
 end

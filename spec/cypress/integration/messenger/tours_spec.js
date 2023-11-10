@@ -25,7 +25,7 @@ describe('Tours Spec', function () {
         url: `/tester/${appKey}`,
         state: 'enabled'
       }).then((res) => {
-        cy.visit(`/tester/${appKey}`).then(() => {
+        cy.visit(`/tester/${appKey}`, {qs: { old_embed: true }}).then(() => {
           // TODO:
 
           // cy.appEval("Tour.last.metrics.where(app_user: AppUser.last, action: \"open\")")
@@ -41,7 +41,7 @@ describe('Tours Spec', function () {
           cy.get('button[data-tour-elem="right-arrow"]').click()
           cy.contains('final tour step').should('not.exist')
 
-          cy.visit(`/tester/${appKey}`).then(() => {
+          cy.visit(`/tester/${appKey}`, {qs: { old_embed: true }}).then(() => {
             cy.contains('this is the tour').should('not.exist')
           })
         })
@@ -59,14 +59,14 @@ describe('Tours Spec', function () {
         url: `/tester/${appKey}`,
         state: 'enabled'
       }).then((res) => {
-        cy.visit(`/tester/${appKey}`).then(() => {
+        cy.visit(`/tester/${appKey}`, {qs: { old_embed: true }}).then(() => {
           // TODO:
           // expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
           cy.contains('this is the tour')
           cy.get('button[aria-label="Close"]').click()
           // cy.contains("skip").click()
           cy.contains('final tour step').should('not.exist')
-          cy.visit(`/tester/${appKey}`).then(() => {
+          cy.visit(`/tester/${appKey}`, {qs: { old_embed: true }}).then(() => {
             cy.contains('this is the tour').should('not.exist')
           })
         })
@@ -84,12 +84,12 @@ describe('Tours Spec', function () {
         url: `/tester/${appKey}/another`,
         state: 'enabled'
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another`).then(() => {
+        cy.visit(`/tester/${appKey}/another`, {qs: { old_embed: true }}).then(() => {
           // TODO:
           // expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
           cy.contains('this is the tour')
 
-          cy.visit(`/tester/${appKey}`).then(() => {
+          cy.visit(`/tester/${appKey}`, {qs: { old_embed: true }}).then(() => {
             cy.contains('this is the tour').should('not.exist')
           })
         })
@@ -107,7 +107,7 @@ describe('Tours Spec', function () {
         url: `/tester/${appKey}/another`,
         state: 'enabled'
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another2`).then(() => {
+        cy.visit(`/tester/${appKey}/another2`, {qs: { old_embed: true }}).then(() => {
           cy.contains('this is the tour').should('not.exist')
           cy.window().its('history').invoke('pushState', 'page2', 'Title', `/tester/${appKey}/another`)
           cy.contains('this is the tour').should('exist')
@@ -126,7 +126,7 @@ describe('Tours Spec', function () {
         url: `/tester/${appKey}/another`,
         state: 'enabled'
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another2`).then(() => {
+        cy.visit(`/tester/${appKey}/another2`, {qs: { old_embed: true }}).then(() => {
           cy.contains('this is the tour').should('not.exist')
           cy.wait(2000)
           cy.window().its('history').invoke('pushState', 'page2', 'Title', `/tester/${appKey}/another`)
@@ -159,7 +159,7 @@ describe('Tours Spec', function () {
           { attribute: 'email', comparison: 'contains', type: 'string', value: 'test' }
         ]
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another`).then(() => {
+        cy.visit(`/tester/${appKey}/another`, {qs: { old_embed: true }}).then(() => {
           // TODO:
           // expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
           cy.contains('this is the tour')
@@ -187,7 +187,7 @@ describe('Tours Spec', function () {
           { attribute: 'num_devices', comparison: 'eq', type: 'integer', value: 1 }
         ]
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1 } }).then(() => {
+        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1, old_embed: true } }).then(() => {
           cy.contains('this is the tour')
         })
       })
@@ -209,7 +209,7 @@ describe('Tours Spec', function () {
           { attribute: 'num_devices', comparison: 'lt', type: 'integer', value: 2 }
         ]
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1 } }).then(() => {
+        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1, old_embed: true } }).then(() => {
           cy.contains('this is the tour')
         })
       })
@@ -231,7 +231,7 @@ describe('Tours Spec', function () {
           { attribute: 'num_devices', comparison: 'gt', type: 'integer', value: 2 }
         ]
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1 } }).then(() => {
+        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1, old_embed: true } }).then(() => {
           cy.contains('this is the tour').should('not.exist')
         })
       })
@@ -253,7 +253,7 @@ describe('Tours Spec', function () {
           { attribute: 'num_devices', comparison: 'gt', type: 'integer', value: 0 }
         ]
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: '!j' } }).then(() => {
+        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: '!j', old_embed: true } }).then(() => {
           cy.contains('this is the tour').should('not.exist')
         })
       })
@@ -275,7 +275,7 @@ describe('Tours Spec', function () {
           { attribute: 'last_sign_in', comparison: 'gt', type: 'date', value: '1 week ago' }
         ]
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1 } }).then(() => {
+        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1, old_embed: true } }).then(() => {
           cy.contains('this is the tour')
         })
       })
@@ -297,7 +297,7 @@ describe('Tours Spec', function () {
           { attribute: 'last_sign_in', comparison: 'gt', type: 'date', value: '1 day ago' }
         ]
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1 } }).then(() => {
+        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1, old_embed: true } }).then(() => {
           cy.contains('this is the tour').should('not.exist')
         })
       })
@@ -320,7 +320,7 @@ describe('Tours Spec', function () {
           { attribute: 'num_devices', comparison: 'gt', type: 'integer', value: 0 }
         ]
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1 } }).then(() => {
+        cy.visit(`/tester/${appKey}/another`, { qs: { num_devices: 1, old_embed: true } }).then(() => {
           cy.contains('this is the tour')
         })
       })
@@ -341,12 +341,12 @@ describe('Tours Spec', function () {
           { attribute: 'email', comparison: 'contains', type: 'string', value: 'other-string-' }
         ]
       }).then((res) => {
-        cy.visit(`/tester/${appKey}/another`).then(() => {
+        cy.visit(`/tester/${appKey}/another`, {qs: { old_embed: true }}).then(() => {
           // TODO:
           // expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
           cy.contains('this is the tour').should('not.exist')
 
-          cy.visit(`/tester/${appKey}`).then(() => {
+          cy.visit(`/tester/${appKey}`, {qs: { old_embed: true }}).then(() => {
             cy.contains('this is the tour').should('not.exist')
           })
         })

@@ -17,12 +17,12 @@ describe('Banners Spec', function () {
         dismiss_button: 'true',
         hidden_constraints: ['open']
       }).then(() => {
-        cy.visit(`/tester/${appKey}`)
+        cy.visit(`/tester/${appKey}?old_embed=true`)
         cy.get('iframe[data-cy=banner-wrapper]')
           .then(function ($iframe) {
             const $body = $iframe.contents().find('body')
             cy.wrap($body).find('button').click()
-            cy.visit(`/tester/${appKey}`)
+            cy.visit(`/tester/${appKey}?old_embed=true`)
             cy.get('iframe[data-cy=banner-wrapper]').should('not.exist')
           })
       })
@@ -46,11 +46,11 @@ describe('Banners Spec', function () {
         dismiss_button: 'true',
         hidden_constraints: ['open']
       }).then(() => {
-        cy.visit(`/tester/${appKey}`)
+        cy.visit(`/tester/${appKey}?old_embed=true`)
         cy.get('iframe[data-cy=banner-wrapper]')
           .then(function ($iframe) {
             const $body = $iframe.contents().find('body')
-            cy.visit(`/tester/${appKey}`)
+            cy.visit(`/tester/${appKey}?old_embed=true`)
             cy.get('iframe[data-cy=banner-wrapper]').should('exist')
           })
       })
