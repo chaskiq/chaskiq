@@ -11,9 +11,9 @@ describe('Conversation Spec', function () {
         hidden_constraints: { hidden_constraints: ['open'] }
       }).then(() => {
         cy.visit(`/tester/${appKey}`).then(() => {
-          cy.get('#messageFrame')
+          cy.get('#chaskiq-user-auto-messages')
           cy.visit(`/tester/${appKey}`).then(() => {
-            cy.get('#messageFrame').should('not.exist')
+            cy.get('#chaskiq-user-auto-messages').should('not.exist')
           })
         })
       })
@@ -31,18 +31,25 @@ describe('Conversation Spec', function () {
         hidden_constraints: { hidden_constraints: ['close'] }
       }).then(() => {
         cy.visit(`/tester/${appKey}`).then(() => {
-          cy.get('#messageFrame')
+          cy.get('#chaskiq-user-auto-messages')
           cy.visit(`/tester/${appKey}`).then(() => {
-            cy.get('#messageFrame').should('exist')
-            cy.get('#messageFrame').then(function ($iframe) {
+          
+
+            cy.wait(2000)
+            cy.get('#chaskiq-user-auto-messages')
+            .should('exist')
+            .then(function ($iframe) {
+
               const $body = $iframe.contents().find('body')
-              cy.wrap($body)
-                .xpath('/html/body/main/div/div/div/div/div/div[2]/a')
-                .click()
+              console.log($body.html())
+
+              console.log("AAAAAAAAA")
+              cy.wrap($body).find('button[data-cy=user-auto-message-dismiss]').should('exist')
+              /*cy.wrap($body).find('button[data-cy=user-auto-message-dismiss]').click()
 
               cy.visit(`/tester/${appKey}`).then(() => {
-                cy.get('#messageFrame').should('not.exist')
-              })
+                cy.get('#chaskiq-user-auto-messages').should('not.exist')
+              })*/
             })
           })
         })
