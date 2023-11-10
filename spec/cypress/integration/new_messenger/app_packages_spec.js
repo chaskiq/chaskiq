@@ -166,8 +166,8 @@ describe('Visitor home apps', function () {
           cy.get("#chaskiq-prime").click().then(() => {
             cy.get('iframe:first')
               .then(function ($iframe) {
-                const $body = $iframe.contents().find('body')
-                cy.wrap($body).contains('Click this action').click()
+                let $body = $iframe.contents().find('body')
+                cy.wrap($body).contains('Click this action').click({force: true})
                 cy.wrap($body).contains('yes!!!!!')
               })
           })
@@ -205,9 +205,9 @@ describe('Visitor home apps', function () {
           cy.get('#chaskiq-prime').click().then(() => {
             cy.get('iframe:first')
               .then(function ($iframe) {
-                const $body = $iframe.contents().find('body')
-                cy.wrap($body).contains('Click this action').click()
-                cy.wrap($body).contains('dynamic').click()
+                let $body = $iframe.contents().find('body')
+                cy.wrap($body).contains('Click this action').click({force: true})
+                cy.wrap($body).contains('dynamic').click({force: true})
                 cy.wrap($body).contains('yes!!!!!')
               })
           })
