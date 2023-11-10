@@ -120,10 +120,10 @@ export function translations () {
     greetings_en: "hello friend",
 
     intro_en: "we are here to help",
-    tagline_en: "estamos aqui para ayudarte",
-
     intro_es: "somos un equipo genial",
-    tagline_es: "we are an awesome team"
+
+    tagline_es: "estamos aqui para ayudarte",
+    tagline_en: "we are an awesome team"
   })`)
 }
 
@@ -151,6 +151,35 @@ export function openMessenger (cb, options, sessionless) {
             const $body = $iframe.contents().find('body')
             cb($body, appKey)
           })
+      })
+  })
+}
+
+export function openNewMessenger (cb, options, sessionless) {
+  cy.appEval('App.last').then((results) => {
+    const appKey = results.key
+    const params = options.params
+    let urlParams = params
+    if (sessionless) {
+      urlParams = Object.assign(
+        urlParams, {}, { sessionless: sessionless }
+      )
+    }
+
+    cy.visit(`/tester/${appKey}`, { qs: urlParams, headers: options.headers || {} })
+      .then(() => {
+
+
+      cy.wait(500)
+      cy.get('#chaskiq-prime').click().then(()=>{
+        cy.get('iframe:first')
+        .then(function ($iframe) {
+          const $body = $iframe.contents().find('body')
+          cb($body, appKey)
+        })
+      })
+
+
       })
   })
 }

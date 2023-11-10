@@ -1,7 +1,7 @@
 
 import {
   translations,
-  openMessenger
+  openNewMessenger
 } from '../../support'
 
 describe('Privacy Spec', function () {
@@ -15,7 +15,7 @@ describe('Privacy Spec', function () {
       privacy_consent_required: "all"
     })`)
 
-    openMessenger(($body) => {
+    openNewMessenger(($body) => {
       expect($body.html()).to.contain('Data Protection')
       cy.appEval('App.last.app_users.last.lang').then((res) => {
         expect(res).to.equal('en')
@@ -29,7 +29,7 @@ describe('Privacy Spec', function () {
       privacy_consent_required: "all"
     })`)
 
-    openMessenger(($body) => {
+    openNewMessenger(($body) => {
       expect($body.html()).to.contain('Protección de datos')
       cy.appEval('App.last.app_users.size').then((res) => {
         expect(res).to.equal(1)
@@ -47,7 +47,7 @@ describe('Privacy Spec', function () {
       privacy_consent_required: "none"
     })`)
 
-    openMessenger(($body) => {
+    openNewMessenger(($body) => {
       expect($body.html()).to.not.contain('Protección de datos')
       cy.appEval('App.last.app_users.last.lang').then((res) => {
         expect(res).to.equal('es')

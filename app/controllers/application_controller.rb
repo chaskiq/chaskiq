@@ -147,8 +147,13 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    locale = if cookies[:lang]
+    locale = if params[:locale]
+               cookies[:lang] = params[:locale]
+               params[:locale]
+             elsif cookies[:lang]
                cookies[:lang]
+             elsif session[:messenger_lang]
+               session[:messenger_lang]
              elsif current_agent&.lang
                cookies[:lang] = current_agent.lang
                current_agent.lang

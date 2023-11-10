@@ -1,14 +1,15 @@
 
 import {
   translations,
-  openMessenger
+  openNewMessenger
 } from '../../support'
 
 describe('Translations Spec', function () {
   it('user lang en', function () {
     cy.appScenario('basic')
     translations()
-    openMessenger(($body) => {
+    openNewMessenger(($body) => {
+      
       expect($body.html()).to.contain('Start a conversation')
       expect($body.html()).to.contain('hello friend')
       expect($body.html()).to.contain('we are here to help')
@@ -24,7 +25,7 @@ describe('Translations Spec', function () {
   it('user lang es', function () {
     cy.appScenario('basic')
     translations()
-    openMessenger(($body) => {
+    openNewMessenger(($body) => {
       expect($body.html()).to.contain('Inicia una conversación')
       /* expect($body.html()).to.contain('hola')
       expect($body.html()).to.contain('estamos aqui')
@@ -45,7 +46,7 @@ describe('Translations Spec', function () {
   it('visitor lang en', function () {
     cy.appScenario('basic')
     translations()
-    openMessenger(($body) => {
+    openNewMessenger(($body) => {
       expect($body.html()).to.contain('Start a conversation')
       expect($body.html()).to.contain('hello friend')
       cy.appEval('App.last.app_users.size').then((res) => {
@@ -57,7 +58,7 @@ describe('Translations Spec', function () {
   it('visitor lang es property', function () {
     cy.appScenario('basic')
     translations()
-    openMessenger(($body) => {
+    openNewMessenger(($body) => {
       expect($body.html()).to.contain('Inicia una conversación')
       expect($body.html()).to.contain('Hola')
       expect($body.html()).to.contain('somos un equipo')
@@ -76,7 +77,7 @@ describe('Translations Spec', function () {
 
     cy.wait(2000)
 
-    openMessenger(($body) => {
+    openNewMessenger(($body) => {
       // cy.wrap($body.find("h2")[1]).contains('Start a conversation')
       expect($body.html()).to.contain('Start a conversation')
       cy.wrap($body).contains('a few seconds ago')
@@ -95,7 +96,7 @@ describe('Translations Spec', function () {
 
   it('lang es', function () {
     cy.appScenario('start_conversation_from_agent')
-    openMessenger(($body) => {
+    openNewMessenger(($body) => {
       expect($body.html()).to.contain('Inicia una conversación')
       // cy.wrap($body).contains('a few seconds ago')
       /* cy.wrap($body).xpath('/html/body/div/div/div/div[2]/div/div[1]/div[2]/div')

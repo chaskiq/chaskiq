@@ -12,7 +12,8 @@ class Messenger::AuthController < ApplicationController
     options = {
       app_user: @app_user.as_json.merge(
         session_value: session_value,
-        session_id: @app_user.session_id
+        session_id: @app_user.session_id,
+        locale: set_locale
       )
     }
 
@@ -27,6 +28,7 @@ class Messenger::AuthController < ApplicationController
         session_id: @app_user.session_id,
         kind: @app_user.type
       },
+      locale: options[:app_user][:locale],
       inbound_settings: @app.inbound_settings,
       inline_conversations: ActiveModel::Type::Boolean.new.cast(@app.inline_new_conversations)
     }
@@ -135,7 +137,7 @@ class Messenger::AuthController < ApplicationController
 
   def set_locale
     user_locale = begin
-      @user_data[:properties].try(:[], :lang)
+      @user_data[:properties].try(:[], :lang) || request.headers["user-lang"]
     rescue StandardError
       nil
     end

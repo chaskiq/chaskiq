@@ -109,7 +109,7 @@ window.Chaskiq = window.Chaskiq || {
         </div>
         
         <div id="prime-wrapper">
-          <div id="chaskiq-prime" class="cache-emo-1ttjy62" onclick="Chaskiq.toggle()">
+          <div id="chaskiq-prime" class="cache-emo-1ttjy62" style="display:none;" onclick="Chaskiq.toggle()">
             ${primeClosedHTML}
           </div>
         </div>
@@ -241,6 +241,7 @@ window.Chaskiq = window.Chaskiq || {
     });
     request.addHeader('session-id', this.getSession());
     request.addHeader('user-data', JSON.stringify(this.options.data));
+    request.addHeader('user-lang', this.options.lang);
 
     const response = await request.perform();
     if (response.ok) {
@@ -287,7 +288,7 @@ window.Chaskiq = window.Chaskiq || {
       }
 
       this.token = data.token;
-      const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${data.token}`;
+      const url = `${this.options.domain}/messenger/${this.options.app_id}?token=${data.token}&locale=${data.locale}`;
       const templateString = this.getTemplate(url);
       const parser = new DOMParser();
       const doc = parser.parseFromString(templateString, 'text/html');
@@ -308,6 +309,8 @@ window.Chaskiq = window.Chaskiq || {
       // send tour opener for editor
       window.opener &&
         window.opener.postMessage({ type: 'ENABLE_MANAGER_TOUR' }, '*');
+
+      document.querySelector('#chaskiq-prime').style.display = 'block';
     });
   },
 
