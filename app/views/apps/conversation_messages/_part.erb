@@ -22,7 +22,7 @@
 			when "ask_option", "data_retrieval"
 				render ConversationPartAskOption::Component.new(message: message, app: app)
 			when "wait_for_reply"
-				message.as_json
+				render WaitForReply::Component.new(message: message, app: app)
 			else
 				"no match for messageable: #{message.as_json}"
 			end

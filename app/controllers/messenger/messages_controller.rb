@@ -49,11 +49,11 @@ class Messenger::MessagesController < ApplicationController
       conversation_key: @conversation.key
     }.with_indifferent_access
 
-    if @message.messageable.is_a?(ConversationPartBlock) &&
-       @message.messageable.blocks["wait_for_input"] && params[:submit].blank?
-      Rails.logger.debug "NOT PROCESSING RECEIVE CONVERSATION AS IT HAS WAIT FOR INPUT"
-      return
-    end
+    # if @message.messageable.is_a?(ConversationPartBlock) &&
+    #   @message.messageable.blocks["wait_for_input"] && params[:submit].blank?
+    #  Rails.logger.debug "NOT PROCESSING RECEIVE CONVERSATION AS IT HAS WAIT FOR INPUT"
+    #  return
+    # end
 
     ActionTrigger.receive_conversation_part(@app, data, user)
   end

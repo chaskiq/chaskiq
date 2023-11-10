@@ -37,6 +37,7 @@ class MessengerController < ApplicationController
     when "track_open" then track_open(params["messenger"])
     when "track_tour_finished" then track_tour_finished(params["messenger"])
     when "track_tour_skipped" then track_tour_skipped(params["messenger"])
+    when "update_conversation_state" then render_conversation_state(params)
 
     end
 
@@ -92,6 +93,8 @@ class MessengerController < ApplicationController
 
     @app.user_home_apps.to_a
   end
+
+  def render_conversation_state; end
 
   private
 

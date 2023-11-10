@@ -22,22 +22,6 @@ class: "cache-emo-smxb2e" do %>
     </svg>
   <% end %>
 
-  <span in="in" 
-    data-messenger-target="animated"
-    data-in="fade-in-right" 
-    data-out="fade-out-right"
-  class="cache-emo-k8eo3k fade-in-right">
-    <% if conversation.assignee.present? %>
-      <div class="cache-emo-1ylu8m8">
-        <%= image_tag conversation.assignee.avatar_url, alt: conversation.assignee.display_name %>
-        <span class="cache-emo-189g58">
-          <p><%= conversation.assignee.display_name %></p>
-          <span class="cache-emo-1c9ppd0">
-            The team will respond as soon as possible
-          </span>
-        </span>
-      </div>
-    <% end %>
-  </span>
+  <%= render "messenger/conversations/header_agent_info", app: app, conversation: conversation, user: user %>
 
 <% end %>

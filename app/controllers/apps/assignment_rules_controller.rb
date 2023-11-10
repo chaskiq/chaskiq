@@ -4,6 +4,7 @@ class Apps::AssignmentRulesController < ApplicationController
   # before_action :check_plan, only: [:update]
 
   def index
+    @navigator = false
     @assignment_rules = @app.assignment_rules.page(params[:page]).per(10)
   end
 

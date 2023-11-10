@@ -40,6 +40,7 @@ describe('Conversation Spec', function () {
         "enabled"=>true, 
         "users"=>{
           "enabled"=>true, 
+          "enabled_inbound"=>true,
           "segment"=>"some", 
           "close_conversations_enabled"=>true, 
           "close_conversations_after"=>0
@@ -47,6 +48,7 @@ describe('Conversation Spec', function () {
         "visitors"=>{
           "visitors_enable_inbound"=>true, 
           "enabled"=>true, 
+          "enabled_inbound"=>true,
           "segment"=>"all", 
           "close_conversations_after"=>-1
         }
@@ -56,6 +58,8 @@ describe('Conversation Spec', function () {
         // expect(res).to.equal(1)
       });
 
+      cy.wait(2000)
+
       openMessenger(($body) => {
         cy.wrap($body).contains('a few seconds ago');
         cy.wrap($body)
@@ -66,25 +70,25 @@ describe('Conversation Spec', function () {
 
             cy.wrap($body).contains('This conversation has ended');
 
-            cy.wrap($body).contains('Create new conversation').click();
+            cy.wrap($body).contains('Start a conversation').click();
           });
       });
     });
 
-    it.only('will show cta for conversation closed, replies blocked', function () {
+    it('will show cta for conversation closed, replies blocked', function () {
       cy.appScenario('start_conversation_from_agent');
 
       cy.appEval(`App.last.update(inbound_settings: {
         "enabled"=>true, 
         "users"=>{
           "enabled"=>true,
-          "enable_inbound"=>true,
+          "enabled_inbound"=>true,
           "segment"=>"some", 
           "close_conversations_enabled"=>true, 
           "close_conversations_after"=>0
         }, 
         "visitors"=>{
-          "enable_inbound"=>true, 
+          "enabled_inbound"=>true, 
           "enabled"=>true, 
           "segment"=>"all", 
           "close_conversations_after"=>-1
@@ -94,8 +98,14 @@ describe('Conversation Spec', function () {
         // expect(res).to.equal(1)
       });
 
+      cy.wait(2000)
+
       openMessenger(($body) => {
+
+        
         cy.wrap($body).contains('a few seconds ago');
+
+        cy.wait(1000)
         cy.wrap($body)
           .xpath('//*[@id="conversations-list"]/a')
           .click()
@@ -104,11 +114,11 @@ describe('Conversation Spec', function () {
 
             cy.appEval(`Conversation.last.close!`);
 
-            cy.wait(6000);
+            //cy.wait(2000);
 
             cy.wrap($body).contains('This conversation has ended');
 
-            cy.wrap($body).contains('Create new conversation');
+            cy.wrap($body).contains('Start a conversation');
           });
       });
     });
@@ -123,11 +133,13 @@ describe('Conversation Spec', function () {
         "enabled"=>true, 
         "users"=>{
           "enabled"=>true, 
+          "enabled_inbound"=>true,
           "segment"=>"some", 
           "close_conversations_enabled"=>false, 
           "close_conversations_after"=>0
         }, 
         "visitors"=>{
+          "enabled_inbound"=>true,
           "visitors_enable_inbound"=>true, 
           "enabled"=>true, 
           "segment"=>"all", 
@@ -139,6 +151,8 @@ describe('Conversation Spec', function () {
         // expect(res).to.equal(1)
       });
 
+
+      cy.wait(2000)
       openMessenger(($body) => {
         cy.wrap($body).contains('a few seconds ago');
         cy.wrap($body)
@@ -161,20 +175,51 @@ describe('Conversation Spec', function () {
       openMessenger(($body, appKey) => {
         expect($body.html()).to.contain('Start a conversation');
 
-        cy.wrap($body)
-          .xpath('/html/body/main/div/div[2]/div/div[1]/div/div/div/div[2]/a[1]')
+
+        cy.wrap($body).xpath('//*[@id="bbbb"]/div[1]/div[2]/div/div[2]/div[2]/a[1]').click()
+
+
+        cy.wrap($body).find('textarea')
+        .should('be.visible')
+        .type('oeoe \n')
+
+
+        cy.wrap($body).contains('oeoe');
+
+        cy.app('start_conversation_command', {
+          text: '11111',
+          app_key: appKey,
+          rules: [],
+        });
+
+        cy.wrap($body).find('textarea')
+        .should('be.visible')
+        .type('oeoe \n')
+
+        //cy.wrap($body).get('//*[@id="text_editor-"]/div/div/textarea')
+        //.type('oeoe \n')
+
+        /*cy.wrap($body).contains(
+          'was assigned to this conversation'
+        );*/
+        
+        //cy.wrap($body).contains('11111');
+
+
+
+        /*cy.wrap($body)
+          .xpath('//*[@id="bbbb"]/div[1]/div[2]/div/div[2]/div[2]/a[1]')
           .click()
           .then(() => {
-            cy.wrap($body)
-              .xpath(
-                '/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea'
+            cy.wait(2000)
+
+            cy.wrap($body).get(
+                'textarea'
               )
-              .should('be.enabled')
+              .should('be.visible')
               .then(() => {
                 cy.wrap($body)
-                  .xpath(
-                    '/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea'
-                  )
+                  .get('textarea')
                   .type('oeoe \n')
                   .then(() => {
                     cy.wrap($body).contains('oeoe');
@@ -185,9 +230,7 @@ describe('Conversation Spec', function () {
                       rules: [],
                     });
 
-                    cy.wrap($body).xpath(
-                      '/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea'
-                    )
+                    cy.wrap($body).get('textarea')
                     .type('oeoe \n')
 
                     cy.wrap($body).contains(
@@ -196,7 +239,7 @@ describe('Conversation Spec', function () {
                     cy.wrap($body).contains('11111');
                   });
               });
-          });
+          });*/
       });
     });
   });

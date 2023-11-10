@@ -10,10 +10,12 @@ export default class extends Controller {
     if (dataset.read !== 'true') {
       if (dataset.viewerType !== dataset.author) {
         // this.playSound();
-        this.markAsRead();
+        // to retrieve triggers and next messages
+        if (this.element.dataset.blockKind !== 'wait_for_reply') {
+          // this.markAsRead();
+          this.sendEvent({});
+        }
       }
-      // to retrieve triggers and next messages
-      this.sendEvent({});
 
       this.chatEditorController?.scrollToBottom();
       this.chatMessengerController?.scrollToBottom();
@@ -42,8 +44,9 @@ export default class extends Controller {
 
   async sendEvent(results, options = {}) {
     if (this.element.dataset.viewerType === 'Agent') return;
+    //if (this.element.dataset.read === "true") return
     const { stepId, triggerId, path } = this.element.dataset;
-
+    if (!stepId || !triggerId) return;
     const data = {
       event_type: 'receive_conversation_part',
       //conversation_key: this.props.conversation.key,

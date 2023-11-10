@@ -1,0 +1,15 @@
+<%= turbo_stream.replace("conversation-header-agent-#{conversation.key}" ) do %>
+  <%= render "messenger/conversations/header_agent_info", 
+    app: app, 
+    conversation: conversation, 
+    user: user 
+  %>
+<% end %>
+
+<%= turbo_stream.replace("text_editor-#{conversation.key}") do %>
+  <%= render "messenger/conversations/text_editor", 
+    app: app, 
+    conversation: conversation, 
+    user: user 
+  %>
+<% end %>

@@ -1,6 +1,6 @@
 class Apps::PackagesController < ApplicationController
-  before_action :find_app
-
+  before_action :find_app, except: %i[content submit process_initialize]
+  before_action :find_app_for_resource, only: %i[content submit process_initialize]
   before_action :set_settings_navigator, only: %i[new create update edit]
 
   def index; end
@@ -116,7 +116,7 @@ class Apps::PackagesController < ApplicationController
                                      conversation_key: @conversation_key,
                                      message_key: @message_key,
                                      lang: I18n.locale,
-                                     current_user: current_agent,
+                                     current_user: @user,
                                      field: params.dig(:ctx, :field),
                                      values: params.dig(:ctx, :values)
                                    }.with_indifferent_access
@@ -148,7 +148,7 @@ class Apps::PackagesController < ApplicationController
                                      location: @location,
                                      values: params[:values],
                                      lang: I18n.locale,
-                                     current_user: current_agent,
+                                     current_user: @user,
                                      conversation_key: params[:conversation_key]
                                    }.with_indifferent_access
                                  })
@@ -271,8 +271,10 @@ class Apps::PackagesController < ApplicationController
     when "conversations"
 
       @conversation = @app.conversations.find_by(key: payload["conversation_key"])
-      author = @app.agents.where("agents.email =?",
-                                 current_agent.email).first # if current_user.is_a?(Agent)
+      if @user.is_a?(Agent)
+        author = @app.agents.where("agents.email =?",
+                                   @user.email).first
+      end
 
       controls = {
         app_package: @package_name,
@@ -319,5 +321,15 @@ class Apps::PackagesController < ApplicationController
     @app.app_package_integrations
         .joins(:app_package)
         .find_by("app_packages.name": params[:id])
+  end
+
+  def find_app_for_resource
+    if request.referer.include?("/messenger/")
+      @app = App.find_by(key: params[:app_id])
+      @user = @app.app_users.find_by(session_id: session[:messenger_session_id])
+    else
+      @app = current_agent.apps.find_by(key: params[:app_id])
+      @user = current_agent
+    end
   end
 end

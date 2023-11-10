@@ -124,14 +124,13 @@ class Apps::ConversationsController < ApplicationController
     }
     case params[:step]
     when "state"
-      menu_items_response("state",
-                          -> { @conversation.update(state: params[:state] == "opened" ? "closed" : "opened") })
+      menu_items_response("state", -> { @conversation.toggle_state })
     when "priorize"
       menu_items_response("priorize", -> { @conversation.toggle_priority })
     when "assignee"
       @agent = @app.agents.find(params[:conversation][:assignee_id])
       menu_items_response("assignee", lambda {
-        @conversation.update(assignee_id: @agent.id)
+        @conversation.assign_user(@agent)
 
         @conversation.log_async(
           action: "assign_user",

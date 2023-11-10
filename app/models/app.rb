@@ -153,6 +153,28 @@ class App < ApplicationRecord
     inbound_settings.dig(k, "enabled_inbound")
   end
 
+  def inbound_replies_closed_for?(app_user)
+    namespace = app_user.model_name.name === "AppUser" ? "users" : "visitors"
+
+    inbound_settings = self.inbound_settings[namespace]
+    # if this option is not enabled then replies are allowed
+    return false unless inbound_settings["close_conversations_enabled"]
+
+    # if this is not a number assume closed
+    return true unless inbound_settings["close_conversations_after"].is_a?(Numeric)
+
+    # if zero we assume closed
+    return true if inbound_settings["close_conversations_after"].zero?
+
+    now = Time.zone.now
+    closed_at_date = Time.zone.parse(conversation.closed_at)
+
+    diff = (now - closed_at_date) / (24 * 60 * 60)
+
+    # if diff is greater than setting assume closed
+    diff.ceil >= inbound_settings["close_conversations_after"]
+  end
+
   def config_fields
     [
       {

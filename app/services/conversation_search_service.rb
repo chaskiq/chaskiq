@@ -37,7 +37,7 @@ class ConversationSearchService
 
     @collection = filter_by_agent(@agent_id) if @agent_id.present?
     @collection = @collection.page(@page).per(@per).fast_page
-    sort_conversations(@sort)
+    @collection = sort_conversations(@sort)
     @collection = @collection.tagged_with(@tag) if @tag.present?
     if @term
       query_term = :main_participant_full_name_or_main_participant_name_or_main_participant_email_or_main_participant_postal_or_main_participant_phone_or_messages_messageable_of_ConversationPartContent_type_text_content_i_cont_any
@@ -64,8 +64,8 @@ class ConversationSearchService
     return @collection if sort.blank?
 
     s = case sort
-        when "updated", "newest" then "updated_at desc"
-        # when "newest" then "created_at desc"
+        when "updated" then "updated_at desc"
+        when "newest" then "latest_user_visible_comment_at desc"
         when "oldest" then "updated_at asc"
         when "priority_first" then "priority asc, updated_at desc"
         else

@@ -91,6 +91,11 @@ class Conversation < ApplicationRecord
     notify_conversation_state_update
   end
 
+  def toggle_state
+    meth = state == "opened" ? :close! : :reopen!
+    send(meth)
+  end
+
   def notify_conversation_state_update
     data = { type: "conversations:update_state",
              data: as_json(methods: [:assignee]) }
@@ -105,6 +110,14 @@ class Conversation < ApplicationRecord
                         target: "chaskiq-custom-events",
                         partial: "messenger/custom_event",
                         locals: { data: data }
+
+    broadcast_render_to app, main_participant,
+                        partial: "messenger/conversations/state_update",
+                        locals: {
+                          app: app,
+                          conversation: self,
+                          user: main_participant
+                        }
   end
 
   def add_reopened_event

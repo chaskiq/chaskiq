@@ -65,6 +65,13 @@ export default class extends Controller {
             trigger: data.data.trigger.id,
           });
           break;
+        case 'conversations:update_state':
+          console.log('STATE UPDATE DO NOTHING');
+          /*this.pushEvent('update_conversation_state', {
+            conversation: this.currentConversationKey(), //this.state.conversation && this.state.conversation.key,
+            trigger: data.data.trigger.id,
+          });*/
+          break;
         case 'conversations:unreads':
           message = {
             type: 'chaskiq:event',

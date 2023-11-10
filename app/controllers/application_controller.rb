@@ -204,7 +204,7 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
-    # return false if turbo_frame_request?
+    return false if turbo_frame_request?
 
     if devise_controller?
       "devise"
