@@ -88,7 +88,11 @@ export default class Controller extends BaseController {
       case 'configure':
         return this.configurePath()  
       case 'submit':
-        return this.submitPath()    
+        return this.submitPath() 
+      case 'content':
+        return this.contentPath()  
+      case 'frame':
+        return this.framePath() 
       default:
         break;
     }
@@ -110,13 +114,39 @@ export default class Controller extends BaseController {
 
   visitFrame(e) {
     e.preventDefault()
-    const json = JSON.parse(e.currentTarget.dataset.fieldJson)
-    console.log("VISIT FRAME", json)
+
+    let formData = serialize(this.formTarget, { hash: true, empty: true })
+
+    const field = JSON.parse(e.currentTarget.dataset.fieldJson);
+    let data = {
+      ctx: {
+        field: field,
+        ...formData.message, // Spread the contents of formData.message into ctx
+        values: { ...formData } // Start with a shallow copy of formData
+      }
+    };
+
+    // Delete the message key from the values object since it's already spread into ctx
+    delete data.ctx.values.message;
+      
+    const kk = this.formTarget.dataset.kind || field.action.type
+    data.url = data.ctx?.field?.action?.url
+
+    console.log("VISIT FRAME", kk, data)
 
     if(this.chatMessengerController){
       console.log("MESSENGER CONTRIKER", this.chatMessengerController) 
-      this.chatMessengerController.goToAppPackageFrame(json.action)
+      this.chatMessengerController.goToAppPackageFrame(data)
     }
+  }
+
+  openContent(e){
+    e.preventDefault()
+    const json = JSON.parse(e.currentTarget.dataset.fieldJson)
+    console.log("OPEN CONTENT", json)
+
+    this.sendForm(e)
+
   }
 
   configurePath() {
@@ -125,6 +155,14 @@ export default class Controller extends BaseController {
 
   submitPath() {
     return `${this.element.dataset.path}/submit`
+  }
+
+  contentPath() {
+    return `${this.element.dataset.path}/content`
+  }
+
+  framePath() {
+    return `${this.element.dataset.path}/frame`
   }
 
   async sendData(e) {

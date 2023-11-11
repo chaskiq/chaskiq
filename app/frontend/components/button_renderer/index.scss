@@ -20,6 +20,7 @@
       @apply px-2 py-1 text-xs font-medium;
     }
 
+		&.default,
     &.sm,
     &.small {
       @apply px-2.5 py-1.5 text-xs leading-4;

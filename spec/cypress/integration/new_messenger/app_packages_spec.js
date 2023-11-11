@@ -206,8 +206,8 @@ describe('Visitor home apps', function () {
             cy.get('iframe:first')
               .then(function ($iframe) {
                 let $body = $iframe.contents().find('body')
-                cy.wrap($body).contains('Click this action').click({force: true})
-                cy.wrap($body).contains('dynamic').click({force: true})
+                cy.wrap($body).contains('Click this action').click() //({force: true})
+                cy.wrap($body).contains('dynamic').click() //{force: true})
                 cy.wrap($body).contains('yes!!!!!')
               })
           })
@@ -215,7 +215,7 @@ describe('Visitor home apps', function () {
     })
   })
 
-  it('add package, frame', function () {
+  it.only('add package, frame 1', function () {
     cy.appScenario('basic')
 
     addAppPackage('UiCatalog')

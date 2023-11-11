@@ -42,15 +42,13 @@ class Messenger::MessagesController < ApplicationController
   end
 
   def trigger_step(author)
-
-    data = { 
+    data = {
       conversation_key: @conversation.key,
       message_key: @message.key,
       trigger: params[:trigger_id],
       step: params[:reply][:next_step_uuid],
       reply: params[:reply].permit!.to_h
     }.with_indifferent_access
-
 
     ActionTrigger.trigger_step(data, @app, author)
   end

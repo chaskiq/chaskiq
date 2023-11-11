@@ -1,0 +1,10 @@
+
+<%= turbo_stream.update("bbbb") do %>
+  <div data-controller="package-iframe" data-html="<%= CGI.escape(@html) %>">
+    <%= content_tag :iframe, '', src: 'about:blank', data:{ package_iframe_target:"iframe"}, id: 'my_iframe', style: 'width:100%; height:300px;' %>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace("header-content") do %>
+  <%= render partial: "messenger/base_header", locals: { app: @app } %>
+<% end %>

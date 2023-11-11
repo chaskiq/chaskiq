@@ -53,6 +53,7 @@ AllCops:
     - 'bin/{rails,rake}'
     - 'spec/cypress/**/*'
     - 'tmp/**/*'
+    - 'spec/e2e/**/*'
 
 
 

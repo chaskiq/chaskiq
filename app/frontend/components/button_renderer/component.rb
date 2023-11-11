@@ -20,6 +20,7 @@ class ButtonRenderer::Component < ApplicationViewComponent
     when "frame" then "click->definition-renderer#visitFrame"
     when "submit", "url" then "click->definition-renderer#sendForm"
     when "link" then "click->definition-renderer#visitLink"
+    when "content" then "click->definition-renderer#openContent"
     end
   end
 end

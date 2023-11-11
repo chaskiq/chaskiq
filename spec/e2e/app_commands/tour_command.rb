@@ -35,8 +35,8 @@ tour_attributes = {
                   "steps" => [
                     { "target" => "H1", "serialized_content" => MessageApis::BlockManager.serialized_text("this is the tour") },
                     { "target" => "H1", "serialized_content" => MessageApis::BlockManager.serialized_text("final tour step") }
-                    #{ "target" => "H1", "serialized_content" => '{"blocks":[{"key":"f1qmb","text":"this is the tour","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}' },
-                    #{ "target" => "H1", "serialized_content" => '{"blocks":[{"key":"f1qmb","text":"final tour step","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}' }
+                    # { "target" => "H1", "serialized_content" => '{"blocks":[{"key":"f1qmb","text":"this is the tour","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}' },
+                    # { "target" => "H1", "serialized_content" => '{"blocks":[{"key":"f1qmb","text":"final tour step","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}' }
                   ],
                   "hidden_constraints" => %w[skip finish] }
 }

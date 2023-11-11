@@ -14,7 +14,6 @@ import UAParser from 'ua-parser-js';
 
 import TourManager from './tour_manager';
 
-
 function loadScript(url) {
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
@@ -293,8 +292,7 @@ window.Chaskiq = window.Chaskiq || {
     this.listenChaskiqEvents();
     this.dispatchEvent('chaskiq:boot');
   },
-  listenChaskiqEvents: function(){
-
+  listenChaskiqEvents: function () {
     document.addEventListener('chaskiq_events', (event) => {
       // @ts-ignore
       const { data, action } = event.detail;
@@ -481,7 +479,7 @@ window.Chaskiq = window.Chaskiq || {
   load: function (options) {
     this.options = options;
     this.isMobile = false;
-    this.tourManager = null
+    this.tourManager = null;
     console.log('Chaskiq boot!');
     window.Chaskiq.initPopupWidget(options);
     this.setTabId();
@@ -677,9 +675,9 @@ window.Chaskiq = window.Chaskiq || {
         default:
           if (event.data.tourManagerEnabled) {
             console.log('TOUR MANAGER INIT EVENT!', event);
-            this.deployTourManager(()=>{
-              this.tourManager = new TourManager({ ...event.data, ev: event })
-            })
+            this.deployTourManager(() => {
+              this.tourManager = new TourManager({ ...event.data, ev: event });
+            });
           }
           break;
       }
@@ -689,16 +687,17 @@ window.Chaskiq = window.Chaskiq || {
     window.addEventListener('message', this.frameEvents.bind(this));
   },
 
-  deployTourManager: function(cb){
-
+  deployTourManager: function (cb) {
     // Load the driver.js script and then perform actions after it's loaded
-    loadScript('https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js')
+    loadScript(
+      'https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js'
+    )
       .then(() => {
         console.log('Driver.js script loaded successfully');
         // Additional actions after the script is loaded can be placed here
-        cb && cb()
+        cb && cb();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error loading script:', error);
       });
 
@@ -711,10 +710,10 @@ window.Chaskiq = window.Chaskiq || {
     this.tourManager.pushEvent(data);
   },
 
-  deployUserTour: function(data){
-    this.deployTourManager(()=>{
-      this.runUserTour(data)
-    })
+  deployUserTour: function (data) {
+    this.deployTourManager(() => {
+      this.runUserTour(data);
+    });
   },
 
   runUserTour: function (data) {
@@ -744,7 +743,7 @@ window.Chaskiq = window.Chaskiq || {
       },
       onCloseClick: (e) => {
         //this.userTour.moveNext();
-        this.userTour.destroy(); 
+        this.userTour.destroy();
         this.pushEvent('messenger:track_tour_skipped', {
           trackable_id: data.data.id,
         });

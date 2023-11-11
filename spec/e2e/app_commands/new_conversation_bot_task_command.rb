@@ -53,9 +53,8 @@ attributes = {
                         "email" => "bot@chasqik.com",
                         "display_name" => "bot" },
                       "html_content" => "--***--",
-                      "serialized_content" => MessageApis::BlockManager.serialized_text("sauper!"),
-                      # '{"blocks":[{"key":"9oe8n","text":"sauper!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}' 
-                    }],
+                      "serialized_content" => MessageApis::BlockManager.serialized_text("sauper!")}
+                      # '{"blocks":[{"key":"9oe8n","text":"sauper!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'],
                    "step_uid" => "73a9d3ec-05f2-4bc9-8fcc-89c51787bb3f" },
                  { "type" => "messages",
                    "controls" => { "type" => "wait_for_reply", "schema" => [] },
@@ -69,9 +68,8 @@ attributes = {
                         "email" => "bot@chasqik.com",
                         "display_name" => "bot" },
                       "html_content" => "--***--",
-                      "serialized_content" => MessageApis::BlockManager.serialized_text("oh si?"),
-                      #'{"blocks":[{"key":"9oe8n","text":"oh si?","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}' 
-                    }],
+                      "serialized_content" => MessageApis::BlockManager.serialized_text("oh si?")}
+                      # '{"blocks":[{"key":"9oe8n","text":"oh si?","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'],
                    "step_uid" => "26209898-0fb7-48c8-ad4c-356f46ff6c5c" },
                  { "type" => "messages",
                    "controls" =>
@@ -95,9 +93,8 @@ attributes = {
                         "email" => "bot@chasqik.com",
                         "display_name" => "bot" },
                       "html_content" => "--***--",
-                      "serialized_content" =>  MessageApis::BlockManager.serialized_text("ah ah !"),
-                      #'{"blocks":[{"key":"9oe8n","text":"ah ah !","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"4odr3","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"3mibr","text":"","type":"image","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{"aspect_ratio":{"width":480,"height":270,"ratio":56.25},"width":480,"caption":"type a caption (optional)","height":270,"forceUpload":false,"url":"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdUlDIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--be6a9c1d1cc883b88226a5070d3ae8588ed8c1b0/open-uri20210303-59150-1650j1d","loading_progress":0,"selected":false,"loading":true,"direction":"center"}}],"entityMap":{}}'
-                   }],
+                      "serialized_content" => MessageApis::BlockManager.serialized_text("ah ah !")}
+                     # '{"blocks":[{"key":"9oe8n","text":"ah ah !","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"4odr3","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"3mibr","text":"","type":"image","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{"aspect_ratio":{"width":480,"height":270,"ratio":56.25},"width":480,"caption":"type a caption (optional)","height":270,"forceUpload":false,"url":"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBdUlDIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--be6a9c1d1cc883b88226a5070d3ae8588ed8c1b0/open-uri20210303-59150-1650j1d","loading_progress":0,"selected":false,"loading":true,"direction":"center"}}],"entityMap":{}}'],
                    "step_uid" => "f2e7f51a-5c02-4777-9ef5-f4bba48412c4" }],
                 "title" => "tres",
                 "follow_actions" => nil }],

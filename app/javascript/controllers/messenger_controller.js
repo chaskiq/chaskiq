@@ -425,6 +425,12 @@ export default class extends Controller {
 
   async goToAppPackageFrame(data, cb) {
     const url = data.url;
+
+    if (url.includes('package_iframe_internal')) {
+      this.goToPackageIframeInternal(data, cb);
+      return;
+    }
+
     const urlWithToken = `${url}&messengerFrame=true`;
     const response = await get(urlWithToken, {
       responseKind: 'turbo-stream',
@@ -434,6 +440,39 @@ export default class extends Controller {
       cb && cb(response);
       console.log('Navigated to: ', url);
     }
+  }
+
+  async goToPackageIframeInternal(data, cb) {
+    const url = data.url;
+
+    const urlWithToken = url;
+    const response = await post(urlWithToken, {
+      body: data,
+      responseKind: 'turbo-stream',
+    });
+
+    if (response.ok) {
+      //console.log(response.html)
+      //this.createPackageFrame(response.html)
+      cb && cb(response);
+      console.log('Navigated to: ', url);
+    }
+  }
+
+  createPackageFrame(content) {
+    // Create the iframe
+    let iframe = document.createElement('iframe');
+    iframe.style.width = '100%';
+    iframe.style.height = '300px';
+
+    // Append the iframe to the body or any other container
+    document.body.appendChild(iframe);
+
+    // Write content to the iframe
+    // Note: This opens and closes the document stream automatically
+    iframe.contentWindow.document.open();
+    iframe.contentWindow.document.write(content);
+    iframe.contentWindow.document.close();
   }
 
   async goTo(url, cb = null) {
@@ -470,17 +509,14 @@ export default class extends Controller {
 
     const lastMessage = this.conversationPartTargets[0];
 
-    const isNew = !this.conversationTarget.dataset.conversationKey
+    const isNew = !this.conversationTarget.dataset.conversationKey;
 
     this.insertComment(this.chatFieldTarget.dataset.url, opts, {
-
-      sent: ()=>{
-        if(isNew && (!lastMessage || !lastMessage?.dataset?.triggerId)){
+      sent: () => {
+        if (isNew && (!lastMessage || !lastMessage?.dataset?.triggerId)) {
           this.handleTriggerRequest('infer');
         }
-      }
-
-
+      },
     });
 
     if (lastMessage && lastMessage.dataset.blockKind === 'wait_for_reply') {
@@ -506,9 +542,9 @@ export default class extends Controller {
 
   handleTriggerRequest(trigger) {
     //if (this.state.appData.tasksSettings) {
-      setTimeout(() => {
-        this.requestTrigger(trigger);
-      }, 1000); // 1000 * 60 * 2
+    setTimeout(() => {
+      this.requestTrigger(trigger);
+    }, 1000); // 1000 * 60 * 2
     //}
   }
 
@@ -870,12 +906,14 @@ export default class extends Controller {
       reply: JSON.parse(e.target.dataset.step),
       trigger_id: e.target.dataset.triggerId,
       step_id: e.target.dataset.stepId,
-      event_type: "trigger_step"
+      event_type: 'trigger_step',
     };
 
-    let parent = e.target.closest('[data-controller="conversation-part-wrapper"]');
+    let parent = e.target.closest(
+      '[data-controller="conversation-part-wrapper"]'
+    );
 
-    const url = parent.dataset.path
+    const url = parent.dataset.path;
 
     const response = await put(url, {
       body: data,
@@ -890,6 +928,4 @@ export default class extends Controller {
 
     console.log('handled', e.target.dataset);
   }
-
-
 }

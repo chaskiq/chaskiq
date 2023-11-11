@@ -174,10 +174,10 @@ describe('Conversation Spec', function () {
       cy.appScenario('basic');
       openMessenger(($body, appKey) => {
         cy.wait(2000)
-        expect($body.html()).to.contain('Start a conversation').click()
+        expect($body.html()).to.contain('Start a conversation')
 
 
-        //cy.wrap($body).xpath('//*[@id="bbbb"]/div[1]/div[2]/div/div[2]/div[2]/a[1]').click()
+        cy.wrap($body).xpath('/html/body/div/div/div/div[2]/div[1]/div[1]/div/div/div/div[2]/div[2]/a[1]').click()
 
 
         cy.wrap($body).find('textarea')
@@ -250,6 +250,7 @@ describe('Conversation Spec', function () {
       const appKey = results.key;
       cy.visit(`/tester/${appKey}`).then(() => {
        
+        cy.wait(2000)
         cy.get('#chaskiq-prime').click();
 
         cy.get('iframe:first').then(function ($iframe) {

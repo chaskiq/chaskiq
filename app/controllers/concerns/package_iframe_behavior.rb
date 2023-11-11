@@ -21,6 +21,13 @@ module PackageIframeBehavior
 
       pkg = AppPackageIntegration.find(data[:package_id])
       html = pkg.presenter.sheet_view(data)
+    elsif params[:token].blank? && session[:messenger_session_id]
+      @app = App.find_by(key: data[:app_id])
+      app_user = @app.app_users.find_by(session_id: session[:messenger_session_id])
+      data = {}
+      data[:user] = app_user
+      pkg = AppPackageIntegration.find(data[:package_id])
+      html = pkg.presenter.sheet_view(data)
     elsif params[:data].present?
       data = JSON.parse(params[:data])
       @app = App.find_by(key: data["data"]["app_id"])
@@ -88,7 +95,13 @@ module PackageIframeBehavior
     #  app = conversation.app
     # else
 
-    app = AppUser.find(params[:user]["id"]).app
+    if session[:messenger_session_id]
+      user = AppUser.find_by(session_id: session[:messenger_session_id])
+      app = user.app
+    else
+      app = AppUser.find(params[:user]["id"]).app
+      user = params[:user]
+    end
     # end
 
     presenter = app.app_package_integrations
@@ -98,7 +111,7 @@ module PackageIframeBehavior
 
     opts = {
       app_key: app.key,
-      user: params[:user],
+      user: user,
       field: params.dig(:data, :field),
       values: params.dig(:data, :values)
     }
@@ -112,7 +125,17 @@ module PackageIframeBehavior
 
     # rubocop:disable Rails/OutputSafety
     response.headers.delete "X-Frame-Options"
-    render html: html.html_safe, layout: false
+    @html = html.html_safe
+
+    respond_to do |format|
+      format.turbo_stream do
+        @app = app
+        render "apps/packages/package_iframe_internal", layout: false
+      end
+      format.html do
+        render html: html.html_safe, layout: false
+      end
+    end
     # rubocop:enable Rails/OutputSafety
   end
 

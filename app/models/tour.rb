@@ -96,8 +96,8 @@ class Tour < Message
 
   def steps_for_driver
     return [] if settings["steps"].blank?
-    settings["steps"].map do |step|
 
+    settings["steps"].map do |step|
       content = step.key?("serialized_content") ? step["serialized_content"] : step["content"]
       {
         element: step["target"],
