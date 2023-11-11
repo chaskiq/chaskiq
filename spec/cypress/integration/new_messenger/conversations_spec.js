@@ -173,10 +173,11 @@ describe('Conversation Spec', function () {
     it('start_conversation', function () {
       cy.appScenario('basic');
       openMessenger(($body, appKey) => {
-        expect($body.html()).to.contain('Start a conversation');
+        cy.wait(2000)
+        expect($body.html()).to.contain('Start a conversation').click()
 
 
-        cy.wrap($body).xpath('//*[@id="bbbb"]/div[1]/div[2]/div/div[2]/div[2]/a[1]').click()
+        //cy.wrap($body).xpath('//*[@id="bbbb"]/div[1]/div[2]/div/div[2]/div[2]/a[1]').click()
 
 
         cy.wrap($body).find('textarea')

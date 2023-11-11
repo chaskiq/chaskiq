@@ -27,11 +27,8 @@ describe('Task bot Spec', function () {
         const appKey = results.key
 
         cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(() => {
-          cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              cy.wrap($body).find('#chaskiq-prime').click()
-            })
+       
+          cy.get('#chaskiq-prime').click()
 
           cy.get('iframe:first')
             .then(function ($iframe) {
@@ -39,19 +36,17 @@ describe('Task bot Spec', function () {
               expect($body.html()).to.contain('Start a conversation')
 
               cy.wrap($body)
-                .xpath('/html/body/main/div/div[2]/div/div[1]/div/div/div[2]/div[2]/a[1]')
+                .xpath('/html/body/div/div/div/div[2]/div[1]/div[1]/div/div/div/div[2]/div[2]/a[1]')
                 .click()
                 .then(() => {
-                  cy.wrap($body)
-                    .xpath('/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea')
-                    .should('be.enabled').then(() => {
-                      cy.wrap($body)
-                        .xpath('/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea')
-                        .type('oeoe \n')
 
-                      cy.wrap($body).contains('will reply as soon as they can.')
-                    })
-                })
+                  cy.wait(2000)
+                  cy.wrap($body).find('textarea')
+                  .should('have.length', 1)
+                  .type('oeoe \n')
+      
+                  cy.wrap($body).contains('will reply as soon as they can.')
+              })
             })
         })
       })
@@ -59,7 +54,6 @@ describe('Task bot Spec', function () {
   })
 
   it('sessionless 2 always ask email , email validation', function () {
-    cy.wait(5000)
 
     cy.appScenario('app_bot_settings', { email_requirement: 'Always' }).then((results) => {
       addPackage('Qualifier')
@@ -67,59 +61,57 @@ describe('Task bot Spec', function () {
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
         cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(() => {
-          cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              cy.wrap($body).find('#chaskiq-prime').click()
-            })
+          
+          cy.wait(2000)
+          cy.get('#chaskiq-prime').click()
 
+          cy.wait(2000)
           cy.get('iframe:first')
             .then(function ($iframe) {
               const $body = $iframe.contents().find('body')
               expect($body.html()).to.contain('Start a conversation')
 
               cy.wrap($body)
-                .xpath('/html/body/main/div/div[2]/div/div[1]/div/div/div[2]/div[2]/a[1]')
+                .xpath('/html/body/div/div/div/div[2]/div[1]/div[1]/div/div/div/div[2]/div[2]/a[1]')
                 .click()
                 .then(() => {
-                  cy.wrap($body)
-                    .xpath('/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea')
-                    .should('be.enabled').then(() => {
-                      cy.wrap($body)
-                        .xpath('/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea')
-                        .type('oeoe \n').then(() => {
-                          cy.wait(2000)
+                  cy.wrap($body).then(() => {
+                    cy.wait(2000)
+                    cy.wrap($body).find('textarea')
+                    .should('have.length', 1)
+                    .type('oeoe \n').then(() => {
+                        cy.wait(2000)
 
-                          cy.wrap($body).contains('will reply as soon as they can.')
+                        cy.wrap($body).contains('will reply as soon as they can.')
 
-                          cy.wrap($body).contains('Are you an existing')
+                        cy.wrap($body).contains('Are you an existing')
 
-                          cy.wrap($body).contains("Yes, I'm a customer").click().then(() => {
-                            cy.wrap($body).contains('by email')
-                            cy.wrap($body)
-                              .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/input')
-                              .type('John')
+                        cy.wrap($body).contains("Yes, I'm a customer").click().then(() => {
+                          cy.wrap($body).contains('by email')
+                          cy.wrap($body)
+                            .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/input')
+                            .type('John')
 
-                            cy.wrap($body)
-                              .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/div')
-                              .click()
+                          cy.wrap($body)
+                            .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/div')
+                            .click()
 
-                            cy.wrap($body).contains('is invalid')
+                          cy.wrap($body).contains('is invalid')
 
-                            cy.wrap($body)
-                              .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/input')
-                              .type('John@apple.test')
+                          cy.wrap($body)
+                            .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/input')
+                            .type('John@apple.test')
 
-                            cy.wrap($body)
-                              .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/div')
-                              .click()
+                          cy.wrap($body)
+                            .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/div')
+                            .click()
 
-                            cy.wrap($body).contains('Thank you')
-                          })
+                          cy.wrap($body).contains('Thank you')
                         })
-                    })
+                      })
                 })
-            })
+              })
+          })
         })
       })
     })
@@ -130,11 +122,8 @@ describe('Task bot Spec', function () {
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
         cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(() => {
-          cy.get('iframe:first')
-            .then(function ($iframe) {
-              const $body = $iframe.contents().find('body')
-              cy.wrap($body).find('#chaskiq-prime').click()
-            })
+          
+          cy.get('#chaskiq-prime').click()
 
           cy.get('iframe:first')
             .then(function ($iframe) {
@@ -218,10 +207,6 @@ describe('start conversation welcome bot', function () {
         app_key: appKey
       })
     })
-
-    function windowSpec($body, appKey){
-
-    }
 
     helpers.openMessenger("?jwt=true", ($body, appKey) => {
       expect($body.html()).to.contain('Start a conversation')

@@ -28,7 +28,7 @@ class Messenger::AuthController < ApplicationController
         session_id: @app_user.session_id,
         kind: @app_user.type
       },
-      locale: options[:app_user][:locale],
+      locale: options[:app_user][:locale] || I18n.locale,
       inbound_settings: @app.inbound_settings,
       inline_conversations: ActiveModel::Type::Boolean.new.cast(@app.inline_new_conversations)
     }

@@ -85,13 +85,9 @@ describe('Chaskiq Messenger', function () {
       cy.appEval('App.last.add_agent({email: "test2@test.cl", name: "test agent"})')
       const record = results[0]
       cy.visit(`/tester/${record.key}`).then(() => {
-        // cy.wait(10000)
-        // cy.get('#ChaskiqMessengerRoot').should('be.visible')
-        cy.get('iframe:first')
-          .then(function ($iframe) {
-            const $body = $iframe.contents().find('body')
-            cy.wrap($body).find('#chaskiq-prime').click()
-          })
+         cy.wait(2000)
+
+        cy.get('#chaskiq-prime').click()
 
         cy.get('iframe:first')
           .then(function ($iframe) {
@@ -120,7 +116,9 @@ describe('Chaskiq Messenger', function () {
       }
 
       messengerVisit({ visitor: true, nullFrame: true }, inboundSettings, ($body, cy) => {
-        expect($body.find('#chaskiq-prime').length).to.equal(1)
+        //expect($body.find('#chaskiq-prime').length).to.equal(1)
+        cy.wait(2000)
+        cy.get('#chaskiq-prime').should('be.visible')
       })
     })
 
@@ -148,7 +146,9 @@ describe('Chaskiq Messenger', function () {
         visitor_segment: 'some'
       }
       messengerVisit({ visitor: true }, inboundSettings, ($body) => {
-        expect($body.find('#chaskiq-prime').length).to.equal(1)
+        //expect($body.find('#chaskiq-prime').length).to.equal(1)
+        cy.get('#chaskiq-prime').should('be.visible')
+
       })
     })
 

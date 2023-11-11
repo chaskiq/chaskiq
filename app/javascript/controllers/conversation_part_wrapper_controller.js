@@ -11,7 +11,7 @@ export default class extends Controller {
       if (dataset.viewerType !== dataset.author) {
         // this.playSound();
         // to retrieve triggers and next messages
-        if (this.element.dataset.blockKind !== 'wait_for_reply') {
+        if (!this.element.dataset.blockKind){ //!== 'wait_for_reply') {
           // this.markAsRead();
           this.sendEvent({});
         }

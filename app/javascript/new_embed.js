@@ -14,6 +14,25 @@ import UAParser from 'ua-parser-js';
 
 import TourManager from './tour_manager';
 
+
+function loadScript(url) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`Script load error for ${url}`));
+    document.head.appendChild(script);
+  });
+}
+
+// Function to load a CSS file
+function loadCSS(url) {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = url;
+  document.head.appendChild(link);
+}
+
 function getBrowserVisibilityProp() {
   if (typeof document.hidden !== 'undefined') {
     // Opera 12.10 and Firefox 18 and later support
@@ -271,7 +290,37 @@ window.Chaskiq = window.Chaskiq || {
     //eventsSubscriber(this.App, { ctx: this });
     this.locationChangeListener();
     this.listenFrameEvents();
+    this.listenChaskiqEvents();
     this.dispatchEvent('chaskiq:boot');
+  },
+  listenChaskiqEvents: function(){
+
+    document.addEventListener('chaskiq_events', (event) => {
+      // @ts-ignore
+      const { data, action } = event.detail;
+      switch (action) {
+        case 'wakeup':
+          this.open();
+          break;
+        case 'toggle':
+          this.toggle();
+          break;
+        case 'convert':
+          //this.convertVisitor(data);
+          break;
+        case 'trigger':
+          //this.requestTrigger(data);
+          break;
+        case 'unload':
+          // this.unload()
+          break;
+        case 'shutdown':
+          this.shutdown();
+          break;
+        default:
+          break;
+      }
+    });
   },
   initPopupWidget: function (dataObj) {
     this.ping();
@@ -432,6 +481,7 @@ window.Chaskiq = window.Chaskiq || {
   load: function (options) {
     this.options = options;
     this.isMobile = false;
+    this.tourManager = null
     console.log('Chaskiq boot!');
     window.Chaskiq.initPopupWidget(options);
     this.setTabId();
@@ -604,7 +654,7 @@ window.Chaskiq = window.Chaskiq || {
           this.handleFrameEvents(event.data.data);
           break;
         case 'chaskiq:tours':
-          this.handleTourEditor(event.data.data);
+          this.handleTourEditor.bind(this)(event.data);
           break;
         case 'chaskiq:banners':
           this.receiveBanners(event.data.data);
@@ -627,7 +677,9 @@ window.Chaskiq = window.Chaskiq || {
         default:
           if (event.data.tourManagerEnabled) {
             console.log('TOUR MANAGER INIT EVENT!', event);
-            this.tourManager = new TourManager({ ...event.data, ev: event });
+            this.deployTourManager(()=>{
+              this.tourManager = new TourManager({ ...event.data, ev: event })
+            })
           }
           break;
       }
@@ -637,9 +689,32 @@ window.Chaskiq = window.Chaskiq || {
     window.addEventListener('message', this.frameEvents.bind(this));
   },
 
+  deployTourManager: function(cb){
+
+    // Load the driver.js script and then perform actions after it's loaded
+    loadScript('https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js')
+      .then(() => {
+        console.log('Driver.js script loaded successfully');
+        // Additional actions after the script is loaded can be placed here
+        cb && cb()
+      })
+      .catch(error => {
+        console.error('Error loading script:', error);
+      });
+
+    // Load the driver.js CSS
+    loadCSS('https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css');
+  },
+
   handleTourEditor: function (data) {
     console.log('RECIVED EVENT FROM TOUR EDITOR, SENDING TO TOURMANAGER', data);
     this.tourManager.pushEvent(data);
+  },
+
+  deployUserTour: function(data){
+    this.deployTourManager(()=>{
+      this.runUserTour(data)
+    })
   },
 
   runUserTour: function (data) {
@@ -647,7 +722,7 @@ window.Chaskiq = window.Chaskiq || {
 
     this.userTour = window.driver.js.driver({
       steps: steps,
-      allowClose: false,
+      allowClose: true,
       onNextClick: (e, step) => {
         this.userTour.moveNext();
 
@@ -668,7 +743,8 @@ window.Chaskiq = window.Chaskiq || {
         });
       },
       onCloseClick: (e) => {
-        this.userTour.moveNext();
+        //this.userTour.moveNext();
+        this.userTour.destroy(); 
         this.pushEvent('messenger:track_tour_skipped', {
           trackable_id: data.data.id,
         });
@@ -701,7 +777,7 @@ window.Chaskiq = window.Chaskiq || {
         this.closeBanner();
         break;
       case 'messenger:user_tour':
-        this.runUserTour(data);
+        this.deployUserTour(data);
         break;
       case 'messenger:inline_mode':
         this.setDisplayMode(data.value);

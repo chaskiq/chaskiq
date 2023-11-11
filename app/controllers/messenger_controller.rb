@@ -153,6 +153,8 @@ class MessengerController < ApplicationController
 
     @home_apps = home_apps
 
+    @latest_conversations = @app_user.conversations.limit(4)
+
     @needs_privacy_consent = needs_privacy_consent
   end
 

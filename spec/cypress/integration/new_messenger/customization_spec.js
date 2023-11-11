@@ -1,4 +1,4 @@
-import { translations, openMessenger } from '../../support';
+import { translations, openNewMessenger } from '../../support';
 
 const defaultPredicates = [
   {
@@ -24,7 +24,7 @@ describe('Customization Spec', function() {
     })`);
 
     translations();
-    openMessenger(
+    openNewMessenger(
       ($body) => {
         cy.appEval('App.last').then((res) => {
           expect(res.preferences.customization_colors).to.exist;
@@ -40,7 +40,7 @@ describe('Customization Spec', function() {
     cy.appEval('App.last.update(customization_colors: nil )');
 
     translations();
-    openMessenger(
+    openNewMessenger(
       ($body) => {
         cy.appEval('App.last').then((res) => {
           expect(res.preferences.customization_colors).to.not.exist;
@@ -59,7 +59,7 @@ describe('Customization Spec', function() {
     })`);
 
     translations();
-    openMessenger(
+    openNewMessenger(
       ($body) => {
         cy.appEval('App.last').then((res) => {
           expect(res.preferences.customization_colors).to.exist;

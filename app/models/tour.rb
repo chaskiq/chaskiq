@@ -95,12 +95,15 @@ class Tour < Message
   end
 
   def steps_for_driver
+    return [] if settings["steps"].blank?
     settings["steps"].map do |step|
+
+      content = step.key?("serialized_content") ? step["serialized_content"] : step["content"]
       {
         element: step["target"],
         popover: {
           title: "Title",
-          description: Dante::Renderer.new(raw: JSON.parse(step["content"]).deep_symbolize_keys).render
+          description: Dante::Renderer.new(raw: JSON.parse(content).deep_symbolize_keys).render
         }
       }
     end

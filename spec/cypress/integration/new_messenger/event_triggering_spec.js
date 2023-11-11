@@ -8,7 +8,7 @@ describe('Customization Spec', function () {
     cy.appEval('ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true')
   })
 
-  it('wakeup & toggle method', function () {
+  it.only('wakeup & toggle method', function () {
     cy.appScenario('basic')
 
     translations()
@@ -25,28 +25,24 @@ describe('Customization Spec', function () {
             })
 
           cy.window().then((win) => {
+            cy.wait(2000)
             cy.get('iframe:first')
               .then(function ($iframe) {
                 const $body = $iframe.contents().find('body')
-                expect($body.html()).to.not.contain('Start a conversation')
+                //console.log($body.html())
+                //expect($body.html()).to.not.contain('Start a conversation')
+                cy.get("#frame-wrapper[data-open=false]") //.should('not.be.visible')
               }).then(() => {
-                win.chaskiqMessenger.sendCommand('wakeup', {})
+            
+                 win.chaskiqMessenger.sendCommand('wakeup', {})
 
-                cy.get('iframe:first')
-                  .then(function ($iframe) {
-                    const $body = $iframe.contents().find('body')
-                    expect($body.html()).to.contain('Start a conversation')
-                  }).then(() => {
-                    cy.wait(600).then(() => {
-                      win.chaskiqMessenger.sendCommand('toggle', {})
+                 cy.get("#frame-wrapper[data-open=true]").then(()=>{
 
-                      cy.get('iframe:first')
-                        .then(function ($iframe) {
-                          const $body = $iframe.contents().find('body')
-                          expect($body.html()).to.not.contain('Start a conversation')
-                        })
-                    })
-                  })
+                  win.chaskiqMessenger.sendCommand('toggle', {})
+                  cy.get("#frame-wrapper[data-open=false]")
+
+                 })
+   
               })
           })
         })

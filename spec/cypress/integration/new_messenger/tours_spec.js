@@ -35,10 +35,10 @@ describe('Tours Spec', function () {
 
           // expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
           cy.contains('this is the tour')
-          cy.get('button[data-tour-elem="right-arrow"]').click()
+          cy.get('.driver-popover-next-btn').click()
           cy.contains('final tour step')
 
-          cy.get('button[data-tour-elem="right-arrow"]').click()
+          cy.get('.driver-popover-next-btn').click()
           cy.contains('final tour step').should('not.exist')
 
           cy.visit(`/tester/${appKey}`).then(() => {
@@ -63,7 +63,7 @@ describe('Tours Spec', function () {
           // TODO:
           // expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
           cy.contains('this is the tour')
-          cy.get('button[aria-label="Close"]').click()
+          cy.get('.driver-popover-close-btn').click()
           // cy.contains("skip").click()
           cy.contains('final tour step').should('not.exist')
           cy.visit(`/tester/${appKey}`).then(() => {

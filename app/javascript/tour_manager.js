@@ -5,7 +5,6 @@ import {
 } from 'body-scroll-lock';
 
 import { finder } from '@medv/finder';
-
 class TourManager {
   constructor(props) {
     this.props = props;

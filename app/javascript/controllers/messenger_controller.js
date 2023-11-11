@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import { post, get } from '@rails/request.js';
+import { post, get, put } from '@rails/request.js';
 import { debounce } from 'lodash';
 import { FetchRequest } from '@rails/request.js';
 
@@ -470,7 +470,18 @@ export default class extends Controller {
 
     const lastMessage = this.conversationPartTargets[0];
 
-    this.insertComment(this.chatFieldTarget.dataset.url, opts);
+    const isNew = !this.conversationTarget.dataset.conversationKey
+
+    this.insertComment(this.chatFieldTarget.dataset.url, opts, {
+
+      sent: ()=>{
+        if(isNew && (!lastMessage || !lastMessage?.dataset?.triggerId)){
+          this.handleTriggerRequest('infer');
+        }
+      }
+
+
+    });
 
     if (lastMessage && lastMessage.dataset.blockKind === 'wait_for_reply') {
       console.log('REPLY THIS ON WAIT!');
@@ -492,6 +503,21 @@ export default class extends Controller {
       },
     });*/
   }
+
+  handleTriggerRequest(trigger) {
+    //if (this.state.appData.tasksSettings) {
+      setTimeout(() => {
+        this.requestTrigger(trigger);
+      }, 1000); // 1000 * 60 * 2
+    //}
+  }
+
+  requestTrigger = (kind) => {
+    this.pushEvent('request_trigger', {
+      conversation: this.currentConversationKey(),
+      trigger: kind,
+    });
+  };
 
   handleChatInput(e) {
     console.log('HANDLE typing');
@@ -841,13 +867,29 @@ export default class extends Controller {
 
   async handleStepControlClick(e) {
     const data = {
-      reply: e.target.dataset.step,
+      reply: JSON.parse(e.target.dataset.step),
       trigger_id: e.target.dataset.triggerId,
       step_id: e.target.dataset.stepId,
+      event_type: "trigger_step"
     };
 
-    this.insertComment(this.chatFieldTarget.dataset.url, data);
+    let parent = e.target.closest('[data-controller="conversation-part-wrapper"]');
+
+    const url = parent.dataset.path
+
+    const response = await put(url, {
+      body: data,
+      responseKind: 'turbo-stream',
+    });
+
+    if (response.ok) {
+      //const body = await response.html
+      //this.element.closest('.definition-renderer').outerHTML = body
+      console.log('response!');
+    }
 
     console.log('handled', e.target.dataset);
   }
+
+
 }

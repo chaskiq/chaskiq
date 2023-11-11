@@ -35,10 +35,24 @@ class Messenger::MessagesController < ApplicationController
     # NOTE: that we might not be needed to receive step & trigger ar we already have them in the messge data.
     case params["event_type"]
     when "receive_conversation_part" then receive_conversation_part(author)
-
+    when "trigger_step" then trigger_step(author)
     end
 
     # receive_conversation_part(data, user)
+  end
+
+  def trigger_step(author)
+
+    data = { 
+      conversation_key: @conversation.key,
+      message_key: @message.key,
+      trigger: params[:trigger_id],
+      step: params[:reply][:next_step_uuid],
+      reply: params[:reply].permit!.to_h
+    }.with_indifferent_access
+
+
+    ActionTrigger.trigger_step(data, @app, author)
   end
 
   def receive_conversation_part(user)
