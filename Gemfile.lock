@@ -31,6 +31,13 @@ GIT
       activerecord (>= 6.1, < 7.2)
 
 GIT
+  remote: https://github.com/michelson/cypress-on-rails.git
+  revision: ae937707b2a0c925b3e442e12b65662c02cc2409
+  specs:
+    cypress-on-rails (1.16.0)
+      rack
+
+GIT
   remote: https://github.com/michelson/nightfury.git
   revision: b9014eec30d94c52a63f724ef449a34d3b3f42c2
   specs:
@@ -239,8 +246,6 @@ GEM
     crass (1.0.6)
     css_parser (1.16.0)
       addressable
-    cypress-on-rails (1.16.0)
-      rack
     database_cleaner-active_record (2.1.0)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
@@ -789,7 +794,7 @@ DEPENDENCIES
   capybara
   chronic (~> 0.10.2)
   code-scanning-rubocop
-  cypress-on-rails (~> 1.6)
+  cypress-on-rails!
   database_cleaner-active_record
   database_cleaner-redis
   deep_cloneable

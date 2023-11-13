@@ -98,8 +98,8 @@ beforeEach(() => {
 // comment this out if you do not want to attempt to log additional info on test fail
 Cypress.on('fail', (err, runnable) => {
   // allow app to generate additional logging data
-  Cypress.$.ajax({
-    url: '/__cypress__/command',
+  /*Cypress.$.ajax({
+    url: '/__e2e__/command',
     data: JSON.stringify({
       name: 'log_fail',
       options: {
@@ -109,7 +109,9 @@ Cypress.on('fail', (err, runnable) => {
     }),
     async: false,
     method: 'POST'
-  })
+  })*/
+
+  console.error('Caught an exception with 500 status code', err);
 
   throw err
 })

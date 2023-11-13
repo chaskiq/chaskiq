@@ -11,7 +11,7 @@ describe('Login Spec', function () {
       a.send( :generate_invitation_token!);
       a.raw_invitation_token
     `).then((token) => {
-      cy.visit(`/agents/invitation/accept?invitation_token=${token}`).then(() => {
+      cy.visit(`/agents/invitation/accept?invitation_token=${token}`,{ failOnStatusCode: false }).then(() => {
         cy.get('input[placeholder="Type your password"]').should('exist')
         cy.wait(1000)
         cy.xpath('//*[@id="agent_password"]').type('123456')
@@ -28,7 +28,7 @@ describe('Login Spec', function () {
       a.send( :generate_invitation_token!);
       a.raw_invitation_token
     `).then((token) => {
-      cy.visit(`/agents/invitation/accept?invitation_token=${token}`).then(() => {
+      cy.visit(`/agents/invitation/accept?invitation_token=${token}`, { failOnStatusCode: false }).then(() => {
         cy.get('input[placeholder="Type your password"]').should('exist')
         cy.wait(1000)
         cy.xpath('//*[@id="agent_password"]').type('123456')

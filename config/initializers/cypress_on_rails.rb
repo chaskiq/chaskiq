@@ -1,4 +1,5 @@
 if defined?(CypressOnRails)
+
   CypressOnRails.configure do |c|
     c.api_prefix = ""
     c.install_folder = File.expand_path("#{__dir__}/../../spec/e2e")
@@ -25,4 +26,9 @@ if defined?(CypressOnRails)
   #    config.assets.unknown_asset_fallback = false
   #  end
   # end
+
+
+
+
+
 end
