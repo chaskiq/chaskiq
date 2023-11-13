@@ -1,4 +1,5 @@
 {
   "baseUrl": "http://localhost:5002",
-  "defaultCommandTimeout": 30000
+  "defaultCommandTimeout": 30000,
+  "failOnStatusCode": false
 }
