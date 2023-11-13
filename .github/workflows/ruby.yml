@@ -74,7 +74,7 @@ jobs:
           bundle exec rails packages:download_and_install["2.0.0-rc"]
           bundle exec rails server -e test -p 5002 -d
           ./node_modules/.bin/cypress install
-          curl -I http://localhost:5002
+          curl -i http://localhost:5002
           yarn cypress:ga-ci
 
 
