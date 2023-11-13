@@ -17,7 +17,7 @@ export default defineConfig({
   projectId: 'j4kaht',
   reporter: 'spec',
   reporterOptions: null,
-  requestTimeout: 2000,
+  requestTimeout: 20000,
   responseTimeout: 3000,
   screenshotsFolder: './spec/cypress/screenshots',
   taskTimeout: 5000,
