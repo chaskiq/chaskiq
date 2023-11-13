@@ -54,6 +54,7 @@ AllCops:
     - 'spec/cypress/**/*'
     - 'tmp/**/*'
     - 'spec/e2e/**/*'
+    - public/assets/**/*
 
 
 

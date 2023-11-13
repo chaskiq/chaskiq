@@ -9,3 +9,4 @@ spec
 .esm
 translations.json
 messenger-translations.json
+public/assets/**/*
