@@ -27,7 +27,7 @@ class ConversationPart < ApplicationRecord
 
   value :trigger_locked, expireat: -> { 3.seconds.from_now }
 
-  attr_accessor :check_assignment_rules
+  attr_accessor :check_assignment_rules, :request_next_trigger
 
   delegate :broadcast_key, to: :conversation
 
@@ -122,7 +122,7 @@ class ConversationPart < ApplicationRecord
 
   def participant_socket_notify
     notify_app_users unless private_note?
-    notify_agents
+    # notify_agents
   end
 
   def notify_agents
@@ -179,7 +179,7 @@ class ConversationPart < ApplicationRecord
                        "conversation-part-#{key}"
                      end
 
-    broadcast_render_to conversation.app, conversation.main_participant,
+    broadcast_render_to conversation.app, conversation.main_participant.id,
                         partial: "messenger/messages/conversation_part_b",
                         locals: {
                           app: conversation.app,

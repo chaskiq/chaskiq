@@ -177,7 +177,6 @@ describe('Visitor home apps', function () {
 
   it('add package, test content', function () {
     cy.appScenario('basic')
-
     addAppPackage('UiCatalog')
     addAppPackageToHome('visitor_home_apps', 'UiCatalog', `{
       name: "UiCatalog",
@@ -202,6 +201,7 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
         .then(() => {
+          cy.wait(2000)
           cy.get('#chaskiq-prime').click().then(() => {
             cy.get('iframe:first')
               .then(function ($iframe) {
@@ -215,7 +215,7 @@ describe('Visitor home apps', function () {
     })
   })
 
-  it.only('add package, frame 1', function () {
+  it('add package, frame 1', function () {
     cy.appScenario('basic')
 
     addAppPackage('UiCatalog')
@@ -257,13 +257,13 @@ describe('Visitor home apps', function () {
       const appKey = results.key
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
-
+      cy.wait(2000)
       cy.get('#chaskiq-prime').click().then(() => {
         getIframeBody('iframe:first').xpath(
-          '/html/body/main/div/div[2]/div/div[1]/div[2]/div/form/div[2]/div/ul/div'
+          '/html/body/div/div/div/div[2]/div[1]/div[1]/div/div[2]/div/div/form/fieldset/div[2]/div'
         ).click()
 
-        cy.wait(1000)
+        cy.wait(2000)
         getIframeBody('iframe:first')
           .find('#package-frame')
           .its('0.contentDocument').should('exist')
@@ -317,10 +317,11 @@ describe('Visitor home apps', function () {
       const appKey = results.key
 
       cy.visit(`/tester/${appKey}`)
-
+      cy.wait(2000)
       cy.get('#chaskiq-prime').click().then(() => {
+        
         getIframeBody('iframe:first').xpath(
-          '/html/body/main/div/div[2]/div/div[1]/div[2]/div/form/div[2]/div/ul/div'
+          '/html/body/div/div/div/div[2]/div[1]/div[1]/div/div[2]/div/div/form/fieldset/div[2]/div'
         ).click()
 
         cy.wait(1000)

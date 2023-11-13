@@ -2,11 +2,14 @@ import { Controller } from '@hotwired/stimulus';
 import { patch } from '@rails/request.js';
 
 export default class extends Controller {
+  static targets = ['error'];
+
   initialize() {
     const dataset = this.element.dataset;
-    console.log(new Date().toUTCString());
-    // console.log("Listening for notifications", this.element.dataset)
-    this.pling = new Audio('/sounds/BLIB.wav');
+    // console.log(new Date().toUTCString());
+    console.log('Listening for notifications', this.element.dataset);
+    //this.pling = new Audio('/sounds/BLIB.wav');
+
     if (dataset.read !== 'true') {
       if (dataset.viewerType !== dataset.author) {
         // this.playSound();
@@ -14,6 +17,11 @@ export default class extends Controller {
         if (!this.element.dataset.blockKind) {
           //!== 'wait_for_reply') {
           // this.markAsRead();
+          console.log('SEND FROM INIT', this.element.dataset);
+          this.sendEvent({});
+        }
+
+        if (this.element.dataset.requestNextTrigger === 'true') {
           this.sendEvent({});
         }
       }
@@ -60,6 +68,16 @@ export default class extends Controller {
     // do nothing if wait_for_input
     if (!options.force && this.element.dataset.blockKind === 'wait_for_input')
       return;
+
+    // if errors detected skip, also note that this is so fast that the targets are not being initialized
+    // that's why we use a direct element querySelector
+    console.log(
+      'this is the maderfakinf',
+      this.element.querySelectorAll('.error')
+    );
+    if (this.element.querySelectorAll('.error').length > 0) {
+      return;
+    }
 
     //this.chatMessengerController().pushEvent(path, data)
 

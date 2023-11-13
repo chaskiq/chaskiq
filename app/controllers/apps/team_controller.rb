@@ -17,7 +17,6 @@ class Apps::TeamController < ApplicationController
   def edit
     @agent_role = @app.roles.find(params[:id])
     @agent = @agent_role.agent
-    # binding.pry
 
     @agent.roles_for_current_app = @agent_role.access_list.split || []
 

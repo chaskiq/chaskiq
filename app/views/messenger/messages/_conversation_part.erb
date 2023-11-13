@@ -5,6 +5,8 @@
 		controller: "conversation-part-wrapper",
 		messenger_target: "conversationPart",
 		read: message.read?,
+		request_next_trigger: message.request_next_trigger,
+		replied: message.messageable_type == "ConversationPartBlock" ? (message.message.state == "replied") : nil,
 		viewer_type: "AppUser",
 		trigger_id: message.trigger_id,
 		step_id: message.step_id,
@@ -27,7 +29,7 @@
 					message: message, 
 					app: app,
 					viewer: "visitor",
-					frame: "conversations-#{ message.key }-#{message.messageable["app_package"]}"
+					frame: "conversations-#{ message.key }-#{message.messageable["blocks"]["app_package"]}"
 				)
 			when "ask_option", "data_retrieval"
 				render ConversationPartAskOption::Component.new(message: message, app: app)

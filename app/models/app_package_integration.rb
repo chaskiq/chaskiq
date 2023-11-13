@@ -238,7 +238,6 @@ class AppPackageIntegration < ApplicationRecord
       message = params.dig(:ctx, :package).app.conversation_parts.find_by(
         key: message_key
       )
-
       values = params[:ctx][:values]
       m = message.message
       blocks = m.blocks.merge("schema" => response[:definitions])

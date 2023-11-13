@@ -35,14 +35,16 @@
         )}
 	-->
 
-	<% if @errors %>
-		<span class="error"><%= @errors %></span>
+	<% if @errors.present? %>
+		<span class="error" conversation-part-wrapper-target="error">
+			<%= @errors %>
+		</span>
 	<% end %>
 
-	<% if @hint %>
-	<span class="helper-text">
-		<%= @hint %>
-	</span>
+	<% if @hint.present? %>
+		<span class="helper-text">
+			<%= @hint %>
+		</span>
 	<% end %>
 
 </div>

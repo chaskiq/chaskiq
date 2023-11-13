@@ -4,11 +4,14 @@
 
 <div
 	class="definition-renderer <%= @size %>"
-	data-controllersss="<%= identifier %>"
 	data-controller="definition-renderer"
 
 	<% if @conversation_key %>
 	data-conversation-key="<%= @conversation_key %>"
+	<% end %>
+
+	<% if @message_key %>
+		data-message-key="<%= @message_key %>"
 	<% end %>
 
 	data-location="<%= @location %>"

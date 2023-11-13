@@ -164,18 +164,14 @@ export function openNewMessenger (cb, options, sessionless) {
 
     cy.visit(`/tester/${appKey}`, { qs: urlParams, headers: options.headers || {} })
       .then(() => {
-
-
-      cy.wait(500)
-      cy.get('#chaskiq-prime').click().then(()=>{
-        cy.get('iframe:first')
-        .then(function ($iframe) {
-          const $body = $iframe.contents().find('body')
-          cb($body, appKey)
+        cy.wait(500)
+        cy.get('#chaskiq-prime').click().then(()=>{
+          cy.get('iframe:first')
+          .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            cb($body, appKey)
+          })
         })
-      })
-
-
       })
   })
 }

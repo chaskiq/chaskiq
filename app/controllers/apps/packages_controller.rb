@@ -184,7 +184,7 @@ class Apps::PackagesController < ApplicationController
     @identifier = if @location == "fixed_sidebar"
                     "fixed_packages"
                   else
-                    "#{@location}-#{@conversation_key}-#{@package_name}"
+                    "#{@location}-#{@message_key}-#{@package_name}"
                   end
     render template: "apps/packages/content", layout: false
   end

@@ -8,7 +8,7 @@
 
   <div id="chaskiq-streams" data-turbo-permanent="true">
     <% #= Time.now.to_i %>
-    <%= turbo_stream_from @app, @app_user %>
+    <%= turbo_stream_from @app, @app_user.id %>
     <div style="display:none;" id="chaskiq-custom-events">
       <% #= render "messenger/custom_event", data: {a: 1}.to_json %>
     </div>

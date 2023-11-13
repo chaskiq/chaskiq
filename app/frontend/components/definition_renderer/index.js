@@ -7,7 +7,7 @@ export default class Controller extends BaseController {
   static targets = ['form']
 
   connect() {
-    console.log('definition renderer controller activated')
+    // console.log('definition renderer controller activated')
   }
 
   disconnect() {}
@@ -49,29 +49,19 @@ export default class Controller extends BaseController {
       responseKind: 'turbo-stream'
     })
 
-    // outer conversation-part-wrapper
-    let outerElement = this.element.closest('[data-controller="conversation-part-wrapper"]');
-    let outerController = this.application.getControllerForElementAndIdentifier(outerElement, "conversation-part-wrapper");
-
     if (response.ok) {
-    
-      if (response.isTurboStream ){
+      if (response.isTurboStream){
         const body = await response.turbo
         if(response.response.status !== 202){
           const closeEvent = new Event('modal-close')
           document.dispatchEvent(closeEvent)
         }
-
-        // informs step complete, ask for new step
-        if(outerController) outerController.sendEvent({submit: data})
-  
-        return
+      } else {
+        const bodyHtml = await response.html
+        // custom event que será leido por modal controller
+        this.element.outerHTML = bodyHtml
+        console.log('response!')
       }
-
-      const bodyHtml = await response.html
-      // custom event que será leido por modal controller
-      this.element.outerHTML = bodyHtml
-      console.log('response!')
     }
   }
 

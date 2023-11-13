@@ -236,7 +236,7 @@ export default class extends Controller {
   }
 
   iframeEventsReceiver(event) {
-    console.log('IFRAME RECEIVER EVENT', event);
+    // console.log('IFRAME RECEIVER EVENT', event);
     switch (event.data.eventType) {
       case 'messenger:toggled':
         this.openValue = event.data.data;

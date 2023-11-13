@@ -106,12 +106,12 @@ class Conversation < ApplicationRecord
       broadcast_key, data
     )
 
-    broadcast_update_to app, main_participant,
+    broadcast_update_to app, main_participant.id,
                         target: "chaskiq-custom-events",
                         partial: "messenger/custom_event",
                         locals: { data: data }
 
-    broadcast_render_to app, main_participant,
+    broadcast_render_to app, main_participant.id,
                         partial: "messenger/conversations/state_update",
                         locals: {
                           app: app,

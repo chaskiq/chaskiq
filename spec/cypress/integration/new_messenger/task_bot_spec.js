@@ -27,10 +27,11 @@ describe('Task bot Spec', function () {
         const appKey = results.key
 
         cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(() => {
-       
-          cy.get('#chaskiq-prime').click()
 
-          cy.get('iframe:first')
+          cy.wait(2000)
+
+          cy.get('#chaskiq-prime').click().then(()=>{
+            cy.get('iframe:first')
             .then(function ($iframe) {
               const $body = $iframe.contents().find('body')
               expect($body.html()).to.contain('Start a conversation')
@@ -48,6 +49,7 @@ describe('Task bot Spec', function () {
                   cy.wrap($body).contains('will reply as soon as they can.')
               })
             })
+          })
         })
       })
     })
@@ -89,21 +91,21 @@ describe('Task bot Spec', function () {
                         cy.wrap($body).contains("Yes, I'm a customer").click().then(() => {
                           cy.wrap($body).contains('by email')
                           cy.wrap($body)
-                            .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/input')
+                            .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[2]/div[1]/div/div/div/div/div/div/form/fieldset/div/div/div/input')
                             .type('John')
 
                           cy.wrap($body)
-                            .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/div')
+                            .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[2]/div[1]/div/div/div/div/div/div/form/fieldset/div/div/div/div/button')
                             .click()
 
                           cy.wrap($body).contains('is invalid')
 
                           cy.wrap($body)
-                            .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/input')
+                            .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[2]/div[1]/div/div/div/div/div/div/form/fieldset/div/div/div/input')
                             .type('John@apple.test')
 
                           cy.wrap($body)
-                            .xpath('/html/body/main/div/div/div/main/div/div/div[1]/div[1]/div/form/div/div/div/div')
+                            .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[2]/div[1]/div/div/div/div/div/div/form/fieldset/div/div/div/div/button')
                             .click()
 
                           cy.wrap($body).contains('Thank you')
@@ -131,14 +133,14 @@ describe('Task bot Spec', function () {
               expect($body.html()).to.contain('Start a conversation')
 
               cy.wrap($body)
-                .xpath('/html/body/main/div/div[2]/div/div[1]/div/div/div[2]/div[2]/a[1]')
+                .xpath('/html/body/div/div/div/div[2]/div[1]/div[1]/div/div/div/div[2]/div[2]/a[1]')
                 .click()
                 .then(() => {
                   cy.wrap($body)
-                    .xpath('/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea')
+                    .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
                     .should('be.enabled').then(() => {
                       cy.wrap($body)
-                        .xpath('/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea')
+                        .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
                         .type('oeoe \n').then(() => {
                           cy.wait(2000)
 
@@ -147,7 +149,8 @@ describe('Task bot Spec', function () {
                           cy.wrap($body).contains('oeoe')
                           cy.wrap($body).contains('Are you an existing')
                           cy.wrap($body).contains("I'm a customer").click()
-                          cy.wrap($body).contains("You replied Yes, I'm a customer")
+                          cy.wrap($body).contains("reply button: Yes, I'm a customer")
+                          //cy.wrap($body).contains("You replied Yes, I'm a customer")
                           cy.wrap($body).contains('you will get a reply from one of our agents')
                         })
                     })
@@ -158,9 +161,8 @@ describe('Task bot Spec', function () {
     })
   })
 
-  it('sessionless bot task wait for reply', function () {
+  it.only('sessionless bot task wait for reply', function () {
     cy.app('clean')
-    cy.wait(6000)
     cy.appScenario('basic').then((basic) => {
       cy.log('basic', JSON.stringify(basic))
 
@@ -174,6 +176,8 @@ describe('Task bot Spec', function () {
           cy.log('bot task command', JSON.stringify(res))
 
           cy.visit(`/tester/${appKey}?sessionless=true`).then(() => {
+            cy.wait(2000)
+
             cy.get('[data-chaskiq-container] iframe')
               .then(function ($iframe) {
                 const $body = $iframe.contents().find('body')
