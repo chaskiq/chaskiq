@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: https://github.com/michelson/cypress-on-rails.git
-  revision: ae937707b2a0c925b3e442e12b65662c02cc2409
+  revision: 5657c85cdefa37b08782066b5fe6863070db7643
   specs:
     cypress-on-rails (1.16.0)
       rack
