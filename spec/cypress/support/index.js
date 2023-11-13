@@ -21,6 +21,13 @@
 // import './on-rails'
 import 'cypress-xpath'
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  if (err.message.includes('500')) {
+    console.error('Caught an exception with 500 status code', err);
+    return false;
+  }
+});
+
 Cypress.Commands.add('appCommands', function (body) {
   Object.keys(body).forEach(key => body[key] === undefined ? delete body[key] : {});
   const log = Cypress.log({ name: "APP", message: body, autoEnd: false })
