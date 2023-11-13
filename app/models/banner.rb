@@ -105,7 +105,7 @@ class Banner < Message
 
       MessengerEventsChannel.broadcast_to(key, data)
 
-      banner.broadcast_update_to app, user,
+      banner.broadcast_update_to app, user.id,
                                  target: "chaskiq-custom-events",
                                  partial: "messenger/custom_event",
                                  locals: { data: data }

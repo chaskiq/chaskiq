@@ -59,9 +59,9 @@ export default class extends Controller {
       let message;
       switch (data.type) {
         case 'trigger_init':
-          if( this.currentConversationKey()) return
-          if(!this.openValue) this.toggle()
-          this.goTo(data.path)
+          if (this.currentConversationKey()) return;
+          if (!this.openValue) this.toggle();
+          this.goTo(data.path);
           break;
         case 'triggers:receive':
           this.pushEvent('request_trigger', {
@@ -251,9 +251,9 @@ export default class extends Controller {
       case 'messenger:register_visit':
         this.registerVisit(event.data.data);
         break;
-      case "messenger:request_trigger":
-        this.requestTrigger(event.data.data)
-        break
+      case 'messenger:request_trigger':
+        this.requestTrigger(event.data.data);
+        break;
       case 'messenger:fetch_banner':
         this.fetchBanner();
         break;
@@ -550,10 +550,10 @@ export default class extends Controller {
   handleTriggerRequest(trigger) {
     //if (this.state.appData.tasksSettings) {
     setTimeout(() => {
-     const data = {
+      const data = {
         conversation: this.currentConversationKey(),
         trigger: trigger,
-      }
+      };
       this.requestTrigger(data);
     }, 1000); // 1000 * 60 * 2
     //}
@@ -923,15 +923,24 @@ export default class extends Controller {
 
     const url = parent.dataset.path;
 
-    const response = await put(url, {
-      body: data,
-      responseKind: 'turbo-stream',
-    });
+    if (parent.dataset.isNew === 'true') {
+      const response = await post(url, {
+        body: data,
+        responseKind: 'turbo-stream',
+      });
 
-    if (response.ok) {
-      //const body = await response.html
-      //this.element.closest('.definition-renderer').outerHTML = body
-      console.log('response!');
+      if (response.ok) {
+        console.log('response!');
+      }
+    } else {
+      const response = await put(url, {
+        body: data,
+        responseKind: 'turbo-stream',
+      });
+
+      if (response.ok) {
+        console.log('response!');
+      }
     }
 
     console.log('handled', e.target.dataset);

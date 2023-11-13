@@ -17,7 +17,7 @@ export default class extends Controller {
         if (!this.element.dataset.blockKind) {
           //!== 'wait_for_reply') {
           // this.markAsRead();
-          console.log('SEND FROM INIT', this.element.dataset);
+          // console.log('SEND FROM INIT', this.element.dataset);
           this.sendEvent({});
         }
 

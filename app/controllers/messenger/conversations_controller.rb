@@ -183,7 +183,16 @@ class Messenger::ConversationsController < ApplicationController
         controls: first_step["controls"]
       )
 
-      data = JSON.parse(message_reply)
+      message_reply = params.permit(
+        :trigger_id,
+        :step_id,
+        :event_type,
+        :messenger_id,
+        conversation: {},
+        reply: %i[id label element next_step_uuid]
+      )
+
+      data = message_reply[:reply]
 
       message.message.save_replied(data)
       # initialize message

@@ -377,8 +377,8 @@ window.Chaskiq = window.Chaskiq || {
     this.pushEvent('messenger:fetch_banner', id);
   },
 
-  requestTrigger(data){
-    this.pushEvent("messenger:request_trigger", data)
+  requestTrigger(data) {
+    this.pushEvent('messenger:request_trigger', data);
   },
 
   getBanner() {

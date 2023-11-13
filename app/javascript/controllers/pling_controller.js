@@ -4,7 +4,7 @@ export default class extends Controller {
   initialize() {
     const dataset = this.element.dataset;
     // console.log(new Date().toUTCString());
-    console.log("Pling received", this.element.dataset)
+    // console.log('Pling received', this.element.dataset);
     this.pling = new Audio('/sounds/BLIB.wav');
     this.playSound();
   }

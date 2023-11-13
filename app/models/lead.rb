@@ -40,7 +40,7 @@ class Lead < AppUser
 
     MessengerEventsChannel.broadcast_to(key, data)
 
-    broadcast_update_to app, self,
+    broadcast_update_to app, id,
                         target: "chaskiq-custom-events",
                         partial: "messenger/custom_event",
                         locals: { data: data }

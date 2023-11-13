@@ -2,7 +2,7 @@ if defined?(DatabaseCleaner)
   # cleaning the database using database_cleaner
   # DatabaseCleaner.strategy = :truncation
   DatabaseCleaner[:active_record].strategy = DatabaseCleaner::ActiveRecord::Truncation.new
-
+  DatabaseCleaner[:redis].strategy = :deletion
   DatabaseCleaner.clean
 else
   logger.warn "add database_cleaner or update cypress/app_commands/clean.rb"

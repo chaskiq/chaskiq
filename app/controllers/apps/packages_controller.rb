@@ -271,10 +271,7 @@ class Apps::PackagesController < ApplicationController
     when "conversations"
 
       @conversation = @app.conversations.find_by(key: payload["conversation_key"])
-      if @user.is_a?(Agent)
-        author = @app.agents.where("agents.email =?",
-                                   @user.email).first
-      end
+      author = current_agent
 
       controls = {
         app_package: @package_name,

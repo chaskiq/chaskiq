@@ -11,22 +11,19 @@ inbound settings
 
 + conversation part dropdown
 
++ tour manager url is hardcoded!
 
 APP PACKAGES:
   confirm phase not
 
 # MESSENGER WIDGET
 
-+ general pling
 + animations transitions
 
 + widget script
   + behaviors for:
     + tabs
     + idle implementation
-
-  + request triggers
-    + display trigger
 
 + handle LOCKS
 
@@ -37,8 +34,6 @@ APP PACKAGES:
 
 + settings for:
   + close conversation
-
-+ bots retrieval
 
 + user auto messages 
   + display if activeMessenger, implement this function
@@ -52,5 +47,6 @@ APP PACKAGES:
   appBlockAppPackage
 
 
++ hide text chat on wait package
 
 improvements UI

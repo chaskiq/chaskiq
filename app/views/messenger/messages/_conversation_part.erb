@@ -1,9 +1,11 @@
 
+
 <%= content_tag :div, 
 	id: "conversation-part-#{ message.key }",
 	data: {
 		controller: "conversation-part-wrapper",
 		messenger_target: "conversationPart",
+		is_new: message.new_record?,
 		read: message.read?,
 		request_next_trigger: message.request_next_trigger,
 		replied: message.messageable_type == "ConversationPartBlock" ? (message.message.state == "replied") : nil,
@@ -15,7 +17,7 @@
 		block_kind: message.messageable_type == "ConversationPartBlock" ? message.messageable.blocks["type"] : nil,
 		path: message.key.present? ? messenger_conversation_message_path(
 			app.key, message.conversation.key, message.key
-		) : nil
+		) : messenger_conversations_path(app.key)
 	} do %>
 <%= local_assigns[:viewer_type] %>
 

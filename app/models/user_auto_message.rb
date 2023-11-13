@@ -88,7 +88,7 @@ class UserAutoMessage < Message
 
       MessengerEventsChannel.broadcast_to(key, data)
 
-      messages.first.broadcast_update_to app, user,
+      messages.first.broadcast_update_to app, user.id,
                                          target: "chaskiq-custom-events",
                                          partial: "messenger/custom_event",
                                          locals: { data: data }

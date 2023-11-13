@@ -176,7 +176,7 @@ class BotTask < Message
 
         MessengerEventsChannel.broadcast_to(key, data)
 
-        bot_task.broadcast_update_to app, user,
+        bot_task.broadcast_update_to app, user.id,
                                      target: "chaskiq-custom-events",
                                      partial: "messenger/custom_event",
                                      locals: { data: data }

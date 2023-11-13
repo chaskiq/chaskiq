@@ -122,7 +122,7 @@ class ConversationPart < ApplicationRecord
 
   def participant_socket_notify
     notify_app_users unless private_note?
-    # notify_agents
+    notify_agents
   end
 
   def notify_agents
