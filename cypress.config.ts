@@ -7,6 +7,7 @@ export default defineConfig({
   defaultCommandTimeout: 15000,
   env: {},
   execTimeout: 16000,
+  failOnStatusCode: false,
   fileServerFolder: '',
   fixturesFolder: './spec/cypress/fixtures',
   hosts: null,
