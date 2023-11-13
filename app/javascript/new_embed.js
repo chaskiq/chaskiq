@@ -307,7 +307,7 @@ window.Chaskiq = window.Chaskiq || {
           //this.convertVisitor(data);
           break;
         case 'trigger':
-          //this.requestTrigger(data);
+          this.requestTrigger(data);
           break;
         case 'unload':
           // this.unload()
@@ -375,6 +375,10 @@ window.Chaskiq = window.Chaskiq || {
 
   fetchBanner(id) {
     this.pushEvent('messenger:fetch_banner', id);
+  },
+
+  requestTrigger(data){
+    this.pushEvent("messenger:request_trigger", data)
   },
 
   getBanner() {

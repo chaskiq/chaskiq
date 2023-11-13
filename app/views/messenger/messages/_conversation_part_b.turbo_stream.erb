@@ -10,6 +10,12 @@
 <% if !message.read? && message.authorable_type == "Agent" %>
   <%= turbo_stream.update "chaskiq-custom-events" do %>
     <%= render "shared/pling", data: data %>
+
+    <%= render "messenger/custom_event", data: {
+      type: "trigger_init",
+      path: messenger_conversation_path(message.conversation.app.key, message.conversation.key)
+    }  %>
+
   <% end %>
 <% end %>
 

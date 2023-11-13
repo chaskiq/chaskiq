@@ -145,6 +145,7 @@ class Conversation < ApplicationRecord
       part.save
     end
 
+    part.trigger_init = opts[:trigger_init]
     part.notify_to_channels if part.errors.blank?
     part
   end
@@ -197,6 +198,7 @@ class Conversation < ApplicationRecord
       step_id: step[:step_uid],
       trigger_id: trigger.id,
       from: author,
+      trigger_init: true,
       message: {
         html_content: message[:html_content],
         serialized_content: message[:serialized_content],

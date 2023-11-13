@@ -9,6 +9,7 @@
 		replied: message.messageable_type == "ConversationPartBlock" ? (message.message.state == "replied") : nil,
 		viewer_type: "AppUser",
 		trigger_id: message.trigger_id,
+		trigger_init: message.trigger_init,
 		step_id: message.step_id,
 		author: message.authorable.class.to_s,
 		block_kind: message.messageable_type == "ConversationPartBlock" ? message.messageable.blocks["type"] : nil,

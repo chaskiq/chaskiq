@@ -27,7 +27,7 @@ class ConversationPart < ApplicationRecord
 
   value :trigger_locked, expireat: -> { 3.seconds.from_now }
 
-  attr_accessor :check_assignment_rules, :request_next_trigger
+  attr_accessor :check_assignment_rules, :request_next_trigger, :trigger_init
 
   delegate :broadcast_key, to: :conversation
 

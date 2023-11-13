@@ -51,7 +51,6 @@ export default class extends Controller {
 
     this.conversationKey = null;
 
-    this.open = true;
     this.prevent = true;
 
     this.eventsHandler = function (event) {
@@ -59,6 +58,11 @@ export default class extends Controller {
       const data = JSON.parse(event.detail.data);
       let message;
       switch (data.type) {
+        case 'trigger_init':
+          if( this.currentConversationKey()) return
+          if(!this.openValue) this.toggle()
+          this.goTo(data.path)
+          break;
         case 'triggers:receive':
           this.pushEvent('request_trigger', {
             conversation: this.currentConversationKey(), //this.state.conversation && this.state.conversation.key,
@@ -247,6 +251,9 @@ export default class extends Controller {
       case 'messenger:register_visit':
         this.registerVisit(event.data.data);
         break;
+      case "messenger:request_trigger":
+        this.requestTrigger(event.data.data)
+        break
       case 'messenger:fetch_banner':
         this.fetchBanner();
         break;
@@ -543,16 +550,17 @@ export default class extends Controller {
   handleTriggerRequest(trigger) {
     //if (this.state.appData.tasksSettings) {
     setTimeout(() => {
-      this.requestTrigger(trigger);
+     const data = {
+        conversation: this.currentConversationKey(),
+        trigger: trigger,
+      }
+      this.requestTrigger(data);
     }, 1000); // 1000 * 60 * 2
     //}
   }
 
-  requestTrigger = (kind) => {
-    this.pushEvent('request_trigger', {
-      conversation: this.currentConversationKey(),
-      trigger: kind,
-    });
+  requestTrigger = (data) => {
+    this.pushEvent('request_trigger', data);
   };
 
   handleChatInput(e) {
