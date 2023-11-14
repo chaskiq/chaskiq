@@ -19127,8 +19127,6 @@
       "invitations": {
         "edit": {
           "header": "Définissez votre mot de passe",
-          "new_password": "Mot de passe",
-          "new_password_confirmation": "Confirmation du mot de passe",
           "submit_button": "Définir mon mot de passe"
         },
         "invitation_removed": "Votre invitation a été supprimée.",
