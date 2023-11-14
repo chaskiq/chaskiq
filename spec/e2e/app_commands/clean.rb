@@ -2,11 +2,12 @@ if defined?(DatabaseCleaner)
   # cleaning the database using database_cleaner
   # DatabaseCleaner.strategy = :truncation
   DatabaseCleaner[:active_record].strategy = DatabaseCleaner::ActiveRecord::Truncation.new
-  DatabaseCleaner[:redis].strategy = :deletion
+  DatabaseCleaner[:active_record].clean
+  # ActiveRecord::Tasks::DatabaseTasks.truncate_all
+  DatabaseCleaner[:redis].clean
   DatabaseCleaner.clean
 else
   logger.warn "add database_cleaner or update cypress/app_commands/clean.rb"
-  Post.delete_all if defined?(Post)
 end
 
 CypressOnRails::SmartFactoryWrapper.reload
