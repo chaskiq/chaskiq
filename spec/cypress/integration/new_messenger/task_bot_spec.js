@@ -217,27 +217,31 @@ describe('start conversation welcome bot', function () {
 
     //helpers.openMessenger("?jwt=true", ($body, appKey) => {
     helpers.openMessenger("", ($body, appKey) => {
+
+      cy.wait(2000)
       expect($body.html()).to.contain('Start a conversation')
 
       cy.wrap($body)
         .xpath('/html/body/div/div/div/div[2]/div[1]/div[1]/div/div/div/div[2]/div[2]/a[1]')
         .click()
         .then(() => {
-          cy.wrap($body).contains('see more?').click()
-          cy.wrap($body).contains('sauper!').click()
+          cy.wrap($body).contains('see more?').click().then(()=>{
+            cy.wrap($body).contains('sauper!')
 
-          cy.wrap($body)
-            .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
-            .should('be.enabled').then(() => {
-              cy.wait(2000)
-              cy.wrap($body)
-                .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
-                .type('oeoe \n').then(() => {
-                  cy.wrap($body).contains('oeoe')
-                  cy.wrap($body).contains('go to!').click()
-                  cy.wrap($body).contains('ah ah !')
-                })
-            })
+            cy.wrap($body)
+              .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+              .should('be.enabled').then(() => {
+                cy.wait(2000)
+                cy.wrap($body)
+                  .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+                  .type('oeoe \n').then(() => {
+                    cy.wrap($body).contains('oeoe')
+                    cy.wrap($body).contains('go to!').click()
+                    cy.wrap($body).contains('ah ah !')
+                  })
+              })
+          })
+
         })
     })
 
@@ -250,21 +254,24 @@ describe('start conversation welcome bot', function () {
         .xpath('/html/body/div/div/div/div[2]/div[1]/div[1]/div/div/div/div[2]/div[2]/a[1]')
         .click()
         .then(() => {
-          cy.wrap($body).contains('see more?').click()
-          cy.wrap($body).contains('sauper!').click()
+          cy.wrap($body).contains('see more?').click().then(()=>{
+            cy.wait(1500)
+            cy.wrap($body).contains('sauper!')
+  
+            cy.wrap($body)
+              .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+              .should('be.enabled').then(() => {
+                cy.wait(2000)
+                cy.wrap($body)
+                  .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+                  .type('oeoe \n').then(() => {
+                    cy.wrap($body).contains('oeoe')
+                    cy.wrap($body).contains('go to!').click()
+                    cy.wrap($body).contains('ah ah !')
+                  })
+              })
 
-          cy.wrap($body)
-            .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
-            .should('be.enabled').then(() => {
-              cy.wait(2000)
-              cy.wrap($body)
-                .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
-                .type('oeoe \n').then(() => {
-                  cy.wrap($body).contains('oeoe')
-                  cy.wrap($body).contains('go to!').click()
-                  cy.wrap($body).contains('ah ah !')
-                })
-            })
+          })
         })
     })
   })
