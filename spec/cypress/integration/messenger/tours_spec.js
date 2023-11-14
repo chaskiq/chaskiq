@@ -25,7 +25,7 @@ describe('Tours Spec', function () {
         url: `/tester/${appKey}`,
         state: 'enabled'
       }).then((res) => {
-        cy.visit(`/tester/${appKey}`, {qs: { old_embed: true }}).then(() => {
+        cy.visit(`/tester/${appKey}?old_embed=true`, {qs: { old_embed: true }}).then(() => {
           // TODO:
 
           // cy.appEval("Tour.last.metrics.where(app_user: AppUser.last, action: \"open\")")
@@ -59,7 +59,7 @@ describe('Tours Spec', function () {
         url: `/tester/${appKey}`,
         state: 'enabled'
       }).then((res) => {
-        cy.visit(`/tester/${appKey}`, {qs: { old_embed: true }}).then(() => {
+        cy.visit(`/tester/${appKey}?old_embed=true`, {qs: { old_embed: true }}).then(() => {
           // TODO:
           // expect(tour.metrics.where(app_user: AppUser.last, action: "open")).to be_any
           cy.contains('this is the tour')

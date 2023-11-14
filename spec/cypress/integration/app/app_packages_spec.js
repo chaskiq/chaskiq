@@ -21,12 +21,13 @@ describe('AppPackages', function () {
     `)
 
     cy.visit('/apps')
-    cy.contains('my app').click()
-
-    cy.get("a[aria-label='Settings']")
-      .click({ force: true }).then(() => {
+    cy.contains('my app').click().then(()=>{
+      cy.wait(2000)
+      cy.get("a[aria-label='Settings']")
+      .click().then(() => {
         cy.contains('Access denied')
       })
+    })
   })
 
   it('Manage AppPackages', function () {
@@ -38,16 +39,18 @@ describe('AppPackages', function () {
     `)
 
     cy.visit('/apps')
-    cy.contains('my app').click()
+    cy.contains('my app').click().then(()=>{
+      cy.wait(2000)
 
-    cy.get("a[aria-label='Settings']")
-      .click({ force: true }).then(() => {
-        cy.get('body').should('contain', 'App Settings')
-        cy.get('body').should('contain', 'Team')
-        cy.get('body').should('contain', 'Integrations')
+      cy.get("a[aria-label='Settings']")
+        .click().then(() => {
+          cy.get('body').should('contain', 'App Settings')
+          cy.get('body').should('contain', 'Team')
+          cy.get('body').should('contain', 'Integrations')
 
-        cy.contains('Integrations').click()
-        cy.contains('Third party integrations')
+          cy.contains('Integrations').click()
+          cy.contains('Third party integrations')
+        })
       })
   })
 
@@ -61,9 +64,10 @@ describe('AppPackages', function () {
 
     it('Add AppPackages', function () {
       cy.visit('/apps')
-      cy.contains('my app').click()
-      cy.get("a[aria-label='Settings']")
-        .click({ force: true }).then(() => {
+      cy.contains('my app').click().then(()=>{
+        cy.wait(2000)
+        cy.get("a[aria-label='Settings']")
+        .click().then(() => {
           cy.get('body').should('contain', 'Integrations')
 
           cy.contains('Integrations').click()
@@ -74,15 +78,18 @@ describe('AppPackages', function () {
             cy.contains('Updated successfully')
           })
         })
+      })
+
     })
 
     it('Home apps app packages', function () {
       cy.visit('/apps')
 
       cy.contains('my app').click().then(()=>{
-
+        cy.wait(500)
         cy.get("a[aria-label='Settings']")
-        .click({ force: true }).then(() => {
+        .click().then(() => {
+          cy.wait(500)
           cy.contains('Messenger Settings').click().then(() => {
             cy.wait(500)
             cy.contains('Apps').click()
