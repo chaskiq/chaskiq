@@ -509,12 +509,7 @@ GEM
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    opensearch-api (2.1.0)
-      multi_json
-    opensearch-ruby (2.1.0)
-      opensearch-api (~> 2.1)
-      opensearch-transport (~> 2.0)
-    opensearch-transport (2.1.0)
+    opensearch-ruby (3.0.1)
       faraday (>= 1.0, < 3)
       multi_json (>= 1.0)
     orm_adapter (0.5.0)
