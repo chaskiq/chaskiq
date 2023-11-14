@@ -3,12 +3,9 @@
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = "1.0"
 
-Rails.application.config.assets.paths << Rails.root.join('node_modules')
-Rails.application.config.assets.precompile += %w( tailwind.css )
-Rails.application.config.assets.precompile += %w[campaign.css]
-Rails.application.config.assets.precompile += %w( embed.js )
-Rails.application.config.assets.precompile += %w( new_embed.js )
-Rails.application.config.assets.precompile += %w( article.js )
+# Rails.application.config.assets.paths << Rails.root.join('node_modules')
+Rails.application.config.assets.precompile += %w[campaign.css tailwind.css]
+Rails.application.config.assets.precompile += %w[embed.js new_embed.js new_application.js article.js]
 
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
 
