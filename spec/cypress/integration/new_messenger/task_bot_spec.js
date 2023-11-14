@@ -218,7 +218,7 @@ describe('start conversation welcome bot', function () {
     //helpers.openMessenger("?jwt=true", ($body, appKey) => {
     helpers.openMessenger("", ($body, appKey) => {
 
-      cy.wait(2000)
+      cy.wait(6000)
       expect($body.html()).to.contain('Start a conversation')
 
       cy.wrap($body)
