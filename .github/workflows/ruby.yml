@@ -62,7 +62,7 @@ jobs:
           echo "INSTALL NODE"
           npm install -g ts-node
           echo "RUN SPECS"
-          # bundle exec rspec -fd ./spec
+          bundle exec rspec -fd ./spec
 
       - name: Build and run E2E tests
         env:
