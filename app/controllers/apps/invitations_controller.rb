@@ -51,6 +51,17 @@ class Apps::InvitationsController < ApplicationController
 
   def update
     @agent = @app.agents.find(params[:id])
+
+    if @agent.blank?
+      agent = Agent.invite!(email: params[:id])
+      role = @app.roles.find_or_initialize_by(agent_id: @agent.id)
+      role.save
+    else
+      @agent.deliver_invitation
+    end
+
+    #track_resource_event(agent, :agent_invite, nil, app.id)
+
     flash.now[:notice] = t("settings.team.invitation_success")
     render turbo_stream: [flash_stream]
   end
