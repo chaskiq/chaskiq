@@ -60,7 +60,7 @@ class Apps::InvitationsController < ApplicationController
       @agent.deliver_invitation
     end
 
-    #track_resource_event(agent, :agent_invite, nil, app.id)
+    # track_resource_event(agent, :agent_invite, nil, app.id)
 
     flash.now[:notice] = t("settings.team.invitation_success")
     render turbo_stream: [flash_stream]
