@@ -78,7 +78,7 @@ describe('Visitor home apps', function () {
     cy.appEval('App.last').then((results) => {
       const appKey = results.key
 
-      cy.visit(`/tester/${appKey}?old_embed=true`)
+      cy.visit(`/tester/${appKey}`, {qs: {old_embed: true}})
         .then(() => {
           cy.get('iframe:first')
             .then(function ($iframe) {
@@ -123,7 +123,7 @@ describe('Visitor home apps', function () {
     cy.appEval('App.last').then((results) => {
       const appKey = results.key
 
-      cy.visit(`/tester/${appKey}?sessionless=true&old_embed=true`)
+      cy.visit(`/tester/${appKey}?sessionless=true`,{qs: {old_embed: true}})
         .then(() => {
           cy.get('iframe:first')
             .then(function ($iframe) {
@@ -163,7 +163,7 @@ describe('Visitor home apps', function () {
     cy.appEval('App.last').then((results) => {
       const appKey = results.key
 
-      cy.visit(`/tester/${appKey}?sessionless=true&old_embed=true`)
+      cy.visit(`/tester/${appKey}?sessionless=true`,{qs: {old_embed: true}})
         .then(() => {
           cy.get('iframe:first')
             .then(function ($iframe) {
@@ -206,7 +206,7 @@ describe('Visitor home apps', function () {
     cy.appEval('App.last').then((results) => {
       const appKey = results.key
 
-      cy.visit(`/tester/${appKey}?sessionless=true&old_embed=true`)
+      cy.visit(`/tester/${appKey}?sessionless=true`,{qs: {old_embed: true}})
         .then(() => {
           cy.get('iframe:first')
             .then(function ($iframe) {
@@ -266,7 +266,7 @@ describe('Visitor home apps', function () {
     cy.appEval('App.last').then((results) => {
       const appKey = results.key
 
-      cy.visit(`/tester/${appKey}?sessionless=true&old_embed=true`)
+      cy.visit(`/tester/${appKey}?sessionless=true`,{qs: {old_embed: true}})
 
       getIframeBody('iframe:first').find('#chaskiq-prime').click()
 
@@ -326,7 +326,7 @@ describe('Visitor home apps', function () {
     cy.appEval('App.last').then((results) => {
       const appKey = results.key
   
-      cy.visit(`/tester/${appKey}?old_embed=true`)
+      cy.visit(`/tester/${appKey}`,{qs: {old_embed: true}})
   
       getIframeBody('iframe:first').find('#chaskiq-prime').click()
   

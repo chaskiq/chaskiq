@@ -226,6 +226,7 @@ describe('start conversation welcome bot', function () {
         .click()
         .then(() => {
           cy.wrap($body).contains('see more?').click().then(()=>{
+            cy.wait(2000)
             cy.wrap($body).contains('sauper!')
 
             cy.wrap($body)
