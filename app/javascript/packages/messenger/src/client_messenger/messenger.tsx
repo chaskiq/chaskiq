@@ -37,6 +37,7 @@ import UrlPattern from 'url-pattern';
 //import i18n from './i18n'
 
 import { I18n } from 'i18n-js';
+
 import translations from '../../../../src/locales/messenger-translations.json';
 export const i18n = new I18n(translations);
 

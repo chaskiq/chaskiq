@@ -10,7 +10,7 @@ class EventTriggerProcessorJob < ApplicationJob
     return if compatible_packages.blank?
 
     app.app_package_integrations
-       .where(app_package: compatible_packages).each do |package|
+       .where(app_package: compatible_packages).find_each do |package|
       package.trigger(event)
     end
   end

@@ -1,0 +1,22 @@
+<%= turbo_frame_tag "conversation", class: "flex w-full" do %>
+  <%= render Content::Component.new do %>
+
+    <%= turbo_frame_tag 'app-settings' do %>
+
+      <%= render PageHeader::Component.new(title: I18n.t('assignment_rules.title')) do %>
+
+        <%= link_to "new assignment rule", 
+          new_app_assignment_rule_path(@app.key), 
+          data: {turbo_frame: "modal"}, 
+          class: "btn sm btn-flat-dark" 
+        %>
+
+      <% end %>
+
+
+      <%= render "table" %>
+
+
+    <% end %>
+  <% end %>
+<% end %>

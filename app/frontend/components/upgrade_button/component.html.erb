@@ -1,0 +1,48 @@
+<% if Chaskiq::Config.get("SUBSCRIPTIONS_ENABLED") == "true" && !@app.plan.allow_feature(feature) %>
+  <div class="md:relative"
+    class="relative"
+    data-controller="dropdown click-outside"
+    data-transition-target="toggleable"
+    data-action="click-outside:click:outside->transition#leave"
+  >
+    <button
+      data-action="click->dropdown#toggle"
+      class="btn btn-success">
+      <%= label %>
+    </button>
+
+    <div
+      class="<%= classes %> hidden"
+      data-dropdown-targets="content"
+      data-dropdown-target="toggleable"
+      data-transition-enter-active="transition ease-out duration-300"
+      data-transition-enter-from="transform opacity-0 scale-95"
+      data-transition-enter-to="transform opacity-100 scale-100"
+      data-transition-leave-active="transition ease-in duration-300"
+      data-transition-leave-from="transform opacity-100 scale-100"
+      data-transition-leave-to="transform opacity-0 scale-95"
+
+    >
+      <div class="rounded-lg shadow-lg overflow-hidden border-2 border-black dark:border-white">
+        <div class="relative z-20 bg-white dark:bg-black py-6 px-5 grid gap-6 sm:gap-8 sm:p-8">
+          <a class="-m-3 rounded-lg p-3 flex items-start space-x-4 hover:bg-cool-gray-50 transition ease-in-out duration-150" href="/apps/gC4XERB9taXq6sVeKRZHeA5a/billing">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"></path>
+            </svg>
+            <div class="space-y-1">
+              <p class="text-base leading-6 font-medium text-cool-gray-900">
+                Upgrade
+              </p>
+              <p class="text-sm leading-5 text-cool-gray-500">
+                <%= I18n.t("subscriptions.features.#{feature}.upgrade_message") %>
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% else %>
+  <%= content %>
+<% end %>

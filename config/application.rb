@@ -3,13 +3,16 @@ require_relative "boot"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
+# you've limited to :test, :development, or :production.require "view_component/engine"
+
 Bundler.require(*Rails.groups)
 
 require 'URLcrypt'
 require_relative 'middleware/maintenance_mode'
 
 Dotenv::Railtie.load if defined?(Dotenv::Railtie)
+
+require "view_component/compile_cache"
 
 module Chaskiq
 
@@ -32,8 +35,11 @@ module Chaskiq
 
 
   class Application < Rails::Application
+    config.autoload_paths << Rails.root.join("app", "frontend", "components")
+    config.view_component.preview_paths << Rails.root.join("app", "frontend", "components")
+    config.view_component.default_preview_layout = "component_preview"
+
     # Initialize configuration defaults for originally generated Rails version.
-    # config.load_defaults 6.1
     config.load_defaults 7.0
 
     # Configuration for the application, engines, and railties goes here.
@@ -44,9 +50,6 @@ module Chaskiq
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-
-    config.load_defaults '6.0'
-    
     config.encoding = 'utf-8'
 
     config.assets.css_compressor = nil
@@ -54,6 +57,8 @@ module Chaskiq
     config.i18n.fallbacks = [I18n.default_locale]
 
     config.action_cable.disable_request_forgery_protection = true
+
+    config.active_storage.variant_processor = :mini_magick
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

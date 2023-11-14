@@ -1,0 +1,13 @@
+<%= turbo_stream.append("conversation-list-#{@app.key}",
+    partial: "apps/conversations/conversation",
+    collection: @conversations,
+    locals: {
+      app: @app
+    }
+) %>
+
+<%= turbo_stream.replace(
+  "conversation-list-pagination",
+   partial: "apps/conversations/pagination"
+  )
+%>

@@ -10,24 +10,27 @@ class Tour < Message
 
   def config_fields
     [
-      { name: "name", type: "string", grid: { xs: "w-full", sm: "w-3/4" } },
-      { name: "subject", type: "string", grid: { xs: "w-full", sm: "w-3/4" } },
-      { name: "url", type: "string", grid: { xs: "w-full", sm: "w-1/4" } },
+      { name: "name", type: "string", col: "col-span-6", grid: { xs: "w-full", sm: "w-3/4" } },
+      { name: "subject", type: "string", col: "col-span-6", grid: { xs: "w-full", sm: "w-3/4" } },
+      { name: "url", type: "string", col: "col-span-6", grid: { xs: "w-full", sm: "w-1/4" } },
 
-      { name: "description", type: "text", grid: { xs: "w-full", sm: "w-full" } },
+      { name: "description", type: "text", col: "col-span-6", grid: { xs: "w-full", sm: "w-full" } },
 
-      { name: "scheduledAt", label: "Scheduled at", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
-      { name: "scheduledTo", label: "Scheduled to", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "scheduled_at", label: "Scheduled at", type: "datetime", col: "col-span-3", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "scheduled_to", label: "Scheduled to", type: "datetime", col: "col-span-3", grid: { xs: "w-full", sm: "w-1/2" } },
 
-      { name: "hiddenConstraints", label: "Hidden constraints", type: "select",
+      { name: "hidden_constraints",
+        label: "Hidden constraints",
+        type: "select",
         options: [
-          { label: "open", value: "open" },
-          { label: "close", value: "close" },
-          { label: "finish", value: "finish" },
-          { label: "skip", value: "skip" }
+          %w[open open],
+          %w[close close],
+          %w[finish finish],
+          %w[skip skip]
         ],
         multiple: true,
         default: "open",
+        col: "col-span-6",
         grid: { xs: "w-full", sm: "w-full" } }
 
     ]
@@ -44,6 +47,14 @@ class Tour < Message
       ),
       add_stat_field(
         name: "ClickRateCount",
+        label: "Open/Click rate",
+        keys: [
+          { name: "open", color: "#F4F5F7" },
+          { name: "click", color: "#0747A6" }
+        ]
+      ),
+      add_stat_field(
+        name: "FinishRateCount",
         label: "Open/Finish rate",
         keys: [
           { name: "open", color: "#F4F5F7" },
@@ -67,12 +78,57 @@ class Tour < Message
     return if tour.blank? || !tour.available_for_user?(user)
 
     if tours.any?
-      MessengerEventsChannel.broadcast_to(key, {
+      data = {
         type: "tours:receive",
         data: tour.as_json(only: [:id], methods: %i[steps url])
-      }.as_json)
+      }.as_json
+
+      MessengerEventsChannel.broadcast_to(key, data)
+
+      tour.broadcast_update_to app, user.id,
+                               target: "chaskiq-custom-events",
+                               partial: "messenger/custom_event",
+                               locals: { data: data }
     end
 
     tours.any?
+  end
+
+  def steps_for_driver
+    return [] if settings["steps"].blank?
+
+    settings["steps"].map do |step|
+      content = step.key?("serialized_content") ? step["serialized_content"] : step["content"]
+      {
+        element: step["target"],
+        popover: {
+          title: "Title",
+          description: Dante::Renderer.new(raw: JSON.parse(content).deep_symbolize_keys).render
+        }
+      }
+    end
+  end
+
+  def steps_objects
+    return [] if settings["steps"].blank?
+
+    @steps_objects ||= settings["steps"].map { |o| TourStepForm.new(o) }
+  end
+
+  def broadcast_step(step)
+    broadcast_append_to self,
+                        target: "tour_#{id}",
+                        partial: "apps/campaigns/tours/tour_step_item",
+                        locals: {
+                          index: step.position,
+                          step: step,
+                          url: Rails.application.routes.url_helpers.tour_step_app_campaign_url(app.key, self, position: step.position)
+
+                        }
+
+    broadcast_update_to self,
+                        target: "chaskiq-tours-custom-events",
+                        partial: "apps/campaigns/tours/custom_event",
+                        locals: { data: step }
   end
 end

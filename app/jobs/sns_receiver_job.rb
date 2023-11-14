@@ -77,7 +77,7 @@ class SnsReceiverJob < ApplicationJob
   end
 
   def get_app_user_from_email(message, message_type, type_kind)
-    email = message.dig(message_type, type_kind).map { |o| o["emailAddress"] }
+    email = message.dig(message_type, type_kind).pluck("emailAddress")
     users = AppUser.where(email: email) if email.present?
     users.map(&:unsubscribe!)
   end

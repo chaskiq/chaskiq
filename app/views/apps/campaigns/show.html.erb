@@ -1,0 +1,73 @@
+<% dropdown_options = [
+  {
+    title: t('campaigns.pause_title'),
+    description: t('campaigns.pause_description'),
+    href: pause_app_campaign_path(@app.key, @campaign),
+    icon: "pause",
+    id: 'disabled',
+    state: 'disabled'
+  },
+  {
+    title: t('campaigns.clone_title'),
+    description: t('campaigns.clone_description'),
+    icon: "document-duplicate",
+    id: 'enabled',
+    state: 'enabled',
+    href: clone_app_campaign_path(@app.key, @campaign)
+  },
+  {
+    title: t('common.delete'),
+    description: t('campaigns.delete_campaign', name: @campaign.name),
+    icon: "x-circle",
+    href: app_campaign_path(@app.key, @campaign, namespace: @campaign.type),
+    data: {turbo_confirm: t("common.confirm_deletion_ready"), turbo_method: :delete}
+  },
+  { title: t('campaigns.deliver_title'),
+    description: t('campaigns.deliver_description'),
+    icon: "paper-airplane",
+    id: 'deliver',
+    href: deliver_app_campaign_path(@app.key, @campaign),
+  }
+]
+%>
+
+<%= render Content::Component.new do %>
+
+  <%= render PageHeader::Component.new(
+    title: @campaign.type ) do %>
+  
+    <div class="flex space-x-2">
+    
+
+    	<%= render UpgradeButton::Component.new(
+					label: I18n.t('campaigns.activate'),
+					feature: "Campaigns",
+					app: @app
+				) do %>
+        <%= render Toggle::Component.new(
+          id: 'campaign-toggle', 
+          label: I18n.t('campaigns.enables'), 
+          checked: @campaign.state == "enabled", 
+          disabled: false, 
+          url: app_campaign_path(@app.key, @campaign.id, toggle: "toggle"),
+          on_change: '')
+        %>
+      <% end %>
+
+      <%= render FilterMenu::Component.new( label: 'Add filters', 
+                  variant: 'outlined',
+                  orientation: 'right',
+                  items: dropdown_options, 
+                  size: 'sm',
+                  label: t("common.actions")
+                )
+      %>
+    </div>
+  <% end %>
+
+  <%= render Tabs::Component.new(	items: campaigns_menu_data(app: @app, campaign: @campaign ) ) do %>
+    <% #= render Hints::Component.new(type: "articles")%>
+    <%= render @tab %>
+  <% end %>
+
+<% end %>

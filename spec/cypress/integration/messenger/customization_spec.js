@@ -30,7 +30,7 @@ describe('Customization Spec', function() {
           expect(res.preferences.customization_colors).to.exist;
         });
       },
-      { params: { lang: 'en' } }
+      { params: { lang: 'en', old_embed: true } }
     );
   });
 
@@ -46,7 +46,7 @@ describe('Customization Spec', function() {
           expect(res.preferences.customization_colors).to.not.exist;
         });
       },
-      { params: { lang: 'en' } }
+      { params: { lang: 'en', old_embed: true } }
     );
   });
 
@@ -65,7 +65,7 @@ describe('Customization Spec', function() {
           expect(res.preferences.customization_colors).to.exist;
         });
       },
-      { params: { lang: 'en' } }
+      { params: { lang: 'en', old_embed: true } }
     );
   });
 });

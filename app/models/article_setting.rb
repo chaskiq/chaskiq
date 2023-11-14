@@ -40,6 +40,8 @@ class ArticleSetting < ApplicationRecord
   #  self.subdomain = self.subdomain.parameterize
   # end
 
+  attr_accessor :new_language
+
   def logo_url
     return "https://via.placeholder.com/100x100" if logo_blob.blank?
 

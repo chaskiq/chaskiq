@@ -1,0 +1,41 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings' do %>
+
+		<%= render PageHeader::Component.new( title: t('settings.app.security') ) do %>
+
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: settings_menu_data(app: @app) ) do %>
+			
+
+    <div class="space-y-6 mx-10-- py-6 text-sm">
+      <h2 class="text-lg font-bold-">
+				<%= I18n.t('identified_users.title') %>
+			</h2>
+
+
+      <%= render 'key_show' %>
+
+      <p class="">
+        <%= I18n.t('identified_users.hint1') %>
+        To configure identity verification, you will need to generate an HMAC on
+        your server for each logged in user and submit it to Chaskiq.
+      </p>
+
+      <p class="font-bold">
+				<%= I18n.t('identified_users.lang') %>
+			</p>
+
+      <%= turbo_frame_tag "code_examples" do %>
+        <%= render 'code_examples' %>
+      <% end %>
+
+      <p><%= raw I18n.t('identified_users.hint2') %></p>
+
+      <%= render CodeBox::Component.new(code: @script) %>
+    </div>
+
+		<% end %>
+	<% end %>
+<% end %>

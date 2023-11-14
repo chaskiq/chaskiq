@@ -1,0 +1,26 @@
+
+<%= form_for @bot, url: "" do |f| %>
+	<%= f.fields_for :bot_paths_objects, [@bot.bot_paths_objects.first], child_index: @bot_path_id do |ff| %>
+    <%= turbo_stream.append("bot-path-step-container-#{@bot_path_id}") do %>
+
+      <% id = SecureRandom.uuid
+        items = [
+          BotPathStep.new(
+            step_uid: id,
+            controls: {
+              type: "app_package",
+              app_package: @package_name,
+              schema: @blocks.with_indifferent_access["definitions"]
+            }
+          )
+        ]
+      %>
+
+     	<%= render 'apps/bots/editor/steps', f: ff, items: items %>
+
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update("modal") %>
+

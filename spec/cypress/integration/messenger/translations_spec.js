@@ -18,7 +18,7 @@ describe('Translations Spec', function () {
       cy.appEval('App.last.app_users.last.lang').then((res) => {
         expect(res).to.equal('en')
       })
-    }, { params: { lang: 'en' } })
+    }, { params: { lang: 'en', old_embed: true } })
   })
 
   it('user lang es', function () {
@@ -39,7 +39,7 @@ describe('Translations Spec', function () {
       cy.appEval('App.last.app_users.last.name').then((res) => {
         expect(res).to.equal('miguel')
       })
-    }, { params: { lang: 'es' } })
+    }, { params: { lang: 'es', old_embed: true } })
   })
 
   it('visitor lang en', function () {
@@ -51,7 +51,7 @@ describe('Translations Spec', function () {
       cy.appEval('App.last.app_users.size').then((res) => {
         expect(res).to.equal(1)
       })
-    }, { params: { lang: 'en' }, headers: {} }, true)
+    }, { params: { lang: 'en', old_embed: true }, headers: {} }, true)
   })
 
   it('visitor lang es property', function () {
@@ -68,7 +68,7 @@ describe('Translations Spec', function () {
       cy.appEval('Visitor.last.lang').then((res) => {
         expect(res).to.equal('es')
       })
-    }, { params: { lang: 'es' }, headers: {} }, true)
+    }, { params: { lang: 'es', old_embed: true }, headers: {} }, true)
   })
 
   it('lang en', function () {
@@ -90,7 +90,7 @@ describe('Translations Spec', function () {
               cy.wrap($body).contains('oeoe')
             })
         }) */
-    }, { params: { lang: 'en' } }, false)
+    }, { params: { lang: 'en', old_embed: true } }, false)
   })
 
   it('lang es', function () {
@@ -107,6 +107,6 @@ describe('Translations Spec', function () {
               cy.wrap($body).contains('oeoe')
             })
         }) */
-    }, { params: { lang: 'es' } }, false)
+    }, { params: { lang: 'es', old_embed: true } }, false)
   })
 })

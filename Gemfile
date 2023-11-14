@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.2.2"
+ruby "3.2.0"
 
 # gem 'google-protobuf', git: 'https://github.com/google/protobuf'
 
@@ -24,6 +24,7 @@ gem "jsbundling-rails"
 gem "kredis", "~> 1.3"
 gem "propshaft"
 gem "puma", "~> 6.0"
+gem "rails_heroicon"
 gem "sassc"
 gem "tailwindcss-rails"
 
@@ -31,7 +32,6 @@ gem "devise" # , "4.7.1" # github: "plataformatec/devise"
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-# gem "turbolinks", "~> 5"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder"
 # gem 'haml'
@@ -48,7 +48,7 @@ gem "nightfury", github: "michelson/nightfury" # "~> 1.0"
 gem "action_policy-graphql", "~> 0.4"
 gem "goldiloader"
 gem "graphiql-rails", group: :development
-gem "graphql", "~> 1.13"
+gem "graphql", "~> 2.1"
 
 gem "nokogiri", force_ruby_platform: true
 
@@ -57,7 +57,7 @@ gem "nokogiri", force_ruby_platform: true
 # gem 'tunable'
 gem "aasm"
 gem "acts_as_list", "~> 0.9.19"
-gem "acts-as-taggable-on", github: "aovertus/acts-as-taggable-on", branch: "support_rails_7-1"
+gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on" # branch: "support_rails_7-1"
 # github: "mbleigh/acts-as-taggable-on", branch: "support_rails_7-1"
 gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"
@@ -76,6 +76,9 @@ gem "geocoder", "~> 1.6"
 gem "geoip"
 gem "truemail"
 
+gem "turbo-rails"
+gem "view_component", require: "view_component/engine"
+
 gem "google-cloud-dialogflow"
 gem "twilio-ruby", "~> 5.58.1"
 
@@ -87,7 +90,9 @@ gem "jwt"
 gem "devise_invitable", "~> 2.0"
 gem "doorkeeper", "~> 5.5.0"
 gem "oauth", "~> 0.5.5"
+gem "omniauth-auth0"
 gem "omniauth-oauth2"
+gem "omniauth-rails_csrf_protection"
 
 gem "image_processing", "~> 1.12"
 gem "sidekiq" # , "~> 6.5"
@@ -132,16 +137,17 @@ gem "globalize", github: "globalize/globalize", branch: "main"
 # To use Stripe, also include:
 gem "stripe", "~> 6.0"
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.1.0", require: false
+gem "bootsnap", require: false
 
 gem "dotenv-rails", groups: %i[development test]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   # gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem "cypress-on-rails", "~> 1.0"
+  gem "cypress-on-rails", github: "michelson/cypress-on-rails" # "~> 1.6"
   gem "execjs"
   gem "pry"
+  gem "pry-remote"
   # gem "debug", platforms: %i[mri mingw x64_mingw]
 end
 
@@ -151,6 +157,7 @@ group :development do
   gem "listen" # , ">= 3.0.5", "< 3.2"
   gem "web-console", ">= 3.3.0"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem "erb_lint", require: false
   gem "spring"
 end
 
@@ -161,6 +168,7 @@ group :test do
     gem lib # , :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
   gem "brakeman"
+  gem "capybara"
   gem "code-scanning-rubocop", require: false
   gem "database_cleaner-active_record"
   gem "database_cleaner-redis"
@@ -178,3 +186,6 @@ end
 gem "php_serialize", "~> 1.2"
 gem "scout_apm"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+
+gem "dry-initializer", "~> 3.0"
+gem "view_component-contrib", "~> 0.1.0"

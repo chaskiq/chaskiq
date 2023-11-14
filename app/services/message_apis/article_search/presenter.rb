@@ -54,6 +54,7 @@ module MessageApis::ArticleSearch
       { content: { kind: kind, ctx: ctx } }
       app = ctx[:package].app
       term = ctx.dig(:value, :search_articles)
+
       # I18n.locale = lang
       articles = app.articles.published
                     .includes([:author, :collection, :section, { article_content: :translations }])
@@ -63,21 +64,36 @@ module MessageApis::ArticleSearch
       articles = articles.search(term) if term.present?
 
       article_list = if articles.any?
+
                        {
                          type: "list",
                          disabled: false,
                          items: articles.map do |o|
-                                  {
-                                    type: "item",
-                                    id: o.slug.to_s,
-                                    title: o.title || "---",
-                                    subtitle: o.description,
-                                    action: {
-                                      type: "frame",
-                                      url: "/package_iframe_internal/ArticleSearch"
-                                    }
-                                  }
-                                end
+                           data = {
+                             app_id: ctx[:package].app.key,
+                             app_key: ctx[:package].app.key,
+                             package_id: ctx[:package].id,
+                             conversation_key: ctx[:conversation_key],
+                             lang: ctx[:lang],
+                             action: "new",
+                             field: { id: o.id },
+                             user: ctx[:current_user].as_json,
+                             values: ctx[:values].as_json
+                           }
+
+                           token = CHASKIQ_FRAME_VERIFIER.generate(data)
+
+                           {
+                             type: "item",
+                             id: o.slug.to_s,
+                             title: o.title || "---",
+                             subtitle: o.description,
+                             action: {
+                               type: "frame",
+                               url: "/package_iframe/ArticleSearch?token=#{token}"
+                             }
+                           }
+                         end
                        }
                      end
 
@@ -191,11 +207,11 @@ module MessageApis::ArticleSearch
         			window.articleJson=<%= @json_article.to_json %>
         			window.domain="<%= Rails.application.config.action_controller.asset_host %>";
         		</script>
-        		<script src="<%= "#{ActionController::Base.helpers.compute_asset_path('article.js')}" %>"></script>
         	</head>
         	<body>
         		<div class="container">
         			<div id="main-page">
+                <%= @article.html_from_serialized %>
         			</div>
         		</div>
         	</body>

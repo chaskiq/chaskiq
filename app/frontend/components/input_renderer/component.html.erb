@@ -1,0 +1,67 @@
+<div class="input-wrapper <%= @size %>">
+
+
+  <label for="<%= @name %>"><%= @label %></label>
+
+	<div class="flex items-center">
+		<input
+			type="text"
+			auto-complete="off"
+			placeholder="<%= @placeholder %>"
+			value="<%= @value %>"
+			id="<%= @id %>"
+			name="<%= @id || @name %>"
+		></input>
+
+		<% if @action %>
+
+			<%= render ButtonRenderer::Component.new(
+					id: @id,
+					label: nil,
+					size: @size,
+					variant: "text-input-button",
+					action: {"type"=>'submit'}
+				) do %>
+				<div>
+					<%= heroicon("arrow-small-right", variant: @size == "sm" ? "mini" : "solid")%>
+				</div>
+			<% end %>
+
+
+		<% end %>
+
+	</div>
+
+	<!--
+	        {field.action && (
+          <TextInputButton
+            onClick={(e) => {
+              if (!isDisabled() && !isSaved()) handleAction(e, field)
+            }}
+            saved={field.save_state === 'saved'}
+            disabled={isDisabled()}
+          >
+            {field.save_state === 'saved' ? (
+              <CheckIcon />
+            ) : loading ? (
+              <Progress />
+            ) : (
+              <ArrowRight />
+            )}
+          </TextInputButton>
+        )}
+	-->
+
+	<% if @errors.present? %>
+		<span class="error" conversation-part-wrapper-target="error">
+			<%= @errors %>
+		</span>
+	<% end %>
+
+	<% if @hint.present? %>
+	<span class="helper-text">
+		<%= @hint %>
+	</span>
+	<% end %>
+
+</div>

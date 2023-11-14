@@ -1,0 +1,24 @@
+
+<% #= local_assigns %>
+
+  <div class="flex-grow shadow border border-gray-400 rounded p-6 relative dark:bg-gray-800 bg-gray-100 max-w-sm">
+    
+    <% #= bot_id%>
+    <% #= bot_step_id %>
+    <% o = form.object.as_json.with_indifferent_access %>
+    <%= render DefinitionRenderer::Component.new(
+        schema: o["schema"],
+        size: "sm",
+        blocks: o,
+        app_package: form.object.app_package,
+        location: "bots",
+        category: category,
+        values: {},
+        conversation_key: nil,
+        path: app_package_path(@app.key, form.object.app_package),
+        app: @app,
+        ctx: {}
+    ) do %>
+    <% end %>
+  </div>
+

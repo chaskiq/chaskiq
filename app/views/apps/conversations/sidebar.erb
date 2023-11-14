@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "conversation-sidebar" do %>
+   <% if session[:conversation_sidebar] == "true" %>
+      <%= render "apps/conversations/sidebar" %>
+   <% end %>
+<% end %>

@@ -26,7 +26,7 @@ describe('Task bot Spec', function () {
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
 
-        cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(() => {
+        cy.visit(`/tester/${appKey}?sessionless=true&lang=en&old_embed=true`).then(() => {
           cy.get('iframe:first')
             .then(function ($iframe) {
               const $body = $iframe.contents().find('body')
@@ -66,7 +66,7 @@ describe('Task bot Spec', function () {
 
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
-        cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(() => {
+        cy.visit(`/tester/${appKey}?sessionless=true&lang=en&old_embed=true`).then(() => {
           cy.get('iframe:first')
             .then(function ($iframe) {
               const $body = $iframe.contents().find('body')
@@ -129,7 +129,7 @@ describe('Task bot Spec', function () {
     cy.appScenario('app_bot_settings', { email_requirement: 'never' }).then(() => {
       cy.appEval('App.last').then((results) => {
         const appKey = results.key
-        cy.visit(`/tester/${appKey}?sessionless=true&lang=en`).then(() => {
+        cy.visit(`/tester/${appKey}?sessionless=true&lang=en&old_embed=true`).then(() => {
           cy.get('iframe:first')
             .then(function ($iframe) {
               const $body = $iframe.contents().find('body')
@@ -184,7 +184,7 @@ describe('Task bot Spec', function () {
         }).then((res) => {
           cy.log('bot task command', JSON.stringify(res))
 
-          cy.visit(`/tester/${appKey}?sessionless=true`).then(() => {
+          cy.visit(`/tester/${appKey}?sessionless=true&old_embed=true`).then(() => {
             cy.get('[data-chaskiq-container] iframe')
               .then(function ($iframe) {
                 const $body = $iframe.contents().find('body')
@@ -223,7 +223,7 @@ describe('start conversation welcome bot', function () {
 
     }
 
-    helpers.openMessenger("?jwt=true", ($body, appKey) => {
+    helpers.openMessenger("?jwt=true&old_embed=true", ($body, appKey) => {
       expect($body.html()).to.contain('Start a conversation')
 
       cy.wrap($body)
@@ -248,7 +248,7 @@ describe('start conversation welcome bot', function () {
         })
     })
 
-    helpers.openMessenger("", ($body, appKey) => {
+    helpers.openMessenger("?old_embed=true", ($body, appKey) => {
       expect($body.html()).to.contain('Start a conversation')
 
       cy.wrap($body)

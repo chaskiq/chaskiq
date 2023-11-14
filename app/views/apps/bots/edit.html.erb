@@ -1,0 +1,73 @@
+
+<% dropdown_options = [
+  {
+    title: t('campaigns.clone_title'),
+    description: t('campaigns.clone_description'),
+    icon: "document-duplicate",
+    id: 'enabled',
+    state: 'enabled',
+    href: clone_app_bot_path(@app.key, @bot)
+  },
+  {
+    title: t('common.delete'),
+    description: t('campaigns.delete_campaign', name: @bot.name),
+    icon: "x-circle",
+    href: pause_app_bot_path(@app.key, @bot),
+    data: {turbo_confirm: t("common.confirm_deletion_ready"), turbo_method: :delete}
+  }
+]
+%>
+
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings' do %>
+
+		<%= render PageHeader::Component.new(title: @bot.name ) do %>
+
+			<div class="flex space-x-2">
+
+			  <%= render UpgradeButton::Component.new(
+					classes: "absolute z-10 ml-1 mt-3 transform w-screen
+					max-w-md px-2 origin-top-right right-0
+					md:-ml-4 sm:px-0 lg:ml-0
+					lg:right-2/6 lg:translate-x-1/6",
+					label: "Activate Bot Task",
+					feature: "BotTasks",
+					app: @app
+				) do %>
+
+					<%= render Toggle::Component.new(
+						id: 'away-mode', 
+						label: I18n.t('campaigns.enables'), 
+						checked: @bot.state == "enabled", 
+						disabled: false, 
+						url: app_bot_path(@app.key, @bot.id, toggle: "toggle"),
+						on_change: '')
+					%>
+
+				<% end %>
+
+				<%= render FilterMenu::Component.new( label: 'Add filters', 
+						variant: 'outlined',
+						orientation: 'right',
+						items: dropdown_options, 
+						size: 'sm',
+						label: t("common.actions")
+					)
+				%>
+			</div>
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: bot_menu_data(app: @app, bot: @bot) ) do %>
+			<%= case @tab
+					when 'stats' then  render('stats')
+					when 'settings' then  render('form')
+					when 'editor' then render('editor')
+					when 'audience' then  render('audience')
+					end
+			%>
+		<% end %>
+
+	<% end %>
+	
+<% end %>

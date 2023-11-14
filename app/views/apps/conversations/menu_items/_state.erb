@@ -1,0 +1,22 @@
+<div id="<%= "conversation-state-#{@conversation.key}"%>">
+	<%= button_to app_conversation_path(
+		@app.key, 
+		@conversation.key,
+	),
+		params: {
+			state: @conversation.state,
+			step: 'state'
+		},
+		method: :patch,
+		class: "focus:outline-none outline-none mr-1 rounded-full 
+			font-semibold border
+			border-gray-400 shadow
+			#{ @conversation.opened? ? 
+				'bg-white hover:bg-gray-100 text-gray-800 dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800' : 
+				'text-white bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
+			} w-9 h-9" do %>
+			<svg fill="currentColor" viewBox="0 0 20 20" class="h-2 w-9">
+				<polygon id="Path-126" points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
+			</svg>
+	<% end %>
+</div>

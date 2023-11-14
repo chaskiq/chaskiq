@@ -1,0 +1,56 @@
+<%= render "shared/modal" do %>
+
+
+	<% if @submit %>
+
+		<div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 md:mt-2 lg:mt-0">
+			<svg class="-ml-1 mr-0.5 flex-shrink-0 self-center h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+				<path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+			</svg>
+			<span>Preview</span>
+		</div>
+
+	<% end %>
+
+	<div data-controller="definitions-renderer">
+
+		<% #= @blocks[:kind] %>
+		<% #= @blocks[:definitions] %>
+		<% #= @conversation_key %>
+
+		<%= @location %>
+		<%= @blocks[:kind] %>
+
+		<%= render DefinitionRenderer::Component.new(
+			schema: @blocks["definitions"], 
+			size: 'sm', 
+			blocks: @blocks,
+			values: {}, 
+			location: @location,
+			path: "/apps/#{@app.key}/packages/#{@package_name}",
+			conversation_key: @conversation_key,
+			bot_id: @bot_id,
+			bot_step_id: @bot_step_id,
+			bot_path_id: @bot_path_id,
+			app_package: @package_name,
+			category: @category,
+			app: @app
+		)%>
+
+		<% if @submit %>
+			<%= form_tag @method do %>
+				<%= hidden_field_tag :token, @token%>
+
+				<div class="mt-5 sm:mt-4 flex flex-row-reverse">
+
+					<%= submit_tag "Send App", 
+						class: "btn btn-outlined", 
+						data: { cy: "send-app-#{ @package_name }"} 
+					%>
+
+				</div>
+			<% end %>
+		<% end %>
+	</div>
+
+<% end %>

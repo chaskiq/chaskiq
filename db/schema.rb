@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
+ActiveRecord::Schema[7.1].define(version: 2023_10_29_024053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.string "message_id", null: false
+    t.string "message_checksum", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -74,7 +83,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
     t.jsonb "properties", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "jti"
     t.string "invitation_token"
     t.datetime "invitation_created_at", precision: nil
     t.datetime "invitation_sent_at", precision: nil
@@ -91,7 +99,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
     t.index ["invitations_count"], name: "index_agents_on_invitations_count"
     t.index ["invited_by_id"], name: "index_agents_on_invited_by_id"
     t.index ["invited_by_type", "invited_by_id"], name: "index_agents_on_invited_by_type_and_invited_by_id"
-    t.index ["jti"], name: "index_agents_on_jti", unique: true
     t.index ["key"], name: "index_agents_on_key"
     t.index ["reset_password_token"], name: "index_agents_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_agents_on_unlock_token", unique: true
@@ -120,7 +127,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
     t.datetime "updated_at", null: false
     t.bigint "agent_id"
     t.boolean "published", default: false
+    t.bigint "app_id"
     t.index ["agent_id"], name: "index_app_packages_on_agent_id"
+    t.index ["app_id"], name: "index_app_packages_on_app_id"
     t.index ["name"], name: "index_app_packages_on_name", unique: true
   end
 
@@ -381,10 +390,39 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "position"
+    t.bigint "workflow_id"
     t.index ["app_id"], name: "index_campaigns_on_app_id"
     t.index ["key"], name: "index_campaigns_on_key"
     t.index ["position"], name: "index_campaigns_on_position"
     t.index ["type"], name: "index_campaigns_on_type"
+    t.index ["workflow_id"], name: "index_campaigns_on_workflow_id"
+  end
+
+  create_table "campaigns_clone", id: false, force: :cascade do |t|
+    t.bigint "id"
+    t.string "key"
+    t.string "from_name"
+    t.string "from_email"
+    t.string "reply_email"
+    t.text "html_content"
+    t.text "premailer"
+    t.text "serialized_content"
+    t.string "description"
+    t.boolean "sent"
+    t.string "name"
+    t.datetime "scheduled_at", precision: nil
+    t.string "timezone"
+    t.string "state"
+    t.string "subject"
+    t.bigint "app_id"
+    t.jsonb "segments"
+    t.string "type"
+    t.jsonb "settings"
+    t.datetime "scheduled_to", precision: nil
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.integer "position"
+    t.bigint "workflow_id"
   end
 
   create_table "collection_section_translations", force: :cascade do |t|
@@ -621,6 +659,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
+  create_table "oauth_credentials", force: :cascade do |t|
+    t.string "uid"
+    t.string "token"
+    t.string "provider"
+    t.bigint "agent_id", null: false
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_oauth_credentials_on_agent_id"
+    t.index ["uid"], name: "index_oauth_credentials_on_uid"
+  end
+
   create_table "outgoing_webhooks", force: :cascade do |t|
     t.string "state"
     t.bigint "app_id", null: false
@@ -629,6 +679,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
     t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_outgoing_webhooks_on_app_id"
     t.index ["state"], name: "index_outgoing_webhooks_on_state"
+  end
+
+  create_table "plain_conversations", force: :cascade do |t|
+    t.string "subject"
+    t.datetime "pinned_at"
+    t.boolean "pinned"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "plain_messages", force: :cascade do |t|
+    t.string "role"
+    t.text "content"
+    t.bigint "plain_conversation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plain_conversation_id"], name: "index_plain_messages_on_plain_conversation_id"
   end
 
   create_table "plugins", force: :cascade do |t|
@@ -759,6 +826,47 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
     t.index ["app_user_id"], name: "index_visits_on_app_user_id"
   end
 
+  create_table "workflows", force: :cascade do |t|
+    t.string "title"
+    t.jsonb "settings"
+    t.jsonb "rules"
+    t.string "state"
+    t.bigint "app_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id"], name: "index_workflows_on_app_id"
+    t.index ["state"], name: "index_workflows_on_state"
+  end
+
+  create_table "workflows_edges", force: :cascade do |t|
+    t.bigint "workflow_id", null: false
+    t.bigint "predecessor_id"
+    t.bigint "successor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["predecessor_id"], name: "index_workflows_edges_on_predecessor_id"
+    t.index ["successor_id"], name: "index_workflows_edges_on_successor_id"
+    t.index ["workflow_id"], name: "index_workflows_edges_on_workflow_id"
+  end
+
+  create_table "workflows_nodes", force: :cascade do |t|
+    t.bigint "workflow_id", null: false
+    t.string "nodeable_type", null: false
+    t.bigint "nodeable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nodeable_type", "nodeable_id"], name: "index_workflows_nodes_on_nodeable"
+    t.index ["workflow_id"], name: "index_workflows_nodes_on_workflow_id"
+  end
+
+  create_table "workflows_rules", force: :cascade do |t|
+    t.string "name"
+    t.jsonb "conditions", default: []
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conditions"], name: "index_workflows_rules_on_conditions", using: :gin
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_teams", "roles"
@@ -766,6 +874,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
   add_foreign_key "app_package_integrations", "app_packages"
   add_foreign_key "app_package_integrations", "apps"
   add_foreign_key "app_packages", "agents"
+  add_foreign_key "app_packages", "apps"
   add_foreign_key "app_users", "apps"
   add_foreign_key "article_collections", "apps"
   add_foreign_key "article_settings", "apps"
@@ -775,6 +884,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
   add_foreign_key "auth_identities", "agents"
   add_foreign_key "bot_tasks", "apps"
   add_foreign_key "campaigns", "apps"
+  add_foreign_key "campaigns", "workflows"
   add_foreign_key "collection_sections", "article_collections"
   add_foreign_key "conversation_channels", "conversations"
   add_foreign_key "conversation_part_channel_sources", "conversation_parts"
@@ -789,10 +899,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "agents", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
+  add_foreign_key "oauth_credentials", "agents"
   add_foreign_key "outgoing_webhooks", "apps"
+  add_foreign_key "plain_messages", "plain_conversations"
   add_foreign_key "quick_replies", "apps"
   add_foreign_key "roles", "agents"
   add_foreign_key "roles", "apps"
   add_foreign_key "taggings", "tags"
   add_foreign_key "teams", "apps"
+  add_foreign_key "workflows", "apps"
+  add_foreign_key "workflows_edges", "workflows"
+  add_foreign_key "workflows_edges", "workflows_nodes", column: "predecessor_id"
+  add_foreign_key "workflows_edges", "workflows_nodes", column: "successor_id"
+  add_foreign_key "workflows_nodes", "workflows"
 end

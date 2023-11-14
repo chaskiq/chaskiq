@@ -1,0 +1,9 @@
+/* Use component-local class names and add them to HTML via #class_for(name) helper */
+
+.frame-wrapper {
+	iframe {
+		width: '100%';
+		height: calc(100vh - 75px);
+		border: '0px';
+	}
+}

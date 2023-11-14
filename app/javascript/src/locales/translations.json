@@ -12213,9 +12213,44 @@
   "en": {
     "activerecord": {
       "attributes": {
+        "agent": {
+          "email": "Agent email",
+          "name": "Agent name",
+          "roles_for_current_app": "Agent roles"
+        },
         "doorkeeper/application": {
           "name": "Name",
           "redirect_uri": "Redirect URI"
+        }
+      },
+      "data_tables": {
+        "users": {
+          "browser": "Browser",
+          "browser_lang": "Browser Lang",
+          "browser_version": "Browser version",
+          "city": "City",
+          "country": "Country",
+          "email": "Email",
+          "first_seen": "Last Seen",
+          "ip": "Ip",
+          "lang": "Lang",
+          "last_seen": "First Seen",
+          "lat": "Lat",
+          "lng": "Lng",
+          "name": "Name",
+          "online": "Online",
+          "os": "Os",
+          "os_version": "Os Version",
+          "postal": "Postal",
+          "referrer": "Referrer",
+          "state": "State",
+          "subscription_status": {
+            "passive": "Passive",
+            "subscribed": "Subscribed",
+            "unsubscribed": "Unsubscribed"
+          },
+          "tag_list": "Tag List",
+          "web_sessions": "Web Sessions"
         }
       },
       "errors": {
@@ -12243,6 +12278,231 @@
             }
           }
         }
+      },
+      "forms": {
+        "app": {
+          "active_messenger": {
+            "hint": "When this is activate the messenger web widget will be activated",
+            "label": "Activate messenger"
+          },
+          "domain_url": {
+            "hint": "This will be the host site were chaskiq will be used",
+            "label": "Domain URL"
+          },
+          "enable_articles": {
+            "hint": "This option will display the articles in the home section of the messenger",
+            "label": "Display article on chat window"
+          },
+          "encryption_key": {
+            "hint": "This key will be used to encrypt and decrypt JWE user data",
+            "label": "Encryption Key",
+            "placeholder": "Leave it blank for no encryption"
+          },
+          "gather_social_data": {
+            "hint": "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
+            "label": "Gather Social Data"
+          },
+          "inline_new_conversations": {
+            "hint": "This option will not open chat box widget",
+            "label": "Display new messages in floating box"
+          },
+          "languages": {
+            "select_lang": "select lang"
+          },
+          "logo": {
+            "hint": null,
+            "label": "Logo"
+          },
+          "name": {
+            "hint": null,
+            "label": "Name"
+          },
+          "outgoing_email_domain": {
+            "hint": "The email domain to send conversations, for @yourapp use 'your app'",
+            "label": "Outgoing Email Domain"
+          },
+          "privacy_consent_required_all": {
+            "hint": "Will show a confirm view for All visitors before establish conversations",
+            "label": "Worldwide privacy consent required"
+          },
+          "privacy_consent_required_none": {
+            "hint": "Will not show a confirm view to anyone (not recommended)",
+            "label": "No privacy consent required"
+          },
+          "privacy_consent_required_ue": {
+            "hint": "Will show a confirm view for EU countries before establish conversations",
+            "label": "Required privacy consent for GDPR"
+          },
+          "register_visits": {
+            "hint": "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile",
+            "label": "Register Visits"
+          },
+          "tagline": {
+            "hint": "This will be rendered in the bottom of the Chat box",
+            "label": "Tagline"
+          },
+          "timezone": {
+            "hint": null,
+            "label": "Timezone"
+          }
+        },
+        "app_package": {
+          "capability_list": {
+            "hint": "Choose the package capabilities, ie: where the integration will work",
+            "label": "Integration capabilities"
+          },
+          "configure_url": {
+            "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
+            "label": "Configure flow webhook URL (optional)",
+            "placeholder": "e.g. https://yourdomain.com/configure-url/"
+          },
+          "description": {
+            "hint": "tell what your plugin does",
+            "label": "App Package description"
+          },
+          "initialize_url": {
+            "hint": "Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.",
+            "label": "Initialize flow webhook URL",
+            "placeholder": "e.g. https://yourdomain.com/initialize-url/"
+          },
+          "name": {
+            "label": "Integration Name"
+          },
+          "published": {
+            "hint": "If disabled you will use the application on the worspaces you have access to",
+            "label": "Publish on platform",
+            "type": "checkbox"
+          },
+          "sheet_url": {
+            "hint": "Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.",
+            "label": "Submit Sheet flow webhook URL (optional)",
+            "name": "sheet_url",
+            "placeholder": "e.g. https://yourdomain.com/submit-sheet-url/"
+          },
+          "submit_url": {
+            "hint": "Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.",
+            "label": "Submit flow webhook URL",
+            "placeholder": "e.g. https://yourdomain.com/submit-url/"
+          }
+        },
+        "article": {
+          "actions": {
+            "label": "Actions"
+          },
+          "author": {
+            "label": "Author"
+          },
+          "collection": {
+            "label": "Collection"
+          },
+          "credits": {
+            "hint": "",
+            "label": "show credits"
+          },
+          "domain": {
+            "hint": "Domain of the Help Center",
+            "label": "Domain"
+          },
+          "google_code": {
+            "hint": "Google tracking ID",
+            "label": "Google Code"
+          },
+          "state": {
+            "label": "State"
+          },
+          "subdomain": {
+            "hint": "Subdomain in which the Help Center will be available",
+            "label": "Subdomain"
+          },
+          "title": {
+            "label": "Title"
+          },
+          "website": {
+            "hint": "Website of your main domain",
+            "label": "Website"
+          }
+        },
+        "bot_task": {
+          "actions": {
+            "label": "Actions"
+          },
+          "name": {
+            "label": "Name"
+          },
+          "state": {
+            "label": "State"
+          },
+          "title": {
+            "hint": "Task name ie: welcoming users bot task",
+            "label": "Title",
+            "placeholder": "write task title"
+          }
+        },
+        "campaign": {
+          "actions": {
+            "label": "Actions"
+          },
+          "campaign_name": {
+            "hint": "This will not be shown in the email",
+            "label": "Campaign Name"
+          },
+          "description": {
+            "label": "Description"
+          },
+          "email_subject": {
+            "hint": "This is the email subject itself",
+            "label": "Email Subject"
+          },
+          "from_email": {
+            "label": "From Email"
+          },
+          "from_name": {
+            "label": "From Name"
+          },
+          "reply_email": {
+            "label": "Reply Email"
+          },
+          "scheduled_at": {
+            "label": "Scheduled at"
+          },
+          "scheduled_to": {
+            "label": "Scheduled to"
+          },
+          "state": {
+            "label": "State"
+          }
+        },
+        "stat": {
+          "actions": {
+            "label": "Actions"
+          },
+          "createdAt": {
+            "label": "CreatedAt"
+          },
+          "data": {
+            "label": "Data"
+          },
+          "email": {
+            "label": "Email"
+          },
+          "from": {
+            "label": "From"
+          },
+          "host": {
+            "label": "Host"
+          },
+          "when": {
+            "label": "When"
+          }
+        }
+      },
+      "hints": {
+        "agent": {
+          "roles_for_current_app": "blank access will disable account settings access for user"
+        }
+      },
+      "models": {
+        "agent": "Agent"
       }
     },
     "articles": {
@@ -12401,6 +12661,8 @@
       "confirm_deletion": "Confirm deletion?",
       "confirm_deletion_ready": "Are you ready to delete?",
       "create": "Create",
+      "create_error_message": "Error creating record",
+      "create_success_message": "Created successfully",
       "days": "Days",
       "delete": "Delete",
       "done": "Done",
@@ -12442,6 +12704,8 @@
       "type_message": "Type your message",
       "tz_hint": "Your browser timezone is <b className=\"text-bold\">%{timezone}</b>",
       "update": "Update",
+      "update_error_message": "Error creating record",
+      "update_success_message": "updated successfully",
       "upload_field": "Upload %{field}",
       "users": "Users",
       "visit": "Visit",
@@ -12545,6 +12809,7 @@
         "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
+        "search": "search conversations",
         "tags": "Tags",
         "unassigned": "Unassigned"
       },
@@ -14653,6 +14918,7 @@
         "assigned_to_me": "Assigned to me",
         "assignment_rules": "Reglas de ruta del agente",
         "conversations": "Conversaciones",
+        "search": "buscar conversaciones",
         "tags": "Etiquetas",
         "unassigned": "No Asignado"
       },

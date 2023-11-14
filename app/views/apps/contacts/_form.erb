@@ -1,0 +1,20 @@
+<h2 class="text-xl mb-4 font-bold">
+	Create Users & Leads
+</h2>
+
+
+<%= form_for @app_user, url: app_contacts_path(@app.key) do |f|%>
+
+	<div class="flex justify-between w-2/4">
+		<%= f.radio_button :type, "Lead", label: "Lead" %>
+		<%= f.radio_button :type, "AppUser", label: "Verified User" %>
+	</div>
+
+	<%= f.text_field :name %>
+	<%= f.text_field :email %>
+	<div class="flex space-x-2">
+		<%= f.text_field :company_name %>
+		<%= f.text_field :phone %>
+	</div>
+	<%= f.submit "submit" %>
+<%end%>

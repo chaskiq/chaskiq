@@ -1,0 +1,14 @@
+<%= render DefinitionRenderer::Component.new(
+    schema: @blocks,
+    blocks: {blocks: @blocks, kind: "foo"},
+    size: "sm",
+    location: "playground"
+    #app_package: blocks["app_package"],
+    #location: "conversations",
+    # values: @blocks["values"],
+    # conversation_key: @message.key,
+    #path: app_inbox_package_path(@app.key, blocks["app_package"]),
+    # app: @app,
+    # ctx: {conversation_key: @message.key } #locals[:ctx]
+  )
+%>

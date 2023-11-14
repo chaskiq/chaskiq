@@ -1,0 +1,231 @@
+<div class="hidden md:flex md:flex-shrink-0">
+  <div class="md:block 
+            bg-white dark:bg-gray-900
+            text-purple-lighter 
+            flex-none w-23 
+            p-2 
+            border-r border-gray-300 dark:border-gray-800">
+    <div class="cursor-pointer mb-4">
+      <div class="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
+				<%= link_to root_url do %>
+					<%= image_tag "favicon.png" %>
+				<% end %>
+			</div>
+    </div>
+    <div class="overflow-y-auto h-full">
+      <%= link_to app_path(@app.key), 
+        data: {
+          "controller"=> "tippy", "content": "Dashboard", "placement": 'right', 
+          "turbo-frame"=>"content", "turbo-action": "replace"
+        }, 
+        'aria-label': "Dashboard", 
+        class: "text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
+          <path d="M.5 3.498L7.5.5l7 2.998m-14 0l7 2.998m-7-2.998V3.5m14-.002l-7 2.998m7-2.998V11.5l-7 3m7-11.002L7.5 6.5v8m0-8.004V14.5m0-8.004L.5 3.5m7 11l-7-3v-8" stroke="currentColor" stroke-linejoin="round"></path>
+        </svg>
+      <% end %>
+      <%= link_to app_segments_path(@app.key), 
+        data: {
+          "turbo-frame"=>"content", "turbo-action": "replace",
+           "controller"=> "tippy", "content": "Platform", "placement": 'right'
+        }, 
+        'aria-label': "Platform", class: "text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
+          <path d="M5.5 11.5H5v.5h.5v-.5zm5 0v.5h.5v-.5h-.5zm-4.5 0V11H5v.5h1zm4-.5v.5h1V11h-1zm.5 0h-5v1h5v-1zM8 9a2 2 0 012 2h1a3 3 0 00-3-3v1zm-2 2a2 2 0 012-2V8a3 3 0 00-3 3h1zm2-8a2 2 0 00-2 2h1a1 1 0 011-1V3zm2 2a2 2 0 00-2-2v1a1 1 0 011 1h1zM8 7a2 2 0 002-2H9a1 1 0 01-1 1v1zm0-1a1 1 0 01-1-1H6a2 2 0 002 2V6zM3.5 1h9V0h-9v1zm9.5.5v12h1v-12h-1zM12.5 14h-9v1h9v-1zM3 13.5v-12H2v12h1zm.5.5a.5.5 0 01-.5-.5H2A1.5 1.5 0 003.5 15v-1zm9.5-.5a.5.5 0 01-.5.5v1a1.5 1.5 0 001.5-1.5h-1zM12.5 1a.5.5 0 01.5.5h1A1.5 1.5 0 0012.5 0v1zm-9-1A1.5 1.5 0 002 1.5h1a.5.5 0 01.5-.5V0zM4 4H1v1h3V4zm0 6H1v1h3v-1z" fill="currentColor"></path>
+        </svg>
+      <% end %>
+      <%= link_to app_conversations_path(@app.key), data: {
+        "turbo-frame"=>"content", "turbo-action": "replace",
+         "controller"=> "tippy", "content": "Conversations", "placement": 'right'
+        },  'aria-label': "Conversations", class: "text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
+          <path d="M11.5 13.5l.157-.475-.218-.072-.197.119.258.428zm2-2l-.421-.27-.129.202.076.226.474-.158zm1 2.99l-.157.476a.5.5 0 00.631-.634l-.474.159zm-3.258-1.418c-.956.575-2.485.919-3.742.919v1c1.385 0 3.106-.37 4.258-1.063l-.516-.856zM7.5 13.99c-3.59 0-6.5-2.909-6.5-6.496H0a7.498 7.498 0 007.5 7.496v-1zM1 7.495A6.498 6.498 0 017.5 1V0A7.498 7.498 0 000 7.495h1zM7.5 1C11.09 1 14 3.908 14 7.495h1A7.498 7.498 0 007.5 0v1zM14 7.495c0 1.331-.296 2.758-.921 3.735l.842.54C14.686 10.575 15 8.937 15 7.495h-1zm-2.657 6.48l3 .99.314-.949-3-.99-.314.949zm3.631.357l-1-2.99-.948.316 1 2.991.948-.317z" fill="currentColor"></path>
+        </svg>
+      <% end %>
+      <%= link_to app_campaigns_path(@app.key) , 
+        data: {"turbo-frame"=>"content", "turbo-action": "replace",
+         "controller"=> "tippy", "content": "Campaigns", "placement": 'right'
+         }, 'aria-label': "Campaigns", class: "text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
+          <path d="M14.5.5l.457.203A.5.5 0 0014.5 0v.5zM.5.5V0a.5.5 0 00-.5.5h.5zm14 9v.5a.5.5 0 00.457-.703L14.5 9.5zm-2-4.5l-.457-.203a.5.5 0 000 .406L12.5 5zm2-5H.5v1h14V0zM0 .5v9h1v-9H0zM.5 10h14V9H.5v1zm14.457-.703l-2-4.5-.914.406 2 4.5.914-.406zm-2-4.094l2-4.5-.914-.406-2 4.5.914.406zM1 15V9.5H0V15h1z" fill="currentColor"></path>
+        </svg>
+      <% end %>
+      <%= link_to app_bots_path(@app.key), 'aria-label': "Routing Bots", 
+        data: { "controller"=> "tippy", "content": "Routing Bots", "placement": 'right' },
+        class: "text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
+          <path d="M7.5 2.5a5 5 0 015 5v6a1 1 0 01-1 1h-8a1 1 0 01-1-1v-6a5 5 0 015-5zm0 0V0M4 11.5h7M.5 8v4m14-4v4m-9-2.5a1 1 0 110-2 1 1 0 010 2zm4 0a1 1 0 110-2 1 1 0 010 2z" stroke="currentColor"></path>
+        </svg>
+      <% end %>
+      <%= link_to app_articles_path(@app.key), 'aria-label': "Help Center",
+      data: {  "controller"=> "tippy", "content": "Help Center", "placement": 'right' }, 
+      class: "text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
+          <path d="M1.5.5V0a.5.5 0 00-.5.5h.5zm0 13H1a.5.5 0 00.5.5v-.5zM4 0v15h1V0H4zM1.5 1h10V0h-10v1zM13 2.5v9h1v-9h-1zM11.5 13h-10v1h10v-1zm-9.5.5V.5H1v13h1zm11-2a1.5 1.5 0 01-1.5 1.5v1a2.5 2.5 0 002.5-2.5h-1zM11.5 1A1.5 1.5 0 0113 2.5h1A2.5 2.5 0 0011.5 0v1zM7 5h4V4H7v1z" fill="currentColor"></path>
+        </svg>
+      <% end %>
+
+      <%= link_to app_reports_path(@app.key) , 'aria-label': "Reports",
+        data: { "controller"=> "tippy", "content": "Reports", "placement": 'right'},
+        class: "text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+        <svg fill="currentColor" focusable="false" viewBox="-10 -9 35 35" aria-hidden="true" role="presentation">
+          <path d="M.5 14.5H0v.5h.5v-.5zm6-9l.4-.3a.5.5 0 00-.816.023L6.5 5.5zm3 4l-.4.3a.5.5 0 00.807-.01L9.5 9.5zM0 0v14.5h1V0H0zm.5 15H15v-1H.5v1zm2.416-3.223l4-6-.832-.554-4 6 .832.554zM6.1 5.8l3 4 .8-.6-3-4-.8.6zm3.807 3.99l5-7-.814-.58-5 7 .814.58z" fill="currentColor"></path>
+        </svg>
+      <% end %>
+
+
+      <%= link_to app_settings_path(@app.key), 'aria-label': "Settings", 
+        data: { "controller"=> "tippy", "content": "Settings", "placement": 'right' },
+        class: "text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
+          <path clip-rule="evenodd" d="M5.944.5l-.086.437-.329 1.598a5.52 5.52 0 00-1.434.823L2.487 2.82l-.432-.133-.224.385L.724 4.923.5 5.31l.328.287 1.244 1.058c-.045.277-.103.55-.103.841 0 .291.058.565.103.842L.828 9.395.5 9.682l.224.386 1.107 1.85.224.387.432-.135 1.608-.537c.431.338.908.622 1.434.823l.329 1.598.086.437h3.111l.087-.437.328-1.598a5.524 5.524 0 001.434-.823l1.608.537.432.135.225-.386 1.106-1.851.225-.386-.329-.287-1.244-1.058c.046-.277.103-.55.103-.842 0-.29-.057-.564-.103-.841l1.244-1.058.329-.287-.225-.386-1.106-1.85-.225-.386-.432.134-1.608.537a5.52 5.52 0 00-1.434-.823L9.142.937 9.055.5H5.944z" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round"></path>
+          <path clip-rule="evenodd" d="M9.5 7.495a2 2 0 01-4 0 2 2 0 014 0z" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round"></path>
+        </svg>
+      <% end %>
+    </div>
+  </div>
+  
+  <% if !@navigator.is_a?(FalseClass) %>
+
+    <div class="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-gray-900 bg-gray-100 shadow-inner">
+      <div class="h-[63px] py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-800 dark:text-gray-200 border">
+        <h3 class="font-semibold w-full text-gray-600 text-xs">
+          <%= @app.name %>
+        </h3>
+      </div>
+
+      <div class="h-0-- flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+        <div class="flex items-center flex-shrink-0 px-4 text-lg leading-6 font-bold text-gray-900 dark:text-gray-100">
+          <h3 class="font-bold w-full">
+            <%= t('navigator.dashboard')%>
+          </h3>
+        </div>
+        <nav class="mt-5 flex-1 px-4 space-y-2">
+            <% if @navigator.present? %>
+              <%= render @navigator %>
+            <% elsif controller.controller_name === 'apps' %>
+              <%= render "apps/navigator" %>
+            <% else %>
+              <%= render "apps/#{controller.controller_name}/navigator" %>
+            <% end %>
+          
+        </nav>
+      </div>
+
+      <div class="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
+        <div class="flex-shrink-0 group block focus:outline-none">
+          <div class="flex items-center">
+            <div>
+              <%= image_tag current_agent.avatar_url, 
+                class: "inline-block h-9 w-9 rounded-full",
+                width: "40", height: "40" 
+              %>
+            </div>
+            <div class="ml-3 w-2/5 flex flex-wrap">
+              <p class="text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
+                <%= current_agent.email %>
+              </p>
+              <%= turbo_frame_tag "menuaa" do %>
+                <div class="flex items-center" data-turbo="true">
+
+                  <% 
+                    filter_items = [{
+                                      title: I18n.t('navigator.user_menu.create_app'),
+                                      description: I18n.t(
+                                        'navigator.user_menu.create_app_description'
+                                      ),
+                                      icon: "plus",
+                                      id: 'new-app',
+                                      href: '/apps/new',
+                                    },
+
+                                    {
+                                      id: 'choose-lang',
+                                      title: I18n.t('home.choose_lang'),
+                                      icon: "globe-alt",
+                                      href: "/languages",
+                                      data: {
+                                        'turbo-frame': 'modal'
+                                      }, 
+                                    },
+                                    {
+                                      id: 'edit-profile',
+                                      title: I18n.t('home.edit_profile'),
+                                      icon: "user-circle",
+                                      href: '/agents/edit'
+                                    },
+                                    {
+                                      id: 'toggle-dark-mode',
+                                      title: ( 'toggle theme' ),
+                                      icon: "paint-brush",
+                                      data: {
+                                        action: "click->dark-mode#toggle"
+                                      }
+                                    },
+                                    {
+                                      title: I18n.t('navigator.user_menu.signout'),
+                                      id: 'sign-out',
+                                      render: lambda{|o| 
+                                        %{
+                                          #{button_to destroy_agent_session_path, 
+                                            method: :delete, 
+                                            form: {"data-turbo": false, 
+                                            class: "w-full group flex items-center
+                                              px-4 py-2 text-sm leading-5 
+                                              text-gray-700 dark:text-gray-200
+                                              hover:bg-gray-100 hover:text-gray-900
+                                              focus:outline-none focus:bg-gray-100
+                                              focus:text-gray-900
+                                              dark:hover:bg-gray-700 dark:hover:text-gray-100
+                                              dark:focus:bg-gray-800"} do
+                                                content_tag :div, class: "flex items-center space-x-2" do
+                                                  content_tag( :div, heroicon("arrow-left-on-rectangle"), class: "flex") +
+                                                  content_tag( :div, I18n.t('navigator.user_menu.signout'), class: "flex")
+                                                end
+                                            end
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                  %>
+
+                  <%= render Toggle::Component.new(
+                    id: 'away-mode', 
+                    label: I18n.t('common.away_mode'), 
+                    checked: true, 
+                    disabled: false, 
+                    on_change: '')
+                  %>
+
+                  <%= render FilterMenu::Component.new(
+                        label: "select lang", 
+                        items: filter_items,
+                        orientation: 'right',
+                        variant: 'outlined',
+                        origin: 'bottom',
+                        size: 'sm',
+                        button: lambda{ |data|
+                            %{
+                              <button data-action='#{data[:data][:action]}'>
+                                <svg fill="currentColor" viewBox="0 0 20 20" class="w-4">
+                                  <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
+                                  </path>
+                                </svg>
+                              </button>
+                            }.html_safe
+                        }
+                      )
+                    %>
+
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  <% end %>
+</div>

@@ -1,0 +1,82 @@
+<%= turbo_frame_tag 'app-settings' do %>
+  <div class="p-10">
+    <div class="bg-white dark:bg-black shadow overflow-hidden  sm:rounded-lg">
+        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+            <%= I18n.t('settings.api.oauth_information')%>
+          </h3>
+          <div class="flex justify-between">
+            <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500 dark:text-gray-300">
+              <%= I18n.t('settings.api.details')%>
+            </p>
+            <div class="flex space-x-2">
+
+              <%= link_to( t('common.edit') , 
+                edit_app_oauth_application_path(@app.key, @oauth_application), 
+                data: {
+                  'turbo-frame': 'modal'
+                }, 
+                class: "btn btn-outlined sm") 
+              %>
+
+              <button class="btn btn-danger sm">
+                <%= I18n.t('common.delete') %>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="px-4 py-5 sm:px-6">
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+            <div class="sm:col-span-1">
+              <dt class="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
+                Name
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
+                <%= @oauth_application.name %>
+              </dd>
+            </div>
+            <div class="sm:col-span-1">
+              <dt class="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
+                Confidential
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
+                <%= @oauth_application.confidential %>
+              </dd>
+            </div>
+            <div class="sm:col-span-1">
+              <dt class="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
+                Client id
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
+                <%= @oauth_application.uid %>
+              </dd>
+            </div>
+            <div class="sm:col-span-1">
+              <dt class="text-sm leading-5 font-medium text-gray-500 dark:text-gray-100">
+                Redirect URI
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 flex justify-between items-center">
+                <%= @oauth_application.redirect_uri %>
+                <a
+                  class='btn sm btn-flat-dark'
+                  variant="btn btn-outlined"
+                  href="<%= "/oauth/authorize?client_id=#{@oauth_application.uid}&redirect_uri=#{@oauth_application.redirect_uri}&response_type=code&scope=" %>">
+                  authorize
+                </a>
+              </dd>
+            </div>
+            <div class="sm:col-span-1">
+              <dt class="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
+                Secret
+              </dt>
+              <dd class="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
+                <%= @oauth_application.secret %>
+              </dd>
+            </div>
+          </dl>
+        </div>
+    </div>
+  </div>
+<% end %>
+
+

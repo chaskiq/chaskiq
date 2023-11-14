@@ -1,0 +1,21 @@
+<div class="overflow-y-auto h-full">
+
+	<ul data-turbo="true">
+		<% @packages.each do |pkg| %>
+			<li class="">
+				<%= form_for pkg, 
+					url: content_app_package_path(@app.key, pkg.app_package.name), method: :post do |f| %>
+					<%= hidden_field_tag "ctx[location]", "fixed_sidebar"  %>
+					<%= f.submit pkg.app_package.name.first, 
+						data: {
+          		"controller"=> "tippy", 
+							"content": pkg.app_package.name, 
+							"placement": 'left', 
+        		}, 
+						class: "cursor-pointer bg-white dark:bg-gray-900 dark:text-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden" %>
+				<% end %>
+			</li>
+		<% end %>
+	</ul>
+		
+</div>

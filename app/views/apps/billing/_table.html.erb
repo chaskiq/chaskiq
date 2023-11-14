@@ -1,0 +1,222 @@
+
+<div data-controller="<%= data_controller %>"
+	data-email="<%= current_agent.email %>"
+	data-vendor-id="<%= Chaskiq::Config.get("PADDLE_VENDOR_ID") %>"
+	data-app-key="<%= @app.key %>"
+  class="max-w-2xl mt-5 mx-auto bg-white dark:bg-black py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+
+  <!-- xs to lg -->
+  <div class="space-y-24 lg:hidden">
+    <% plans.each do |plan| %>
+      <div id="mobile-plan-<%= plan[:id] %>">
+        <div class="px-4">
+          <h2 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+            <%= plan[:name] %>
+          </h2>
+          <p class="mt-4">
+            <span class="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
+              $<%= plan[:pricing] %>
+            </span>
+            <span class="text-base font-medium text-gray-500 dark:text-gray-300">
+              /mo
+            </span>
+          </p>
+
+          <% if @app.plan.name == plan[:name] %>
+            <p class="mt-4 text-sm text-gray-500 dark:text-gray-300">
+              This is your current plan
+            </p>
+          <% else %>
+
+						<% if kind == :stripe %>
+								<%= link_to "buy #{plan[:name]}", 
+									new_app_billing_path(@app.key, plan_id: plan[:id]), data: {turbo: false},
+									class: "bg-green-400 hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center" 
+								%>
+						<% else %>
+							<button 
+								class="bg-green-400 hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center"
+								data-product-id="<%= plan[:id] %>"
+								data-action="click->modal#open click->paddle-subscription#open">
+								Buy <%= plan[:name] %>
+							</button>
+						<% end %>
+
+						
+          <% end %>
+
+          <table class="mt-8 w-full">
+            <caption class="bg-gray-50 border-t border-gray-200 py-3 px-4 text-sm font-medium text-gray-900 text-left">
+              Features
+            </caption>
+            <thead>
+              <tr>
+                <th class="sr-only" scope="col">Feature</th>
+                <th class="sr-only" scope="col">Included</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+              <% I18n.t('subscriptions.features').keys.each do |k| %>
+                <tr class="border-t border-gray-200">
+                  <!-- PlanDescriptor Inlined -->
+                  <th class="py-5 px-4 text-sm font-normal text-gray-500 dark:text-gray-300  text-left" scope="row">
+                    <div class="flex flex-col">
+                      <span class="text-sm text-gray-900 dark:text-gray-100 font-bold">
+                        <%= I18n.t("subscriptions.features.#{k}.title") %>
+                      </span>
+                      <span class="hidden text-xxs text-gray-500 dark:text-gray-300">
+                        <%= I18n.t("subscriptions.features.#{k}.upgrade_message") %>
+                      </span>
+                    </div>
+                  </th>
+
+                  <td class="py-5 px-6">
+                    <% if feature = plan[:features].find{|o| o["name"] === k.to_s } and feature["active"] %>
+                      <%= heroicon("check") %>
+                      <span class="text-xs uppercase font-bold text-gray-400 dark:text-gray-400">
+                        <%= feature["count"] == 'unlimited' ? '∞' : "Up to #{feature['count']}" %>
+                      </span>
+                    <% else %>
+                      <%= heroicon("x-mark") %>
+                    <% end %>
+                    <span class="sr-only">Included in <%= plan[:name] %></span>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <!-- Other parts of your structure -->
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- lg+ -->
+	<div class="hidden lg:block">
+		<table class="w-full h-px table-fixed">
+			<caption class="sr-only">Pricing plan comparison</caption>
+			<thead>
+				<tr>
+					<th class="w-1/4 pb-4 px-6 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 text-left" scope="col">
+						<span class="sr-only">Feature by</span>
+						<span>Plans</span>
+					</th>
+					<% plans.each do |o| %>
+						<th class="w-1/4 pb-4 px-6 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 text-left" scope="col">
+							<%= o[:name] %>
+						</th>
+					<% end %>
+				</tr>
+			</thead>
+			<tbody class="border-t border-gray-200 divide-y divide-gray-200 dark:divide-gray-600">
+				<tr>
+					<th class="py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 dark:text-gray-100 text-left" scope="row">
+						Pricing
+					</th>
+					<% plans.each do |p| %>
+						<td class="h-full py-8 px-6 align-top">
+							<div class="h-full flex flex-col justify-between">
+								<div>
+									<p>
+										<span class="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
+											$<%= p[:pricing] %>
+										</span>
+										<span class="text-base font-medium text-gray-500 dark:text-gray-300">
+											/mo
+										</span>
+									</p>
+									<p class="mt-4 text-sm text-gray-500 dark:text-gray-300">
+										<%= p[:description] %>
+									</p>
+								</div>
+
+								<% if @app.plan.name == p[:name] %>
+									<p class="mt-4 text-sm text-gray-500 dark:text-gray-300">
+										This is your current plan
+									</p>
+								<% else %>
+
+									<% if kind == :stripe %>
+										<%= link_to "buy #{p[:name]}", 
+											new_app_billing_path(@app.key, plan_id: p[:id]), data: {turbo: false},
+											class: "bg-green-400 hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center" %>
+									<% else %>
+										<button 
+											class="bg-green-400 hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center"
+											data-product-id="<%= p[:id] %>"
+											data-action="click->modal#open click->paddle-subscription#open"
+											>
+											<%= p[:name] %>
+										</button>
+									<% end %>
+								<% end %>
+							</div>
+						</td>
+					<% end %>
+				</tr>
+				<tr>
+					<th class="py-3 pl-6 bg-gray-50 dark:bg-black text-sm font-medium text-gray-900 dark:text-white text-left" colSpan=<%= plans.length + 1 %> scope="colgroup">
+						Features
+					</th>
+				</tr>
+
+				<% I18n.t('subscriptions.features').keys.each do |k| %>
+					<tr>
+						<!-- PlanDescriptor Inlined -->
+						<th class="py-5 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left" scope="row">
+							<div class="flex flex-col">
+								<span class="text-sm text-gray-900 dark:text-gray-100 font-bold">
+									<%= I18n.t("subscriptions.features.#{k}.title") %>
+								</span>
+							</div>
+						</th>
+
+						<% plans.each do |plan| %>
+							<!-- PlanItemDescriptor Inlined -->
+							<td class="py-5 px-6">
+								<div class="flex flex-col items-center justify-center">
+									<% if feature = plan[:features].find{|o| o["name"] === k.to_s } and feature["active"] %>
+										<div class="w-6 h-6 text-green-500 bg-green-200 rounded-full">
+										<%= heroicon("check") %>
+										</div>
+										<span class="text-xs uppercase font-bold text-gray-400 dark:text-gray-400">
+											<%= feature["count"] == 'unlimited' ? '∞' : "Up to #{feature['count']}" %>
+										</span>
+									<% else %>
+										<%= heroicon("x-mark") %>
+									<% end %>
+									<span class="sr-only">Included in <%= plan[:name] %></span>
+								</div>
+							</td>
+						<% end %>
+					</tr>
+				<% end %>
+			</tbody>
+			<tfoot>
+				<tr class="border-t border-gray-200">
+					<th class="sr-only" scope="row">
+						Choose your plan
+					</th>
+					<% plans.each do |p| %>
+						<td class="pt-5 px-6">
+							<% if @app.plan.name == p[:name] %>
+								<p class="mt-4 text-sm text-gray-500 dark:text-gray-300">
+									This is your current plan
+								</p>
+							<% else %>
+								<button 
+									class="bg-green-400 text-white hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center"
+									data-product-id="<%= p[:id] %>"
+									data-action="click->modal#open click->paddle-subscription#open">
+									<%= p[:name] %>
+								</button>
+							<% end %>
+						</td>
+					<% end %>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+
+</div>

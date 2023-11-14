@@ -1,0 +1,17 @@
+<%= render Content::Component.new do %>
+
+	<%= render PageHeader::Component.new(title: I18n.t('settings.team.invitations')) do %>
+		<%= link_to( t('settings.team.add_new'), 
+			new_app_invitation_path(@app.key), 
+			data: {
+				'turbo-frame': 'modal'
+			}, 
+			class: "btn btn-flat-dark sm") 
+		%>
+	<% end %>
+
+	<%= turbo_frame_tag 'agents-table' do %>
+		<%= render 'table' %>
+	<% end %>
+	
+<% end %>

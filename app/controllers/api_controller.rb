@@ -166,7 +166,8 @@ class ApiController < ActionController::API
     end
     return nil if data.blank?
     return nil unless data.is_a?(Hash)
-    return data&.with_indifferent_access if @app.compare_user_identifier(data)
+
+    data&.with_indifferent_access if @app.compare_user_identifier(data)
   end
 
   def authorize_by_encrypted_params
@@ -181,7 +182,7 @@ class ApiController < ActionController::API
   end
 
   def lang_available?(lang)
-    return if lang.blank?
+    return false if lang.blank?
 
     I18n.available_locales.include?(lang.to_sym)
   end

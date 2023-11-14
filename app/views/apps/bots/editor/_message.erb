@@ -1,0 +1,33 @@
+<div data-sortable-target="item" 
+  class="border p-2 sm:p-4 sm:mt-8 mt:2 nested-fields" 
+  data-new-record="true">
+
+  <div class="flex justify-between items-center">
+    <div>
+      <div class="cursor-move btn btn-dark-flat">
+        <%= heroicon "arrows-up-down" %>
+      </div>
+    </div>
+    <div class="flex-grow shadow border border-gray-400 rounded p-6 relative dark:bg-gray-800 bg-gray-100 max-w-sm">
+      <div data-controller="dante-editor" 
+        data-content="<%= form.object.serialized_content %>"
+        data-editor-options="<%= {addButtonFixed: false, menuBarFixed: false}.to_json %>">
+        <div data-dante-editor-target="container"></div>
+        <%= form.hidden_field :serialized_content, 
+          data: {"dante-editor-target": "serializedInput"},
+          value: form.object.serialized_content.to_json
+        %>
+      </div>
+    </div>
+    <div>
+
+    <button class="btn btn-icon"
+      data-action="nested-form#remove_association"
+      data-remove-container=".step-container"
+      type="button">
+      <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M4.5 4.5l6 6m-6 0l6-6m-3 10a7 7 0 110-14 7 7 0 010 14z" stroke="currentColor"></path></svg>
+    </button>
+    
+    </div>
+  </div>
+</div>

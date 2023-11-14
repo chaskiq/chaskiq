@@ -1,0 +1,48 @@
+<%= render "shared/modal" do %>
+
+  <div class="text-xl leading-6 font-semibold text-gray-900 dark:text-gray-100">
+    Compose a new message
+  </div>
+  <div>
+    <% if @app_user %>
+      To: <%= @app_user.display_name%>
+
+    <% end %>
+    <div data-controller="select">
+      <%= form_for @conversation, url: [@app, @conversation] do |f| %>
+        <%= f.text_field :subject %>
+        <%= f.select :assignee, options_for_select(@app.agents.map{|o| [o.display_name, o.id]}, f.object.assignee_id), {}, {
+            data: {
+                'select-target': 'select', 
+                options: @app.agents.map{|o| {label: o.display_name, value: o.id} }.to_json 
+                },
+                label: false
+              } 
+        %>
+        <% if f.object.main_participant.present? %>
+          <%= f.hidden_field :main_participant_id %>
+        <% else %>
+          <%= f.select(:main_participant, options_for_select(@app.app_users.limit(10).map{|o| [o.display_name, o.id]}, f.object.main_participant_id), {}, {
+              data: { remote: "true", creatable: true, url: search_app_contacts_path(@app.key, format: :json),
+                                          'select-target': 'select', 
+                                          options: @app.app_users.limit(10).map{|o| {label: o.display_name, value: o.id} }.to_json 
+                                        },
+                                        label: false
+                                      
+          }) %>
+        <% end %>
+
+        <div
+          className="relative rounded-lg border
+            border-gray-300 bg-white
+            my-5 shadow-sm
+            flex items-center space-x-3
+            hover:border-gray-400 focus-within:ring-2
+            focus-within:ring-offset-2 focus-within:ring-brand">
+          <%= render "editor", form_id: "new_conversation" %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+<% end %>

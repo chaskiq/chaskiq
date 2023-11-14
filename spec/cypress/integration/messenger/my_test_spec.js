@@ -51,8 +51,8 @@ function messengerVisit (options, inboundSettings, cb) {
   cy.appEval('App.last').then((results) => {
     // cy.appEval("App.last.add_agent({email: \"test2@test.cl\", name: \"test agent\"})")
     const record = results
-    let path = `/tester/${record.key}` 
-    path = `${path}${visitor ? '?sessionless=true' : ''}`
+    let path = `/tester/${record.key}?old_embed=true` 
+    path = `${path}${visitor ? '&sessionless=true' : ''}`
     if( jwt )
       path + "&jwt=true"
 
@@ -84,7 +84,7 @@ describe('Chaskiq Messenger', function () {
       // cy.appEval("App.last.add_user({email: \"test@test.cl\"})")
       cy.appEval('App.last.add_agent({email: "test2@test.cl", name: "test agent"})')
       const record = results[0]
-      cy.visit(`/tester/${record.key}`).then(() => {
+      cy.visit(`/tester/${record.key}?old_embed=true`).then(() => {
         // cy.wait(10000)
         // cy.get('#ChaskiqMessengerRoot').should('be.visible')
         cy.get('iframe:first')

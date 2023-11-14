@@ -7,6 +7,10 @@ require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require "rspec/rails"
+require "capybara/rspec"
+# require 'capybara/rails'
+
+require "view_component/test_helpers"
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -43,6 +47,13 @@ require "database_cleaner/active_record"
 # include ActiveSupport::Testing::TaggedLogging
 
 RSpec.configure do |config|
+  config.include ViewComponent::TestHelpers, type: :view_component
+  # config.include Capybara::RSpecMatchers, type: :view_component
+
+  config.define_derived_metadata(file_path: %r{/spec/frontend/components}) do |metadata|
+    metadata[:type] = :view_component
+  end
+
   # https://github.com/rspec/rspec-rails/issues/2410
   config.include ActiveSupport::Testing::Assertions
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -72,14 +83,14 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner[:active_record].strategy = DatabaseCleaner::ActiveRecord::Truncation.new
     DatabaseCleaner[:active_record].clean
-    #ActiveRecord::Tasks::DatabaseTasks.truncate_all
+    # ActiveRecord::Tasks::DatabaseTasks.truncate_all
     DatabaseCleaner[:redis].clean
-  end 
+  end
 
   config.before(:each) do
     DatabaseCleaner[:active_record].strategy = DatabaseCleaner::ActiveRecord::Truncation.new
     DatabaseCleaner[:active_record].clean
-  end 
+  end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

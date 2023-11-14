@@ -50,6 +50,7 @@ jobs:
           gem install bundler
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
+          bin/rails tailwindcss:build
           bundle exec rake assets:precompile
       - name: Build and run tests
         env:
@@ -74,6 +75,7 @@ jobs:
           bundle exec rails packages:download_and_install["2.0.0-rc"]
           bundle exec rails server -e test -p 5002 -d
           ./node_modules/.bin/cypress install
+          curl -i http://localhost:5002
           yarn cypress:ga-ci
 
 

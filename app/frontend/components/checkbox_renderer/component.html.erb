@@ -1,0 +1,20 @@
+
+
+<span className="label"><%= @label %></span>
+<div className="wrapper">
+	<% @options.each do |o| %>
+			<div key=<%= "field-#{@id}-#{o["id"]} " %>>
+				<label>
+					<input
+						name="<%= o["name"] || o["id"] %>"
+						<%= @disabled || o["disabled"] || @save_state == "saved" ? "disabled" : "" %>
+						type="checkbox"
+						checked="<%= @value == o["id"] %>"
+					/>
+					<span className="pad"><%= @text %></span>
+				</label>
+			</div>
+	<% end %>
+</div>
+
+

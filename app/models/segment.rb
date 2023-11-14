@@ -138,7 +138,7 @@ class Segment < ApplicationRecord
       query_string = "%#{predicate['value']}%"
       field.does_not_match(query_string)
     else
-      field.send(predicate["comparison"], predicate["value"])
+      field.send(predicate["comparison"] || "not_eq", predicate["value"])
     end
   end
 
@@ -432,7 +432,7 @@ class Segment < ApplicationRecord
 
     preds = predicates.filter { |o| o["type"] != "match" and search_attrs.include?(o["attribute"]) }
     nested_preds = predicates.filter do |o|
-      custom_fields.map { |cf| cf["name"] }.include?(o["attribute"])
+      custom_fields.pluck("name").include?(o["attribute"])
     end
 
     q_predicates = preds.map do |pred|

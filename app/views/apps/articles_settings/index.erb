@@ -1,0 +1,13 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-article-settings' do %>
+
+		<%= render PageHeader::Component.new(title: I18n.t("articles.settings.title") ) do %>
+			
+		<% end %>
+
+		<%= render "form" %>
+
+	<% end %>
+	
+<% end %>

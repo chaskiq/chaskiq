@@ -1,0 +1,127 @@
+
+<%= turbo_frame_tag "segment_form" do %>
+
+	<div 
+		id="current-segment-predicates" 
+		data-value="<%= segment_manager&.predicates.to_json %>">
+	</div>
+	
+	<% #= segment_manager&.predicates.as_json %>
+	
+	<% form_url = local_assigns[:url_form] ? 
+		local_assigns[:url_form] : app_segment_managers_path(@app.key) 
+	%>
+
+	<div class="py-3">
+		<div class="flex space-x-3">
+			<% segment_manager.predicates.each_with_index do |segment, index|%>
+
+				<%= f.fields_for segment, index: index do |predicate_form| %>
+					<% path = case segment.attribute 
+						when "match", "type" then "apps/segment_manager/#{segment.attribute}"
+						else  
+							#"apps/segment_manager/#{segment.type}"
+							"apps/segment_manager/string"
+
+						end
+					%>
+					<%= render path, locals: {index: index, segment: segment, f: predicate_form} %>
+
+				<% end %>
+				<% #= segment.to_json %>
+
+			<% end %>
+
+			<div>
+				<div class="relative inline-block text-left">
+					<div class="flex">
+						<%= render Dropdown::Component.new(
+							label: 'Add filters', 
+							variant: 'success',
+							orientation: 'left', 
+							size: 'sm') do %>
+							<div class="p-2--">
+								<div class="p-2">
+									<h2 class="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">Select fields:</h2>
+								</div>
+								<div class="overflow-scroll h-48">
+									<input type="text" data-segment-manager-target="newElement" name="new_segment">
+									<ul class="divide-y divide-gray-200">
+										<% @app.fields_for_segments.each do |field|%>
+											<li>
+												<button
+													type="button" 
+													data-action="click->segment-manager#addField"
+													data-field="<%= field['name'] %>"
+													class="w-full cursor-pointer block hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:text-gray-800 transition duration-150 ease-in-out">
+													<div class="flex items-center px-4 py-4 sm:px-6">
+														<span class="flex items-center text-sm leading-5 text-gray-700 dark:text-gray-100">
+														<%= field['name'] %>
+														</span>
+													</div>
+												</button>
+											</li>
+										<% end %>
+									</ul>
+								</div>
+							</div>
+						<% end %>
+					</div>
+				</div>
+			</div>
+
+			<div class="flex items-center">
+				<button disabled="" class="css-es907d">
+					<svg fill="currentColor" viewBox="0 0 22 22" class="css-yq96v9">
+						<path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path>
+					</svg>
+				</button>
+
+				<button class="css-1coknnr">
+					<svg fill="currentColor" viewBox="0 0 20 20" class="css-1dhg8p7">
+						<path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+					</svg>
+				</button>
+			</div>
+
+			<div class="flex justify-end">
+				<% if changed && !incomplete %>
+					<div>
+						<div class="relative inline-block text-left">
+							<div class="flex">
+
+								<% if local_assigns[:btn_proc] && local_assigns[:btn_proc].is_a?(Proc) %>
+									<%= local_assigns[:btn_proc].call %>
+								<% else %>
+									<%= link_to( edit_app_segment_path(@app.key, @segment), data: {
+										'turbo-frame': 'modal'
+										}, class: "btn btn-outlined sm") do %>
+										<svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
+											<path d="M4.5 14.5v-3a1 1 0 011-1h4a1 1 0 011 1v3m3 0h-12a1 1 0 01-1-1v-12a1 1 0 011-1h8.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V13.5a1 1 0 01-1 1z" stroke="currentColor">
+											</path>
+										</svg>
+										<%= t("common.save")%>
+									<% end %>
+								<% end %>
+
+							</div>
+						</div>
+					</div>
+				<% end %>
+
+				<% unless local_assigns[:disable_deletion] %>
+					<div class="relative inline-block text-left">
+						<button class="btn btn-outlined sm">
+							Delete
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="15" height="15">
+								<path fill="none" d="M0 0h24v24H0z"/>
+								<path d="M4 8h16v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8zm2 2v10h12V10H6zm3 2h2v6H9v-6zm4 0h2v6h-2v-6zM7 5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2h5v2H2V5h5zm2-1v1h6V4H9z"/>
+							</svg>
+						</button>
+					</div>
+				<% end %>
+
+			</div>
+		</div>
+	</div>
+<% end %>

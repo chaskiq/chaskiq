@@ -1,0 +1,35 @@
+
+<%= content_tag :div, 
+	id: "conversation-part-#{ message.key }",
+	data: {
+		controller: "conversation-part-wrapper",
+		read: message.read?,
+		viewer_type: "Agent",
+		author: message.authorable.class.to_s,
+		path: app_conversation_conversation_message_path(
+			app.key, message.conversation.key, message.key
+		)
+	} do %>
+<%= local_assigns[:viewer_type] %>
+
+<%= case message.messageable_type
+		when 'ConversationPartContent'
+			render ConversationPart::Component.new(message: message, app: app)
+		when 'ConversationPartBlock'
+			case message.messageable.blocks["type"]
+			when "app_package"
+				render ConversationPartBlock::Component.new(message: message, app: app)
+			when "ask_option", "data_retrieval"
+				render ConversationPartAskOption::Component.new(message: message, app: app)
+			when "wait_for_reply"
+				render WaitForReply::Component.new(message: message, app: app)
+			else
+				"no match for messageable: #{message.as_json}"
+			end
+		when 'ConversationPartEvent'
+			render ConversationPartEvent::Component.new(message: message, app: app)
+		else
+			"no match for #{message.class.table_name} #{message.as_json}"
+		end
+%>
+<% end %>

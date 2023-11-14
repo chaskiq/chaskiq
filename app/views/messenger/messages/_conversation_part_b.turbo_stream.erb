@@ -1,0 +1,25 @@
+
+<%= turbo_stream.prepend "conversations-list" do %>
+  <%= render "messenger/conversations/conversation_row", {
+    c: message.conversation,
+    message: message,  
+    app: message.conversation.app
+  } %>
+<% end %>
+
+<% if !message.read? && message.authorable_type == "Agent" %>
+  <%= turbo_stream.update "chaskiq-custom-events" do %>
+    <%= render "shared/pling", data: data %>
+
+    <%= render "messenger/custom_event", data: {
+      type: "trigger_init",
+      path: messenger_conversation_path(message.conversation.app.key, message.conversation.key)
+    }  %>
+
+  <% end %>
+<% end %>
+
+<%= turbo_stream.send(partial_method, partial_target) do %>
+  <%= render "messenger/messages/conversation_part", **local_assigns %>
+<% end %>
+

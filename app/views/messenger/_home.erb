@@ -1,0 +1,104 @@
+
+
+<div 
+  data-action="scroll->messenger#handleScroll"
+  class="cache-emo-a8p4ui" data-turbo="true">
+  <div style="margin-top: 147px;">
+    <% if @latest_conversations.any? %>
+      <div in="in" 
+        data-messenger-target="animated"
+        data-in="fade-in-right" 
+        data-out="fade-out-right"
+        class="cache-emo-mvqm3o fade-in-right">
+        <div class="cache-emo-1t2ixeu">
+          <h2><%= t("messenger.continue_conversation") %></h2>
+        </div>
+
+
+        <div id="conversations-list">
+          <% @latest_conversations.each do |conversation| %>
+            <%= render "messenger/conversations/conversation_row",    
+              c: conversation,
+              app: @app
+            %>
+          <% end %>
+        </div>
+        
+        <div class="cache-emo-0">
+          <div class="cache-emo-qwyttr">
+            <%= link_to t("messenger.view_all_conversations"), 
+              messenger_conversations_path(@app.key),
+              data: {action: "click->messenger#animateOnClick"}
+            %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @app.inbound_settings["enabled"] %>
+      <div in="in" 
+        data-messenger-target="animated"
+        data-in="fade-in-right" 
+        data-out="fade-out-right"
+        class="cache-emo-mvqm3o fade-in-right" style="margin-top: 0px;">
+        <div class="cache-emo-1t2ixeu">
+          <h2><%= t("messenger.start_conversation") %></h2>
+          <div class="cache-emo-zoxij">
+            <p>we'll be back in approximately 10 hrs</p>
+          </div>
+          <p class="cache-emo-aqe3rj">The team will respond as soon as possible</p>
+          <div class="cache-emo-0">
+            <div class="cache-emo-17xgiok">
+              <% @agents.each do |agent| %>
+              <div class="cache-emo-7w49yp">
+                <%= image_tag agent.avatar_url, alt: agent.display_name %>
+              </div>
+              <% end %>
+            </div>
+            <div class="cache-emo-3d3066">
+                <%= link_to t("messenger.start_conversation"), new_messenger_conversation_path(@app.key),
+                data: {action: "click->messenger#animateOnClick"},
+                class: "cache-emo-1kn0l3e" %>
+                <%= link_to t("messenger.see_previous"), messenger_conversations_path(@app.key),
+                data: {action: "click->messenger#animateOnClick"} %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <% @home_apps.each_with_index do |d, index| %>
+      <div 
+      data-messenger-target="animated"
+      data-in="fade-in-right" 
+      data-out="fade-out-right">
+        <div class="cache-emo-tcazp9" id="home--<%= d["name"] %>">
+          <%= render DefinitionRenderer::Component.new(
+            schema: d["definitions"],
+            size: d["sm"],
+            blocks: d,
+            app_package: d["name"],
+            location: "home",
+            category: "@category",
+            values: d["values"],
+            conversation_key: nil,
+            path: app_package_path(@app.key, d["name"]),
+            app: @app,
+            ctx: {}
+          ) do %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="cache-emo-jjffot">
+
+  
+  <a href="https://chaskiq.io" target="blank">
+    <% #= image_tag "logo_gray.png", alt: "https://chaskiq.io" %>
+    <%= t("messenger.run_on")%> Chaskiq
+    
+  </a>
+</div>

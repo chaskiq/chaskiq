@@ -1,0 +1,55 @@
+  <div>
+
+    <div class="h-24 w-full object-cover lg:h-24"></div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
+        <div class="flex flex-col">
+          <span class="inline-block relative ">
+            <%= render(Avatar::Component.new(src: @agent.avatar_url, app: @app, size: 24)) %>
+          </span>
+          <div>
+            <input accept="image/*" id="avatarUpload" type="file" style="display: none;">
+            <label for="avatarUpload" class="hover:cursor-pointer text-sm leading-5 text-gray-500 dark:text-gray-400">Upload avatar</label>
+          </div>
+        </div>
+        <div class="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+          <div class="sm:hidden 2xl:block mt-6 min-w-0 flex-1">
+            <h5 class="text-2xl font-bold text-gray-900 dark:text-gray-200 truncate"><%= @agent.display_name%> 
+              <button class="transition duration-150 ease-in-out  css-f1nw5l" color="inherit">
+                <svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
+                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path>
+                </svg>
+              </button>
+            </h5>
+          </div>
+          <div class="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+            <div class="controls text-gray-900">
+              <div class="relative inline-block text-left">
+                <div class="flex">
+                  <div>
+                    <button class="text-xs leading-4 font-medium text-gray-100 group-hover:text-gray-300 group-focus:underline transition ease-in-out duration-150">
+                      <svg fill="currentColor" viewBox="0 0 20 20" class="css-1dhg8p7">
+                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="hidden sm:block 2xl:hidden mt-6 min-w-0 flex-1">
+        <h5 class="text-2xl font-bold text-gray-900 dark:text-gray-200 truncate"><%= @agent.display_name%> 
+          <button class="transition duration-150 ease-in-out  css-f1nw5l" color="inherit">
+            <svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
+              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path>
+            </svg>
+          </button>
+        </h5>
+      </div>
+    </div>
+
+  </div>

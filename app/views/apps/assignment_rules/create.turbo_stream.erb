@@ -1,0 +1,13 @@
+<% if params["commit"] != "save" %>
+<!-- @segment_manager.errors.any? -->
+  <%= turbo_stream.update("modal") do %>
+    <%= render "shared/modal" do %>
+      <%= render "form" %>
+    <% end %>
+  <% end %>
+  <%= flash_stream %>
+<% else %>
+  <%= turbo_stream.update("modal") do %>
+  <% end %>
+  <%= flash_stream %>
+<% end %>

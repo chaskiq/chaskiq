@@ -7,7 +7,7 @@ describe('Conversations Spec', function () {
   beforeEach(() => {
     cy.appEval(`
       require 'app_packages_catalog'
-      AppPackagesCatalog.update_all 
+      AppPackagesCatalog.update_all
     `)
   })
 
@@ -16,13 +16,13 @@ describe('Conversations Spec', function () {
 
     cy.appEval(`
       app_user = App.last.add_user(
-        email: 'test@test2.cl', 
+        email: 'test@test2.cl',
         name: 'ebola boli',
         first_name: 'some user'
       )
-      
+
       App.last.start_conversation(
-        message: { 
+        message: {
           text_content: 'hi from test backend',
           serialized_content: MessageApis::BlockManager.serialized_text("some text from backend")
         },
@@ -59,19 +59,19 @@ describe('Conversations Spec', function () {
 
         cy.contains('Customize').click()
 
-        cy.get('input[name="heading"]').type('Hello, World')
-        cy.get('input[name="page_url"]').type('https://github.com/rails/rails')
+        cy.get('input[name=heading]').type('Hello, World')
+        cy.get('input[name=page_url]').type('https://github.com/rails/rails')
         cy.contains('autofill inputs with page details').click()
 
-        cy.get('input[name="title"]').should('have.value', 'GitHub - rails/rails: Ruby on Rails')
-        cy.get('input[name="cover_image"]').should('not.have.value', '')
+        cy.get('input[name=title]').should('have.value', 'GitHub - rails/rails: Ruby on Rails')
+        cy.get('input[name=cover_image]').should('not.have.value', '')
 
         cy.contains('Add to messenger home').click().then(() => {
           cy.contains('Send App').should('not.be.disabled')
           cy.get('[data-cy=send-app-ContentShowcase]').click().then(() => {
             cy.contains('Hello, World')
           })
-          
+          cy.contains("ContentShowcase")
         })
       })
   })

@@ -3,23 +3,33 @@
 class Agents::InvitationsController < Devise::InvitationsController
   skip_before_action :verify_authenticity_token, only: [:update]
 
+  def edit
+    # render_empty
+    super
+    # super do |resource|
+    #  render html: '', :layout => 'application' and return
+    # end
+  end
+
   def update
     super do |resource|
-      if request.format == "json" && resource.errors.empty?
+      invitation_accepted = resource.errors.empty?
+
+      if request.format == "json" && !invitation_accepted
         return respond_with_navigational(resource, status: :success) do
           render json: @token
         end
       end
-      respond_with_navigational(resource)
+
+      if invitation_accepted
+        sign_in(resource_name, resource)
+        return respond_with resource, location: after_accept_path_for(resource)
+      end
     end
   end
 
-  def edit
-    render_empty
-    # super
-    # super do |resource|
-    #  render html: '', :layout => 'application' and return
-    # end
+  def after_accept_path_for(resource)
+    agents_path # redirects to the root of the app
   end
 
   private

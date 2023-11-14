@@ -1,0 +1,28 @@
+
+
+
+<div class="divide-y-2 divide-solid divide-gray-300 shadow-lg overflow-scroll h-screen w-[96vw] border rounded-md bg-white self-end flex-1 mb-4">
+  <% @campaigns.each do |campaign| %>
+
+    <div class="flex flex-col user-auto-message"
+        data-controller="user-auto-message" 
+        data-id="<%= campaign.id %>">
+        
+      <div>
+        <div class="relative overflow-y-auto overflow-hidden">
+          <!--<div class="sticky fixed top-[9x] z-10 w-[96vw]"></div>-->
+
+          <div class="absolute right-0 p-1">
+            <button data-cy="user-auto-message-dismiss" data-action="click->user-auto-message#dismiss" class="rounded-lg text-xs bg-gray-400 hover:opacity-95 float-right font-thin p-1 text-white">
+              dismiss
+            </button>
+          </div>
+          <div class="p-3 mt-4">
+            <%= raw Dante::Renderer.new(raw: JSON.parse(campaign.serialized_content).deep_symbolize_keys).render %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+</div>

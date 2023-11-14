@@ -1,0 +1,82 @@
+
+<% 
+ f = locals[:f]
+ segment = locals[:segment] 
+ index = locals[:index]
+ relative = segment.relative_options
+%>
+
+<div id="segment-index-<%=index%>">
+	<div class="relative inline-block text-left">
+		<div class="flex">
+			<%= render Dropdown::Component.new(
+				label: locals[:segment].value.blank? ? 
+					"missing value #{locals[:segment].attribute}" : 
+					"#{segment.attribute} #{locals[:segment].comparison} #{locals[:segment].value}", 
+				variant: 'outlined',
+				orientation: "left",
+				size: 'sm') do %>
+				
+				<div data-controller="segment-manager-input">
+					<div class="p-2">
+						<h2 class="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
+							Select filter for <%= segment.attribute %>
+						</h2>
+					</div>
+
+					<% #= locals[:segment].to_json %>
+					<%= f.hidden_field :type %>
+					<%= f.hidden_field :attribute %>
+					<% # f.hidden_field :comparison %>
+					<%= f.hidden_field :value, data: {"segment-manager-input-target": 'valueInput'} %>
+
+					<% options = relative.nil? ? [] : relative.map{|o| {o[:label] => o[:value]} }.reduce( Hash.new, :merge) %>
+
+					<% if options.any? %>
+						<div class="mt-2 p-2 h-32 overflow-scroll">
+							<%= f.collection_radio_buttons(:comparison, options, :last, :first) do |b| %>
+								<div class="form-check form-check-inline">
+									<% checked = locals[:segment]&.comparison == b&.value %>
+									<%= b.radio_button class: 'form-check-input', 
+										checked: checked, 
+										data: {
+											"modal-target": "radio",
+											"action": "click->segment-manager-input#tip",
+											"attribute-type": locals[:segment].type
+										} 
+									%>
+									<%= b.label class: 'form-check-label' %>
+									<div class="checkbox-input <%= !checked ? 'hidden' : '' %>">
+										<input
+											class="mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 dark:text-gray-100 dark:bg-gray-900"
+											value="<%= f.object.value %>" 
+											type="text" 
+											data-action="change->segment-manager-input#copyText"
+										/>
+									</div>
+
+								</div>
+							<% end %>
+
+						</div>
+					<% end %>
+
+					<div class="flex m-2 justify-between">
+						
+						<%= f.submit t("segment_manager.apply"), class: 'btn xs btn-default', "data-action": "click->segment-manager#submit" %>
+
+						<button type="button"
+							class='btn xs btn-danger'
+							data-segment="segment-index-<%=index%>"
+							data-action="click->segment-manager#delete" >
+							<%= t("common.delete") %>
+						</button>
+
+					</div>
+				</div>
+
+			<% end %>
+
+		</div>
+	</div>
+</div>

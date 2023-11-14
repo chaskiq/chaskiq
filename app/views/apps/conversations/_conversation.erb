@@ -1,0 +1,75 @@
+<%= link_to app_conversation_path(app.key, conversation.key),
+	id: "conversation-item-#{conversation.key}",
+ 	class:"flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out", 
+ 	data: {cy: "conversation-item", turbo_frame: 'conversation' } do %>
+
+	<% latest = conversation.latest_message %>
+
+	<div class="block w-2 bg-red-200 dark:bg-red-600"></div>
+	<div class="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 ">
+		<div class="flex items-center">
+				<div class="flex-shrink-0 h-10 w-10">
+					<%= render(Avatar::Component.new(src: conversation.main_participant.avatar_url, app: @app, size: 10)) %>
+				</div>
+				<div class="ml-4 truncate w-full">
+					<div class="flex justify-between">
+						<span class="text-md leading-5 font-semibold text-gray-800 dark:text-gray-100 truncate mr-2">
+							<%= conversation.main_participant.display_name %>
+						</span>
+						<span class="text-xs leading-5 font-light text-gray-300 dark:text-gray-300">
+							<time data-controller="moment" datetime="<%= latest&.updated_at.to_i %>">
+								<%= latest&.updated_at %>
+							</time>
+						</span>
+					</div>
+				</div>
+		</div>
+		<div class="flex flex-col mt-5 space-y-2">
+				<% #= latest.message.class  %>
+				<% if latest.present? %>
+					<div class="space-x-2 text-sm leading-5 text-gray-500 dark:text-gray-100 flex items-center">
+						
+						<% if latest.authorable.present? %>
+							<div class="w-6">
+								<div class="inline-block relative ">
+									<%= image_tag latest.authorable.avatar_url, class: "w-6 rounded-full bg-white" %>
+								</div>
+							</div>
+						<% end %>
+
+						<span class="truncate">
+							<% if latest.message.is_a?(ConversationPartContent)%>
+								<% #= latest.id %>
+								<% if latest.message&.serialized_content.nil? %>
+									<%= raw sanitize_plain(latest.message.html_content) %>
+								<% else %>
+									<%= sanitize_plain(latest.message.html_from_serialized) %>
+								<% end %>
+								<% #= JSON.parse(latest.message&.serialized_content)["blocks"].map{|o| o["text"] }.compact.join(", ") rescue %>
+							<% end %>
+
+							<% if latest.message.is_a?(ConversationPartBlock)%>
+								sent a block!
+							<% end %>
+						</span>
+					</div>
+				<% end %>
+				<div class="flex justify-between">
+					<div class="flex space-x-2 overflow-x-auto">
+						<% conversation.conversation_channels.each do |cc|%>
+							<%= render Badge::Component.new(classname: "text-xs font-medium bg-gray-100 text-blue-800") do %>
+								<%= cc[:provider] %>
+							<% end %>
+						<% end %>
+					</div>
+					<div class="flex space-x-2 overflow-x-auto">
+						<% conversation.tags.each do |tag| %>
+							<%= render Badge::Component.new do %>
+								<%= tag.name %>
+							<% end %>
+						<% end %>
+					</div>
+				</div>
+		</div>
+	</div>
+<% end %>

@@ -1,0 +1,43 @@
+
+
+
+<%= form_for @app, url: app_inbound_setting_path(@app.key, :users), 
+  data: {controller: 'segment-manager'} do |f| %>
+
+  <%= f.fields_for :inbound_settings_objects, @app.inbound_settings_objects do |ff|%>
+    <%= turbo_stream.update("segment-form-fields") do %>
+      <%= render 'apps/segment_manager/form_fields', 
+        f: ff, 
+        segment_manager: @segment_manager, 
+        url_form: update_segment_app_inbound_setting_path(@app.key, @namespace), 
+        incomplete: false, 
+        changed: @changed,
+        disable_deletion: true,
+        btn_proc: -> (){
+          "
+            #{
+              text_field_tag :force_save, true
+            }
+            #{
+              ff.submit("update audience", class: "btn xs btn-success")
+            }
+          ".html_safe
+        } 
+      %>
+    <% end %>
+  <% end %>
+<% end %>
+
+
+<% if @collection %>
+
+  <%= turbo_stream.update("segment-table") do
+      render partial: "apps/segment_manager/table", locals: {
+        app: @app,
+        segment_manager: @segment_manager,
+        results: @collection
+      }
+    end
+  %>
+ 
+<% end %>

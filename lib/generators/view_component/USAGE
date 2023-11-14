@@ -1,0 +1,16 @@
+Description:
+============
+    Creates a new view component, test and preview files.
+    Pass the component name, either CamelCased or under_scored, and an optional list of attributes as arguments.
+
+Example:
+========
+    bin/rails generate view_component Profile name age
+
+    creates a Profile component and test:
+        Component:    app/frontend/components/profile/component.rb
+        Template:     app/frontend/components/profile/component.html.erb
+        Test:         spec/frontend/components/profile_component_spec.rb
+        Preview:      app/frontend/components/profile/component_preview.rb
+          JS:           app/frontend/components/profile/component.js
+          CSS:          app/frontend/components/profile/component.css

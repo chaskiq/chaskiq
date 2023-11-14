@@ -1,0 +1,22 @@
+
+<h2 class="text-xl leading-6 font-semibold text-gray-900 dark:text-gray-100">
+  Add new language to Help Center
+</h2>
+
+<% options = I18n.available_locales - @article_setting.translations.map(&:locale)  %>
+<% labeled_options = options.map{|o| {label: o, value: o}} %>
+
+<%= form_for @article_setting, url: app_articles_setting_path(@app.key, :translations) do |f| %>
+  <%= f.select :new_language, options_for_select(options.map{|o| [o,o]}, nil), {}, {
+    data: {
+      'select-target': 'select', 
+      options: labeled_options.to_json 
+    },
+    label: I18n.t('definitions.settings.languages.select_lang')
+  } 
+  %>
+
+  <%= f.submit("add language", class: "btn btn-success") %>
+
+
+<% end %>

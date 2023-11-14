@@ -12,7 +12,37 @@ class Agents::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def auth0
+    callback_handler
+  end
+
   def failure
     redirect_to root_path
+  end
+
+  def callback_handler
+    auth = request.env["omniauth.auth"]
+    # logger.info(request.env['omniauth.auth'].to_json)
+    provider = auth["provider"]
+
+    current_agent = Agent.find_by(email: auth["info"]["email"])
+    # logger.info("#{provider}, #{auth['uid']}, #{current_user.to_json}")
+
+    # rubocop:disable Rails/DynamicFindBy
+    user = Agent.find_by_identity_for(provider, auth, current_agent)
+    # rubocop:enable Rails/DynamicFindBy
+
+    if user.present?
+      flash.now[:notice] = "We are synchronizing your #{provider} data, it may take a while"
+      redirect_to apps_path(user.username, :integrations) if agent_signed_in?
+      unless agent_signed_in?
+        sign_in(:agent, user)
+        redirect_to root_url and return
+      end
+
+    else
+      session["devise.omniauth_data"] = auth.except("extra")
+      redirect_to(new_agent_registration_url)
+    end
   end
 end

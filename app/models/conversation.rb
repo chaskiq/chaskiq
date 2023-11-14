@@ -11,11 +11,11 @@ class Conversation < ApplicationRecord
   belongs_to :assignee, class_name: "Agent", optional: true
   belongs_to :main_participant, class_name: "AppUser", optional: true # , foreign_key: "user_id"
   # has_one :conversation_source, dependent: :destroy
-  has_many :messages, class_name: "ConversationPart", dependent: :destroy_async
+  has_many :messages, class_name: "ConversationPart", dependent: :destroy
 
   has_many :message_blocks, through: :messages, source: :message_block
 
-  has_many :conversation_channels, dependent: :destroy_async
+  has_many :conversation_channels, dependent: :destroy
   has_many :conversation_part_channel_sources, through: :messages
   has_one :latest_message, -> { order("id desc") },
           class_name: "ConversationPart", dependent: nil
@@ -29,6 +29,14 @@ class Conversation < ApplicationRecord
 
   before_create :add_default_assigne
   after_create :convert_visitor_to_lead, if: :visitor_participant?
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[admins app_id assignee_id blocked blocked_reason closed_at created_at first_agent_reply id id_value key latest_admin_visible_comment_at latest_update_at latest_user_visible_comment_at main_participant_id parts_count priority read_at reply_count state subject updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[app assignee audits base_tags conversation_channels conversation_part_channel_sources events latest_message main_participant message_blocks messages public_latest_message tag_taggings taggings tags]
+  end
 
   after_create :add_created_event
 
@@ -83,20 +91,33 @@ class Conversation < ApplicationRecord
     notify_conversation_state_update
   end
 
-  def notify_conversation_state_update
-    data = as_json(methods: [:assignee])
+  def toggle_state
+    meth = state == "opened" ? :close! : :reopen!
+    send(meth)
+  end
 
-    EventsChannel.broadcast_to(
-      app.key,
-      { type: "conversations:update_state",
-        data: data }
-    )
+  def notify_conversation_state_update
+    data = { type: "conversations:update_state",
+             data: as_json(methods: [:assignee]) }
+
+    EventsChannel.broadcast_to(app.key, data)
 
     MessengerEventsChannel.broadcast_to(
-      broadcast_key,
-      { type: "conversations:update_state",
-        data: data }
+      broadcast_key, data
     )
+
+    broadcast_update_to app, main_participant.id,
+                        target: "chaskiq-custom-events",
+                        partial: "messenger/custom_event",
+                        locals: { data: data }
+
+    broadcast_render_to app, main_participant.id,
+                        partial: "messenger/conversations/state_update",
+                        locals: {
+                          app: app,
+                          conversation: self,
+                          user: main_participant
+                        }
   end
 
   def add_reopened_event
@@ -124,6 +145,7 @@ class Conversation < ApplicationRecord
       part.save
     end
 
+    part.trigger_init = opts[:trigger_init]
     part.notify_to_channels if part.errors.blank?
     part
   end
@@ -162,6 +184,28 @@ class Conversation < ApplicationRecord
 
     add_part_channel(part, opts)
     part
+  end
+
+  def add_trigger_message(trigger)
+    author = app.agent_bots.first
+    step = trigger.paths.first&.with_indifferent_access&.[]("steps")&.find do |o|
+      o["messages"]&.any?
+    end
+
+    message = step[:messages].first
+
+    add_message(
+      step_id: step[:step_uid],
+      trigger_id: trigger.id,
+      from: author,
+      trigger_init: true,
+      message: {
+        html_content: message[:html_content],
+        serialized_content: message[:serialized_content],
+        text_content: message[:html_content]
+      },
+      controls: message[:controls]
+    )
   end
 
   def add_part_channel(part, opts)
@@ -235,7 +279,7 @@ class Conversation < ApplicationRecord
   def notify_typing(author = nil)
     author = app.agents.bots.first if author.blank?
     key = "#{app.key}-#{main_participant.session_id}"
-    MessengerEventsChannel.broadcast_to(key, {
+    data = {
       type: "conversations:typing",
       data: {
         conversation: self.key,
@@ -243,7 +287,14 @@ class Conversation < ApplicationRecord
           name: author.name
         }
       }
-    }.as_json)
+    }.as_json
+
+    MessengerEventsChannel.broadcast_to(key, data)
+
+    broadcast_update_to app, main_participant.id,
+                        target: "chaskiq-custom-events",
+                        partial: "messenger/custom_event",
+                        locals: { data: data }
   end
 
   private

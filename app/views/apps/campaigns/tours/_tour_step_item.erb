@@ -1,0 +1,39 @@
+
+<div id="step-index-<%= index%>" 
+  class="flex flex-row justify-start min-h-0 min-w-0" style="flex: 0 0 auto;">
+  <div class="flex flex-col bg-white w-32 h-32 min-h-full shadow-md
+              border rounded-md overflow-hidden p-1 hover:bg-gray-100
+              cursor-pointer">
+
+    
+    <%= link_to "edit", "#", 
+      data: { url: url, index: index, target: step.target, action: "click->tour-editor#editStep" },
+      class: "p-0.5 self-end inline-flex text-center h-4 w-4 items-center border border-transparent 
+      rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 
+      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" 
+    %>
+
+    <%= link_to "x", "#", 
+      data: { url: url, action: "click->tour-editor#sendDelete" },
+      class: "p-0.5 self-end inline-flex text-center h-4 w-4 items-center border border-transparent 
+      rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 
+      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" 
+    %>
+
+    <div style="padding: 16px 24px;"></div>
+
+    <div>
+        <!-- <Renderer
+          theme={theme}
+          raw={JSON.parse(this.props.step.serialized_content)}
+          domain={this.props.domain}
+        />-->
+        <%= raw Dante::Renderer.new(
+          raw: JSON.parse(step.content).with_indifferent_access
+          ).render 
+        %>
+    </div>
+  </div>
+
+  <div class="w-[60px] h-[60px] border-b border-gray-300"> </div>
+</div>

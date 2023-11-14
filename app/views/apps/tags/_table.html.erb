@@ -1,0 +1,46 @@
+<%= render Table::Component.new(
+		data: @tags, 
+		config: {
+			columns: [
+				{name: :name},
+				{name: :color, render: lambda{|row|
+						raw(%{
+							<div class="flex items-center">
+								<div class="h-8 w-8 m-2 rounded-full" style="background-color: ##{row.color.gsub("#", "")}">
+								</div>
+								<div class="text-sm text-gray-700">#{row.color}</div>
+							</div>
+						})
+					}
+				},
+				{name: :actions,
+					render: lambda{|record| 
+						raw(%{
+							<div class="flex items-center">
+								<div class="text-sm leading-5 font-medium text-gray-900 flex space-x-3">
+									#{ 
+
+										link_to( I18n.t('common.edit'), 
+														edit_app_tag_path(@app.key, record.name), 
+														data: {
+														'turbo-frame': 'modal'
+														}, 
+														class: "btn btn-outlined sm")
+									}
+
+									#{
+										button_to( I18n.t('common.delete'), 
+														app_tag_path(@app.key, record.name), 
+														class: "btn btn-danger", 
+														data: { turbo_confirm: t("common.confirm_deletion")},
+														method: :delete) 
+									}
+								</div>
+							</div>
+						}) 
+					}
+				}
+			]
+		},
+		paginate: nil #paginate(@webhooks)
+)%>

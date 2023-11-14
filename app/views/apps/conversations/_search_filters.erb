@@ -1,0 +1,75 @@
+<% 
+  filter_items = I18n.t("conversations.states").map do |k,v| 
+  { 
+        title: v, 
+        href: "#",
+        checked: false,
+        data: {
+            controller: "attribute-clone",
+            "clone-to": "#conversation_search_service_filter",
+            value: "#{k}",
+            action: "click->attribute-clone#cloneTo"
+        }
+      }
+  end 
+
+  sorts_items = I18n.t("conversations.sorts").map do |k,v| 
+      { 
+        title: v, 
+        href: "#",
+        checked: false,
+        data: {
+            controller: "attribute-clone",
+            "clone-to": "#conversation_search_service_sort",
+            value: "#{k}",
+            action: "click->attribute-clone#cloneTo"
+        }
+      }
+  end 
+%>
+
+
+
+<div id="conversation-search-fields" 
+  class="h-[60px] items-center bg-white dark:bg-gray-900 px-3 py-4 border-b border-gray-200 dark:border-gray-800 sm:px-3 flex justify-between">
+
+  <div class="relative inline-block text-left">
+      <div class="flex">
+        <%= render FilterMenu::Component.new(
+            label: filter, 
+            items: filter_items,
+            orientation: 'left',
+            variant: 'outlined',
+            size: 'sm',
+            btn_classes: "whitespace-nowrap"
+        ) %> 
+      </div>
+  </div>
+
+  <div class="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1- mx-2">
+      <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M14.5 14.5l-4-4m-4 2a6 6 0 110-12 6 6 0 010 12z" stroke="currentColor"></path></svg>
+      <input 
+        class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" 
+        placeholder="<%= t('conversations.menu.search') %>"
+        value="<%= @search_service.term %>"
+        data-controller="attribute-clone"
+        data-clone-to="#conversation_search_service_term"
+        data-value=""
+        data-action="keydown.enter->attribute-clone#cloneTo"
+      >
+  </div>
+
+  <div class="relative inline-block text-left">
+      <div class="flex">
+        <%= render FilterMenu::Component.new(
+            label: sort, 
+            items: sorts_items,
+            orientation: 'right',
+            variant: 'outlined',
+            size: 'sm',
+            btn_classes: "whitespace-nowrap"
+        )
+        %>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+
+<%= turbo_frame_tag 'dashboard_app_packages' do %>
+	<% @integration[:paths].each do |d| %>
+		<%= render AppPackageChart::Component.new( d )%>
+	<% end %>
+<% end %>

@@ -1,0 +1,271 @@
+<%= turbo_frame_tag 'bot-task-editor' do %>
+	<% #= @tab %>
+	<div 
+		data-controller="bots">
+		<%= form_for @bot, url: app_bot_path(@app.key, @bot, tab: @tab) do |f| %>
+
+			<%= f.hidden_field :current_path, data: {bots_target: "currentPathField"} %>
+			
+			<div class="">
+
+				<div class="flex justify-between sm:my-4 border-1 border-gray-400 rounded-md shadow">
+					
+					<div class="hidden sm:w-2/4 bg-gray-50 dark:bg-gray-900 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5">
+
+						<div class="space-y-3">			
+							<% @bot.bot_paths_objects.each_with_index do |path, index| %>
+								<button 
+									data-action="click->bots#pathClick"
+									data-bots-target="pathLink"
+									id="path-link-<%= path.id %>"
+									data-path-id="<%= path.id %>"
+									class="ring-2 ring-black
+												focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50
+												cursor-pointer w-full py-2 px-2 
+												bg-white dark:bg-gray-900 border-1 
+												shadow max-w-3xl break-all flex items-center <%= path.id == @bot.current_path ? "bg-green-200" : "" %>">
+									<%= path.title %>
+								</button>
+							<% end %>
+						</div>
+
+						<div class="mt-2 flex justify-center">
+							<%= link_to(edit_app_bot_path(@app.key, @bot, mode: 'new-step'), 
+								data: {'turbo-frame': 'modal' }, class: "self-center btn btn-flat-dark sm") do %>
+								<div class="flex space-x-2 items-center">
+									<%= heroicon("plus") %>
+									<%= I18n.t('common.add_new') %>
+								</div>
+							<% end %>
+						</div>
+
+					</div>
+
+					<div class="w-full shadow">
+						<div class="top-0 sticky py-4">
+							<%= turbo_frame_tag "bot-steps" do %>
+								<% #= f.object.bot_paths_objects.size %>
+								<div>
+									<% @bot.bot_paths_objects.each_with_index do |path, index| %>
+										<%= f.fields_for :bot_paths_objects, path, child_index: path.id do |ff| %>
+											
+											<div 
+												data-bots-target="pathContainer"
+												id="bot-path-container-<%= ff.object.id %>"
+												class="p-3 <%= path.id == @bot.current_path ? "" : "hidden" %>">
+												
+												<div class="w-full p-6 border-b-2 border-gray-200 dark:border-black">
+													<div class="flex justify-between">
+														<div class="flex items-center">
+															<div class="text-lg text-center text-gray-900 font-semibold leading-4 my-6 mr-3">
+																<%= index %>
+															</div>
+															<div class="mb-4 ">
+																<%= ff.text_field :title, hint: "Path title" %>
+															</div>
+														</div>
+
+														<% unless @bot.bot_type == "new_conversations" && index.zero? %>
+															<div class="items-end">
+																<button 
+																	data-path="<%= ff.object.id %>"
+																	data-action="click->bots#deletePath"
+																	class="btn btn-outlined">
+																	<%= heroicon("trash") %>
+																	delete path 
+																</button>
+															</div>
+														<% end %>
+													</div>
+												</div>
+												
+												<%= ff.hidden_field :id, label: "path id" %>
+
+												<%
+													with_ask_option, without_ask_option = ff.object.steps.partition do |step|
+														puts step&.controls&.type 
+														step&.controls&.type == "ask_option"
+													end
+												%>
+
+												<% # with_ask_option.size %>
+
+												<% unless @bot.bot_type == "new_conversations" && index.zero? %>
+													<div 
+														data-controller="nested-form" 
+														data-new-record="true">
+
+														<div class="border-4-- border-purple-600--" 
+															data-nested-form-target="wrap"
+															data-controller="sortable"
+															id="bot-path-step-container-<%= ff.object.id %>">
+															<%= render 'apps/bots/editor/steps', f: ff, items: without_ask_option %>
+														</div>
+
+														<div class="my-3" data-nested-form-target="links">
+
+															<h3 class="py-2"> Add new conversation part </h3>
+
+															<%= link_to "Add message", "#", 
+																class: "btn btn-outlined", 
+																data: { 
+																	action: "click->nested-form#add_association click->nested-form#refreshSortable",
+																	template_id: "#messagesTemplate-#{ff.object.id}"
+																} 
+																%>
+
+															<%= link_to "Add wait for input", "#", 
+																class: "btn btn-outlined", 
+																data: { 
+																	action: "click->nested-form#add_association click->nested-form#refreshSortable",
+																	template_id: "#waitTemplate-#{ff.object.id}"
+																} 
+															%>
+
+															<%= link_to "Add App", 
+																capabilities_app_packages_path(
+																	@app.key, 
+																	kind: "bots",
+																	#bot_step_id: fff.object.step_uid,
+																	bot_path_id: ff.object.id,
+																	bot_id: @bot.id
+																), 
+																class: "btn btn-outlined", 
+																data: { turbo_frame: "modal" }
+															%>
+														</div>
+													</div>
+													<hr class="my-4 w-full border-4 dark:border-gray-900">
+												<% end %>
+
+												<% if @bot.bot_type == "new_conversations" && index.zero? %>
+													<p class="text-sm text-center text-gray-500 font-semibold leading-4 my-6">
+														<%= t('task_bots.new_conversations_notice') %>
+													</p>
+												<% end %>
+
+												<!-- bottom part of actions (ask option and follow actions) -->
+												<div 
+													data-controller="nested-form"
+													class="follow-actions-wrapper"
+													data-new-record="<%= true %>">
+
+														<%= render 'apps/bots/editor/follow_actions', 
+															f: ff, 
+															items: with_ask_option,
+															path: path,
+															disable_delete: @bot.bot_type == "new_conversations" && index.zero?
+														%>
+
+														<% unless @bot.bot_type == "new_conversations" && index.zero? %>
+															<%= render "apps/bots/editor/follow_actions_step", 
+																path: path,
+																display: ff.object.follow_actions.present?, 
+																current_follow_actions: ff.object.follow_actions 
+															%>
+														<% end %>
+
+
+														<template 
+															data-nested-form-target="template" id="assignAgentTemplate-<%= ff.object.id %>">
+															<%= ff.fields_for :follow_actions, [FollowAction.new({key: "assign_agent"})], child_index: "NEW_RECORD" do |fff| %>
+																<%= render "apps/bots/editor/assign_agent", form: fff %>
+															<% end %>
+														</template>
+
+														<template 
+															data-nested-form-target="template" id="closeConversationTemplate-<%= ff.object.id %>">
+															<%= ff.fields_for :follow_actions, [FollowAction.new({key: "close_conversation"})], child_index: "NEW_RECORD" do |fff| %>
+																<%= render "apps/bots/editor/close_conversation", form: fff %>
+															<% end %>
+														</template>
+
+
+														<template 
+															data-nested-form-target="template" 
+															id="askOptionTemplate-<%= path.id %>">
+															<%= ff.fields_for :steps, BotPathStep.new(
+																controls: {
+																	type: 'ask_option',
+																	wait_for_input: true,
+																	schema: [
+																		{
+																			id: SecureRandom.hex(8),
+																			element: 'button',
+																			label: 'write here',
+																			next_step_uuid: nil,
+																		}
+																	]
+																},
+																step_uid: 'NEW_RECORD'
+															), child_index: 'NEW_RECORD' do |fs| %>
+																<div id="bot-step-<%= fs.object.step_uid %>" class="follow-action-item">
+																	<%= fs.fields_for :controls, fs.object.controls, child_index: 'NEW_RECORD' do |fc| %>
+																		<%= render "apps/bots/editor/ask_option", 
+																			form: fc,
+																			bot_step: fs.object.step_uid %>
+																	<% end %>
+																</div>
+															<% end %>
+														</template>
+
+														<template 
+															data-nested-form-target="template" 
+															id="followActionStep-<%= path.id %>">
+															<%= render "apps/bots/editor/follow_actions_step", 
+															path: path, display: true
+															%>
+														</template>
+
+														<% unless @bot.bot_type == "new_conversations" && index.zero? %>
+
+															<div class="mb-3 followActionlinks <%= with_ask_option.any? || path.follow_actions.present? ? "hidden" : "" %>" 
+																data-nested-form-target="links"
+																data-bots-target="followActionlinks">
+
+																<span>Continue bot with</span>
+
+																<%= link_to "Reply button", "#", 
+																	class: "btn btn-outlined", 
+																	data: { 
+																		action: "click->bots#handleFollowActionOption click->nested-form#add_association",
+																		template_id: "#askOptionTemplate-#{path.id}"
+																	} 
+																%>
+
+																<span>End bot with</span>
+
+																<%= link_to "Follow Actions", "#", 
+																	class: "btn btn-outlined", 
+																	data: { 
+																		action: "click->bots#handleFollowActionOption click->nested-form#add_association",
+																		template_id: "#followActionStep-#{path.id}"
+																	} 
+																%>
+
+															</div>
+
+														<% end %>
+													
+												</div>
+
+												<% # ff.object.follow_actions %>
+
+
+												<div class="my-3 flex justify-end">
+													<%= f.submit t("common.save"), class: 'btn btn-success my-5'%>
+												</div>
+											</div>
+										<% end %>
+									<% end %>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		<% end %>
+	</div>
+<% end %>

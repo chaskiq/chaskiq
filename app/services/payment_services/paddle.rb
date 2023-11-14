@@ -38,7 +38,8 @@ module PaymentServices
           source: "paddle",
           features: p.dig("features"),
           name: p["name"],
-          pricing: o.recurring_price.USD
+          pricing: o.recurring_price.USD,
+          billing_type: o.recurring_price.billing_type
         }
       end
     end

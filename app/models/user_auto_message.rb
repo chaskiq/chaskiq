@@ -9,20 +9,20 @@ class UserAutoMessage < Message
 
   def config_fields
     [
-      { name: "name", type: "string", grid: { xs: "w-full", sm: "w-full" } },
-      { name: "subject", type: "text", grid: { xs: "w-full", sm: "w-full" } },
-      { name: "description", type: "text", grid: { xs: "w-full", sm: "w-full" } },
-      { name: "hiddenConstraints", type: "select",
+      { name: "name", type: "string", col: "sm:col-span-6" },
+      { name: "subject", type: "text", col: "sm:col-span-6" },
+      { name: "description", type: "text", col: "sm:col-span-6" },
+      { name: "hidden_constraints", type: "select",
         options: [
-          { label: "open", value: "open" },
-          { label: "close", value: "close" },
-          { label: "click", value: "click" }
+          %w[open open],
+          %w[close close],
+          %w[click click]
         ],
         multiple: true,
         default: "open",
-        grid: { xs: "w-full", sm: "w-full" } },
-      { name: "scheduledAt", label: "Scheduled at", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
-      { name: "scheduledTo", label: "Scheduled to", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } }
+        col: "sm:col-span-6" },
+      { name: "scheduled_at", label: "Scheduled at", type: "datetime", col: "sm:col-span-3" },
+      { name: "scheduled_to", label: "Scheduled to", type: "datetime", col: "sm:col-span-3" }
     ]
   end
 
@@ -78,13 +78,21 @@ class UserAutoMessage < Message
     return if messages.blank?
 
     if messages.any?
-      MessengerEventsChannel.broadcast_to(key,
-                                          { type: "messages:receive",
-                                            data: messages.as_json(only: %i[id
-                                                                            created_at
-                                                                            updated_at
-                                                                            serialized_content
-                                                                            theme]) })
+
+      data = { type: "messages:receive",
+               data: messages.as_json(only: %i[id
+                                               created_at
+                                               updated_at
+                                               serialized_content
+                                               theme]) }
+
+      MessengerEventsChannel.broadcast_to(key, data)
+
+      messages.first.broadcast_update_to app, user.id,
+                                         target: "chaskiq-custom-events",
+                                         partial: "messenger/custom_event",
+                                         locals: { data: data }
+
     end
 
     messages.any?

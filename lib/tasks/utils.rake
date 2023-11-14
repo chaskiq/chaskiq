@@ -5,8 +5,8 @@ class Hammer < Thor
 end
 
 namespace :packages do
-  def hammer(*args)
-    Hammer.new.send(*args)
+  def hammer(*)
+    Hammer.new.send(*)
   end
 
   task update: :environment do
@@ -39,6 +39,11 @@ namespace :packages do
   task install: :environment do
     Rails.logger = Logger.new($stdout)
     Plugin.save_all_plugins
+  end
+
+  task restore: :environment do
+    Rails.logger = Logger.new($stdout)
+    Plugin.restore_plugins_from_fs
   end
 
   # rake packages:freeze['your_package_name']
@@ -214,7 +219,7 @@ end
 namespace :owner_apps do
   task make_owner: :environment do
     # roles owners
-    App.all.each do |o|
+    App.find_each do |o|
       o.owner = Agent.find_by(email: Chaskiq::Config.fetch("ADMIN_EMAIL", nil))
       o.save
     end
@@ -224,7 +229,7 @@ end
 namespace :upgrade_tasks do
   # migration from bot_task model to bot_tasks < message
   task predicates: :environment do
-    Message.all.each do |c|
+    Message.find_each do |c|
       next if c.segments.nil?
 
       segments = c.segments.compact.map do |o|
@@ -241,7 +246,7 @@ namespace :upgrade_tasks do
       c.update(segments: segments)
     end
 
-    Segment.all.each do |c|
+    Segment.find_each do |c|
       next if c.predicates.nil?
 
       segments = c.predicates.compact.map do |o|

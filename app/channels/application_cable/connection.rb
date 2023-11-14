@@ -89,7 +89,8 @@ module ApplicationCable
         nil
       end
       return nil unless data.is_a?(Hash)
-      return data&.with_indifferent_access if app.compare_user_identifier(data)
+
+      data&.with_indifferent_access if app.compare_user_identifier(data)
     end
 
     def authorize_by_encrypted_params

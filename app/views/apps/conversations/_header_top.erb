@@ -1,0 +1,27 @@
+
+<div class="ml-auto flex">
+	
+
+	<%= render 'apps/conversations/menu_items/state' %>
+
+	<%= render 'apps/conversations/menu_items/priorize' %>
+
+	<div id="button-element" class="hidden"></div>
+
+	<%= render 'apps/conversations/menu_items/call' %>
+	
+	<%= render 'apps/conversations/menu_items/tags' %>
+
+	<%= render 'apps/conversations/menu_items/assignee' %>
+
+	<div
+		class="flex items-center text-gray-300">
+			<%= link_to sidebar_app_conversation_path(@app.key, @conversation.key, open: true),
+				data: {turbo_frame: "conversation-sidebar"},
+				class: "w-5 transition duration-150 ease-in-out hidden md:block" do %>
+				<div class="w-10">
+					<%= heroicon("chevron-left")%>
+				</div>
+			<% end %>
+	</div>
+</div>

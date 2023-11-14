@@ -1,5 +1,12 @@
-.esm
+app/javascript/packages/components/dist/**/*
 dist
+esm
 app/javascript/src/styles/styles.css
+config/locales
+public/packs
+config
+spec
+.esm
 translations.json
 messenger-translations.json
+public/assets/**/*

@@ -1,0 +1,68 @@
+<%= turbo_frame_tag "translations_table" do %>
+	<%= form_for @article_setting, url: app_articles_setting_path(@app.key, :translations) do |f| %>
+
+		<%= render Table::Component.new(
+			data: @article_setting.translations, 
+			config: {
+				columns: [
+					{ name: :locale },
+					{ name: :site_title, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="ml-4">
+											<div class="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
+												#{ f.text_field "site_title_#{record.locale}".to_sym }
+											</div>
+									</div>
+								</div>
+							}) 
+						}
+					},
+					{ name: :site_description, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="ml-4">
+											<div class="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
+												#{ f.text_field "site_description_#{record.locale}".to_sym }
+											</div>
+									</div>
+								</div>
+							}) 
+						}
+					},
+					{ name: :actions, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									#{ link_to "delete", app_articles_setting_path(@app.key, lang: record.locale),
+									class: "btn btn-danger sm",
+									data: {turbo_method: "delete", turbo_confirm: t("common.confirm_deletion_ready")} 
+									}
+								</div>
+							}) 
+						}
+					},
+					{ name: :default_language, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									#{ 
+										 f.radio_button :default_lang, record.locale
+									}
+								</div>
+							}) 
+						}
+					}
+				]
+			},
+			paginate: nil
+		)%>
+
+		<div class="mt-4 flex justify-end">
+			<%= f.submit t("common.submit"), class: "btn btn-success" %>
+		</div>
+
+	<% end %>
+<% end %>

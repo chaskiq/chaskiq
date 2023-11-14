@@ -1,0 +1,18 @@
+
+<%= turbo_frame_tag "campaign-settings-form" do %>
+  <%= form_for @campaign, url: app_campaign_path(@app.key, @campaign, tab: "settings") do |form| %>
+
+    <% #= form.object.errors.full_messages %>
+    <%= hidden_field_tag :namespace, @namespace %>
+
+    <%= render FieldRenderer::Component.new(
+      form: form, 
+      definitions: @campaign.config_fields
+    ) %>
+
+    <div class="flex justify-end py-4 max-w-2xl">
+      <%= form.submit(class: "btn btn-success md") %>
+    </div>
+
+  <% end %>
+<% end %>

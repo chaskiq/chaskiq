@@ -1,0 +1,16 @@
+
+
+
+<% if @tab == "editor" %>
+  <%= turbo_stream.replace("campaign-editor-form") do %>
+    <%= render "apps/campaigns/editors/#{@namespace}" %>
+  <% end %>
+<% elsif @tab == "audience" %>
+  <%= turbo_stream.replace("campaign-audience") do %>
+    <%= render "apps/campaigns/audience" %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.replace("campaign-settings-form") do %>
+    <%= render "apps/campaigns/settings" %>
+  <% end %>
+<% end %>

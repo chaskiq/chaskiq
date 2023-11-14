@@ -10,19 +10,39 @@ class Campaign < Message
 
   def config_fields
     [
-      { name: "name", label: I18n.t("definitions.campaigns.campaign_name.label"), hint: I18n.t("definitions.campaigns.campaign_name.hint"), type: "string", grid: { xs: "w-full", sm: "w-full" } },
-      { name: "fromName", label: I18n.t("definitions.campaigns.from_name.label"), type: "string", grid: { xs: "w-full", sm: "w-1/2" } },
-      { name: "subject", label: I18n.t("definitions.campaigns.email_subject.label"), hint: I18n.t("definitions.campaigns.email_subject.hint"), type: "text", grid: { xs: "w-full", sm: "w-full" } },
-      # { name: 'fromEmail', label: I18n.t('definitions.campaigns.from_email.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      # { name: "replyEmail", label: I18n.t("definitions.campaigns.reply_email.label"), type: "string", grid: { xs: "w-full", sm: "w-1/2" } },
-      { name: "description", type: "textarea", grid: { xs: "w-full", sm: "w-full" } },
-      { name: "timezone", type: "timezone",
+      { name: "name",
+        label: I18n.t("definitions.campaigns.campaign_name.label"),
+        hint: I18n.t("definitions.campaigns.campaign_name.hint"),
+        type: "string",
+        col: "sm:col-span-6" },
+      { name: "from_name",
+        label: I18n.t("definitions.campaigns.from_name.label"),
+        type: "string",
+        col: "sm:col-span-6" },
+      { name: "subject",
+        label: I18n.t("definitions.campaigns.email_subject.label"),
+        hint: I18n.t("definitions.campaigns.email_subject.hint"),
+        type: "text",
+        col: "sm:col-span-6" },
+      # { name: 'fromEmail', label: I18n.t('definitions.campaigns.from_email.label'), type: 'string', col: 'w-full', sm: 'w-1/2' } },
+      # { name: "replyEmail", label: I18n.t("definitions.campaigns.reply_email.label"), type: "string", col: "w-full", sm: "w-1/2" } },
+      { name: "description",
+        type: "textarea",
+        col: "sm:col-span-6" },
+      { name: "timezone",
+        type: "timezone",
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
-        grid: { xs: "w-full", sm: "w-full" } },
+        col: "sm:col-span-6" },
       # {name: "settings", type: 'string'} ,
-      { name: "scheduledAt", label: I18n.t("definitions.campaigns.scheduled_at.label"), type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
-      { name: "scheduledTo", label: I18n.t("definitions.campaigns.scheduled_to.label"), type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } }
+      { name: "scheduled_at",
+        label: I18n.t("definitions.campaigns.scheduled_at.label"),
+        type: "datetime",
+        col: "sm:col-span-3" },
+      { name: "scheduled_to",
+        label: I18n.t("definitions.campaigns.scheduled_to.label"),
+        type: "datetime",
+        col: "sm:col-span-3" }
     ]
   end
 
@@ -58,7 +78,7 @@ class Campaign < Message
   end
 
   def delivery_progress
-    return 0 if metrics.deliveries.size.zero?
+    return 0 if metrics.deliveries.empty?
 
     subscriptions.availables.size.to_f / metrics.deliveries.size.to_f * 100.0
   end

@@ -1,0 +1,19 @@
+   <div id="conversation-sidebar"
+      class="hidden bg-gray-100 dark:bg-black h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-[300px]">
+      <div class="xl:border-r-- xl:border-gray-200--">
+         <div class="py-2 pt-2">
+            <div class="flex items-center justify-between">
+               <div class="flex-1 space-y-8 break-all">
+                  <div class="space-y-8 sm:space-y-0 sm:flex sm:justify-between sm:items-center xl:block xl:space-y-2">
+                     <div class="px-2">
+                        <%= turbo_frame_tag 'conversation-sidebar-packages', 
+                           src: app_inbox_packages_path(@app.key, conversation_key: @conversation.key) do %>
+                           loading sidebar packages...
+                        <% end %>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>

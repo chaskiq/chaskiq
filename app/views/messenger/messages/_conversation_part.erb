@@ -1,0 +1,55 @@
+
+
+<%= content_tag :div, 
+	id: "conversation-part-#{ message.key }",
+	data: {
+		controller: "conversation-part-wrapper",
+		messenger_target: "conversationPart",
+		is_new: message.new_record?,
+		read: message.read?,
+		request_next_trigger: message.request_next_trigger,
+		replied: message.messageable_type == "ConversationPartBlock" ? (message.message.state == "replied") : nil,
+		viewer_type: "AppUser",
+		trigger_id: message.trigger_id,
+		trigger_init: message.trigger_init,
+		step_id: message.step_id,
+		author: message.authorable.class.to_s,
+		block_kind: message.messageable_type == "ConversationPartBlock" ? message.messageable.blocks["type"] : nil,
+		path: message.key.present? ? messenger_conversation_message_path(
+			app.key, message.conversation.key, message.key
+		) : messenger_conversations_path(app.key)
+	} do %>
+<%= local_assigns[:viewer_type] %>
+
+<%= case message.messageable_type
+		when 'ConversationPartContent'
+      render "messenger/messages/conversation_part_content", message: message, app: app
+			# render ConversationPart::Component.new(message: message, app: app)
+		when 'ConversationPartBlock'
+			case message.messageable.blocks["type"]
+			when "app_package"
+				render ConversationPartBlock::Component.new(
+					message: message, 
+					app: app,
+					viewer: "visitor",
+					frame: "conversations-#{ message.key }-#{message.messageable["blocks"]["app_package"]}"
+				)
+			when "ask_option", "data_retrieval"
+				render ConversationPartAskOption::Component.new(message: message, app: app)
+			when "wait_for_reply"
+				# message.as_json
+				render WaitForReply::Component.new(
+					message: message, 
+					app: app,
+					messenger: true
+				)
+			else
+				"no match for messageable: #{message.as_json}"
+			end
+		when 'ConversationPartEvent'
+			render ConversationPartEvent::Component.new(message: message, app: app)
+		else
+			"no match for #{message.class.table_name} #{message.as_json}"
+		end
+%>
+<% end %>

@@ -12,7 +12,7 @@ class SegmentComparator
 
     query = handle_condition_predicates(condition_predicates)
 
-    return true if query.size.zero?
+    return true if query.empty?
 
     if predicates.find { |o| o["type"] == "match" && o["value"] == "or" }
       query.include?(true)

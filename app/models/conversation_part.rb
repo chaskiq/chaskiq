@@ -27,9 +27,17 @@ class ConversationPart < ApplicationRecord
 
   value :trigger_locked, expireat: -> { 3.seconds.from_now }
 
-  attr_accessor :check_assignment_rules
+  attr_accessor :check_assignment_rules, :request_next_trigger, :trigger_init
 
   delegate :broadcast_key, to: :conversation
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[app_user_id authorable_id authorable_type boolean conversation_id created_at email_message_id id id_value key message message_id messageable_id messageable_type private_note read_at source step_id string trigger_id updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[authorable conversation conversation_part_channel_sources message_block message_content message_event message_source messageable]
+  end
 
   def touch_conversation
     return if @touching_read
@@ -103,6 +111,10 @@ class ConversationPart < ApplicationRecord
     end
   end
 
+  def was_created?
+    created_at == updated_at
+  end
+
   def notify_to_channels(opts = {})
     participant_socket_notify
     enqueue_channel_notification unless opts[:disable_api_notification]
@@ -119,6 +131,25 @@ class ConversationPart < ApplicationRecord
       { type: :conversation_part,
         data: as_json }
     )
+
+    partial_method = was_created? ? :prepend : :replace
+    partial_target = if was_created?
+                       "conversation-messages-list-#{conversation.key}"
+                     else
+                       "conversation-part-#{key}"
+                     end
+
+    broadcast_render_to(
+      conversation.app, :conversations,
+      partial: "apps/conversations/new_message_notification",
+      locals: {
+        app: conversation.app,
+        message: self,
+        notified: true,
+        partial_method: partial_method,
+        partial_target: partial_target
+      }
+    )
   end
 
   def notify_app_users
@@ -128,11 +159,36 @@ class ConversationPart < ApplicationRecord
         data: as_json }
     )
 
-    MessengerEventsChannel.broadcast_to(
-      broadcast_key,
-      { type: "conversations:unreads",
-        data: conversation.main_participant.new_messages.value }
-    )
+    data = { type: "conversations:unreads",
+             data: conversation.main_participant.new_messages.value }
+
+    MessengerEventsChannel.broadcast_to(broadcast_key, data)
+
+    data = {
+      type: "conversations:unreads",
+      data: {
+        value: conversation.main_participant.new_messages.value,
+        conversation_key: conversation.key
+      }
+    }
+
+    partial_method = was_created? ? :prepend : :replace
+    partial_target = if was_created?
+                       "conversation-#{conversation.key}"
+                     else
+                       "conversation-part-#{key}"
+                     end
+
+    broadcast_render_to conversation.app, conversation.main_participant.id,
+                        partial: "messenger/messages/conversation_part_b",
+                        locals: {
+                          app: conversation.app,
+                          message: self,
+                          notified: true,
+                          partial_method: partial_method,
+                          partial_target: partial_target,
+                          data: data
+                        }
   end
 
   def enqueue_channel_notification

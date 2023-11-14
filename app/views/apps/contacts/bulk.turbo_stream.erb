@@ -1,0 +1,12 @@
+<% if @contact_uploader.errors.any? %>
+  <%= turbo_stream.update("modal") do %>
+    <%= render "shared/modal" do %>
+      <%= render "bulk_form" %>
+    <% end %>
+  <% end %>
+  <%= flash_stream %>
+<% else %>
+  <%= turbo_stream.update("modal") do %>
+  <% end %>
+  <%= flash_stream %>
+<% end %>

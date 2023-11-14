@@ -1,0 +1,64 @@
+<%= turbo_frame_tag "bots-table" do %>
+	<%= render Table::Component.new(
+		data: @collection, 
+		config: {
+			columns: [
+				{	
+					name: :name, 
+					label: I18n.t('definitions.bot_tasks.name.label'),
+					render: lambda{|record| 
+						%{
+							#{
+								link_to(record.name, edit_app_bot_path(@app.key, record), "data-turbo-frame": "_top" )
+							}
+						}.html_safe
+					} 
+				},
+				{
+					name: :bot_type
+				},
+				{ 
+					name: :state, 
+					label: I18n.t('definitions.bot_tasks.name.label'),
+					render: lambda{|record|
+					raw(
+						%{
+							#{
+								render Badge::Component.new(variant: record.enabled? ? "green" : "gray") do 
+									record.state
+								end
+							}
+						}
+					)
+				} 
+				},
+				{ name: :actions, 
+					render: lambda{|record| 
+						raw(%{
+							<div class="flex items-center">
+								<div class="ml-4 flex space-x-2">
+									#{
+										link_to( t("common.edit"), edit_app_bot_path(@app.key, record), 
+											data: {
+											'turbo-frame': '_top',
+											}, 
+											class: "btn btn-default sm"
+										)
+										}
+
+									#{
+										button_to app_bot_path(@app.key, record), class: "btn btn-danger sm", method: :delete do 
+											t("common.delete")
+										end
+										}
+								</div>
+							</div>
+						}) 
+					}
+				}
+			]
+		},
+		sortable: sort_app_bots_path(@app.key, mode: controller.action_name),
+		paginate: paginate(@collection)
+	)%>
+<% end %>
