@@ -10,17 +10,17 @@ class Apps::ContactAvatarsController < ApplicationController
 
   def edit; end
 
+  def create; end
+
   def update
     authorize! @app, to: :can_manage_app_settings?, with: AppPolicy, context: {
       user: current_agent
     }
 
-    flash.now[:notice] = "styles updated" if @app.update(resource_params)
+    flash.now[:notice] = t("status_messages.updated_success") if @app.update(resource_params)
 
     render "show"
   end
-
-  def create; end
 
   def destroy; end
 

@@ -3,6 +3,20 @@ class Apps::ReportsController < ApplicationController
   before_action :set_navigation
   before_action :set_dashboard
 
+  def index
+    authorize! @app, to: :can_read_reports?, with: AppPolicy, context: {
+      user: current_agent
+    }
+
+    @integration = {
+      name: "overview",
+      icon: nil,
+      paths: chart_data.map { |k, v| v.merge({ kind: k }) }
+    }
+    render "report_overview"
+    # @dashboard = AppPackageDashboard.app_packages_list(@app)
+  end
+
   def show
     authorize! @app, to: :can_read_reports?, with: AppPolicy, context: {
       user: current_agent
@@ -27,20 +41,6 @@ class Apps::ReportsController < ApplicationController
     end
 
     render "report_overview" and return
-  end
-
-  def index
-    authorize! @app, to: :can_read_reports?, with: AppPolicy, context: {
-      user: current_agent
-    }
-
-    @integration = {
-      name: "overview",
-      icon: nil,
-      paths: chart_data.map { |k, v| v.merge({ kind: k }) }
-    }
-    render "report_overview"
-    # @dashboard = AppPackageDashboard.app_packages_list(@app)
   end
 
   private

@@ -3,11 +3,11 @@ class Apps::ArticlesSettingsController < ApplicationController
   before_action :set_navigation
   before_action :check_plan, only: [:update]
 
-  def show
+  def index
     @article_setting = @app.article_settings.presence || @app.build_article_settings
   end
 
-  def index
+  def show
     @article_setting = @app.article_settings.presence || @app.build_article_settings
   end
 
@@ -25,14 +25,14 @@ class Apps::ArticlesSettingsController < ApplicationController
 
     new_language = params[:article_setting][:new_language]
     if new_language.present?
-      flash.now[:notice] = "Laguage added"
+      flash.now[:notice] = t("status_messages.created_success")
       @article_setting.update(
         "site_description_#{new_language}": "",
         "site_title_#{new_language}": ""
       )
       @article_setting.translations.last.save
     else
-      flash.now[:notice] = "Updated"
+      flash.now[:notice] = t("status_messages.updated_success")
       @article_setting.update(resource_params)
     end
   end
@@ -42,7 +42,7 @@ class Apps::ArticlesSettingsController < ApplicationController
     translation = @article_setting.translations.find_by(locale: params[:lang])
     translation.destroy if translation.present?
 
-    flash.now[:notice] = "Laguage removed"
+    flash.now[:notice] = t("status_messages.deleted_success")
     render "update"
   end
 

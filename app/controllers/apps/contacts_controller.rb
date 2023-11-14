@@ -1,6 +1,25 @@
 class Apps::ContactsController < ApplicationController
   before_action :find_app
 
+  def show
+    authorize! @app, to: :can_read_users?, with: AppPolicy, context: {
+      user: current_agent
+    }
+
+    @app_user = @app.app_users.find(params[:id])
+    @user_data = { id: @app_user.id, lat: @app_user.lat,
+                   lng: @app_user.lng, display_name: @app_user.display_name || @app_user.email }
+
+    if params[:sidebar]
+      render turbo_stream: [
+        turbo_stream.replace(
+          "slide-modal",
+          partial: "contact"
+        )
+      ]
+    end
+  end
+
   def new
     authorize! @app, to: :can_manage_users?, with: AppPolicy, context: {
       user: current_agent
@@ -38,25 +57,6 @@ class Apps::ContactsController < ApplicationController
       @collection = @app.app_users.limit(10).ransack(
         query_term => params[:term]
       ).result
-    end
-  end
-
-  def show
-    authorize! @app, to: :can_read_users?, with: AppPolicy, context: {
-      user: current_agent
-    }
-
-    @app_user = @app.app_users.find(params[:id])
-    @user_data = { id: @app_user.id, lat: @app_user.lat,
-                   lng: @app_user.lng, display_name: @app_user.display_name || @app_user.email }
-
-    if params[:sidebar]
-      render turbo_stream: [
-        turbo_stream.replace(
-          "slide-modal",
-          partial: "contact"
-        )
-      ]
     end
   end
 
@@ -103,7 +103,7 @@ class Apps::ContactsController < ApplicationController
         type: params[:contact_uploader][:contact_type]
       )
 
-      flash.now[:notice] = "file uploaded"
+      flash.now[:notice] = t("status_messages.created_success")
       render "bulk"
     end
   end

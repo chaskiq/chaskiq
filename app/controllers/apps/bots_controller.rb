@@ -26,24 +26,6 @@ class Apps::BotsController < ApplicationController
     # params.permit(:title, :paths, :bot_type)
   end
 
-  def create
-    authorize! @app, to: :can_manage_routing_bots?, with: AppPolicy, context: {
-      user: current_agent
-    }
-
-    @bot = @app.bot_tasks.create({
-                                   title: params[:bot_task][:title],
-                                   paths: [],
-                                   bot_type: params[:bot_task][:bot_type] || "outbound"
-                                 })
-    if @bot.errors.blank?
-      # params.permit(:title, :paths, :bot_type)
-      redirect_to edit_app_bot_path(@app.key, @bot.id)
-    else
-      render "create"
-    end
-  end
-
   def edit
     @bot = @app.bot_tasks.find(params[:id])
     authorize! @bot, to: :can_manage_routing_bots?, with: AppPolicy, context: {
@@ -81,6 +63,24 @@ class Apps::BotsController < ApplicationController
     case params[:mode]
     when "new-step"
       render "new_step" and return
+    end
+  end
+
+  def create
+    authorize! @app, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+      user: current_agent
+    }
+
+    @bot = @app.bot_tasks.create({
+                                   title: params[:bot_task][:title],
+                                   paths: [],
+                                   bot_type: params[:bot_task][:bot_type] || "outbound"
+                                 })
+    if @bot.errors.blank?
+      # params.permit(:title, :paths, :bot_type)
+      redirect_to edit_app_bot_path(@app.key, @bot.id)
+    else
+      render "create"
     end
   end
 
@@ -122,7 +122,7 @@ class Apps::BotsController < ApplicationController
 
     if params[:toggle]
       @bot.update(state: @bot.state == "disabled" ? "enabled" : "disabled")
-      flash.now[:notice] = "Bot was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       render turbo_stream: [flash_stream] and return
     end
 

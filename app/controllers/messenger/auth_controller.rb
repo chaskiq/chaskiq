@@ -5,6 +5,11 @@ class Messenger::AuthController < ApplicationController
     render json: { a: 1 }
   end
 
+  def new
+    @app = App.find_by(key: params[:messenger_id])
+    app_user
+  end
+
   def create
     @app = App.find_by(key: params[:messenger_id])
     app_user
@@ -32,11 +37,6 @@ class Messenger::AuthController < ApplicationController
       inbound_settings: @app.inbound_settings,
       inline_conversations: ActiveModel::Type::Boolean.new.cast(@app.inline_new_conversations)
     }
-  end
-
-  def new
-    @app = App.find_by(key: params[:messenger_id])
-    app_user
   end
 
   private
@@ -214,7 +214,8 @@ class Messenger::AuthController < ApplicationController
     end
     return nil if data.blank?
     return nil unless data.is_a?(Hash)
-    return data&.with_indifferent_access if @app.compare_user_identifier(data)
+
+    data&.with_indifferent_access if @app.compare_user_identifier(data)
   end
 
   def authorize_by_encrypted_params
@@ -229,7 +230,7 @@ class Messenger::AuthController < ApplicationController
   end
 
   def lang_available?(lang)
-    return if lang.blank?
+    return false if lang.blank?
 
     I18n.available_locales.include?(lang.to_sym)
   end

@@ -27,6 +27,14 @@ class Apps::IntegrationsController < ApplicationController
     end
   end
 
+  def new
+    authorize! @app, to: :can_write_app_packages?, with: AppPolicy, context: {
+      user: current_agent
+    }
+    @app_package = AppPackage.find(params[:app_package])
+    @integration = @app.app_package_integrations.new(app_package: @app_package)
+  end
+
   def edit
     authorize! @app, to: :can_write_app_packages?, with: AppPolicy, context: {
       user: current_agent
@@ -35,12 +43,15 @@ class Apps::IntegrationsController < ApplicationController
     @integration = @app.app_package_integrations.find(params[:id])
   end
 
-  def new
+  def create
     authorize! @app, to: :can_write_app_packages?, with: AppPolicy, context: {
       user: current_agent
     }
+    resource_params = params[:app_package_integration].permit!
     @app_package = AppPackage.find(params[:app_package])
     @integration = @app.app_package_integrations.new(app_package: @app_package)
+
+    flash.now[:notice] = t("status_messages.updated_success") if @integration.update(settings: resource_params)
   end
 
   def update
@@ -54,17 +65,6 @@ class Apps::IntegrationsController < ApplicationController
       settings: @integration.settings.merge!(resource_params),
       external_id: external_id
     )
-  end
-
-  def create
-    authorize! @app, to: :can_write_app_packages?, with: AppPolicy, context: {
-      user: current_agent
-    }
-    resource_params = params[:app_package_integration].permit!
-    @app_package = AppPackage.find(params[:app_package])
-    @integration = @app.app_package_integrations.new(app_package: @app_package)
-
-    flash.now[:notice] = t("status_messages.updated_success") if @integration.update(settings: resource_params)
   end
 
   def destroy

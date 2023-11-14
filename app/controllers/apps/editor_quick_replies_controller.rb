@@ -10,6 +10,12 @@ class Apps::EditorQuickRepliesController < ApplicationController
     render "index", layout: false
   end
 
+  def show
+    @locale = params[:lang] || I18n.default_locale
+    @quick_reply = @app.quick_replies.find(params[:id])
+    render "show", layout: false
+  end
+
   def create
     authorize! @app, to: :can_read_quick_replies?, with: AppPolicy, context: {
       user: current_agent
@@ -27,12 +33,6 @@ class Apps::EditorQuickRepliesController < ApplicationController
   end
 
   def update
-    flash.now[:notice] = "quick reply sent"
-  end
-
-  def show
-    @locale = params[:lang] || I18n.default_locale
-    @quick_reply = @app.quick_replies.find(params[:id])
-    render "show", layout: false
+    flash.now[:notice] = t("status_messages.updated_success")
   end
 end

@@ -16,6 +16,14 @@ class Apps::OauthApplicationsController < ApplicationController
     @oauth_applications = @oauth_applications.page(params[:page]).per(params[:per])
   end
 
+  def show
+    authorize! @app, to: :can_read_oauth_applications?, with: AppPolicy, context: {
+      user: current_agent
+    }
+
+    @oauth_application = @app.oauth_applications.find(params[:id])
+  end
+
   def new
     authorize! @app, to: :can_write_oauth_applications?, with: AppPolicy, context: {
       user: current_agent
@@ -73,14 +81,6 @@ class Apps::OauthApplicationsController < ApplicationController
     else
       render "new", status: :unprocessable_entity
     end
-  end
-
-  def show
-    authorize! @app, to: :can_read_oauth_applications?, with: AppPolicy, context: {
-      user: current_agent
-    }
-
-    @oauth_application = @app.oauth_applications.find(params[:id])
   end
 
   private

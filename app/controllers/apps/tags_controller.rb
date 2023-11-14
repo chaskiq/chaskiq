@@ -25,13 +25,14 @@ class Apps::TagsController < ApplicationController
     @tag = @app.tag_list_objects.find { |o| o.name == params[:id] }
   end
 
-  def update
+  def create
     authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
       user: current_agent
     }
 
-    @tag = @app.tag_list_objects.find { |o| o.name == params[:id] }
+    @tag = TagListRecord.new
     @tag.assign_attributes(resource_params)
+    @app.tag_list_objects << @tag
     @app.tag_list = @app.tag_list_objects.as_json
 
     if @app.save
@@ -42,14 +43,13 @@ class Apps::TagsController < ApplicationController
     end
   end
 
-  def create
+  def update
     authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
       user: current_agent
     }
 
-    @tag = TagListRecord.new
+    @tag = @app.tag_list_objects.find { |o| o.name == params[:id] }
     @tag.assign_attributes(resource_params)
-    @app.tag_list_objects << @tag
     @app.tag_list = @app.tag_list_objects.as_json
 
     if @app.save

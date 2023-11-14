@@ -89,7 +89,8 @@ class SegmentPredicate
 
   def relative_options
     return string_predicates if @type == "string"
-    return date_predicates if @type == "date"
+
+    date_predicates if @type == "date"
   end
 
   def date_predicates

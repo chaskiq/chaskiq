@@ -7,11 +7,11 @@ class Apps::ArticlesSectionsController < ApplicationController
 
   def index; end
 
+  def show; end
+
   def new
     @article_section = @article_collection.sections.new
   end
-
-  def show; end
 
   def edit
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
@@ -19,22 +19,6 @@ class Apps::ArticlesSectionsController < ApplicationController
       user: current_agent
     }
     @article_section = @article_collection.sections.new
-  end
-
-  def update
-    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app,
-      user: current_agent
-    }
-    @article_section = @app.sections.friendly.find(params[:id])
-    if @article_section.errors.blank?
-      flash.now[:notice] = t("status_messages.updated_success")
-      # render turbo_stream: [flash_stream]
-      redirect_to app_articles_collection_path(@app.key, @article_section)
-    else
-      flash[:error] = "Something went wrong"
-      render "show"
-    end
   end
 
   def create
@@ -51,8 +35,24 @@ class Apps::ArticlesSectionsController < ApplicationController
       # render turbo_stream: [flash_stream]
       redirect_to app_articles_collection_path(@app.key, @article_collection)
     else
-      flash[:error] = "Something went wrong"
+      flash[:error] = t("status_messages.created_error")
       render "new"
+    end
+  end
+
+  def update
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app,
+      user: current_agent
+    }
+    @article_section = @app.sections.friendly.find(params[:id])
+    if @article_section.errors.blank?
+      flash.now[:notice] = t("status_messages.updated_success")
+      # render turbo_stream: [flash_stream]
+      redirect_to app_articles_collection_path(@app.key, @article_section)
+    else
+      flash[:error] = t("status_messages.created_success")
+      render "show"
     end
   end
 
@@ -67,7 +67,7 @@ class Apps::ArticlesSectionsController < ApplicationController
       flash.now[:notice] = t("status_messages.deleted_success")
       redirect_to app_articles_collection_path(@app.key, @article_section.collection)
     else
-      flash[:error] = "Something went wrong"
+      flash[:error] = t("status_messages.deleted_error")
       render "show"
     end
   end

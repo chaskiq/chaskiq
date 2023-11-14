@@ -6,6 +6,11 @@ class Apps::EditorBotTasksController < ApplicationController
     render "index", layout: false
   end
 
+  def show
+    @bot_task = @app.bot_tasks.find(params[:id])
+    render "show", layout: false
+  end
+
   def create
     authorize! @app, to: :can_read_routing_bots?, with: AppPolicy, context: {
       user: current_agent
@@ -20,10 +25,5 @@ class Apps::EditorBotTasksController < ApplicationController
                  else
                    @app.bot_tasks
                  end
-  end
-
-  def show
-    @bot_task = @app.bot_tasks.find(params[:id])
-    render "show", layout: false
   end
 end

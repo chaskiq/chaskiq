@@ -808,7 +808,7 @@ class AvatarSettings
     return @palette_objects if @palette_objects.present?
 
     colors = palette.presence || default_palette
-    colors = colors.is_a?(String) ? colors.split(",") : colors
+    colors = colors.split(",") if colors.is_a?(String)
 
     @palette_objects = colors.map { |o| AvatarPaletteColor.new(color: o) }
   end

@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
 
   def render_unauthorized
-    flash.now[:error] = "not authorized"
+    flash.now[:error] = t("common.not_authorized")
     @navigator = false
     @frame = request.headers["Turbo-Frame"]
 
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
         render "errors/upgrade"
       end
       format.turbo_stream do
-        flash.now[:error] = "Plan not meet"
+        flash.now[:error] = t("common.plan_not_meet")
         render "errors/upgrade"
       end
     end

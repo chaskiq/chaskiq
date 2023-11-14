@@ -13,6 +13,14 @@ class Apps::ArticlesCollectionsController < ApplicationController
     @article_collection = @app.article_collections.friendly.find(params[:id]) # .find(params[:id])
   end
 
+  def new
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app,
+      user: current_agent
+    }
+    @article_collection = @app.article_collections.new
+  end
+
   def edit
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
       app: @app,
@@ -20,31 +28,6 @@ class Apps::ArticlesCollectionsController < ApplicationController
     }
     @article_setting = @app.article_settings
     @article_collection = @app.article_collections.friendly.find(params[:id]) # .find(params[:id])
-  end
-
-  def update
-    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app,
-      user: current_agent
-    }
-    @article_setting = @app.article_settings
-    @article_collection = @app.article_collections.friendly.find(params[:id]) # .find(params[:id])
-
-    if @article_collection.update(resource_params)
-      flash.now[:notice] = t("status_messages.updated_success")
-      # render turbo_stream: [flash_stream]
-      redirect_to app_articles_collections_path(@app.key), status: :see_other
-    else
-      render "edit", status: :unprocessable_entity
-    end
-  end
-
-  def new
-    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
-      app: @app,
-      user: current_agent
-    }
-    @article_collection = @app.article_collections.new
   end
 
   def create
@@ -65,6 +48,23 @@ class Apps::ArticlesCollectionsController < ApplicationController
     end
   end
 
+  def update
+    authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
+      app: @app,
+      user: current_agent
+    }
+    @article_setting = @app.article_settings
+    @article_collection = @app.article_collections.friendly.find(params[:id]) # .find(params[:id])
+
+    if @article_collection.update(resource_params)
+      flash.now[:notice] = t("status_messages.updated_success")
+      # render turbo_stream: [flash_stream]
+      redirect_to app_articles_collections_path(@app.key), status: :see_other
+    else
+      render "edit", status: :unprocessable_entity
+    end
+  end
+
   def destroy
     authorize! @app, to: :can_manage_help_center?, with: AppPolicy, context: {
       app: @app,
@@ -75,7 +75,7 @@ class Apps::ArticlesCollectionsController < ApplicationController
       flash.now[:notice] = t("status_messages.deleted_success")
       redirect_to app_articles_collections_path(@app.key)
     else
-      flash[:error] = "Something went wrong"
+      flash[:error] = t("status_messages.deleted_error")
       render "show"
     end
   end

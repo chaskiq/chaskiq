@@ -19488,9 +19488,7 @@
         "choosen": "Vous avez répondu <strong>%{field}</strong>"
       },
       "conversations": {
-        "events": {
-          "assigned'": null
-        },
+        "events.assigned'": "%{name} a été assigné à cette discussion",
         "message_blocks": {
           "app_package_non_wait": "vous a envoyé un contenu",
           "app_package_wait_reply": "attend votre réponse",

@@ -33,24 +33,6 @@ class Apps::UserDataController < ApplicationController
     @tag = @app.custom_fields_objects.find { |o| o.name == params[:id] }
   end
 
-  def update
-    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
-      user: current_agent
-    }
-
-    resource_params = params.require(:custom_field_record).permit(:name, :type)
-    @custom_field = @app.custom_fields_objects.find { |o| o.name == params[:id] }
-    @custom_field.assign_attributes(resource_params)
-    @app.custom_fields = @app.custom_fields_objects.as_json
-
-    if @app.save
-      flash.now[:notice] = t("status_messages.updated_success")
-      redirect_to app_user_data_path(@app.key)
-    else
-      render "new", status: :unprocessable_entity
-    end
-  end
-
   def create
     authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
       user: current_agent
@@ -61,6 +43,24 @@ class Apps::UserDataController < ApplicationController
 
     @custom_field.assign_attributes(resource_params)
     @app.custom_fields_objects << @custom_field
+    @app.custom_fields = @app.custom_fields_objects.as_json
+
+    if @app.save
+      flash.now[:notice] = t("status_messages.updated_success")
+      redirect_to app_user_data_path(@app.key)
+    else
+      render "new", status: :unprocessable_entity
+    end
+  end
+
+  def update
+    authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
+      user: current_agent
+    }
+
+    resource_params = params.require(:custom_field_record).permit(:name, :type)
+    @custom_field = @app.custom_fields_objects.find { |o| o.name == params[:id] }
+    @custom_field.assign_attributes(resource_params)
     @app.custom_fields = @app.custom_fields_objects.as_json
 
     if @app.save

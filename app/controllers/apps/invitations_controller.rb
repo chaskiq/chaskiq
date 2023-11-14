@@ -10,12 +10,6 @@ class Apps::InvitationsController < ApplicationController
                   .per(params[:per] || 12)
   end
 
-  def update
-    @agent = @app.agents.find(params[:id])
-    flash[:notice] = t("settings.team.invitation_success")
-    render turbo_stream: [flash_stream]
-  end
-
   def new
     @agent = @app.agents.new
   end
@@ -53,5 +47,11 @@ class Apps::InvitationsController < ApplicationController
       #  turbo_stream.update("modal")
       # ]
     end
+  end
+
+  def update
+    @agent = @app.agents.find(params[:id])
+    flash.now[:notice] = t("settings.team.invitation_success")
+    render turbo_stream: [flash_stream]
   end
 end

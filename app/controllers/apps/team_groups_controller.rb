@@ -12,13 +12,13 @@ class Apps::TeamGroupsController < ApplicationController
     @team = @app.teams.new
   end
 
+  def edit
+    @team = @app.teams.find(params[:id])
+  end
+
   def create
     @team = @app.teams.create(resource_params)
     redirect_to app_team_groups_path(@app.key)
-  end
-
-  def edit
-    @team = @app.teams.find(params[:id])
   end
 
   def update

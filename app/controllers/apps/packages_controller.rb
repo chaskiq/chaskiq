@@ -284,7 +284,7 @@ class Apps::PackagesController < ApplicationController
         controls: controls
       )
 
-      flash.now[:notice] = "Package added"
+      flash.now[:notice] = t("status_messages.created_success")
 
       render turbo_stream: [
         turbo_stream.update("modal"),

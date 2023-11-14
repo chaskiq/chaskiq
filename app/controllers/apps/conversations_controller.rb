@@ -115,6 +115,57 @@ class Apps::ConversationsController < ApplicationController
     end
   end
 
+  def new
+    @app_user = @app.app_users.find(params[:app_user_id]) if params[:app_user_id]
+
+    authorize! @app, to: :can_manage_conversations?, with: AppPolicy, context: {
+      app: @app,
+      user: current_agent
+    }
+
+    @conversation = @app.conversations.new(
+      main_participant_id: @app_user&.id
+    )
+
+    render "new", layout: false
+  end
+
+  def edit
+    @conversation = @app.conversations.find_by(key: params[:id])
+    render "edit", layout: false
+  end
+
+  def create
+    author = @app.agents.where("agents.email =?", current_user.email).first
+    participant = @app.app_users.find(params[:conversation][:main_participant])
+    initiator_channel = params[:conversation][:initiator_channel]
+    initiator_block = params[:conversation][:initiator_block]
+    sanitized_html = ""
+    subject = params[:conversation][:subject]
+
+    options = {
+      from: author,
+      participant: participant,
+      initiator_channel: initiator_channel,
+      initiator_block: initiator_block,
+      subject: subject,
+      message: {
+        html_content: sanitized_html,
+        serialized_content: params[:serialized],
+        text_content: params[:text] || ActionController::Base.helpers.strip_tags(params["html"])
+      }
+    }
+
+    authorize! @app, to: :can_manage_conversations?, with: AppPolicy, context: {
+      app: @app,
+      user: current_agent
+    }
+
+    @conversation = @app.start_conversation(options)
+
+    redirect_to app_conversation_path(@app.key, @conversation.key)
+  end
+
   def update
     @conversation = @app.conversations.find_by(key: params[:id])
 
@@ -160,57 +211,6 @@ class Apps::ConversationsController < ApplicationController
         turbo_stream.update("modal")
       ]
     end
-  end
-
-  def edit
-    @conversation = @app.conversations.find_by(key: params[:id])
-    render "edit", layout: false
-  end
-
-  def create
-    author = @app.agents.where("agents.email =?", current_user.email).first
-    participant = @app.app_users.find(params[:conversation][:main_participant])
-    initiator_channel = params[:conversation][:initiator_channel]
-    initiator_block = params[:conversation][:initiator_block]
-    sanitized_html = ""
-    subject = params[:conversation][:subject]
-
-    options = {
-      from: author,
-      participant: participant,
-      initiator_channel: initiator_channel,
-      initiator_block: initiator_block,
-      subject: subject,
-      message: {
-        html_content: sanitized_html,
-        serialized_content: params[:serialized],
-        text_content: params[:text] || ActionController::Base.helpers.strip_tags(params["html"])
-      }
-    }
-
-    authorize! @app, to: :can_manage_conversations?, with: AppPolicy, context: {
-      app: @app,
-      user: current_agent
-    }
-
-    @conversation = @app.start_conversation(options)
-
-    redirect_to app_conversation_path(@app.key, @conversation.key)
-  end
-
-  def new
-    @app_user = @app.app_users.find(params[:app_user_id]) if params[:app_user_id]
-
-    authorize! @app, to: :can_manage_conversations?, with: AppPolicy, context: {
-      app: @app,
-      user: current_agent
-    }
-
-    @conversation = @app.conversations.new(
-      main_participant_id: @app_user&.id
-    )
-
-    render "new", layout: false
   end
 
   private

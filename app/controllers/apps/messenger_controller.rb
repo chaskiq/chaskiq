@@ -15,7 +15,7 @@ class Apps::MessengerController < ApplicationController
   end
 
   def update
-    flash[:notice] = "success!"
+    flash.now[:notice] = t("status_messages.updated_success")
     authorize! @app, to: :can_manage_app_settings?, with: AppPolicy, context: {
       user: current_agent
     }

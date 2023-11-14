@@ -13,32 +13,6 @@ class Apps::CampaignsController < ApplicationController
     @collection = @collection.page(params[:page]).per(20)
   end
 
-  def new
-    authorize! @app, to: :can_manage_campaigns?, with: AppPolicy, context: {
-      app: @app,
-      user: current_agent
-    }
-
-    @namespace = params[:namespace] || "campaigns"
-    @campaign = @app.send(@namespace).new if Message.allowed_types.include?(@namespace)
-  end
-
-  def create
-    authorize! @app, to: :can_manage_campaigns?, with: AppPolicy, context: {
-      app: @app,
-      user: current_agent
-    }
-
-    @namespace = params[:namespace] || "campaigns"
-    @campaign = @app.send(@namespace).new if Message.allowed_types.include?(@namespace)
-    @campaign.assign_attributes(resource_params)
-    if @campaign.save
-      redirect_to app_campaign_path(@app.key, @campaign)
-    else
-      render "new"
-    end
-  end
-
   def show
     @campaign = @app.messages.find(params[:id])
 
@@ -49,6 +23,16 @@ class Apps::CampaignsController < ApplicationController
 
     @collection = @campaign.metrics.page(params[:page]).per(10)
     @tab = "stats"
+  end
+
+  def new
+    authorize! @app, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      app: @app,
+      user: current_agent
+    }
+
+    @namespace = params[:namespace] || "campaigns"
+    @campaign = @app.send(@namespace).new if Message.allowed_types.include?(@namespace)
   end
 
   def edit
@@ -77,6 +61,22 @@ class Apps::CampaignsController < ApplicationController
     render "show"
   end
 
+  def create
+    authorize! @app, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      app: @app,
+      user: current_agent
+    }
+
+    @namespace = params[:namespace] || "campaigns"
+    @campaign = @app.send(@namespace).new if Message.allowed_types.include?(@namespace)
+    @campaign.assign_attributes(resource_params)
+    if @campaign.save
+      redirect_to app_campaign_path(@app.key, @campaign)
+    else
+      render "new"
+    end
+  end
+
   def update
     @campaign = @app.messages.find(params[:id])
 
@@ -87,7 +87,7 @@ class Apps::CampaignsController < ApplicationController
 
     if params[:toggle]
       @campaign.update(state: @campaign.state == "disabled" ? "enabled" : "disabled")
-      flash.now[:notice] = "Campaign was updated!"
+      flash.now[:notice] = t("status_messages.updated_success")
       render turbo_stream: [flash_stream] and return
     end
 

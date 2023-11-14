@@ -9,14 +9,35 @@ class Apps::ArticlesController < ApplicationController
     @articles = articles.page(params[:page]).per(params[:per])
   end
 
-  def edit; end
-
   def show; end
 
   def new
     @article = @app.articles.new
     @article.build_article_content
     render "new"
+  end
+
+  def edit; end
+
+  def create
+    @article = @app.articles.new(resource_params)
+    authorize! @article, to: :can_read_help_center?, with: AppPolicy, context: {
+      user: current_agent
+    }
+
+    @article.assign_attributes(
+      article_content_attributes: {
+        html_content: nil,
+        serialized_content: nil,
+        text_content: nil
+      }
+    )
+
+    if @article.save
+      redirect_to app_article_path(@app.key, @article), status: :see_other
+    else
+      render "create"
+    end
   end
 
   def update
@@ -44,36 +65,15 @@ class Apps::ArticlesController < ApplicationController
     end
   end
 
-  def create
-    @article = @app.articles.new(resource_params)
-    authorize! @article, to: :can_read_help_center?, with: AppPolicy, context: {
-      user: current_agent
-    }
-
-    @article.assign_attributes(
-      article_content_attributes: {
-        html_content: nil,
-        serialized_content: nil,
-        text_content: nil
-      }
-    )
-
-    if @article.save
-      redirect_to app_article_path(@app.key, @article), status: :see_other
-    else
-      render "create"
-    end
-  end
-
   def destroy
     authorize! @article, to: :can_read_help_center?, with: AppPolicy, context: {
       user: current_agent
     }
 
     if @article.destroy
-      flash[:success] = "Article was successfully deleted."
+      flash[:success] = t("status_messages.deleted_success")
     else
-      flash[:error] = "Something went wrong"
+      flash[:error] = t("status_messages.deleted_error")
     end
     redirect_to objects_url
   end
@@ -91,11 +91,11 @@ class Apps::ArticlesController < ApplicationController
       nil
     end
 
-    @app.articles.where(id: params[:article]).each do |a|
+    @app.articles.where(id: params[:article]).find_each do |a|
       a.update(collection: collection, section: section)
     end
 
-    flash[:success] = "Object assigned"
+    flash[:success] = t("status_messages.updated_success")
     redirect_to app_articles_collection_path(@app.key, params[:collection_id])
   end
 

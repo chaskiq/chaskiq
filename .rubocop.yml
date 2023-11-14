@@ -43,6 +43,10 @@ Metrics/ModuleLength:
     - app/services/message_apis/helpers.rb
 Rails/InverseOf:
   Enabled: false
+
+Rails/Pluck:
+  Exclude:
+    - app/services/payment_services/**/*
 AllCops:
   NewCops: enable
   Exclude:

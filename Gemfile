@@ -77,7 +77,7 @@ gem "geoip"
 gem "truemail"
 
 gem "turbo-rails"
-gem "view_component", require: "view_component/engine"
+gem "view_component"
 
 gem "google-cloud-dialogflow"
 gem "twilio-ruby", "~> 5.58.1"

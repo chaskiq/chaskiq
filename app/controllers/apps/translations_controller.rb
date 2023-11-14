@@ -5,8 +5,6 @@ class Apps::TranslationsController < ApplicationController
     authorize! @app, to: :can_write_app_settings?, with: AppPolicy, context: {
       user: current_agent
     }
-
-    flash[:notice] = "success!"
   end
 
   def update
