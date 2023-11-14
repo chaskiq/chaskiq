@@ -163,10 +163,12 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
         .then(() => {
+          cy.wait(3000)
           cy.get("#chaskiq-prime").click().then(() => {
             cy.get('iframe:first')
               .then(function ($iframe) {
                 let $body = $iframe.contents().find('body')
+                cy.wait(2000)
                 cy.wrap($body).contains('Click this action').click({force: true})
                 cy.wrap($body).contains('yes!!!!!')
               })
@@ -206,6 +208,7 @@ describe('Visitor home apps', function () {
             cy.get('iframe:first')
               .then(function ($iframe) {
                 let $body = $iframe.contents().find('body')
+                cy.wait(3000)
                 cy.wrap($body).contains('Click this action').click() //({force: true})
                 cy.wrap($body).contains('dynamic').click() //{force: true})
                 cy.wrap($body).contains('yes!!!!!')
