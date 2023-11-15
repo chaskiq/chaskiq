@@ -8,25 +8,22 @@ class Apps::InboundSettingsController < ApplicationController
 
   def update
     if params[:new_segment].blank?
-
-      segment_predicate = resource_params[:inbound_settings_objects_attributes]["#{@namespace}_attributes"][:segment_predicate]
+      segment_predicate = params["app"]["inbound_settings_objects_attributes"]["segment_predicate"]
       segment_predicates = begin
-        segment_predicate.keys.sort.map { |key| segment_predicate[key].to_h }
+        segment_predicate.permit!.keys.sort.map { |key| segment_predicate[key].to_h }
       rescue StandardError
         []
       end
 
+      # first updates everything else
+      @app.update(resource_params)
+
       current_segments = @app.inbound_settings
       current_segments[@namespace]["predicates"] = segment_predicates
 
-      @app.update(resource_params)
-
-      # if params[:force_save] == "true"
-      #  @app.update(inbound_settings: current_segments)
-      # else
-      #  @changed = true
-      #  @app.assign_attributes(inbound_settings: current_segments)
-      # end
+      # second attached the new predicates
+      @app.update({ inbound_settings: current_segments })
+      @app.reload
     end
 
     audience_handler
@@ -42,10 +39,10 @@ class Apps::InboundSettingsController < ApplicationController
 
     @segment_manager.handle_new_segment = params["new_segment"] if params["new_segment"].present?
 
-    @collection = @segment_manager.results({
-                                             page: params[:page],
-                                             per: 5
-                                           })
+    # @collection = @segment_manager.results({
+    #                                         page: params[:page],
+    #                                         per: 5
+    #                                       })
   end
 
   def set_namespace

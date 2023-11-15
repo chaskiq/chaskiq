@@ -8,7 +8,7 @@
                      <div class="px-2">
                         <%= turbo_frame_tag 'conversation-sidebar-packages', 
                            src: app_inbox_packages_path(@app.key, conversation_key: @conversation.key) do %>
-                           loading sidebar packages...
+                           <%= render Loader::Component.new %>
                         <% end %>
                      </div>
                   </div>

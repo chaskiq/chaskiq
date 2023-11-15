@@ -66,9 +66,28 @@
         rounded-md transition ease-in-out duration-150;
   }
 
-  a > input[type="radio"]:checked + .navigator-item  {
-    @apply bg-gray-500 text-white;
+  .navigator-count {
+    @apply ml-auto inline-block py-0.5 px-3 text-xs leading-4 
+    rounded-full 
+    text-gray-600 bg-gray-200 
+    dark:text-gray-200 dark:bg-gray-600 
+    group-hover:bg-gray-200 
+    dark:group-focus:bg-gray-600 
+    transition ease-in-out duration-150;
   }
+
+  .navigator-item.navigator-active  {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+
+  a > input[type="radio"]:checked + .navigator-item  {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+
+  a > input[type="radio"]:checked + .navigator-item .navigator-count  {
+    @apply bg-gray-200 dark:bg-gray-600;
+  }
+  
 
   .input, input[type=datetime-local] {
     @apply shadow appearance-none border border-gray-300 

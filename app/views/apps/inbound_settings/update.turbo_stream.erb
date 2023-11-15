@@ -16,7 +16,7 @@
         btn_proc: -> (){
           "
             #{
-              text_field_tag :force_save, true
+              hidden_field_tag :force_save, true
             }
             #{
               ff.submit("update audience", class: "btn xs btn-success")
@@ -28,16 +28,8 @@
   <% end %>
 <% end %>
 
-
-<% if @collection %>
-
-  <%= turbo_stream.update("segment-table") do
-      render partial: "apps/segment_manager/table", locals: {
-        app: @app,
-        segment_manager: @segment_manager,
-        results: @collection
-      }
-    end
-  %>
- 
+<%= turbo_stream.replace("segment-table") do %>
+  <%= turbo_frame_tag "segment-table", src: table_app_segments_path(@app.key, segments: @segment_manager.predicates.to_json) do %>
+    <%= render Loader::Component.new %>
+  <% end %>
 <% end %>

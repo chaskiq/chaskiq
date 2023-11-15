@@ -81,7 +81,9 @@
 
               <%= render 'apps/segment_manager/form',  segment_manager: @segment_manager, url_form: edit_segment_app_segment_path(@app.key, @segment), incomplete: false, changed: false %>
               
-              <%= render 'apps/segment_manager/table', segment_manager: @segment_manager, results: @app_users %>
+              <%= turbo_frame_tag "segment-table", src: table_app_segments_path(@app.key, segments: @segment_manager.predicates.to_json) do %>
+                <%= render Loader::Component.new %>
+              <% end %>
             </div>
           </div>
         </div>

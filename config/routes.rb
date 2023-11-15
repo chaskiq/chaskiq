@@ -168,6 +168,10 @@ Rails.application.routes.draw do
       member do
         post :edit_segment
       end
+
+      collection do
+        get :table
+      end
     end
     resources :contacts, controller: "apps/contacts" do
       collection do

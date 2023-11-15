@@ -236,9 +236,9 @@ class Apps::BotsController < ApplicationController
 
     @segment_manager.handle_new_segment = params["new_segment"] if params["new_segment"].present?
 
-    @collection = @segment_manager.results({
-                                             page: params[:page],
-                                             per: 5
-                                           })
+    # @collection = @segment_manager.results({
+    #                                         page: params[:page],
+    #                                         per: 5
+    #                                       })
   end
 end

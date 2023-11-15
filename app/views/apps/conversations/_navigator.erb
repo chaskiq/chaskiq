@@ -83,7 +83,7 @@
 						<span class="truncate"><%= t("conversations.menu.unassigned") %></span>
 					<% end %>
 
-					<span class="ml-auto inline-block py-0.5 px-3 text-xs leading-4 rounded-full text-gray-600 bg-gray-200 group-hover:bg-gray-200 group-focus:bg-gray-300 transition ease-in-out duration-150">
+					<span class="navigator-count">
 						<%= v %>
 					</span>
 				</div>
@@ -119,7 +119,7 @@
 				<span class="truncate">
 					<%= t("conversations.menu.all") %>
 				</span>
-				<span class="ml-auto inline-block py-0.5 px-3 text-xs leading-4 rounded-full text-gray-600 bg-gray-200 group-hover:bg-gray-200 group-focus:bg-gray-300 transition ease-in-out duration-150">
+				<span class="navigator-count">
 					<%= @app.conversations.size %>
 				</span>
 			</div>
@@ -164,7 +164,7 @@
 					<span class="truncate">
 						<%= tag.name %>
 					</span>
-					<span class="ml-auto inline-block py-0.5 px-3 text-xs leading-4 rounded-full text-gray-600 bg-gray-200 group-hover:bg-gray-200 group-focus:bg-gray-300 transition ease-in-out duration-150">
+					<span class="navigator-count">
 						<%= tag.taggings_count %>
 					</span>
 				</div>
@@ -198,7 +198,7 @@
 					<span class="truncate">
 						<%= k %>
 					</span>
-					<span class="ml-auto inline-block py-0.5 px-3 text-xs leading-4 rounded-full text-gray-600 bg-gray-200 group-hover:bg-gray-200 group-focus:bg-gray-300 transition ease-in-out duration-150">
+					<span class="navigator-count">
 						<%= v %>
 					</span>
 				</div>

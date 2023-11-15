@@ -244,45 +244,6 @@ class Apps::CampaignsController < ApplicationController
     )
 
     @segment_manager.handle_new_segment = params["new_segment"] if params["new_segment"].present?
-
-    @collection = @segment_manager.results({
-                                             page: params[:page],
-                                             per: 5
-                                           })
-  end
-
-  def handle_audience
-    turbo_views = [
-      turbo_stream.replace(
-        "segment_form",
-        partial: "apps/segment_manager/form",
-        locals: {
-          app: @app,
-          segment_manager: @segment_manager,
-          changed: false,
-          incomplete: false
-        }
-      )
-    ]
-
-    unless @segment_manager.predicates.find { |o| o.value.nil? }
-      turbo_views << turbo_stream.replace(
-        "segment-table",
-        partial: "apps/segment_manager/table",
-        locals: {
-          app: @app,
-          segment_manager: @segment_manager,
-          results: @segment_manager.results(params)
-        }
-      )
-    end
-
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_views
-      end
-      format.html # { redirect_to "/" }
-    end
   end
 
   def resource_params

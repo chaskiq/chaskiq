@@ -64,12 +64,12 @@ class ConversationSearchService
     return @collection if sort.blank?
 
     s = case sort
-        when "updated" then "updated_at desc"
-        when "newest" then "latest_user_visible_comment_at desc"
-        when "oldest" then "updated_at asc"
-        when "priority_first" then "priority asc, updated_at desc"
+        when "updated" then "conversations.updated_at desc"
+        when "newest" then "conversations.latest_user_visible_comment_at desc"
+        when "oldest" then "conversations.updated_at asc"
+        when "priority_first" then "conversations.priority asc, conversations.updated_at desc"
         else
-          "id desc"
+          "conversations.id desc"
         end
 
     if sort != "unfiltered" # && agent_id.blank?
