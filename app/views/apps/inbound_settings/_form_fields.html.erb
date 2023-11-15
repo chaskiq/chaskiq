@@ -4,11 +4,7 @@
     <%= I18n.t('settings.inbound.title')%>
   </p>
 
-  <% #= form.object.as_json %>
-
   <%= form.fields_for :"#{namespace}_attributes", form.object.send(@namespace) do |fff| %>
-
-    <%= fff.object.as_json %>
 
     <div>
       <%= fff.check_box :enabled_inbound, label: I18n.t('settings.inbound.checkbox'), hint: nil %>
