@@ -4,8 +4,8 @@
 Rails.application.config.assets.version = "1.0"
 
 # Rails.application.config.assets.paths << Rails.root.join('node_modules')
-Rails.application.config.assets.precompile += %w[campaign.css tailwind.css]
-Rails.application.config.assets.precompile += %w[embed.js new_embed.js new_application.js article.js]
+# Rails.application.config.assets.precompile += %w[campaign.css tailwind.css]
+Rails.application.config.assets.precompile += %w[embed.js new_embed.js]
 
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
 

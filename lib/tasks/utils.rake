@@ -4,8 +4,6 @@ class Hammer < Thor
   include Thor::Actions
 end
 
-Rake::Task["assets:precompile"].enhance(["tailwindcss:build"])
-
 namespace :packages do
   def hammer(*)
     Hammer.new.send(*)

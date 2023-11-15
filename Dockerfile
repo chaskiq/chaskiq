@@ -65,6 +65,8 @@ COPY --chown=docker:docker . /usr/src/app/
 RUN NODE_OPTIONS="--max-old-space-size=2048" \
     RAILS_ENV=${APP_ENV} \
     SECRET_KEY_BASE=`bin/rails secret` \
-    bundle exec rails assets:precompile --trace \
+    bundle exec rails tailwindcss:build \ 
+    && bundle exec rails javascript:build \
+    && bundle exec rails assets:precompile --trace \
     && rm -rf /usr/src/app/node_modules /usr/src/app/tmp/cache/* /tmp/* \
     && yarn cache clean
