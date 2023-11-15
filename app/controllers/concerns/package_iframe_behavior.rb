@@ -77,13 +77,24 @@ module PackageIframeBehavior
     end
 
     if params[:messengerFrame]
-      render turbo_stream: [
-        turbo_stream.update("bbbb", inline: html.html_safe),
-        turbo_stream.replace("header-content", partial: "messenger/base_header", locals: { app: @app })
-      ] and return
+      # render turbo_stream: [
+      #  turbo_stream.update("bbbb", inline: html.html_safe),
+      #  turbo_stream.replace("header-content", partial: "messenger/base_header", locals: { app: @app })
+      # ] and return
+
+      respond_to do |format|
+        format.turbo_stream do
+          @html = html
+          render "apps/packages/package_iframe_internal", layout: false
+        end
+        format.html do
+          render html: html.html_safe, layout: false
+        end
+      end
     end
 
     render html: html.html_safe, layout: false
+
     # rubocop:enable Rails/OutputSafety
   end
 

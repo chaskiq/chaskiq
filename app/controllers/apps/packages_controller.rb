@@ -122,9 +122,8 @@ class Apps::PackagesController < ApplicationController
                                    }.with_indifferent_access
                                  })
 
-    Rails.logger.debug @blocks
-    Rails.logger.debug "CLBLBLBLBL"
-    Rails.logger.debug @blocks[:kind]
+    # Rails.logger.debug @blocks
+    # Rails.logger.debug @blocks[:kind]
     case @blocks[:kind]
     when "configure", nil
       @blocks[:kind] = "configure" if @blocks[:kind].blank?

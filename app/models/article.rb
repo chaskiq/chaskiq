@@ -87,6 +87,6 @@ class Article < ApplicationRecord
     return if json.blank?
 
     data = ActiveSupport::HashWithIndifferentAccess.new(json)
-    Dante::Renderer.new(raw: data).render
+    Dante::Renderer.new(raw: data, domain: Chaskiq::Config.get("HOST")).render
   end
 end

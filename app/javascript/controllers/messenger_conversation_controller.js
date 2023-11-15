@@ -1,12 +1,14 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = ["conversationPart"];
+  static targets = ['conversationPart'];
 
   connect() {
-    this.observer = new MutationObserver(mutations => this.onMutation(mutations));
+    this.observer = new MutationObserver((mutations) =>
+      this.onMutation(mutations)
+    );
     this.observeConversation();
-    this.checkForInput()
+    this.checkForInput();
   }
 
   disconnect() {
@@ -15,48 +17,46 @@ export default class extends Controller {
 
   observeConversation() {
     const conversationElement = this.element;
-    console.log("OVSERVE", this.element)
+    console.log('OVSERVE', this.element);
     this.observer.observe(conversationElement, { childList: true });
   }
 
   onMutation(mutations) {
-    mutations.forEach(mutation => {
-      console.log(mutation)
+    mutations.forEach((mutation) => {
+      console.log(mutation);
       if (mutation.type === 'childList') {
         // Handle added or removed conversation parts
-        this.handleConversationChange();    
+        this.handleConversationChange();
       }
     });
     this.handleConversationChange();
-    console.log("mutation observed cycle")
+    console.log('mutation observed cycle');
   }
 
   handleConversationChange() {
     // Your logic here, executed when conversation parts change
     console.log('Conversation parts have changed.');
-    this.checkForInput()
+    this.checkForInput();
   }
 
-  checkForInput(){
-    const state = this.isInputEnabled()
-    if(state){
-      document.getElementById("chat-editor").classList.remove("hidden")
-    }else {
-      document.getElementById("chat-editor").classList.add("hidden")
+  checkForInput() {
+    const state = this.isInputEnabled();
+    if (state) {
+      document.getElementById('chat-editor').classList.remove('hidden');
+    } else {
+      document.getElementById('chat-editor').classList.add('hidden');
     }
 
-    console.log("INPUT RNABLED", state)
+    console.log('INPUT RNABLED', state);
   }
 
-
   isInputEnabled() {
+    const conversationData = this.element.dataset;
 
-    const conversationData = this.element.dataset
+    if (conversationData.closed === 'true') return true;
 
-    if(conversationData.closed === "true") return true
+    if (!this.hasConversationPartTarget) return true;
 
-    if(!this.hasConversationPartTarget) return true
-    
     /*if(!this.hasConversationTarget) return
     
     if (this.conversationTarget.closed === 'closed') {
@@ -78,15 +78,15 @@ export default class extends Controller {
     // strict comparison of false
     if (message.blocks && message.blocks.wait_for_input === false) return true;
     if (message.blocks && message.blocks.waitForInput === false) return true;*/
-    const message = this.conversationPartTargets[0]
+    const message = this.conversationPartTargets[0];
 
-    const data = message.dataset
+    const data = message.dataset;
 
-    if(data.blockKind === "app_package" || data.blockKind === "ask_option"){
-      if( data.replied === "true") return true
-      return false
+    if (data.blockKind === 'app_package' || data.blockKind === 'ask_option') {
+      if (data.replied === 'true') return true;
+      return false;
     }
 
-    return true
+    return true;
   }
 }

@@ -39,8 +39,6 @@ TODO.md
 + display block
   appBlockAppPackage
 
-+ hide text chat on wait package
-
 + articles frame are not in iframe, iframeize it
 
 improvements UI
