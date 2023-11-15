@@ -32,10 +32,17 @@ class Messenger::MessagesController < ApplicationController
     @conversation = author.conversations.find_by(key: params[:conversation_id])
     @message = @conversation.messages.find_by(key: params[:id])
 
-    # NOTE: that we might not be needed to receive step & trigger ar we already have them in the messge data.
-    case params["event_type"]
-    when "receive_conversation_part" then receive_conversation_part(author)
-    when "trigger_step" then trigger_step(author)
+    if params[:read]
+      @message = @app.conversation_parts.find_by(key: params[:id])
+      @message.read! if @message.present? && !@message.read?
+    else
+
+      # NOTE: that we might not be needed to receive step & trigger as we already have them in the messge data.
+      case params["event_type"]
+      when "receive_conversation_part" then receive_conversation_part(author)
+      when "trigger_step" then trigger_step(author)
+      end
+
     end
 
     # receive_conversation_part(data, user)

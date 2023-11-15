@@ -16,6 +16,8 @@
       path: messenger_conversation_path(message.conversation.app.key, message.conversation.key)
     }  %>
 
+    <%= render "messenger/custom_event", data: data %>
+
   <% end %>
 <% end %>
 

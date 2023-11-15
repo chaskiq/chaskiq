@@ -1,3 +1,3 @@
-<%= turbo_frame_tag "conversation-list-#{@app.key}" do %>
+<div id="conversation-list-<%= @app.key %>">
 		<%= render partial: 'apps/conversations/conversation', collection: @conversations, locals: {app: @app} %>
-<% end %>
+</div>

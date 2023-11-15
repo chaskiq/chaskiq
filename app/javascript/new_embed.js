@@ -722,7 +722,7 @@ window.Chaskiq = window.Chaskiq || {
 
   runUserTour: function (data) {
     const steps = data.data.steps_for_driver;
-
+    if (this.userTour && this.userTour.isActive()) return;
     this.userTour = window.driver.js.driver({
       steps: steps,
       allowClose: true,
@@ -765,6 +765,7 @@ window.Chaskiq = window.Chaskiq || {
     console.log(data);
     switch (data.type) {
       case 'conversations:unreads':
+        console.log('COUNTER RECEIVED', data.data.value);
         this.updateCounters(data.data.value);
         break;
       case 'messenger:toggle':

@@ -3,10 +3,6 @@ TODO.md
 + conversations:
   + open video conversation
 
-
-inbound settings
-  + not updating predicates
-
 + trackers on app controller reosurces
 
 + conversation part dropdown
@@ -46,7 +42,7 @@ APP PACKAGES:
 + display block
   appBlockAppPackage
 
-
++ notify typing
 + hide text chat on wait package
 
 improvements UI

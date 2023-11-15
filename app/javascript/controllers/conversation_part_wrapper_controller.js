@@ -14,10 +14,10 @@ export default class extends Controller {
       if (dataset.viewerType !== dataset.author) {
         // this.playSound();
         // to retrieve triggers and next messages
+
         if (!this.element.dataset.blockKind) {
           //!== 'wait_for_reply') {
-          // this.markAsRead();
-          // console.log('SEND FROM INIT', this.element.dataset);
+          this.markAsRead();
           this.sendEvent({});
         }
 
@@ -71,10 +71,6 @@ export default class extends Controller {
 
     // if errors detected skip, also note that this is so fast that the targets are not being initialized
     // that's why we use a direct element querySelector
-    console.log(
-      'this is the maderfakinf',
-      this.element.querySelectorAll('.error')
-    );
     if (this.element.querySelectorAll('.error').length > 0) {
       return;
     }

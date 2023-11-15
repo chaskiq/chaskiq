@@ -7,9 +7,9 @@
 		<div class="flex flex-col justify-between">
 			<span class="text-xs text-center">
 
-				<Moment fromNow ago>
+				<time data-controller="moment" datetime="<%= @message.created_at.to_i %>">
 					<%= @message.created_at %>
-				</Moment>
+				</time>
 
 				<span>
 					-
