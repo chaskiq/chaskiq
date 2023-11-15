@@ -297,6 +297,22 @@ class Conversation < ApplicationRecord
                         locals: { data: data }
   end
 
+  def notify_typing_to_agents
+    broadcast_update_to app, :conversations,
+                        target: nil,
+                        targets: ".typing-#{key}",
+                        partial: "apps/conversations/typing",
+                        locals: { key: key }
+  end
+
+  def notify_typing_to_user
+    broadcast_update_to app, main_participant.id,
+                        target: nil,
+                        targets: ".typing-#{key}",
+                        partial: "messenger/conversations/typing",
+                        locals: { key: key }
+  end
+
   private
 
   def handle_part_details(part, opts)

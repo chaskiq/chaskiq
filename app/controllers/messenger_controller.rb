@@ -38,6 +38,7 @@ class MessengerController < ApplicationController
     when "track_tour_finished" then track_tour_finished(params["messenger"])
     when "track_tour_skipped" then track_tour_skipped(params["messenger"])
     when "update_conversation_state" then render_conversation_state(params)
+    when "notify_typing" then notify_typing
 
     end
 
@@ -96,6 +97,11 @@ class MessengerController < ApplicationController
 
   def render_conversation_state; end
 
+  def notify_typing
+    conversation = @app.conversations.find_by(key: params[:conversation])
+    conversation.notify_typing_to_agents
+  end
+
   private
 
   def get_messages_for_user
@@ -153,7 +159,7 @@ class MessengerController < ApplicationController
 
     @home_apps = home_apps
 
-    @latest_conversations = @app_user.conversations.limit(4)
+    @latest_conversations = @app_user.conversations.order("updated_at desc").limit(4)
 
     @needs_privacy_consent = needs_privacy_consent
   end

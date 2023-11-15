@@ -45,4 +45,6 @@ APP PACKAGES:
 + notify typing
 + hide text chat on wait package
 
++ articles frame are not in iframe, iframeize it
+
 improvements UI

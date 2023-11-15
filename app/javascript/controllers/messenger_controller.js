@@ -43,6 +43,7 @@ export default class extends Controller {
   };
 
   initialize() {
+    this.delayTimer = null;
     // Bind the debounced version to the instance
     this.debouncedHandleGiphySeach = debounce(
       this.handleGiphySeach.bind(this),
@@ -566,6 +567,18 @@ export default class extends Controller {
   handleChatInput(e) {
     console.log('HANDLE typing');
     console.log(e.type);
+
+    clearTimeout(this.delayTimer);
+    this.delayTimer = setTimeout(() => {
+      this.notifyTyping();
+    }, 400);
+  }
+
+  notifyTyping() {
+    console.log('NOTIFY TYPING');
+    this.pushEvent('notify_typing', {
+      conversation: this.currentConversationKey(),
+    });
   }
 
   setHeaderStyles(element, styles) {

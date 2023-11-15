@@ -10,7 +10,6 @@
     <% #= Time.now.to_i %>
     <%= turbo_stream_from @app, @app_user.id %>
     <div style="display:none;" id="chaskiq-custom-events">
-      <% #= render "messenger/custom_event", data: {a: 1}.to_json %>
     </div>
   </div>
 

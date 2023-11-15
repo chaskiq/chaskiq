@@ -110,7 +110,11 @@ Rails.application.routes.draw do
       member do
         get :sidebar
       end
-      resources :conversation_messages, controller: "apps/conversation_messages"
+      resources :conversation_messages, controller: "apps/conversation_messages" do
+        collection do
+          post :notify_typing
+        end
+      end
     end
 
     resources :editor_quick_replies, controller: "apps/editor_quick_replies"

@@ -73,6 +73,11 @@ class Apps::ConversationMessagesController < ApplicationController
                                               })
   end
 
+  def notify_typing
+    @conversation = @app.conversations.find_by(key: params[:conversation_id])
+    @conversation.notify_typing_to_user
+  end
+
   def update
     if params[:read]
       @conversation_part = @app.conversation_parts.find_by(key: params[:id])

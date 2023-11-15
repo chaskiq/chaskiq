@@ -178,8 +178,21 @@ export default class extends Controller {
     overflow.scrollTop = overflow.scrollHeight;
   }
 
+  notifyTyping() {
+    this.sendPost(
+      `${this.actionPath}/notify_typing`,
+      { type: 'typing' },
+      'post'
+    );
+  }
+
   typingNotifier() {
     console.log('NOTIFY TYPING');
+
+    clearTimeout(this.delayTimer);
+    this.delayTimer = setTimeout(() => {
+      this.notifyTyping();
+    }, 400);
   }
 
   toggleClass() {
@@ -202,6 +215,7 @@ export default class extends Controller {
   }
 
   initialize() {
+    this.delayTimer = null;
     this.actionPath = this.element.dataset.editorActionPath;
     this.messageMode = 'public';
 
@@ -221,6 +235,7 @@ export default class extends Controller {
           this.valueNotified = val;
           this.editorRef = editorRef;
           console.log(this.valueNotified);
+          this.typingNotifier();
         }}
         handleReturn={(e, isEmptyDraft, value) => {
           console.log(e);
