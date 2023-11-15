@@ -286,6 +286,8 @@ export default class extends Controller {
     // console.log('Received message from parent:', event.data);
   }
 
+
+
   streamListener() {
     const element = document.querySelector(
       '#chaskiq-streams turbo-cable-stream-source'

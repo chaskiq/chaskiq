@@ -1,7 +1,6 @@
 
 <div class="cache-emo-1c9rau9" id="text_editor-<%= conversation.key %>">
 
-  <%= Time.now.to_i %>
   <% if conversation.state == "closed" && app.inbound_replies_closed_for?(user)  %>
     <div  class="h-[93px] top-[-60px] bg-white absolute flex flex-col justify-center items-center w-full">
       <p class="text-xs py-2">
@@ -17,7 +16,7 @@
    
     </div>
   <% else %>
-    <div class="cache-emo-1ndl2to">
+    <div class="cache-emo-1ndl2to" id="chat-editor">
       <div class="cache-emo-dddhpq">
 
         <div class="absolute bottom-[17px] left-[13px] z-50 hidden" data-messenger-target="loader">
@@ -54,8 +53,7 @@
                 <input type="text"
                   placeholder="search gifs in giphy" 
                   class="block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  data-messenger-target="giphySearchInput" data-action="messenger#debouncedGiphySearch">
-                </input>
+                  data-messenger-target="giphySearchInput" data-action="messenger#debouncedGiphySearch" />
                 <div data-messenger-target="giphyList" 
                   class="mx-2 mt-2 flex flex-col overflow-y-auto h-[213px]">
                 </div>

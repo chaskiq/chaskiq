@@ -39,9 +39,11 @@
       <div class="cache-emo-1prjld7 fade-in-bottom"
         data-infinite-scroll-target="entries"
         data-messenger-target="conversation"
+        data-controller="messenger-conversation"
         data-messenger-target="animated"
         data-in="fade-in-bottom"
         data-out="fade-out-bottom"
+        data-closed="<%= conversation.closed? %>"
         data-conversation-key="<%= conversation.key %>"
         id="conversation-<%= conversation.key %>">
 

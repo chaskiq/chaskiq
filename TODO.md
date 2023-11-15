@@ -9,9 +9,6 @@ TODO.md
 
 + tour manager url is hardcoded!
 
-APP PACKAGES:
-  confirm phase not
-
 # MESSENGER WIDGET
 
 + animations transitions
@@ -42,7 +39,6 @@ APP PACKAGES:
 + display block
   appBlockAppPackage
 
-+ notify typing
 + hide text chat on wait package
 
 + articles frame are not in iframe, iframeize it
