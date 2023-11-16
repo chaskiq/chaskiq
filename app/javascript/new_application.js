@@ -5,7 +5,6 @@ import 'rc-tooltip/assets/bootstrap.css';
 import './controllers';
 import '../frontend/components/index';
 
-
 /*
 // hack on preserve scroll https://github.com/hotwired/turbo/issues/37#issuecomment-1581864979
 if (!window.scrollPositions) {

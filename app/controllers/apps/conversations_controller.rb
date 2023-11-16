@@ -75,7 +75,6 @@ class Apps::ConversationsController < ApplicationController
 
     @conversation = @app.conversations.find_by(key: params[:id])
 
-
     if request.headers["Turbo-Frame"].present?
       render "show"
     else
