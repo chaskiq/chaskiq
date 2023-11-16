@@ -24,7 +24,6 @@ export default class extends Controller {
   }
 
   colorHandler(e) {
-    console.log('HANDLED', e);
     this.inputTarget.value = e;
 
     this.resolveSrc();

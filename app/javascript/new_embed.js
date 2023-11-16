@@ -324,7 +324,6 @@ window.Chaskiq = window.Chaskiq || {
     this.ping();
     this.addStyle();
     this.setup((data) => {
-      console.log(data);
       this.userData = data;
       this.banner = null;
       this.inline_conversations = data.inline_conversations;
@@ -596,7 +595,7 @@ window.Chaskiq = window.Chaskiq || {
     this.tabId = Math.random() + '';
   },
   storeTabIdToLocalStorage: function () {
-    console.log('STORING TAB', this.tabId);
+    // console.log('STORING TAB', this.tabId);
     window.localStorage.setItem('chaskiqTabId', this.tabId);
   },
 
@@ -606,10 +605,10 @@ window.Chaskiq = window.Chaskiq || {
     const onVisibilityChange = () => {
       this.isVisible = getIsDocumentHidden();
       if (this.isVisible) {
-        console.log('STORED TAB', this.isVisible);
+        // console.log('STORED TAB', this.isVisible);
         this.storeTabIdToLocalStorage();
       }
-      console.log('VISIBILITY CHANGED', this.isVisible);
+      // console.log('VISIBILITY CHANGED', this.isVisible);
     };
 
     this.visibilityChange = getBrowserVisibilityProp();
@@ -678,7 +677,7 @@ window.Chaskiq = window.Chaskiq || {
           break;
         default:
           if (event.data.tourManagerEnabled) {
-            console.log('TOUR MANAGER INIT EVENT!', event);
+            // console.log('TOUR MANAGER INIT EVENT!', event);
             this.deployTourManager(() => {
               this.tourManager = new TourManager({ ...event.data, ev: event });
             });
@@ -687,7 +686,6 @@ window.Chaskiq = window.Chaskiq || {
       }
     };
 
-    console.log('LISTENING EVENTS ON FRAME EVENTS');
     window.addEventListener('message', this.frameEvents.bind(this));
   },
 
@@ -710,7 +708,7 @@ window.Chaskiq = window.Chaskiq || {
   },
 
   handleTourEditor: function (data) {
-    console.log('RECIVED EVENT FROM TOUR EDITOR, SENDING TO TOURMANAGER', data);
+    // console.log('RECIVED EVENT FROM TOUR EDITOR, SENDING TO TOURMANAGER', data);
     this.tourManager.pushEvent(data);
   },
 
@@ -762,10 +760,8 @@ window.Chaskiq = window.Chaskiq || {
   },
 
   handleFrameEvents: function (data) {
-    console.log(data);
     switch (data.type) {
       case 'conversations:unreads':
-        console.log('COUNTER RECEIVED', data.data.value);
         this.updateCounters(data.data.value);
         break;
       case 'messenger:toggle':
@@ -833,7 +829,6 @@ window.Chaskiq = window.Chaskiq || {
       os_version: results.os.version,
       os: results.os.name,
     };
-    console.log('PUSH EVENT HERE', data);
     this.pushEvent('messenger:register_visit', data);
   },
 

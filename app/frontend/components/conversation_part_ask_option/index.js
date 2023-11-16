@@ -33,7 +33,7 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
 
 export default class Controller extends BaseController {
   connect() {
-    console.log("AAAAA")
+    console.log("ASK OPTION")
   }
   disconnect() {
     console.log("disconnected ask option")

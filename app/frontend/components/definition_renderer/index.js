@@ -13,14 +13,13 @@ export default class Controller extends BaseController {
   disconnect() {}
 
   onSubmit(e) {
-    console.log('PReventinf default on definition form submit')
+    // console.log('PReventinf default on definition form submit')
     e.preventDefault()
   }
 
 
   // from buttons
   async sendForm(e) {
-    console.log('SEND FORM', e)
     e.preventDefault()
 
     let formData = serialize(this.formTarget, { hash: true, empty: true })
@@ -60,14 +59,12 @@ export default class Controller extends BaseController {
         const bodyHtml = await response.html
         // custom event que será leido por modal controller
         this.element.outerHTML = bodyHtml
-        console.log('response!')
       }
     }
   }
 
   openUrl(e){
     const data = JSON.parse(e.currentTarget.dataset.fieldJson)
-    console.log("URL", data.action.url)
     const url = data?.action?.url
     if(!url) return
     window.open(url, '_blank')
@@ -122,10 +119,7 @@ export default class Controller extends BaseController {
     const kk = this.formTarget.dataset.kind || field.action.type
     data.url = data.ctx?.field?.action?.url
 
-    console.log("VISIT FRAME", kk, data)
-
     if(this.chatMessengerController){
-      console.log("MESSENGER CONTRIKER", this.chatMessengerController) 
       this.chatMessengerController.goToAppPackageFrame(data)
     }
   }
@@ -133,8 +127,6 @@ export default class Controller extends BaseController {
   openContent(e){
     e.preventDefault()
     const json = JSON.parse(e.currentTarget.dataset.fieldJson)
-    console.log("OPEN CONTENT", json)
-
     this.sendForm(e)
 
   }

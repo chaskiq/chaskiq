@@ -1690,9 +1690,9 @@
     "@hotwired/turbo" "^7.3.0"
     "@rails/actioncable" "^7.0"
 
-"@hotwired/turbo@^7.3.0", "@hotwired/turbo@git+https://github.com/michelson/turbo.git#build":
+"@hotwired/turbo@^7.3.0", "@hotwired/turbo@git+https://github.com/michelson/turbo.git#build4":
   version "7.3.0"
-  resolved "git+https://github.com/michelson/turbo.git#ba7d99766bfd7bbcd29c2b5d429bce7dd286827a"
+  resolved "git+https://github.com/michelson/turbo.git#f25b133c147141aea9848879c7317850a7fc2a36"
 
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"

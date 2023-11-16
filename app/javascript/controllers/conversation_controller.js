@@ -40,8 +40,6 @@ export default class extends Controller {
   }
 
   toggleSidebar() {
-    console.log('TOGGLE!!!!');
-
     const sidebar = document.getElementById('conversation-sidebar');
     //sidebar.classList.toggle('hidden')
     sidebar.classList.toggle('sm:block');

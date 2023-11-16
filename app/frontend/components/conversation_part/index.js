@@ -38,7 +38,6 @@ export default class Controller extends BaseController {
                             : themeDark
                           : theme*/
 
-    console.log("MADAFAKASS")                     
 		/*render(
 			<ThemeProvider theme={messageForTheme}>
 				<EditorContainerMessageBubble>

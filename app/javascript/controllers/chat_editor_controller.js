@@ -33,25 +33,21 @@ export default class extends Controller {
   ];
 
   handleAppFunc() {
-    console.log('open app moadl');
     const url = this.element.dataset.capabilities;
     this.sendPost(url, {}, 'get');
   }
 
   handleBotFunc() {
-    console.log('open bot moadl');
     const url = this.element.dataset.botTasks;
     this.sendPost(url, {}, 'get');
   }
 
   handleQuickRepliesFunc() {
-    console.log('open quick moadl');
     const url = this.element.dataset.quickReplies;
     this.sendPost(url, {}, 'get');
   }
 
   insertResource(data) {
-    console.log('INSERT HERE THE THING', data);
     document.querySelector('#modal').innerHTML = '';
 
     switch (data.type) {
@@ -168,7 +164,7 @@ export default class extends Controller {
     }
 
     if (response.ok) {
-      console.log('HEY HET HEY');
+      console.log('ok saved');
     }
   }
 
@@ -187,8 +183,6 @@ export default class extends Controller {
   }
 
   typingNotifier() {
-    console.log('NOTIFY TYPING');
-
     clearTimeout(this.delayTimer);
     this.delayTimer = setTimeout(() => {
       this.notifyTyping();
@@ -219,7 +213,6 @@ export default class extends Controller {
     this.actionPath = this.element.dataset.editorActionPath;
     this.messageMode = 'public';
 
-    console.log('INIT EDITOR FOR', this.actionPath);
     const root = createRoot(this.wrapperTarget);
 
     root.render(
@@ -234,15 +227,13 @@ export default class extends Controller {
         notifyValue={(val, editorRef) => {
           this.valueNotified = val;
           this.editorRef = editorRef;
-          console.log(this.valueNotified);
           this.typingNotifier();
         }}
         handleReturn={(e, isEmptyDraft, value) => {
-          console.log(e);
           try {
-            console.log(
+            /*console.log(
               e.currentTarget.pmViewDesc.node.content.content[0].attrs.blockKind
-            );
+            );*/
             const blockKind =
               e.currentTarget.pmViewDesc?.node?.content?.content[0]?.attrs
                 ?.blockKind?.name;
@@ -445,8 +436,6 @@ function EditorComponent({
       options: {
         upload_handler: (file, ctx) => {
           upload(file, (blob) => {
-            console.log(blob);
-            console.log(ctx);
             ctx.updateAttributes({
               url: blob.service_url,
             });
@@ -540,11 +529,7 @@ function EditorComponent({
       ),
       options: {
         upload_handler: (file, ctx) => {
-          console.log('UPLOADED VIDEO FILE!!!!', file);
-
           upload(file, (blob) => {
-            console.log(blob);
-            console.log(ctx);
             ctx.updateAttributes({
               url: blob.service_url,
             });
@@ -598,7 +583,6 @@ function EditorComponent({
   }, []);
 
   function manageReturn(event) {
-    console.log('handle return');
     console.log(valRef.current);
     return handleReturn(event, false, valRef.current);
   }
@@ -652,7 +636,6 @@ function EditorComponent({
       }}
       onUpdate={(editor) => {
         editorRef.current = editor;
-        console.log('AAAAAA SE SALVOOOOO');
         setValue({
           serialized: editor.getJSON(),
           html: editor.view.dom.innerText,

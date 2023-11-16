@@ -9,7 +9,6 @@ import { post } from '@rails/request.js'
 
 export default class Controller extends BaseController {
   initialize() {
-    console.log('ajajajaja')
     this.sendData()
   }
 
@@ -24,7 +23,6 @@ export default class Controller extends BaseController {
     if (response.ok) {
       const body = await response.html
       this.element.closest('.definition-renderer').outerHTML = body
-      console.log('response!')
     }
   }
 }

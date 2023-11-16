@@ -38,7 +38,7 @@ export default class extends Controller {
       theme = this.element.dataset.theme;
     }
 
-    console.log(serializedContent);
+    // console.log(serializedContent);
 
     const root = createRoot(this.containerTarget);
 
