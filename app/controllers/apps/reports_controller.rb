@@ -118,7 +118,7 @@ class Apps::ReportsController < ApplicationController
       },
       browser: {
         type: "pie",
-        label: I18n.t("dashboard.browser"),
+        label: I18n.t("dashboard.users_browser"),
         classes: "col-span-3"
       },
       lead_os: {

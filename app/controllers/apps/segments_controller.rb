@@ -85,7 +85,10 @@ class Apps::SegmentsController < ApplicationController
 
     elsif @segment.update(predicates: JSON.parse(params[:segment][:predicates]))
       flash.now[:notice] = t("common.update_success_message")
-      render turbo_stream: [flash_stream]
+      render turbo_stream: [
+        flash_stream,
+        turbo_stream.update("modal")
+      ]
     # redirect_to app_team_index_path(@app.key), notice: "epa!", status: 303
     else
       render "edit", status: :unprocessable_entity

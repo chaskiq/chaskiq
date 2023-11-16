@@ -80,7 +80,7 @@ class Apps::DashboardsController < ApplicationController
       },
       browser: {
         type: "pie",
-        label: I18n.t("dashboard.browser")
+        label: I18n.t("dashboard.users_browser")
       },
       lead_os: {
         type: "pie",

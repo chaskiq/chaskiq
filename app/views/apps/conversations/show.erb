@@ -1,6 +1,6 @@
 <%= turbo_frame_tag 'conversation',
-	data: { controller: 'conversation' },
-	class: "flex w-full" do %>
+	data: { controller: 'conversation turbo-frame-history' },
+	class: "flex w-full kkk" do %>
 
 	<div class="relative md:w-0 md:flex-grow w-full bg-gray-200 dark:bg-gray-900 h-screen border-r dark:border-black">
 		<div
@@ -102,7 +102,6 @@
 			open: session[:conversation_sidebar]
 		) 
 	%>
-	<% #= render 'sidebar' %>
 
 <%end%>
 

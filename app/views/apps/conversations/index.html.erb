@@ -9,7 +9,7 @@
 
    <div class="flex">
 
-      <div data-controller="infinite-scroll" 
+      <div data-controller="infinite-scroll"
          class="<%= params[:id] ? 'hidden' : '' %> w-full min-w-[367px] md:w-4/12 h-screen md:border-r sm:block border-gray-200 dark:border-gray-900">
          
          <%= render "apps/conversations/search_filters", 
@@ -37,6 +37,7 @@
 
          <div 
             class="overflow-scroll" 
+            data-preserve-scroll
             style="height: calc(100vh - 60px);"
             data-infinite-scroll-target="entries"
             >
@@ -52,9 +53,9 @@
       </div>
 
       <%= turbo_frame_tag 'conversation',
-         data: { controller: 'conversation' },
+         data: { controller: 'conversation turbo-frame-history' },
          src: @conversation ? app_conversation_path(@app.key, @conversation.key ) : nil,
-         class: "flex w-full" do %>
+         class: "flex w-full jjjj" do %>
          <div class="w-full bg-white dark:bg-gray-900 overflow-hidden  rounded-lg py-5 h-full">
             <div class="flex flex-col px-4 py-5 sm:p-6 items-center">
                <h2 class="text-2xl tracking-tight

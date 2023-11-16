@@ -38,7 +38,7 @@
 			</span>
 		</label>
 
-		<%= f.text_field :predicates, data: { 'controller': 'attribute-clone', 'clone-from': '#current-segment-predicates'} %>
+		<%= f.hidden_field :predicates, data: { 'controller': 'attribute-clone', 'clone-from': '#current-segment-predicates'} %>
 
 		<div class="hidden" data-visibility-toggle-target='inputToggle'>
 			<%= f.text_field :name, value: f.object.name + ' ' + t("common.new") %>

@@ -74,15 +74,12 @@ class Apps::ConversationsController < ApplicationController
     }
 
     @conversation = @app.conversations.find_by(key: params[:id])
-    @conversations = search_service.search
+
 
     if request.headers["Turbo-Frame"].present?
-      turbo_stream.replace(
-        "conversation",
-        template: "apps/conversations/show",
-        locals: { app: @app, conversation: @conversation }
-      )
+      render "show"
     else
+      @conversations = search_service.search
       # use a lazy frame on index template to avoid this call
       @collection = @conversation.messages
                                  .order("id asc")
