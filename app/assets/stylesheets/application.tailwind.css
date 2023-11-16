@@ -175,7 +175,12 @@ div[data-controller="chat-editor"] .ProseMirror {
         -webkit-font-smoothing: antialiased;
     }
 
+
   }
+}
+
+#bbbb .wait-for-input {
+  display: none;
 }
 
 

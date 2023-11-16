@@ -18,7 +18,7 @@ describe('Conversation Spec', function () {
 
             cy.wrap($body)
               .xpath(
-                '//*[@id="main-content"]/div/div/div[3]/div/div/textarea'
+                '/html/body/div/div/div/div[2]/div[1]/main/div/div/div[4]/div/div/textarea'
               )
               .type('oeoe \n')
               .then(() => {
@@ -161,7 +161,7 @@ describe('Conversation Spec', function () {
           .then(() => {
             cy.wrap($body)
               .xpath(
-                '//*[@id="main-content"]/div/div/div[3]/div/div/textarea'
+                '/html/body/div/div/div/div[2]/div[1]/main/div/div/div[4]/div/div/textarea'
               )
               .should('be.enabled');
           });

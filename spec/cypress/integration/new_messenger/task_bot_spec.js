@@ -49,7 +49,7 @@ describe('Task bot Spec', function () {
                   cy.wait(1000)
 
                   cy.wrap($body)
-                    .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+                    .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[4]/div/div/textarea')
                     .type('oeoe \n').then(() => {
                       cy.wrap($body).contains('four')
                     })
@@ -179,10 +179,10 @@ describe('Task bot Spec', function () {
                 .click()
                 .then(() => {
                   cy.wrap($body)
-                    .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+                    .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[4]/div/div/textarea')
                     .should('be.enabled').then(() => {
                       cy.wrap($body)
-                        .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+                        .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[4]/div/div/textarea')
                         .type('oeoe \n').then(() => {
                           cy.wait(2000)
 
@@ -230,11 +230,11 @@ describe('start conversation welcome bot', function () {
             cy.wrap($body).contains('sauper!')
 
             cy.wrap($body)
-              .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+              .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[4]/div/div/textarea')
               .should('be.enabled').then(() => {
                 cy.wait(2000)
                 cy.wrap($body)
-                  .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+                  .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[4]/div/div/textarea')
                   .type('oeoe \n').then(() => {
                     cy.wrap($body).contains('oeoe')
                     cy.wrap($body).contains('go to!').click()
@@ -260,11 +260,11 @@ describe('start conversation welcome bot', function () {
             cy.wrap($body).contains('sauper!')
   
             cy.wrap($body)
-              .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+              .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[4]/div/div/textarea')
               .should('be.enabled').then(() => {
                 cy.wait(2000)
                 cy.wrap($body)
-                  .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[3]/div/div/textarea')
+                  .xpath('/html/body/div/div/div/div[2]/div[1]/main/div/div/div[4]/div/div/textarea')
                   .type('oeoe \n').then(() => {
                     cy.wrap($body).contains('oeoe')
                     cy.wrap($body).contains('go to!').click()
