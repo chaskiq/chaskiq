@@ -137,6 +137,7 @@ class TourManager {
 
     const cssPath = finder(target); // Assuming 'finder' is available in the context
     const encodedCssPath = encodeURIComponent(cssPath);
+    debugger;
     const url = `http://localhost:3000/apps/kLNE8uApck2uRH8phAGWpGNJ/campaigns/16/tour_step?target=${encodedCssPath}`;
     const path = {
       target: cssPath,

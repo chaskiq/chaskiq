@@ -25,6 +25,7 @@ export default class Controller extends BaseController {
     let formData = serialize(this.formTarget, { hash: true, empty: true })
 
     const field = JSON.parse(e.currentTarget.dataset.fieldJson);
+
     let data = {
       ctx: {
         field: field,

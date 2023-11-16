@@ -29,7 +29,7 @@
 		<fieldset <%= @disabled? "disabled" : "" %>>
 
 			<% if @frame %>
-				<input type="hidden" name="frame" value="<%= @frame %>">
+				<input type="hidden" name="message[frame]" value="<%= @frame %>">
 			<% end %>
 
 			<% if @conversation_key %>
@@ -95,11 +95,14 @@
 								size: @size || item['size']
 							)
 						end
-					when "content" then render ContentRenderer::Component.new(
-						id: item['id'],
-						values: {values: @values}.to_json,
-						path: content_app_package_path(@app.key, @app_package, @ctx)
-					)
+					when "content" 
+						render ContentRenderer::Component.new(
+							id: item['id'],
+							values: {values: @values}.to_json,
+							path: content_app_package_path(
+								@app.key, @app_package, location: @location, ctx: @ctx
+							)
+						)
 					when "input"
 						render PadderRenderer::Component.new(size: @size  ) do
 							render InputRenderer::Component.new(

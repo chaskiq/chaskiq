@@ -7,6 +7,11 @@
 			state: @conversation.state,
 			step: 'state'
 		},
+		data: {
+			"controller"=> "tippy", 
+			"content": @conversation.opened? ? "Close" : "Open",
+			"placement": 'bottom', 
+		},
 		method: :patch,
 		class: "focus:outline-none outline-none mr-1 rounded-full 
 			font-semibold border

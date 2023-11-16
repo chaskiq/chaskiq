@@ -81,7 +81,7 @@ window.Chaskiq = window.Chaskiq || {
       result = 'bottom: 0';
     }
 
-    const height = mode === 'floating' ? '88px' : '60px';
+    const height = mode === 'floating' ? '88px' : '64px';
     const style = `
       position: fixed;
       left: 0px;

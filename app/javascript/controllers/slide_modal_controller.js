@@ -10,10 +10,12 @@ export default class extends Controller {
   }
 
   open(e) {
+    if (!this.hasContainerTarget) return;
     this.containerTarget.classList.remove('hidden');
   }
 
   close(e) {
+    if (!this.hasContainerTarget) return;
     this.containerTarget.classList.add('hidden');
     document.getElementById('slide-modal').innerHTML = null;
     document.getElementById('slide-modal').src = null;

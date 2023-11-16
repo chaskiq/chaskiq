@@ -39,7 +39,7 @@ class Banner::Component < ApplicationViewComponent
     hash = {
       position: "absolute",
       width: "100%",
-      height: "72px"
+      height: "64px"
       # fontSize: "16px",
     }.merge!(placement_option || default_placement_option)
 

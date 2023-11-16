@@ -14,7 +14,7 @@ module PackageIframeBehavior
         data.merge!({
                       current_user: CHASKIQ_FRAME_VERIFIER.verify(params[:user_token])
                     })
-      elsif !data[:current_user] && session[:messenger_session_id]
+      elsif (!data[:current_user] && !data[:current_user_id]) && session[:messenger_session_id]
         app_user = @app.app_users.find_by(session_id: session[:messenger_session_id])
         data[:user] = app_user
       end
@@ -123,13 +123,13 @@ module PackageIframeBehavior
     opts = {
       app_key: app.key,
       user: user,
-      field: params.dig(:data, :field),
-      values: params.dig(:data, :values)
+      field: params.dig(:data, :field) || params.dig(:ctx, :field),
+      values: params.dig(:data, :values) || params[:values]
     }
 
     opts.merge!({
-                  conversation_key: params.dig(:data, :conversation_key),
-                  message_key: params.dig(:data, :message_key)
+                  conversation_key: params.dig(:data, :conversation_key) || params.dig(:ctx, :conversation_key),
+                  message_key: params.dig(:data, :message_key) || params.dig(:ctx, :message_key)
                 })
 
     html = presenter.sheet_view(opts)

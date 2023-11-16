@@ -4,4 +4,5 @@ class ContentRenderer::Component < ApplicationViewComponent
   option :id
   option :values
   option :path
+  option :ctx, default: -> {}
 end

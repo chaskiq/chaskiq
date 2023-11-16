@@ -39,6 +39,5 @@ TODO.md
 + display block
   appBlockAppPackage
 
-+ articles frame are not in iframe, iframeize it
 
 improvements UI

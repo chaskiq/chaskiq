@@ -25,7 +25,7 @@
 			schema: @blocks["definitions"], 
 			size: 'sm', 
 			blocks: @blocks,
-			values: {}, 
+			values: @blocks[:values], 
 			location: @location,
 			path: "/apps/#{@app.key}/packages/#{@package_name}",
 			conversation_key: @conversation_key,

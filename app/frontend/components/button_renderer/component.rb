@@ -16,11 +16,14 @@ class ButtonRenderer::Component < ApplicationViewComponent
   def action_method
     return "click->definition-renderer#sendForm" if @action.blank?
 
-    case @action["type"]
-    when "frame" then "click->definition-renderer#visitFrame"
-    when "submit", "url" then "click->definition-renderer#sendForm"
-    when "link" then "click->definition-renderer#visitLink"
-    when "content" then "click->definition-renderer#openContent"
-    end
+    action_mappings = {
+      "frame" => "click->definition-renderer#visitFrame",
+      "submit" => "click->definition-renderer#sendForm",
+      "url" => "click->definition-renderer#openUrl",
+      "link" => "click->definition-renderer#visitLink",
+      "content" => "click->definition-renderer#openContent"
+    }
+
+    result = action_mappings[@action["type"]]
   end
 end
