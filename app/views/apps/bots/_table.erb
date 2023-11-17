@@ -9,7 +9,7 @@
 					render: lambda{|record| 
 						%{
 							#{
-								link_to(record.name, edit_app_bot_path(@app.key, record), "data-turbo-frame": "_top" )
+								link_to(record.name, edit_app_bot_path(@app.key, record),  data: {turbo_frame: "content", turbo_action: "advance"} )
 							}
 						}.html_safe
 					} 
@@ -40,7 +40,7 @@
 									#{
 										link_to( t("common.edit"), edit_app_bot_path(@app.key, record), 
 											data: {
-											'turbo-frame': '_top',
+											turbo_frame: "content", turbo_action: "advance"
 											}, 
 											class: "btn btn-default sm"
 										)

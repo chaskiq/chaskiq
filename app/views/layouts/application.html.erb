@@ -65,23 +65,26 @@
           <%= turbo_stream_from @app, :conversations %>
         </div>
 
-        <% #= turbo_frame_tag "content" , data: {'history-target': 'contentframe'} do %>
-          <div class="h-screen flex overflow-hidden bg-white dark:bg-gray-900 dark:text-white">
-            <%= render "shared/nav" %>
-            <div class="flex flex-col w-0 flex-1 overflow-auto">
-              <%= yield %>
-            </div>
+        <div class="flex">
 
-            <%= turbo_frame_tag "fixed-app-packages", 
-              src: capabilities_app_packages_path(
-                @app.key, 
-                kind: "fixed_sidebar"
-              ), data: {turbo_permanent: true} do %>
-              loading
-            <%  end %>
-          
-          </div>
-        <% #end %>
+          <%= turbo_frame_tag "content" , class: "flex-grow" do %>
+            <div class="h-screen flex overflow-hidden bg-white dark:bg-gray-900 dark:text-white">
+              <%= render "shared/nav" %>
+              <div class="flex flex-col w-0 flex-1 overflow-auto">
+                <%= yield %>
+              </div>
+            </div>
+          <% end %>
+
+          <%= turbo_frame_tag "fixed-app-packages", 
+            src: capabilities_app_packages_path(
+              @app.key, 
+              kind: "fixed_sidebar"
+            ), data: {turbo_permanent: true} do %>
+            loading
+        <%  end %>
+
+       </div>
       <% else %>
         <%= yield %>
       <% end %>

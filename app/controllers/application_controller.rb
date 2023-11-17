@@ -209,7 +209,10 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
-    return false if turbo_frame_request?
+     if turbo_frame_request?
+      return "application" if request.headers['Turbo-Frame'] == "content"
+      return false
+     end
 
     if devise_controller?
       "devise"

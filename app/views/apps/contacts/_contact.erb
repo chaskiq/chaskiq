@@ -27,7 +27,8 @@
             <div class="mt-3 flex flex-wrap">
                <span class="flex-shrink-0 w-full inline-flex rounded-md shadow-sm sm:flex-1">
                   <a class="btn btn-flat-dark sm" 
-                     data-turbo-frame="_top"
+                     data-turbo-frame="content"
+                     data-turbo-action="advance"
                      href="<%= app_contact_path(@app.key, @app_user) %>">
                      show profile
                   </a>

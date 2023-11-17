@@ -4,14 +4,16 @@
       label: "Profile Details",
       href: app_agent_path(@app.key, @agent),
       active: false,
-      turbo_frame: "_top",
+      turbo_frame: "content",
+      turbo_action: "advance"
       active: params[:tab].blank?
     },
     {
       label: "Conversations",
       href: app_agent_path(@app.key, @agent, tab: "conversations"),
       active: params[:tab] == "conversations",
-      turbo_frame: "_top"
+      turbo_frame: "advance",
+      turbo_frame: "content",
     }
   ]
 %>

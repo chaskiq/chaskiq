@@ -433,6 +433,10 @@ window.Chaskiq = window.Chaskiq || {
   },
 
   loadUserTour(data) {
+    if(document.getElementById('tourManagerFrame')) {
+      console.log("skip tour as tour manager is active")
+     return
+    }
     const pattern = new UrlPattern(data.url.replace(/^.*\/\/[^\/]+/, ''));
     const currentLocation = document.location.pathname;
     if (pattern.match(currentLocation)) {
@@ -655,6 +659,7 @@ window.Chaskiq = window.Chaskiq || {
           this.handleFrameEvents(event.data.data);
           break;
         case 'chaskiq:tours':
+          debugger
           this.handleTourEditor.bind(this)(event.data);
           break;
         case 'chaskiq:banners':
@@ -708,7 +713,7 @@ window.Chaskiq = window.Chaskiq || {
   },
 
   handleTourEditor: function (data) {
-    // console.log('RECIVED EVENT FROM TOUR EDITOR, SENDING TO TOURMANAGER', data);
+    console.log('RECIVED EVENT FROM TOUR EDITOR, SENDING TO TOURMANAGER', data);
     this.tourManager.pushEvent(data);
   },
 

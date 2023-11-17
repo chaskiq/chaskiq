@@ -5,6 +5,8 @@
 				<a
 					href="<%= item[:href] %>"
 					<%= item[:turbo_frame] ? "data-turbo-frame=#{item[:turbo_frame]}" : ''  %>
+					<%= item[:turbo_action] ? "data-turbo-action=#{item[:turbo_action]}" : ''  %>
+
 					class="tab-item <%= item[:active] ? 'active' : '' %> <%= i > 0 and 'ml-4 lg:ml-8' %>">
 					<%= item[:icon] and item[:icon] %>
 					<span><%= item[:label] %></span>

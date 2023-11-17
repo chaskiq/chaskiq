@@ -34,13 +34,15 @@ class TourManager {
   }
 
   pushEvent(data) {
-    // console.log("ABOUT TO PUSH", data)
+    console.log("ABOUT TO PUSH", data)
+    debugger
     switch (data.action) {
       case 'disablePreview':
         this.disablePreview();
         break;
+      case 'activatePreview':
       case 'enablePreview':
-        this.enablePreview();
+        this.activatePreview();
         break;
 
       case 'removeItem':
@@ -137,8 +139,7 @@ class TourManager {
 
     const cssPath = finder(target); // Assuming 'finder' is available in the context
     const encodedCssPath = encodeURIComponent(cssPath);
-    debugger;
-    const url = `http://localhost:3000/apps/kLNE8uApck2uRH8phAGWpGNJ/campaigns/16/tour_step?target=${encodedCssPath}`;
+    const url = document.querySelector("#tourManagerFrame").src.replace("tour_editor", `tour_step?target=${encodedCssPath}`)
     const path = {
       target: cssPath,
       content: `<div>
@@ -198,7 +199,7 @@ class TourManager {
 
   createAndInsertIframe(isCollapsed) {
     // Ensure there's only one iframe at a time with the specified ID
-    const existingIframe = document.getElementById('customIframe');
+    const existingIframe = document.getElementById('tourManagerFrame');
     if (existingIframe) {
       document.body.removeChild(existingIframe);
       this.editorIframe = null;
@@ -206,7 +207,7 @@ class TourManager {
 
     // Create the iframe element
     this.editorIframe = document.createElement('iframe');
-    this.editorIframe.id = 'customIframe';
+    this.editorIframe.id = 'tourManagerFrame';
     this.editorIframe.title = 'tour manager';
     this.editorIframe.style.zIndex = '100000000';
     this.editorIframe.src = `${this.state.tourUrl}/tour_editor`;
@@ -526,11 +527,6 @@ class TourManager {
           // this.enableSelection()
         }, 500)
     );
-  }
-
-  addStep(data) {
-    debugger;
-    //this.enableSelectionMode()
   }
 
   disableEditMode() {

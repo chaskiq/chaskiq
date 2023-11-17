@@ -11,7 +11,7 @@
 								<div class="flex items-center">
 									#{image_tag record.icon_url, class: 'h-10 mr-2' }
 									<div class="flex flex-col space-y-1">
-										#{link_to record.title, app_articles_collection_path(@app.key, record), class: 'text-lg font-bold text-md', data: {turbo_frame: '_top'}}
+										#{link_to record.title, app_articles_collection_path(@app.key, record), class: 'text-lg font-bold text-md', data: {turbo_frame: "content", turbo_action: "advance"}}
 										<p class="text-sm text-gray-400">#{record.description}</p>
 									</div>
 								</div>

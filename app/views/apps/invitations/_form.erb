@@ -4,7 +4,7 @@
 		<%= I18n.t('settings.team.title_content') %>
 	</h3>
 
-	<%= form_for @agent, url: app_invitations_path(@app.key), data: {"modal-target": 'form', turbo_frame: "_top"} do |f|%>
+	<%= form_for @agent, url: app_invitations_path(@app.key), data: {"modal-target": 'form', turbo_frame: "content", turbo_action: "advance"} do |f|%>
 		<%= f.text_field :email, hint: I18n.t('settings.team.hint') %>
 
 		<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">

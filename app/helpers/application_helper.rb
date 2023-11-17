@@ -76,19 +76,22 @@ module ApplicationHelper
     [{
       href: app_team_index_path(app.key),
       label: I18n.t("settings.team.title"),
-      turbo_frame: "_top",
+      turbo_action: "advance",
+      turbo_frame: "content",
       active: controller.controller_name == "team"
     },
      {
        href: app_invitations_path(app.key),
        label: I18n.t("settings.team.invitations"),
-       turbo_frame: "_top",
+       turbo_action: "advance",
+       turbo_frame: "content",
        active: controller.controller_name == "invitations"
      },
      {
        href: app_team_groups_path(app.key),
        label: "Teams",
-       turbo_frame: "_top",
+       turbo_action: "advance",
+       turbo_frame: "content",
        active: controller.controller_name == "team_groups"
      }]
   end
@@ -98,43 +101,50 @@ module ApplicationHelper
       {
         label: I18n.t("settings.app.app_settings"),
         href: app_settings_path(app.key),
-        turbo_frame: "_top",
+        turbo_action: "advance",
+        turbo_frame: "content",
         active: controller.controller_name == "settings"
       },
       {
         label: I18n.t("settings.app.security"),
         href: app_security_index_path(app.key),
-        turbo_frame: "_top",
+        turbo_action: "advance",
+        turbo_frame: "content",
         active: controller.controller_name == "security"
       },
       {
         label: I18n.t("settings.app.user_data"),
         href: app_user_data_path(app.key),
-        turbo_frame: "_top",
+        turbo_action: "advance",
+        turbo_frame: "content",
         active: controller.controller_name == "user_data"
       },
       {
         label: I18n.t("settings.app.tags"),
         href: app_tags_path(app.key),
-        turbo_frame: "_top",
+        turbo_action: "advance",
+        turbo_frame: "content",
         active: controller.controller_name == "tags"
       },
       {
         label: I18n.t("settings.app.quick_replies"),
         href: app_quick_replies_path(app.key),
-        turbo_frame: "_top",
+        turbo_action: "advance",
+        turbo_frame: "content",
         active: controller.controller_name == "quick_replies"
       },
       {
         label: I18n.t("settings.app.contact_avatars"),
         href: app_contact_avatars_path(app.key),
-        turbo_frame: "_top",
+        turbo_action: "advance",
+        turbo_frame: "content",
         active: controller.controller_name == "avatar"
       },
       {
         label: I18n.t("settings.app.email_forwarding"),
         href: app_email_forwarding_index_path(app.key),
-        turbo_frame: "_top",
+        turbo_action: "advance",
+        turbo_frame: "content",
         active: controller.controller_name == "email_forwarding"
       }
     ]
@@ -175,55 +185,64 @@ module ApplicationHelper
     [{
       label: I18n.t("settings.app.appearance"),
       href: app_messenger_index_path(app.key),
-      turbo_frame: "_top",
+      turbo_action: "advance",
+      turbo_frame: "content",
       active: controller.controller_name == "messenger" && controller.action_name == "index"
     },
      {
        label: I18n.t("settings.app.translations"),
        href: edit_app_messenger_path(app.key, :translations),
-       turbo_frame: "_top",
+       turbo_action: "advance",
+       turbo_frame: "content",
        active: params[:id] == "translations"
      },
      {
        label: I18n.t("settings.app.privacy"),
        href: edit_app_messenger_path(app.key, :privacy),
-       turbo_frame: "_top",
+       turbo_action: "advance",
+       turbo_frame: "content",
        active: params[:id] == "privacy"
      },
      {
        label: "Apps",
        href: edit_app_messenger_path(app.key, :apps),
-       turbo_frame: "_top",
+       turbo_action: "advance",
+       turbo_frame: "content",
        active: params[:id] == "apps"
      },
      {
        label: I18n.t("settings.app.availability"),
        href: edit_app_messenger_path(app.key, :availability),
-       turbo_frame: "_top",
+       turbo_action: "advance",
+       turbo_frame: "content",
        active: params[:id] == "availability"
      },
      {
        label: I18n.t("settings.app.email_requirement"),
        href: edit_app_messenger_path(app.key, :email_requirement),
-       turbo_frame: "_top",
+       turbo_action: "advance",
+       turbo_frame: "content",
        active: params[:id] == "email_requirement"
      },
      {
        label: I18n.t("settings.app.inbound_settings"),
        href: edit_app_messenger_path(app.key, :inbound_settings),
-       turbo_frame: "_top",
+       turbo_action: "advance",
+       turbo_frame: "content",
        active: params[:id] == "inbound_settings"
      },
      {
        label: "Editor Settings",
        href: edit_app_messenger_path(app.key, :editor_settings),
-       turbo_frame: "_top",
+       turbo_action: "advance",
+       turbo_frame: "content",
        active: params[:id] == "editor_settings"
      },
      {
        label: I18n.t("settings.app.messenger_style"),
        href: edit_app_messenger_path(app.key, :style_settings),
-       turbo_frame: "_top",
+       turbo_action: "advance",
+       turbo_frame: "content",
        active: params[:id] == "style_settings"
      }]
   end
@@ -272,13 +291,15 @@ module ApplicationHelper
       label: t("task_bots.settings.leads.tab"),
       href: leads_app_bots_path(app.key),
       active: (controller.action_name == "leads"),
-      turbo_frame: "_top"
+      turbo_frame: "content",
+      turbo_action: "advance"
     },
      {
        label: t("task_bots.settings.users.tab"),
        href: users_app_bots_path(app.key),
        active: controller.action_name == "users",
-       turbo_frame: "_top"
+       turbo_frame: "content",
+       turbo_action: "advance"
      }]
   end
 
@@ -288,25 +309,29 @@ module ApplicationHelper
         label: t("campaigns.tabs.stats"),
         href: edit_app_bot_path(app.key, bot, tab: "stats"),
         active: params[:tab] == "stats" || params[:tab].blank?,
-        turbo_frame: "_top"
+        turbo_frame: "content",
+        turbo_action: "advance"
       },
       {
         label: t("campaigns.tabs.settings"),
         href: edit_app_bot_path(app.key, bot, tab: "settings"),
         active: params[:tab] == "settings",
-        turbo_frame: "_top"
+        turbo_frame: "content",
+        turbo_action: "advance"
       },
       {
         label: t("campaigns.tabs.audience"),
         href: edit_app_bot_path(app.key, bot, tab: "audience"),
         active: params[:tab] == "audience",
-        turbo_frame: "_top"
+        turbo_frame: "content",
+        turbo_action: "advance"
       },
       {
         label: t("campaigns.tabs.editor"),
         href: edit_app_bot_path(app.key, bot, tab: "editor"),
         active: params[:tab] == "editor",
-        turbo_frame: "_top"
+        turbo_frame: "content",
+        turbo_action: "advance"
       }
     ]
   end
@@ -317,25 +342,29 @@ module ApplicationHelper
         label: t("campaigns.tabs.stats"),
         href: edit_app_campaign_path(app.key, campaign, tab: "stats"),
         active: params[:tab] == "stats",
-        turbo_frame: "_top"
+        turbo_frame: "content",
+        turbo_action: "advance"
       },
       {
         label: t("campaigns.tabs.settings"),
         href: edit_app_campaign_path(app.key, campaign, tab: "settings"),
         active: params[:tab] == "settings",
-        turbo_frame: "_top"
+        turbo_frame: "content",
+        turbo_action: "advance"
       },
       {
         label: t("campaigns.tabs.audience"),
         href: edit_app_campaign_path(app.key, campaign, tab: "audience"),
         active: params[:tab] == "audience",
-        turbo_frame: "_top"
+        turbo_frame: "content",
+        turbo_action: "advance"
       },
       {
         label: t("campaigns.tabs.editor"),
         href: edit_app_campaign_path(app.key, campaign, tab: "editor"),
         active: params[:tab] == "editor",
-        turbo_frame: "_top"
+        turbo_frame: "content",
+        turbo_action: "advance"
       }
     ]
   end

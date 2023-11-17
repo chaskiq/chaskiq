@@ -6,7 +6,7 @@
 			
 		<% end %>
 
-		<%= render Tabs::Component.new(	items: messenger_menu_data(app: @app), turbo_frame: "_top" ) do %>
+		<%= render Tabs::Component.new(	items: messenger_menu_data(app: @app), turbo_frame: "content", turbo_action: "advance" ) do %>
 			<%= render 'appearance'%>
 		<% end %>
 

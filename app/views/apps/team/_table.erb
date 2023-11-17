@@ -10,17 +10,17 @@
 								<div class="flex items-center">
 									<div class="flex-shrink-0 h-10 w-10">
 										#{ 
-											link_to app_agent_path(@app.key, record.agent_id), data: {turbo_frame: "_top"} do
+											link_to app_agent_path(@app.key, record.agent_id), data: {turbo_frame: "content", turbo_action: "advance"} do
 												image_tag record.avatar_url , class: 'h-10 w-10 rounded-full'
 											end
 										}
 									</div>
 									<div class="ml-4">
 											<div class="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
-												#{ link_to record.name , app_agent_path(@app.key, record.agent_id), data: {turbo_frame: "_top"} }
+												#{ link_to record.name , app_agent_path(@app.key, record.agent_id), data: {turbo_frame: "content", turbo_action: "advance"} }
 											</div>
 											<div class="text-sm leading-5 text-gray-500">
-												#{ link_to record.email , app_agent_path(@app.key, record.agent_id), data: {turbo_frame: "_top"} }
+												#{ link_to record.email , app_agent_path(@app.key, record.agent_id), data: {turbo_frame: "content", turbo_action: "advance"} }
 											</div>
 									</div>
 								</div>

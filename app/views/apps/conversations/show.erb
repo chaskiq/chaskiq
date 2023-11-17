@@ -16,7 +16,7 @@
 					<h3 class="mb-1 text-xs text-grey-darkest hidden md:block">
 						<%= t("conversation.with") %> <br>
 						<span class="font-extrabold hover:text-underline">
-							<%= link_to @conversation.main_participant.display_name, app_contact_path(@app.key, @conversation.main_participant), "data-turbo-frame": "_top" %>
+							<%= link_to @conversation.main_participant.display_name, app_contact_path(@app.key, @conversation.main_participant), data: {turbo_frame: "content", turbo_action: "advance"} %>
 						</span>
 					</h3>
 				</div>

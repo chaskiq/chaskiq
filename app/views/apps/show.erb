@@ -10,7 +10,7 @@
 
       <%= link_to "Chat tester", "/tester/#{@app.key}", target: "_blank", class: "btn btn-outlined" %>
       
-      <%= link_to "Playground", "/playground", class: "btn btn-outlined" %>
+      <%= link_to "Playground", "/playground", class: "btn btn-outlined", data: {  "turbo-action": "advance"}  %>
     </div>
   </div>
 
@@ -32,7 +32,7 @@
               <% if action[:external_link] %>
                 <%= link_to action[:title], action[:external_link], rel: "noopener noreferrer", class: "focus:outline-none" %>
               <% else %>
-                <%= link_to action[:title], action[:href], class: "focus:outline-none" %>
+                <%= link_to action[:title], action[:href], class: "focus:outline-none", data: {  "turbo-action": "advance"} %>
               <% end %>
             </h3>
 
