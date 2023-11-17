@@ -34,8 +34,8 @@ class TourManager {
   }
 
   pushEvent(data) {
-    console.log("ABOUT TO PUSH", data)
-    debugger
+    console.log('ABOUT TO PUSH', data);
+    debugger;
     switch (data.action) {
       case 'disablePreview':
         this.disablePreview();
@@ -139,7 +139,9 @@ class TourManager {
 
     const cssPath = finder(target); // Assuming 'finder' is available in the context
     const encodedCssPath = encodeURIComponent(cssPath);
-    const url = document.querySelector("#tourManagerFrame").src.replace("tour_editor", `tour_step?target=${encodedCssPath}`)
+    const url = document
+      .querySelector('#tourManagerFrame')
+      .src.replace('tour_editor', `tour_step?target=${encodedCssPath}`);
     const path = {
       target: cssPath,
       content: `<div>

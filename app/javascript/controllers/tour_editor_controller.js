@@ -102,7 +102,7 @@ export default class extends Controller {
   }
 
   activatePreview(e) {
-    debugger
+    debugger;
     window.parent.postMessage(
       {
         type: 'chaskiq:tours',

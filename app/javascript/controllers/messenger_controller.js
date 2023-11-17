@@ -96,7 +96,7 @@ export default class extends Controller {
 
           break;
         case 'tours:receive':
-          debugger
+          debugger;
           message = {
             type: 'chaskiq:user_tour_receive',
             data: data.data,

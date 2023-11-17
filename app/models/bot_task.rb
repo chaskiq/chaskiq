@@ -230,10 +230,10 @@ class BotTask < Message
   def bot_paths_objects
     return @bot_paths_objects = [] if paths.blank?
 
-    @bot_paths_objects ||= (paths.map { |o|
+    @bot_paths_objects ||= paths.map do |o|
       o.delete("followActions")
-      BotPath.new(o) 
-    } || [])
+      BotPath.new(o)
+    end || []
   end
 
   def bot_paths_objects=(attrs)

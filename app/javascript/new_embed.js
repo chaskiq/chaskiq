@@ -433,9 +433,9 @@ window.Chaskiq = window.Chaskiq || {
   },
 
   loadUserTour(data) {
-    if(document.getElementById('tourManagerFrame')) {
-      console.log("skip tour as tour manager is active")
-     return
+    if (document.getElementById('tourManagerFrame')) {
+      console.log('skip tour as tour manager is active');
+      return;
     }
     const pattern = new UrlPattern(data.url.replace(/^.*\/\/[^\/]+/, ''));
     const currentLocation = document.location.pathname;
@@ -659,7 +659,7 @@ window.Chaskiq = window.Chaskiq || {
           this.handleFrameEvents(event.data.data);
           break;
         case 'chaskiq:tours':
-          debugger
+          debugger;
           this.handleTourEditor.bind(this)(event.data);
           break;
         case 'chaskiq:banners':
