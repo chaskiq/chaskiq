@@ -119,6 +119,14 @@ class Message < ApplicationRecord
                                     Arel::Nodes.build_quoted(BotTask.type_predicate_for(filter).to_json.to_s))
   end
 
+  def state_color
+    case state
+    when "sent", "enabled" then "green"
+    when "disabled" then "gray"
+    when "open" then "blue"
+    end
+  end
+
   def step_1?
     step == 1
   end

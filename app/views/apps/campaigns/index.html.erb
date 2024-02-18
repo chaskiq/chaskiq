@@ -23,7 +23,12 @@
               }) 
             }
           },
-          { name: :state}
+          { name: :state, render: lambda{|record|
+              raw(
+                render( Badge::Component.new(variant: record.state_color, class_name: 'mr-2')){ record.state } 
+              )
+            }
+          }
         ]
       },
       paginate: paginate(@collection)

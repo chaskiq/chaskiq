@@ -16,7 +16,7 @@ class Agents::SessionsController < Devise::SessionsController
   # end
 
   def create
-    require_no_authentication
+    # require_no_authentication
 
     respond_to do |format|
       format.html do

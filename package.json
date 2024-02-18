@@ -15,8 +15,8 @@
     "@emotion/styled": "^11.10.6",
     "@headlessui/react": "^1.5.0",
     "@hotwired/stimulus": "^3.2.1",
-    "@hotwired/turbo": "git+https://github.com/michelson/turbo.git#build4",
-    "@hotwired/turbo-rails": "^7.3.0",
+    "@hotwired/turbo": "8.0.0-beta.2",
+    "@hotwired/turbo-rails": "8.0.0-beta.2",
     "@medv/finder": "^2.1.0",
     "@nivo/calendar": "^0.79.0",
     "@nivo/core": "^0.79.0",
@@ -164,7 +164,7 @@
     "path": "path-browserify"
   },
   "resolutions": {
-    "@hotwired/turbo": "git+https://github.com/michelson/turbo.git#build4"
+    "@emotion/react": "11.11.3"
   },
   "scripts": {
     "format:js": "npx eslint --silent --fix ./app/javascript",
