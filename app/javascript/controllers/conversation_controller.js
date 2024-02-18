@@ -36,13 +36,13 @@ export default class extends Controller {
 
   scrollToBottom() {
     const overflow = document.getElementById('conversation-overflow');
-    if(!overflow) return
+    if (!overflow) return;
     overflow.scrollTop = overflow.scrollHeight;
   }
 
   toggleSidebar() {
     const sidebar = document.getElementById('conversation-sidebar');
-    if(!sidebar) return
+    if (!sidebar) return;
     //sidebar.classList.toggle('hidden')
     sidebar.classList.toggle('sm:block');
   }
