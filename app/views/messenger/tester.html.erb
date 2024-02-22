@@ -1,0 +1,52 @@
+<html>
+
+  <head>
+     <meta content='True' name='HandheldFriendly'>
+    <meta content='320' name='MobileOptimized'>
+    <% #= javascript_include_tag "new_application", "data-turbo-track": "reload", defer: true %>
+    <%= javascript_include_tag "new_embed", "data-turbo-track": "reload", defer: true %>
+
+    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+  </head>
+
+  <body style="background:red;">
+
+
+    <div id="uno"> uno </div>
+    <div> dos </div>
+    <div> tres </div>
+
+    <div id="tour-log">log here</div>
+    
+    <div id="someId">
+    </div>
+
+
+    <script type="text/javascript">
+      window.onload = function() { 
+        /*Chaskiq.load(
+          { 
+            //selector: "#someId",
+            domain: '<%= Chaskiq::Config.get("HOST") %>',
+            ws: '<%= Rails.application.config.action_cable.url %>',
+            app_id: "<%= @app.key %>",
+            data: <%= raw @encrypted_data %>,
+            lang: "USER_LANG_OR_DEFAULTS_TO_BROWSER_LANG" 
+          }
+        ); */
+
+        window.c = new window.ChaskiqMessengerEncrypted({
+          domain: '<%= Chaskiq::Config.get("HOST") %>',
+          ws: '<%= Rails.application.config.action_cable.url %>',
+          app_id: "<%= @app.key %>",
+          data: <%= raw @encrypted_data %>,
+          lang: "USER_LANG_OR_DEFAULTS_TO_BROWSER_LANG" 
+        })
+
+      }
+    </script> 
+  </body>
+
+</html>
+

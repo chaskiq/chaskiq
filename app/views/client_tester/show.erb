@@ -19,10 +19,13 @@
 <% content_for :body do %>
   <%= render "store" %>
 
+
+  <%= embed_path = params[:old_embed].present? ? "embed.js" : "new_embed.js" %>
+  
   <script>
     (function(d,t) {
       var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src=`${"<%= Chaskiq::Config.get("HOST") %>"}/embed.js`
+      g.src=`${"<%= Chaskiq::Config.get("HOST") %>"}/<%= embed_path %>`
       s.parentNode.insertBefore(g,s);
       g.onload=function(){
         window.chaskiqMessenger = new window.ChaskiqMessengerEncrypted({
@@ -35,6 +38,28 @@
       }
     })(document,"script");
   </script>
+ 
+
+  <!-- >
+    <script>
+    (function(d,t) {
+      var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=`${"<%= Chaskiq::Config.get("HOST") %>"}/new_embed.js`
+      s.parentNode.insertBefore(g,s);
+      g.onload=function(){
+        window.chaskiqMessenger = new window.ChaskiqMessengerEncrypted({
+          domain: "<%= Chaskiq::Config.get("HOST") %>",
+          ws:  '<%= Rails.application.config.action_cable.url %>',
+          data: <%= raw @encrypted_data %>,
+          lang: "<%= @lang %>",
+          app_id: "<%= @app.key %>"
+        })
+      }
+    })(document,"script");
+
+    </script>
+  -->
+
 
   <script>
 

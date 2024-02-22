@@ -1,0 +1,40 @@
+<%= turbo_frame_tag "inbound-settings-form" do %>
+
+  <!-- namespace <%= @namespace %> -->
+	<%= form_for @app, url: app_inbound_setting_path(@app.key, @namespace), 
+		data: {controller: 'segment-manager', turbo: "true"} do |f| %>
+
+		<%= render Hints::Component.new(type: 'inbound_settings') %>
+
+		<div class="inline-flex mt-4">
+			<a 
+				href="<%= app_inbound_setting_path(@app.key, 'users') %>"
+				data-tab="users"
+				class="<%= @namespace == "users" ? "tab-active-left" : "tab-default-left" %>"
+				>
+				Users
+			</a>
+
+			<a 
+				href="<%= app_inbound_setting_path(@app.key, 'visitors') %>"
+				class="<%= @namespace == "visitors" ? "tab-active-right" : "tab-default-right" %>"
+				>
+				Visitors
+			</a>
+		</div>
+
+		<%= f.fields_for :inbound_settings_objects_attributes, @app.inbound_settings_objects do |ff|%>
+      <%= render "apps/inbound_settings/form_fields", 
+        form: ff, 
+        namespace: @namespace, 
+        segment_manager: segment_manager, 
+        collection: collection %>
+			<% #= render "apps/inbound_settings/form", form: ff, namespace: "visitors" %>
+		<% end %>
+
+		<div class="pb-4">	
+    	<%= f.button I18n.t('common.save'), class: 'btn btn-success'%>
+  	</div>
+	<% end %>
+
+<% end %>

@@ -1,0 +1,60 @@
+<%= form_for @segment, url: app_segment_path(@app.key) do |f| %>
+	
+	<%= I18n.t('segment_manager.save_segment') %>
+
+	<%= @segment.name %>
+
+	<div data-controller="visibility-toggle">
+		<p class="text-sm leading-5 text-gray-500">
+			<%= I18n.t('segment_manager.changes_notice') %>
+		</p>
+
+		<label class="inline-flex items-center">
+			<input
+				type="radio"
+				class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+				name="options"
+				value='update'
+				checked
+				data-action="click->visibility-toggle#hide"
+				onChangess={this.handleChange.bind(this)}
+			/>
+			<span class="ml-2">
+				<%= I18n.t('segment_manager.save_changes_to', name: @segment.name ).html_safe %>
+			</span>
+		</label>
+
+		<label class="inline-flex items-center">
+			<input
+				type="radio"
+				class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+				name="options"
+				value='new'
+				data-action="click->visibility-toggle#show"
+				onChangesss={this.handleChange.bind(this)}
+			/>
+			<span class="ml-2">
+				<%= I18n.t('segment_manager.create_segment') %>
+			</span>
+		</label>
+
+		<%= f.hidden_field :predicates, data: { 'controller': 'attribute-clone', 'clone-from': '#current-segment-predicates'} %>
+
+		<div class="hidden" data-visibility-toggle-target='inputToggle'>
+			<%= f.text_field :name, value: f.object.name + ' ' + t("common.new") %>
+		</div>
+
+	</div>
+
+	<div class="flex justify-end space-x-3">
+		<button class='btn sm btn-success'>
+			<%= t("common.save") %>
+			<!-- {this.state.action === 'update' ? 'Save' : 'Save New'} -->
+		</button>
+		<button
+			data-action="click->modal#close"
+			class='btn sm btn-outlined'>
+			<%= I18n.t('common.cancel') %>
+		</button>
+	</div>
+<% end %>

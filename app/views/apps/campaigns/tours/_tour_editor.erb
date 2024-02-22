@@ -1,0 +1,58 @@
+<div data-controller="tour-editor" 
+  id="tour-editor"
+  class="flex flex-col justify-between items-center border-t shadow-lg bg-yellow-50">
+
+  <div id="chaskiq-tours-custom-events"></div>
+
+  <div data-tour-editor-target="stepsWrapper" 
+    class="w-full p-3 bg-white flex items-center justify-center  overflow-x-auto">
+
+    <div class="w-full overflow-scroll flex" id="<%= dom_id(@campaign) %>">
+    
+      <div class="bg-gray-200 w-32 h-32 min-h-full shadow-md border rounded-md flex items-center">
+        <div class="w-full h-full justify-center items-center flex relative">
+
+          <a 
+            data-action="click->tour-editor#addStep"
+            data-url="<%= tour_step_app_campaign_url(@app.key, @campaign) %>"
+            class="mx-8 p-6 inline-flex text-gray-700 text-center h-10 items-center border border-transparent 
+              rounded-full shadow-sm bg-gray-300 hover:bg-gray-400 
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+            +
+          </a>
+        
+        </div>
+      </div>
+
+      <% @campaign.steps_objects.each_with_index do |step, index| %>
+        <%= render "apps/campaigns/tours/tour_step_item", 
+          step: step, 
+          index: index,
+          url: tour_step_app_campaign_url(@app.key, @campaign, position: index)
+        %>
+      <% end %>
+    
+    </div>
+  </div>
+
+  <div class="w-full p-3 bg-black text-white flex justify-between items-center">
+    <div data-tour-editor-target="cssPath"></div>
+    <div class="self-end">
+      <div data-tour-editor-target="preview"></div>
+      <div class="flex space-x-2">
+        <button data-action="click->tour-editor#disablePreview">
+            exit preview
+        </button>
+    
+        <div>
+          <button data-action="click->tour-editor#activatePreview">
+            preview
+          </button>
+          <button data-action="click->tour-editor#handleSaveTour">
+            save tour
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

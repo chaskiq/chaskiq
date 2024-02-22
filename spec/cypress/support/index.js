@@ -1,3 +1,6 @@
+// CypressOnRails: dont remove these command
+
+
 // ***********************************************************
 // This example support/index.js is processed and
 // loaded automatically before your test files.
@@ -18,74 +21,74 @@
 // import './on-rails'
 import 'cypress-xpath'
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  if (err.message.includes('500')) {
+    console.error('Caught an exception with 500 status code', err);
+    return false;
+  }
+});
 
-
-
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This is will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-
-
-// on-rails.js
-
-// CypressOnRails: dont remove these command
 Cypress.Commands.add('appCommands', function (body) {
-  cy.log('APP: ' + JSON.stringify(body))
-  cy.request({
+  Object.keys(body).forEach(key => body[key] === undefined ? delete body[key] : {});
+  const log = Cypress.log({ name: "APP", message: body, autoEnd: false })
+  return cy.request({
     method: 'POST',
-    url: '/__cypress__/command',
+    url: "/__e2e__/command",
     body: JSON.stringify(body),
-    log: true,
-    failOnStatusCode: true
+    log: false,
+    failOnStatusCode: false
   }).then((response) => {
+    log.end();
+    if (response.status !== 201) {
+      expect(response.body.message).to.equal('')
+      expect(response.status).to.be.equal(201)
+    }
     return response.body
-  })
-})
+  });
+});
 
 Cypress.Commands.add('app', function (name, command_options) {
-  return cy.appCommands({ name: name, options: command_options }).then((body) => {
+  return cy.appCommands({name: name, options: command_options}).then((body) => {
     return body[0]
-  })
-})
+  });
+});
 
 Cypress.Commands.add('appScenario', function (name, options = {}) {
   return cy.app('scenarios/' + name, options)
-})
+});
 
 Cypress.Commands.add('appEval', function (code) {
   return cy.app('eval', code)
-})
+});
 
 Cypress.Commands.add('appFactories', function (options) {
   return cy.app('factory_bot', options)
-})
+});
 
 Cypress.Commands.add('appFixtures', function (options) {
   cy.app('activerecord_fixtures', options)
-})
+});
 // CypressOnRails: end
+
+// The next is optional
+// beforeEach(() => {
+//  cy.app('clean') // have a look at cypress/app_commands/clean.rb
+// });
+
+// comment this out if you do not want to attempt to log additional info on test fail
+Cypress.on('fail', (err, runnable) => {
+  // allow app to generate additional logging data
+  Cypress.$.ajax({
+    url: '/__e2e__/command',
+    data: JSON.stringify({name: 'log_fail', options: {error_message: err.message, runnable_full_title: runnable.fullTitle() }}),
+    async: false,
+    method: 'POST'
+  });
+
+  throw err;
+});
+
+
 
 // The next is optional
 beforeEach(() => {
@@ -95,8 +98,8 @@ beforeEach(() => {
 // comment this out if you do not want to attempt to log additional info on test fail
 Cypress.on('fail', (err, runnable) => {
   // allow app to generate additional logging data
-  Cypress.$.ajax({
-    url: '/__cypress__/command',
+  /*Cypress.$.ajax({
+    url: '/__e2e__/command',
     data: JSON.stringify({
       name: 'log_fail',
       options: {
@@ -106,7 +109,9 @@ Cypress.on('fail', (err, runnable) => {
     }),
     async: false,
     method: 'POST'
-  })
+  })*/
+
+  console.error('Caught an exception with 500 status code', err);
 
   throw err
 })
@@ -120,10 +125,10 @@ export function translations () {
     greetings_en: "hello friend",
 
     intro_en: "we are here to help",
-    tagline_en: "estamos aqui para ayudarte",
-
     intro_es: "somos un equipo genial",
-    tagline_es: "we are an awesome team"
+
+    tagline_es: "estamos aqui para ayudarte",
+    tagline_en: "we are an awesome team"
   })`)
 }
 
@@ -155,6 +160,31 @@ export function openMessenger (cb, options, sessionless) {
   })
 }
 
+export function openNewMessenger (cb, options, sessionless) {
+  cy.appEval('App.last').then((results) => {
+    const appKey = results.key
+    const params = options.params
+    let urlParams = params
+    if (sessionless) {
+      urlParams = Object.assign(
+        urlParams, {}, { sessionless: sessionless }
+      )
+    }
+
+    cy.visit(`/tester/${appKey}`, { qs: urlParams, headers: options.headers || {} })
+      .then(() => {
+        cy.wait(500)
+        cy.get('#chaskiq-prime').click().then(()=>{
+          cy.get('iframe:first')
+          .then(function ($iframe) {
+            const $body = $iframe.contents().find('body')
+            cb($body, appKey)
+          })
+        })
+      })
+  })
+}
+
 export function login () {
   cy.appScenario('basic')
   cy.visit('/')
@@ -162,15 +192,15 @@ export function login () {
 
   cy.wait(1000)
 
-  cy.get('input[name="email"]')
+  cy.get('input[type="email"]')
     .type('test@test.cl').should('have.value', 'test@test.cl')
 
-  cy.get('input[name="password"]')
+  cy.get('input[type="password"]')
     .type('123456').should('have.value', '123456')
 
-  cy.get('button[type="submit"]').click()
+  cy.get('button[data-cy="connect"]').click()
 
-  cy.get('body').should('contain', 'Welcome to Chaskiq')
+  cy.get('body').should('contain', 'Welcome to')
 }
 
 export function findButtonByName (name) {

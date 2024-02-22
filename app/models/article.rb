@@ -38,6 +38,8 @@ class Article < ApplicationRecord
   extend FriendlyId
   friendly_id :title, use: :scoped, scope: %i[app_id article_collection_id article_section_id]
 
+  validates :title, presence: true
+
   has_many_attached :images
 
   translates :title, :description
@@ -64,6 +66,11 @@ class Article < ApplicationRecord
     end
   end
 
+  def toggle
+    new_state = state == "published" ? "draft" : "published"
+    update(state: new_state)
+  end
+
   def set_published_at
     self.published_at = Time.zone.now
     save
@@ -71,5 +78,15 @@ class Article < ApplicationRecord
 
   def serialized_content
     JSON.parse(article_content.serialized_content)
+  rescue StandardError
+    nil
+  end
+
+  def html_from_serialized
+    json = serialized_content
+    return if json.blank?
+
+    data = ActiveSupport::HashWithIndifferentAccess.new(json)
+    Dante::Renderer.new(raw: data, domain: Chaskiq::Config.get("HOST")).render
   end
 end

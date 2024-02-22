@@ -1,0 +1,8 @@
+
+<div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
+  <% definitions.each do |definition| %>
+    <div class="<%= definition.dig(:col) %>">
+      <%= foo(definition) %>
+    </div>
+  <% end %>
+</div>

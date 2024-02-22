@@ -1,0 +1,28 @@
+<%= form_for @bot, url: app_bots_path(@app.key), data: {turbo_frame: "_top"} do |f| %>
+  
+  <p class="text-md font-bold dark:text-gray-100">
+    <%= t('task_bots.create.title') %>
+  </p>
+
+  <%= f.text_field(:title, 
+    label: t('definitions.bot_tasks.title.label'),
+    placeholder: t('definitions.bot_tasks.title.placeholder'),
+    hint: t('definitions.bot_tasks.title.hint')
+  ) %>
+
+  <%= f.hidden_field :bot_type %>
+
+  <div class="flex justify-end space-x-3">
+    <button 
+      class="btn btn-outlined">
+      <%= I18n.t('common.cancel') %>
+    </button>
+
+    <button
+      data-cy="bot-task-create"
+      class="mr-1 btn btn-success"
+    >
+      <%= I18n.t('common.create') %>
+    </button>
+  </div>
+<% end %>

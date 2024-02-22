@@ -43,7 +43,7 @@ describe('Availability spec', function () {
 
     cy.appEval('App.last').then((results) => {
       const appKey = results.key;
-      cy.visit(`/tester/${appKey}`).then(() => {
+      cy.visit(`/tester/${appKey}`,{qs: {old_embed: true}}).then(() => {
         cy.get('iframe:first').then(function ($iframe) {
           const $body = $iframe.contents().find('body');
           cy.wrap($body).find('#chaskiq-prime').click();
@@ -57,7 +57,7 @@ describe('Availability spec', function () {
 
     cy.appEval('App.last').then((results) => {
       const appKey = results.key;
-      cy.visit(`/tester/${appKey}?lang=es`).then(() => {
+      cy.visit(`/tester/${appKey}?lang=es&old_embed=true`).then(() => {
         cy.get('iframe:first').then(function ($iframe) {
           const $body = $iframe.contents().find('body');
           cy.wrap($body).find('#chaskiq-prime').click();
@@ -80,7 +80,7 @@ describe('Availability spec', function () {
 
     cy.appEval('App.last').then((results) => {
       const appKey = results.key;
-      cy.visit(`/tester/${appKey}`).then(() => {
+      cy.visit(`/tester/${appKey}?old_embed=true`).then(() => {
         cy.get('iframe:first').then(function ($iframe) {
           const $body = $iframe.contents().find('body');
           cy.wrap($body).find('#chaskiq-prime').click();
@@ -94,7 +94,7 @@ describe('Availability spec', function () {
 
     cy.appEval('App.last').then((results) => {
       const appKey = results.key;
-      cy.visit(`/tester/${appKey}?lang=es`).then(() => {
+      cy.visit(`/tester/${appKey}?lang=es&old_embed=true`).then(() => {
         cy.get('iframe:first').then(function ($iframe) {
           const $body = $iframe.contents().find('body');
           cy.wrap($body).find('#chaskiq-prime').click();
@@ -119,7 +119,7 @@ describe('Availability spec', function () {
 
     cy.appEval('App.last').then((results) => {
       const appKey = results.key;
-      cy.visit(`/tester/${appKey}?lang=en`).then(() => {
+      cy.visit(`/tester/${appKey}?lang=en&old_embed=true`).then(() => {
         cy.get('iframe:first').then(function ($iframe) {
           const $body = $iframe.contents().find('body');
           cy.wrap($body).find('#chaskiq-prime').click();
@@ -133,7 +133,7 @@ describe('Availability spec', function () {
 
     cy.appEval('App.last').then((results) => {
       const appKey = results.key;
-      cy.visit(`/tester/${appKey}?lang=es`).then(() => {
+      cy.visit(`/tester/${appKey}?lang=es&old_embed=true`).then(() => {
         cy.get('iframe:first').then(function ($iframe) {
           const $body = $iframe.contents().find('body');
           cy.wrap($body).find('#chaskiq-prime').click();

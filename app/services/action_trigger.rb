@@ -98,9 +98,9 @@ class ActionTrigger
 
     author = app.agent_bots.first
 
-    m = next_step["messages"].first
+    # m = next_step["messages"].first
 
-    if m.present?
+    if next_step["messages"].present? && (m = next_step["messages"].first)
       message = message.conversation.add_message(
         step_id: next_step[:step_uid],
         trigger_id: trigger.id,

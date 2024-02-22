@@ -1,0 +1,45 @@
+	<%= render Table::Component.new(
+			data: @articles, 
+			config: {
+				columns: [
+					{ name: :title, render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="flex items-center text-lg font-bold">
+										#{link_to record.title, app_article_path(@app.key, record), class: "truncate w-64", data: {turbo_frame: "content", turbo_action: "advance"}}
+									</div>
+								</div>
+							}) 
+						}
+					},
+					{ name: :author, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<span>
+										<b class="font-bold">
+											#{record.author.name}
+										</b>
+										<br>
+										#{record.author.email}
+									</span>
+								</div>
+							}) 
+						}
+					},
+					{
+						name: :collection, render: lambda{|record|
+							record&.collection&.title
+						}
+					},
+					{ 
+						name: :state, render: lambda{ |record|
+							render( Badge::Component.new(variant: 'green', class_name: 'mr-2')){ 
+								record.state 
+							} 
+						}
+					}
+				]
+			},
+			paginate: paginate(@articles)
+		)%>

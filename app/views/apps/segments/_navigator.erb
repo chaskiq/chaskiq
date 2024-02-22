@@ -1,0 +1,6 @@
+<div id="navigator-segment" class="space-y-2">
+  <% @segments.each do |segment|%>
+    <%= link_to segment.name, app_segment_path(@app.key, segment),
+     class: "navigator-item #{@segment.id == segment.id ? 'navigator-active' : ''}" %>
+  <% end %>
+</div>

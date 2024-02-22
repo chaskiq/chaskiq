@@ -1,0 +1,60 @@
+<%
+  agent_menu = [
+    {
+      label: "Profile Details",
+      href: app_agent_path(@app.key, @agent),
+      active: false,
+      turbo_frame: "content",
+      turbo_action: "advance"
+      active: params[:tab].blank?
+    },
+    {
+      label: "Conversations",
+      href: app_agent_path(@app.key, @agent, tab: "conversations"),
+      active: params[:tab] == "conversations",
+      turbo_frame: "advance",
+      turbo_frame: "content",
+    }
+  ]
+%>
+
+  <%= render "header" %>
+
+  <div class="w-full">
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <%= render Tabs::Component.new(	items: agent_menu ) do %>
+      <% end %>
+    </div>
+
+    <div class="border-b border-gray-200 dark:border-gray-800">
+    </div>
+
+    <div class="mt-6 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <% if params[:tab] != "conversations" %>
+        <%= render "properties" %>
+      <% end %>
+
+      <% if params[:tab] == "conversations" %>
+        
+        <div data-controller="infinite-scroll">
+
+         <div 
+            class="overflow-scroll" 
+            style="height: calc(100vh - 60px);"
+            data-infinite-scroll-target="entries"
+            >
+            <%= render 'apps/conversations/collection' %>
+            <div class="invisible h-1" data-infinite-scroll-target="pagination">
+               <%= render partial: 'apps/conversations/pagination' %>
+            </div>
+         </div>
+
+        </div>
+
+
+      <% end %>
+
+    </div>
+  </div>

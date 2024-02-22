@@ -1,0 +1,8 @@
+<%= render Banner::Component.new( **@campaign.banner_data, serialized_content: @campaign.serialized_content ) do %>
+
+  <%= raw Dante::Renderer.new(
+    raw: JSON.parse(@campaign.serialized_content).deep_symbolize_keys
+  ).render %>
+
+
+<% end %>

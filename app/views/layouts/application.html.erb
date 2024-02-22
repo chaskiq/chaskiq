@@ -35,15 +35,70 @@
     <!--<link href="https://fonts.googleapis.com/css?family=PT+Sans|Roboto+Mono&display=swap" rel="stylesheet">-->
     <!--<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext" rel="stylesheet">-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700,800&display=swap" rel="stylesheet">
-    <%= stylesheet_link_tag "application", "tailwind", "inter-font", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%= stylesheet_link_tag "tailwind", "cm", "dracula", "inter-font", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "new_application", "data-turbo-track": "reload", defer: true %>
+    <!-- Add CodeMirror script from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.59.4/codemirror.min.js" data-turbo-track="reload"></script>
+
+    <!--<meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">-->
   </head>
 
   <body>
 
-    <%= render partial: "shared/flash" %>
+    <div class="page antialiased <%= cookies[:darkmode] %>" id="main-page" 
+      data-controller="modal-- slide-modal dark-mode connectivity" 
+      data-modal-allow-background-close="false">
 
-    <div class="page antialiased" id="main-page">
+      <div data-connectivity-target="notice" class="hidden py-2 fixed bg-red-500 w-full z-20 text-white text-xs flex items-center justify-center">
+        <span>You are offline. Check your internet connection.</span>
+      </div>
+
+      <%= render "shared/flash" %>
+
+      <% if @app.present? && @app.persisted? %>
+
+        <div id="chaskiq-panel-custom-events"></div>
+
+
+        <div data-turbo-permanent id="app-stream">
+          <%= turbo_stream_from @app, :conversations %>
+        </div>
+
+        <div class="flex">
+
+          <%= turbo_frame_tag "content" , class: "flex-grow" do %>
+            <div class="h-screen flex overflow-hidden bg-white dark:bg-gray-900 dark:text-white">
+              <%= render "shared/nav" %>
+              <div class="flex flex-col w-0 flex-1 overflow-auto">
+                <%= yield %>
+              </div>
+            </div>
+          <% end %>
+
+          <%= turbo_frame_tag "fixed-app-packages", 
+            src: capabilities_app_packages_path(
+              @app.key, 
+              kind: "fixed_sidebar"
+            ), data: {turbo_permanent: true} do %>
+            loading
+        <%  end %>
+
+       </div>
+      <% else %>
+        <%= yield %>
+      <% end %>
+
+      <% #= turbo_frame_tag "modal" %>
+      <div data-controller="modal-form">
+        <% #= render 'shared/modal' %>
+      </div>
+
+      <%= turbo_frame_tag "modal" %>
+
+      <div data-controllerrrrrr="slide-modal-form">
+        <%= render 'shared/slide-modal' %>
+      </div>
     </div>
 
     <% if paddle_subscriptions? %>
@@ -57,7 +112,7 @@
       support_data = support_app_data and
       support_data.present? %>
 
-      <script>
+      <script data-turbo-eval='false'>
         (function(d,t) {
           var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
           g.src="<%= Chaskiq::Config.get('HOST') %>/embed.js"
@@ -75,14 +130,17 @@
 
     <% end %>
 
-    <script>
-      var dismissibleAlerts = document.querySelectorAll('.alert-dismissible');
-      dismissibleAlerts.forEach(function(alert) {
-          alert.querySelector('[role="button"]').addEventListener('click', function () {
-            alert.classList.add('hidden');
-          })
-        }
-      );
-    </script>
+    <div id="ChaskiqMessengerRoot" data-turbo-permanent="true">
+    </div>
+
+    <div class="fixed right-0 top-0 ml-5 z-50" 
+      data-controller="main-loader"
+      data-action="turbo:before-fetch-request@window->main-loader#handleShow turbo:before-fetch-response@window->main-loader#handleHide">
+      <svg data-main-loader-target="spinner" id="spinner-loader" class="hidden animate-spin -ml-1 mr-3 h-10 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+
   </body>
 </html>

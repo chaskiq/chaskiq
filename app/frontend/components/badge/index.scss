@@ -1,0 +1,26 @@
+.badge {
+  @apply mr-0.5 border inline-flex items-center px-2.5 py-0.5  rounded-full text-xs font-medium;
+
+  &.gray {
+    @apply bg-gray-100  dark:border-gray-700 text-gray-800 dark:bg-gray-900 dark:text-gray-100
+  }
+  &.green {
+    @apply bg-green-100  dark:border-green-700 text-green-800 dark:bg-green-900 dark:text-green-100
+  }
+  &.red {
+    @apply bg-red-100  dark:border-red-700 text-red-800 dark:bg-red-900 dark:text-red-100
+  }
+
+  &.purple {
+    @apply bg-purple-100  dark:border-purple-700 text-purple-800 dark:bg-purple-900 dark:text-purple-100
+  }
+}
+.badge.sm {
+  @apply mr-0.5 border inline-flex items-center px-2.5 py-0.5  rounded-full text-xs font-medium;
+}
+
+.badge.default {
+  @apply mr-0.5 border inline-flex items-center px-2.5 py-0.5  rounded-full text-xs font-medium;
+}
+
+

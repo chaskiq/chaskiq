@@ -1,0 +1,23 @@
+
+  <div id="bbbb">
+
+    <% if @needs_privacy_consent %>
+      <%= render "messenger/consent" %>
+    <% end %>
+
+    <%= render "messenger/home"%>
+    <% #= render "messenger/conversations" %>
+  </div>
+
+  <div id="callStatus" class="cache-emo-8zxa2t"></div>
+  <div id="callInitiator" class="cache-emo-155mgen"></div>
+  <div class="cache-emo-8ofs6p" style="visibility: hidden;">
+    <div id="call-wrapper" style="visibility: hidden;">
+      <div id="localVideo"></div>
+      <div id="remoteVideo"></div>
+      <div id="status-information">
+        <div id="info"></div>
+      </div>
+      <div id="callButtons" class="cache-emo-cdm8xt"></div>
+    </div>
+  </div>

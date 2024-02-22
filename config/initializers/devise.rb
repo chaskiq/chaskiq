@@ -299,7 +299,7 @@ Devise.setup do |config|
   #
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ['*/*', :html]
-  config.navigational_formats = ['*/*', :json, :html]
+  config.navigational_formats = ['*/*', :json, :html, :turbo_stream]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
@@ -308,6 +308,14 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+
+  if Chaskiq::Config.get("AUTH0_ENABLED") == "true" 
+    config.omniauth :auth0, 
+      Chaskiq::Config.get("AUTH0_CLIENT_ID"),
+      Chaskiq::Config.get("AUTH0_CLIENT_SECRET"),
+      Chaskiq::Config.get("AUTH0_DOMAIN"),
+      scope: 'openid profile email'
+  end
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

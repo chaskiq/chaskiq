@@ -1,0 +1,50 @@
+<div class="input-wrapper <%= @size %>">
+
+
+  <label for="<%= @name%>"><%= @label %></label>
+
+	<% if @action %>
+		action
+	<% end %>
+
+	<textarea
+		type="text"
+		auto-complete="off"
+		value="<%= @value %>"
+		id="<%= @id %>"
+		name="<%= @name || @id %>"
+	></textarea>
+
+	<!--
+	        {field.action && (
+          <TextInputButton
+            onClick={(e) => {
+              if (!isDisabled() && !isSaved()) handleAction(e, field)
+            }}
+            saved={field.save_state === 'saved'}
+            disabled={isDisabled()}
+          >
+            {field.save_state === 'saved' ? (
+              <CheckIcon />
+            ) : loading ? (
+              <Progress />
+            ) : (
+              <ArrowRight />
+            )}
+          </TextInputButton>
+        )}
+	-->
+
+	<% if @errors.present? %>
+		<span class="error" conversation-part-wrapper-target="error">
+			<%= @errors %>
+		</span>
+	<% end %>
+
+	<% if @hint.present? %>
+		<span class="helper-text">
+			<%= @hint %>
+		</span>
+	<% end %>
+
+</div>

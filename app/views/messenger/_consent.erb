@@ -1,0 +1,33 @@
+
+<div id="privacy-consent-prompt" class="top-0 z-[99999] fixed h-screen bg-white">
+
+  <div class="px-4 py-5 sm:p-6 overflow-auto h-full">
+    <div class="text-lg leading-6 font-medium text-gray-900">
+      <%= t('messenger.gdpr_title') %>
+    </div>
+    
+    <div class="space-y-4 mt-2 max-w-xl text-sm text-gray-800">
+      <%= raw t('messenger.gdpr', name: @app.name) %>
+    </div>
+
+    <div class="my-3 text-sm flex justify-between items-center">
+     
+      <%= button_to t('messenger.gdpr_ok'), confirm_gdpr_messenger_path(@app.key), 
+        method: :post, 
+        data: { turbo: "true" }, 
+        class: "inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:text-sm" 
+      %>
+
+      <button class="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:text-sm" 
+              onclick="<%= "@cancel" %>">
+        <%= t('messenger.gdpr_nok') %>
+      </button>
+    </div>
+
+    <%# Uncomment this if you want to use the link in the future %>
+    <%# <a href="#" class="font-medium text-gray-600 hover:text-gray-500">
+      View our privacy policy here <span aria-hidden="true">&rarr;</span>
+    </a> %>
+  </div>
+
+</div>

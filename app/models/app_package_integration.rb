@@ -54,6 +54,22 @@ class AppPackageIntegration < ApplicationRecord
   validate :integration_data_prepare, on: %i[create update]
   validate :integration_validation, on: %i[create update]
 
+  def method_missing(method, *args, &)
+    if (definition = app_package.definitions.find { |o| o["name"].to_sym == method })
+      settings[method.to_s]
+    else
+      super
+    end
+  end
+
+  def respond_to_missing?(method, include_private = false)
+    if (definition = app_package.definitions.find { |o| o["name"].to_sym == method })
+      settings[method.to_s]
+    else
+      super
+    end
+  end
+
   def integration_data_prepare
     return if app_package.is_external?
     return nil unless message_api_klass.respond_to?(:integration_data_prepare)
@@ -222,7 +238,6 @@ class AppPackageIntegration < ApplicationRecord
       message = params.dig(:ctx, :package).app.conversation_parts.find_by(
         key: message_key
       )
-
       values = params[:ctx][:values]
       m = message.message
       blocks = m.blocks.merge("schema" => response[:definitions])
@@ -247,6 +262,14 @@ class AppPackageIntegration < ApplicationRecord
     when "content" then presenter.content_hook(**params)
     else raise "no compatible hook kind"
     end
+  end
+
+  def generate_dynamic_model
+    definitions = app_package.definitions
+    form = DynamicForm.new(
+      definitions: app_package.definitions,
+      name: name
+    )
   end
 end
 

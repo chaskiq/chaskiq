@@ -1,0 +1,43 @@
+<%= form_for @bot, url: app_bot_path(@app.key, @bot, tab: params[:tab]) do |f| %>
+
+	<%= f.text_field :name %>
+
+	<div class="">
+		<p class="text-xl font-bold my-4">
+			<%= t('task_bots.settings.settings_title')%>
+		</p>
+
+		<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4">
+			<%= t('task_bots.settings.specific_times_title')%>
+		</p>
+
+		<p class="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4">
+				<%= t('task_bots.settings.tz_hint', timezone: @app.timezone ) %>
+		</p>
+
+		<div class="flex flex-col space-y-4">
+
+			<%= f.radio_button :scheduling, 
+				'inside_office',
+				label: t('task_bots.settings.office_hours'),
+				checked: f.object.scheduling === 'inside_office'
+			%>
+
+			<%= f.radio_button :scheduling, 'outside_office',
+				label: t('task_bots.settings.outside_office'),
+				checked: f.object.scheduling === 'outside_office'
+			%>
+
+			<%= f.radio_button :scheduling, 
+				label: t('task_bots.settings.custom_time'),
+				value: 'custom_time',
+				disabled: true,
+				checked: f.object.scheduling === 'custom_time'
+			%>
+
+		</div>
+
+		<%= f.submit t("common.save"), class: 'btn btn-success my-5'%>
+	</div>
+
+<% end %>

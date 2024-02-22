@@ -1,0 +1,65 @@
+<%= turbo_frame_tag "bots-table" do %>
+
+	<div class="flex pb-5 overflow-x-auto">
+		<% @metrics.each do |k, v| %>
+			<div class="lg:w-1/4 w-screen my-1 px-1">
+					<div class="rounded shadow-lg bg-white dark:bg-gray-900 dark:border-gray-900 border p-4">
+						<div class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 truncate">
+							<%= k %>
+						</div>
+						<div class="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100">
+							<%= v %> 
+						</div>
+					</div>
+			</div>
+		<% end %>
+	</div>
+
+	<%= render Table::Component.new(
+		data: @collection, 
+		config: {
+			columns: [
+				{	
+					name: :email, 
+					label: I18n.t('definitions.stats.email.label'),
+					render: lambda{|row|
+						row.app_user&.email
+					}
+				},
+				{	
+					name: :action, 
+					label: I18n.t('definitions.stats.action.label'),
+					render: lambda{|row|
+						action = bot_action_data(row.action)
+						raw(
+							%{
+								#{
+									render Badge::Component.new(variant: action[:variant]) do 
+										action[:label]
+									end
+								}
+							}
+						)
+					} 
+				},
+				#{	
+				#	name: :from, 
+				#	label: I18n.t('definitions.stats.name.from.label')
+				#},
+				{	
+					name: :created_at, 
+					label: I18n.t('definitions.stats.name.when.label'),
+					render: lambda{|row|
+						l(row.created_at, format: :short)
+					}
+				},
+				{	
+					name: :data, 
+					label: I18n.t('definitions.stats.name.data.label')
+				}
+			]
+		},
+		sortable: false,
+		paginate: paginate(@collection)
+	)%>
+<% end %>

@@ -24,20 +24,20 @@ describe('Bot Tasks', function () {
         cy.get('body').should('contain', 'Bot Tasks')
 
         cy.contains('Outbound').click()
-        cy.contains('Create a new one').click()
+        cy.contains('Create New Task').click()
 
-        cy.get('input#title').type('my super task')
+        cy.get('input#bot_task_title').type('my super task')
         cy.get('[data-cy="bot-task-create"]').click()
 
         cy.contains('Editor').click()
 
-        cy.contains('Add new path').click()
+        cy.contains('Add New').click()
         cy.get('input[placeholder="write path title"]').type('foo')
         cy.get('[data-cy="bot-task-create-path"]').click()
 
         cy.contains('foo').click()
 
-        cy.contains('Add new conversation part').click().then(() => {
+        // cy.contains('Add new conversation part').click().then(() => {
           cy.contains('Add App').click()
           cy.get('[data-cy=add-package-ContentShowcase]').click()
 
@@ -60,7 +60,7 @@ describe('Bot Tasks', function () {
             cy.contains('Hello, World')
 
           })
-        })
+        //})
       })
   })
 })

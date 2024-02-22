@@ -1,0 +1,37 @@
+<% if @status == "success"%>
+	<%= render "success" %>
+<% end %>
+
+<% if @status == "error" %>
+	<%= render "error" %>
+<% end %>
+
+
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings' do %>
+
+		<%= render PageHeader::Component.new( title: t('settings.app.billing') ) do %>
+
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: billing_menu_data(app: @app) ) do %>
+			<% if @app.payment_service == PaymentServices::StripeService %>
+				<%= render 'table', 
+					kind: :stripe,
+					data_controller: "paddle-subscription", 
+					plans: PaymentServices::StripeService.new.get_plans 
+				%>
+			<% else %>
+				<%= render 'table', 
+					data_controller: "paddle-subscription",
+					plans: PaymentServices::Paddle.new.get_plans,
+					kind: :paddle
+				%>
+			<% end %>
+			
+		<% end %>
+
+	<% end %>
+
+<% end %>

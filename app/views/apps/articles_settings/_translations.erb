@@ -1,0 +1,33 @@
+<div class="flex justify-between py-3 items-center">
+	<div class="flex-col">
+		<p
+			class="text-lg leading-6 font-medium
+			text-gray-900"
+		>
+			<%= I18n.t('articles.settings.lang') %>
+		</p>
+
+		<p class="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4">
+			<%= I18n.t("articles.settings.lang_desc") %>
+		</p>
+	</div>
+
+	<div class="flex items-center">
+
+
+
+			<div>
+
+				<%= link_to I18n.t('articles.settings.add_language'),
+					new_app_articles_setting_path(@app.key), 
+					data: {turbo_frame: "modal"}, 
+					class: "btn btn-flat-dark btn-md" 
+				%>
+
+			</div>
+
+
+	</div>
+</div>
+
+<%= render 'translations_table' %>

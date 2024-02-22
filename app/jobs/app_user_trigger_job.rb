@@ -38,7 +38,7 @@ class AppUserTriggerJob < ApplicationJob
       # assignee: options[:assignee]
     )
 
-    add_message(trigger, conversation)
+    conversation.add_trigger_message(trigger)
     # conversation = @app.start_conversation(options)
   end
 

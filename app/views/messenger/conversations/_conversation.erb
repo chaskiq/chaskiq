@@ -1,0 +1,66 @@
+
+<main id="main-content" 
+  aria-labelledby="conversation" 
+  data-controller="infinite-scroll"
+  style="position: absolute; inset: 0px;">
+  <div style="overflow-y: auto; height: 100%;" 
+    data-messenger-target="conversationScrollArea">
+    
+    <div class="cache-emo-p1xoxt" >
+      
+      <%= turbo_frame_tag "messages-list-pagination" do %>
+        <div data-infinite-scroll-target="pagination"
+          id="paginator-wrapper" 
+          class="invisible">
+          <% if messages.respond_to?(:total_pages) %>
+            <%= render "messenger/messages/paginator", messages: messages %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="fixed top-0 w-full hidden z-50" 
+        data-messenger-target="inlineControlButtons">
+       
+       <div class="flex justify-between items-center px-4 inlineControlButtons">
+
+        <button class="bg-indigo-100 hover:bg-indigo-200 text-blac font-bold py-1 px-2 rounded text-xs" 
+          data-action="click->messenger#inlineShowMore">
+          <%= t("messenger.show_more") %>
+        </button>
+
+        <button class="bg-indigo-100 hover:bg-indigo-200 text-black font-bold p-1 rounded-full text-xs" 
+          data-action="click->messenger#inlineClose">
+          <%= heroicon("x-mark") %>
+        </button>
+       </div>
+
+      </div>
+      
+      <div class="cache-emo-1prjld7 fade-in-bottom"
+        data-infinite-scroll-target="entries"
+        data-messenger-target="conversation"
+        data-controller="messenger-conversation"
+        data-messenger-target="animated"
+        data-in="fade-in-bottom"
+        data-out="fade-out-bottom"
+        data-closed="<%= conversation.closed? %>"
+        data-conversation-key="<%= conversation.key %>"
+        id="conversation-<%= conversation.key %>">
+
+          <% messages.each do |message| %>
+            <% #= message.id %>
+            <%= render "messenger/messages/conversation_part", 
+              message: message,
+              app: app
+            %>
+          <% end %>
+      </div>
+
+			<div class="typing-<%= conversation.key %> absolute top-[167px] left-[20px]">
+			</div>
+
+      <%= render "text_editor", app: app, conversation: conversation, user: user %>
+
+    </div>
+  </div>
+</main>

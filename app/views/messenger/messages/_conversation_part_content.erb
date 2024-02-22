@@ -1,0 +1,24 @@
+<% author_type = message.authorable.is_a?(Agent) ? "admin" : "user" %>
+
+<div class="<%= author_type %> cache-emo-1xkvrxu">
+  
+  <% if author_type == "admin" %>
+    <div class="cache-emo-1pycdun">
+      <%= image_tag message.authorable.avatar_url %>
+    </div>
+  <% end %>
+
+  <div class="message-content-wrapper">
+    <div class="cache-emo-11y878r">
+      <div>
+        <%= raw message.messageable.html_from_serialized %>
+      </div>
+    </div>
+    <span class="status">
+      <time datetime="<%= message.created_at %>">
+        <%= time_ago_in_words message.created_at %>
+      </time>
+    </span>
+  </div>
+</div>
+

@@ -1,0 +1,20 @@
+
+<%= turbo_stream.replace("segment_form") do %>
+  <%= render "apps/segment_manager/form", {
+      segment_manager: @segment_manager,
+      changed: @segment.predicates.to_json != @segment_manager.predicates.to_json,
+      incomplete: @segment_manager.predicates.any? { |o| o.value.nil? },
+      url_form: edit_segment_app_segment_path(@app.key, @segment)
+    }
+  %>
+<% end %>
+
+<% unless @segment_manager.predicates.find { |o| o.value.nil? } %>
+
+  <%= turbo_stream.replace("segment-table") do %>
+    <%= turbo_frame_tag "segment-table", src: table_app_segments_path(@app.key, segments: @segment_manager.predicates.to_json) do %>
+      <%= render Loader::Component.new %>
+    <% end %>
+  <% end %>
+
+<% end %>

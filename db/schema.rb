@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
+ActiveRecord::Schema[7.1].define(version: 2023_10_29_024053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -621,6 +621,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
+  create_table "oauth_credentials", force: :cascade do |t|
+    t.string "uid"
+    t.string "token"
+    t.string "provider"
+    t.bigint "agent_id", null: false
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_oauth_credentials_on_agent_id"
+    t.index ["uid"], name: "index_oauth_credentials_on_uid"
+  end
+
   create_table "outgoing_webhooks", force: :cascade do |t|
     t.string "state"
     t.bigint "app_id", null: false
@@ -789,6 +801,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "agents", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
+  add_foreign_key "oauth_credentials", "agents"
   add_foreign_key "outgoing_webhooks", "apps"
   add_foreign_key "quick_replies", "apps"
   add_foreign_key "roles", "agents"

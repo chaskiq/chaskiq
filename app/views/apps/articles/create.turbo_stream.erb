@@ -1,0 +1,8 @@
+
+<%= turbo_stream.update("modal") do %>
+  <%= render "shared/modal" do %>
+    <%= render "new_form" %>
+  <% end %>
+<% end %>
+
+<%= flash_stream %>

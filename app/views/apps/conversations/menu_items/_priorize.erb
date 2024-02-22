@@ -1,0 +1,24 @@
+<div id="<%= "conversation-priorize-#{@conversation.key}"%>">
+	<%= button_to app_conversation_path(
+		@app.key, 
+		@conversation.key,
+	),
+		params: {
+			step: 'priorize'
+		},
+		method: :patch,
+		data: {
+			"controller"=> "tippy", "content": "Prioritize Conversation", "placement": 'bottom', 
+		},
+		class: "focus:outline-none outline-none mr-1 rounded-full 
+			font-semibold border
+			border-gray-400 shadow
+			bg-white hover:bg-gray-100 text-gray-800 dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800
+			#{ @conversation.priority ? 
+				'text-green-600' : ''
+			} w-9 h-9" do %>
+			<svg fill="currentColor" viewBox="0 0 20 20" class="w-9 h-4">
+			<path d="M3,-1.41345269e-14 L17,-1.41345269e-14 L17,1 L14,2 L14,10 L17,11 L17,12 L3,12 L3,11 L6,10 L6,2 L3,1 L3,-1.41345269e-14 L3,-1.41345269e-14 Z M9,12 L11,12 L11,19 L10,20 L9,19 L9,12 L9,12 Z" id="Combined-Shape"></path>
+		</svg>
+	<% end %>
+</div>

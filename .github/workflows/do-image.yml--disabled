@@ -1,0 +1,52 @@
+# This workfow shows how to build a Docker image, tag and push it to DigitalOcean Container Registry, and
+# deploy the application on a DIgitalOcean Kubernetes cluster. For description to the entire worklow, 
+# see www.digitalocean.com/docs/kubernetes/how-to/deploy-using-github-actions.
+
+name: Build, push
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push request on the main branch for changes in the specified paths.
+  push:
+    branches:
+      - main
+      - stage
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel.
+jobs:
+  # This workflow contains a single job called "build".
+  build:
+    # The type of runner that the job will run on.
+    runs-on: ubuntu-latest
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
+    - name: Checkout master
+      uses: actions/checkout@main
+
+    # Install doctl.
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    
+    # Build a Docker image of your application in your registry and tag the image with the $GITHUB_SHA.
+    - name: Build container image
+      run: docker build --build-arg APP_ENV=production \
+            --build-arg RUBY_VERSION=3.2.0 \
+            --build-arg PG_MAJOR=11 \
+            --build-arg NODE_MAJOR=16 \
+            --build-arg YARN_VERSION=1.13.0 \
+            --build-arg BUNDLER_VERSION=2.3.26 \
+            -t ${{ secrets.DO_REGISTRY_NAME }}/chaskiq:$(echo $GITHUB_REF_NAME) \
+            .
+
+      # run: docker build --platform=linux/amd64 -t ${{ secrets.DO_REGISTRY_NAME }}/chaskiq:$(echo $GITHUB_REF_NAME) .
+
+    - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      run: doctl registry login --expiry-seconds 1200
+
+    - name: Push image to DigitalOcean Container Registry
+      run: docker push ${{ secrets.DO_REGISTRY_NAME }}/chaskiq:$(echo $GITHUB_REF_NAME)

@@ -34,11 +34,19 @@ Lint/MissingSuper:
   Enabled: false
 Rails/SkipsModelValidations:
   Enabled: false
+Rails/OutputSafety:
+  Exclude:
+    - app/helpers/tailwind_form_builder.rb
 Metrics/ModuleLength:
   Exclude:
+    - app/helpers/application_helper.rb
     - app/services/message_apis/helpers.rb
 Rails/InverseOf:
   Enabled: false
+
+Rails/Pluck:
+  Exclude:
+    - app/services/payment_services/**/*
 AllCops:
   NewCops: enable
   Exclude:
@@ -49,6 +57,8 @@ AllCops:
     - 'bin/{rails,rake}'
     - 'spec/cypress/**/*'
     - 'tmp/**/*'
+    - 'spec/e2e/**/*'
+    - public/assets/**/*
 
 
 

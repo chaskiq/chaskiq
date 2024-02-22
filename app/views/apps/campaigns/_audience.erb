@@ -1,0 +1,46 @@
+
+<%= turbo_frame_tag "campaign-audience" do %>
+  <%= form_for @campaign, url: app_campaign_path(@app.key, @campaign, tab: "audience"), 
+    data: {controller: 'segment-manager'} do |f| %>
+
+    <%= f.fields_for :segments do |ff|%>
+      <div class="w-full">
+        <div id="segment-predicates">
+          <% #= @segment_manager.predicates %>
+        </div>
+
+        <% #= @segment_manager.predicates.as_json %>
+        <% #= @campaign.segments %>
+
+        <div id="segment-form-fields">
+          <%= render 'apps/segment_manager/form_fields', 
+            f: ff, 
+            segment_manager: @segment_manager, 
+            url_form: "", #update_segment_app_inbound_setting_path(@app.key, namespace), 
+            incomplete: false, 
+            changed: @campaign.segments_changed?,
+            disable_deletion: true,
+            btn_proc: -> (){
+              "
+                #{
+                  hidden_field_tag :force_save, true
+                }
+                #{
+                  ff.submit("update audience", class: "btn btn-success")
+                }
+              ".html_safe
+            }
+          %>
+        </div>
+
+        <%= turbo_frame_tag "segment-table", src: table_app_segments_path(@app.key, segments: @segment_manager.predicates.to_json) do %>
+          <%= render Loader::Component.new %>
+        <% end %>
+
+        <% #= render 'apps/segment_manager/table', segment_manager: @segment_manager, results: @collection %>
+
+        <% #= render 'apps/segment_manager/form', segment_manager: segment_manager %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

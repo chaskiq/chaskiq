@@ -1,0 +1,37 @@
+<main aria-labelledby="conversations" 
+  data-controller="infinite-scroll"
+  style="position: absolute; inset: 0px;">
+  <div 
+    
+    style="overflow-y: auto; height: 100%;">
+    
+    <div class="cache-emo-jg5h0h" 
+      data-infinite-scroll-target="entries" 
+      id="tata">
+
+      <%= turbo_frame_tag "conversations-list" do %>
+
+        <% conversations.each do |c| %>
+          <%= render "messenger/conversations/conversation_row", {c: c, app: app} %>
+        <% end %>
+
+      <% end %>
+
+
+      <%= turbo_frame_tag "conversations-list-pagination" do %>
+        <div data-infinite-scroll-target="pagination" id="paginator-wrapper" class="invisible">
+          <%= render "messenger/conversations/paginator", conversations: conversations %>
+        </div>
+      <% end %>
+      
+    </div>
+    <div class="cache-emo-7nzri7">
+      <p class="cache-emo-1k6fx5o">Chaskiq support team</p>
+      <div class="cache-emo-53xmx2">
+        <a in="in" class="cache-emo-1kn0l3e fade-in-right">Create new conversation</a>
+      </div>
+    </div>
+  </div>
+
+
+</main>

@@ -3,13 +3,16 @@ require_relative "boot"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
+# you've limited to :test, :development, or :production.require "view_component/engine"
+
 Bundler.require(*Rails.groups)
 
 require 'URLcrypt'
 require_relative 'middleware/maintenance_mode'
 
 Dotenv::Railtie.load if defined?(Dotenv::Railtie)
+
+require "view_component/compile_cache"
 
 module Chaskiq
 
@@ -32,6 +35,10 @@ module Chaskiq
 
 
   class Application < Rails::Application
+    config.autoload_paths << Rails.root.join("app", "frontend", "components")
+    config.view_component.preview_paths << Rails.root.join("app", "frontend", "components")
+    config.view_component.default_preview_layout = "component_preview"
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 

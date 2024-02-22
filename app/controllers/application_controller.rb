@@ -5,14 +5,53 @@ class ApplicationController < ActionController::Base
   protect_from_forgery unless: -> { request.format.json? }
   include PackageIframeBehavior
   # protect_from_forgery with: :null_session
+  before_action :set_locale
+  before_action :set_darkmode
+
+  rescue_from ActionPolicy::Unauthorized, with: :render_unauthorized
+  rescue_from Plan::PlanError, with: :render_plan_not_meet
 
   layout :layout_by_resource
+
+  def render_unauthorized
+    flash.now[:error] = t("common.not_authorized")
+    @navigator = false
+    @frame = request.headers["Turbo-Frame"]
+
+    respond_to do |format|
+      format.html do
+        render "errors/402", layout: @frame ? false : "application"
+      end
+      format.turbo_stream do
+        flash_stream
+      end
+    end
+  end
+
+  def render_plan_not_meet
+    @message = "Plan"
+    @app = App.find_by(key: params[:app_id])
+
+    respond_to do |format|
+      format.html do
+        render "errors/upgrade"
+      end
+      format.turbo_stream do
+        flash.now[:error] = t("common.plan_not_meet")
+        render "errors/upgrade"
+      end
+    end
+  end
 
   def preview
     @app = App.find_by(key: params[:app])
     @campaign = @app.campaigns.find(params[:id])
     # render plain: "hello"
     render "campaigns/iframe", layout: false
+  end
+
+  def find_app
+    @app = current_agent.apps.find_by(key: params[:app_id])
   end
 
   def dummy_webhook
@@ -70,6 +109,24 @@ class ApplicationController < ActionController::Base
     Chaskiq::Config.get("AUTH0_ENABLED") == "true"
   end
 
+  def modal_close
+    render turbo_stream: [
+      turbo_stream.replace(
+        "modal",
+        partial: "shared/modal"
+      )
+    ]
+  end
+
+  def languages
+    agent_param = params.dig(:agent, :lang)
+    if agent_param && set_lang_for_agent(agent_param)
+      cookies[:lang] = agent_param
+      redirect_back(fallback_location: root_path) and return
+    end
+    render partial: "shared/languages"
+  end
+
   helper_method :enabled_subscriptions?
   helper_method :paddle_subscriptions?
   helper_method :stripe_subscriptions?
@@ -85,11 +142,22 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
 
-  def set_locale
-    http_locale = request.headers["HTTP_LANG"]
-    http_splitted_locale = http_locale ? http_locale.to_s.split("-").first.to_sym : nil
+  def set_darkmode
+    cookies[:darkmode] ||= "light"
+  end
 
-    locale = if lang_available?(http_splitted_locale)
+  def set_locale
+    locale = if params[:locale]
+               cookies[:lang] = params[:locale]
+               params[:locale]
+             elsif cookies[:lang]
+               cookies[:lang]
+             elsif session[:messenger_lang]
+               session[:messenger_lang]
+             elsif current_agent&.lang
+               cookies[:lang] = current_agent.lang
+               current_agent.lang
+             elsif lang_available?(http_splitted_locale)
                http_splitted_locale
              else
                I18n.default_locale
@@ -103,6 +171,11 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def http_splitted_locale
+    http_locale = request.headers["HTTP_LANG"]
+    http_locale ? http_locale.to_s.split("-").first.to_sym : nil
+  end
 
   def lang_available?(lang)
     return false if lang.blank?
@@ -120,6 +193,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def set_lang_for_agent(lang)
+    return unless lang_available?(lang)
+
+    current_agent.update(lang: lang)
+    I18n.locale = lang
+  end
+
   def current_resource_owner
     if doorkeeper_token && !doorkeeper_token.expired?
       agent = Agent.find(doorkeeper_token.resource_owner_id)
@@ -129,10 +209,53 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
+    if turbo_frame_request?
+      return "application" if request.headers["Turbo-Frame"] == "content"
+
+      return false
+    end
+
     if devise_controller?
       "devise"
     else
+      # "hotwire"
       "application"
     end
   end
+
+  def set_settings_navigator
+    @navigator = "apps/settings/navigator"
+  end
+
+  def allowed_feature?(kind)
+    @app.plan.allow_feature!(kind)
+  end
+
+  def flash_stream
+    turbo_stream.replace("flash", partial: "shared/flash", locals: { flash: flash })
+  end
+
+  def track_resource_event(resource, action, data = {}, app_id = nil)
+    resource.log_async(
+      action: action,
+      user: current_agent,
+      data: data,
+      ip: request.remote_ip,
+      app_id: app_id
+    )
+  end
+
+  # messenger auth. we could use another app controller to get rig of logic that we don't need
+
+  def authorize_messenger
+    @app = App.find_by(key: params[:messenger_id])
+    @app_user = @app.app_users.find_by(session_id: session[:messenger_session_id])
+  end
+
+  def messenger_user
+    @app_user
+  end
+
+  helper_method :flash_stream
+  helper_method :messenger_user
 end

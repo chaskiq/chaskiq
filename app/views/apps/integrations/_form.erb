@@ -1,0 +1,50 @@
+<%= form_for @integration, 
+  url: @integration.new_record? ?
+      app_integrations_path(@app.key, @integration, app_package: @app_package.id) : 
+      app_integration_path(@app.key, @integration) do |f| %>
+
+  <%= f.hidden_field :app_package_id %>
+
+  <% f.object.app_package.definitions.each do |d| %>
+    <%= case d["type"]
+        when "textarea" then f.text_area d["name"].to_sym, label: d["label"], hint: d["hint"]
+        when "text", "string" then f.text_field "#{d["name"]}".to_sym, label: d["label"], hint: d["hint"]
+        else
+          "--"
+        end
+    %>
+  <% end %>
+
+
+  <% if @integration.oauth_authorize %>
+    <div class="mb-4">
+      <p class="text-sm font-semibold leading-7">
+        Authorize App
+      </p>
+
+      <a
+        href="<%= @integration.oauth_authorize %>"
+        class="p-2 outline-none
+              inline-flex
+              items-center
+              border
+              border-color-gray-500
+              rounded-md text-gray-500
+              focus:outline-none
+              border-1
+              focus:shadow-outline-indigo
+              focus:border-indigo-700
+              active:bg-indigo-700">
+        
+        Install <%= f.object.app_package.name %>
+      </a>
+    </div>
+  <% end %>
+
+  <p class="text-sm"><%= t("settings.integrations.hints.hook_url") %></p>
+  <div class="text-sm text-yellow-600 overflow-auto py-2 px-2 bg-yellow-100 rounded-sm border border-yellow-200 my-2">
+    <%= @integration.hook_url %>
+  </div>
+
+  <%= f.submit(t("common.save"), class: "btn btn-success sm")%>
+<% end %>

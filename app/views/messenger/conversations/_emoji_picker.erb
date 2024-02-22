@@ -1,0 +1,27 @@
+
+<div id="emojiPicker" class="dda hidden" data-messenger-target="emojiPicker">
+
+</div>
+
+<script type="module">
+  // import data from '@emoji-mart/data'
+  import { init, SearchIndex, Picker } from 'https://cdn.jsdelivr.net/npm/emoji-mart@5.5.2/+esm'
+  // import { init, SearchIndex } from 'emoji-mart'
+  import data from 'https://cdn.jsdelivr.net/npm/@emoji-mart/data@1.1.2/+esm'
+
+  const element = document.querySelector('[data-controller="messenger"]');
+  const controller = application.getControllerForElementAndIdentifier(element, "messenger");
+
+  new Picker({
+    parent: document.querySelector('#emojiPicker'),
+    data: data,
+    onEmojiSelect: (e)=>{
+      console.log(e)
+      controller.insertAtCursor(e.native)
+    },
+    onClickOutside: (a)=>{
+      controller.hideEmojiContainer()
+    }
+    //dynamicWidth: true,
+  })
+</script>

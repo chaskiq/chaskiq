@@ -1,0 +1,17 @@
+<%= form_for @app, url: app_settings_path(@app.key, redirect: users_app_bots_path(@app.key) ) do |f|  %>
+  <div>
+    <div class="py-4">
+      <p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4">
+        <%= I18n.t('task_bots.settings.users.start_conversation') %>
+      </p>
+
+      <%= f.fields_for @app.user_tasks_settings_objects do |ff|%>
+        <%= ff.check_box :delay, label: I18n.t('task_bots.settings.leads.delay')  %>
+      <% end %>
+    </div>
+
+    <div class="py-4">
+      <%= f.submit( t('common.save'), class: 'btn btn-success sm' ) %>
+    </div>
+  </div>
+<% end %>

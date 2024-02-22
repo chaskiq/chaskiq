@@ -1,0 +1,46 @@
+
+<% if form.object.type == "ask_option" %>
+  <div
+    data-controller="nested-form" 
+    class="follow-action-item nested-fields follow-action-item"
+    data-new-record="true">
+
+    <% unless local_assigns[:disable_delete] %>
+      <p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 py-4">
+        Continue bot with reply button
+      </p>
+    <% end %>
+
+    <template 
+      data-nested-form-target="template">
+      <%= form.fields_for :schema, 
+        BotPathStepSchema.new({element: 'button', label: 'write here', next_step_uuid: nil }), 
+        child_index: 'NEW_RECORD' do |ff| %>
+        <%= render "apps/bots/editor/ask_option_fields", form: ff %>
+      <% end %>
+    </template>
+
+    <%= form.hidden_field :wait_for_input %>
+    <%= form.hidden_field :type %>
+
+    <%= form.fields_for :schema, form.object.schema do |f| %>
+      <%= render "apps/bots/editor/ask_option_fields", form: f %>
+    <% end %>
+
+    <div class="my-3" data-nested-form-target="links">
+      <%= link_to "Add option", "#", 
+        class: "btn btn-outlined", 
+        data: {  action: "click->nested-form#add_association" } 
+      %>
+    </div>
+  
+    <% unless local_assigns[:disable_delete] %>
+      <button class="btn btn-icon"
+        data-action="click->bots#showFollowActionLinks click->bots#removeBotStep click->nested-form#remove_association"
+        data-bot-step="bot-step-<%= bot_step %>"
+        type="button">
+        <%= heroicon("x-circle") %>
+      </button>
+    <% end %>
+  </div>
+<% end %>

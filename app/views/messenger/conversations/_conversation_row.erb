@@ -1,0 +1,35 @@
+<% m = local_assigns[:message] || c.latest_message %>
+
+<%= link_to messenger_conversation_path(app.key, c.key), 
+  class: "cache-emo-23jgg8 block",
+  data: {action: "click->messenger#animateOnClick"} do %>
+
+  <div class="cache-emo-gju6b1 pointer-events-none">
+    <div class="cache-emo-1pycdun pointer-events-none">
+      <%= image_tag m.authorable.avatar_url %>
+    </div>
+    <div class="cache-emo-mjirik pointer-events-none">
+      <div class="cache-emo-1874v5t">
+        <% if m.authorable != c.main_participant && !m.read? %>
+          <div class="cache-emo-4n3175"></div>
+        <% end %>
+        <div class="cache-emo-q9wuna">
+          <%= m.authorable.display_name %>
+        </div>
+        <time data-controller="moment" datetime="<%= m.updated_at.to_i %>" 
+          style="float: right; color: rgb(89, 89, 89); width: 115px; margin: 0px 10px; font-size: 0.8em; text-transform: unset; text-align: right; font-weight: 500;">
+          <%= m.updated_at %>
+        </time>
+      </div>
+      <div class="cache-emo-4pfvla">
+        <% if m.message.is_a?(ConversationPartContent)%>
+          <% if m.message&.serialized_content.nil? %>
+            <%= sanitize_plain( m.message.html_content, tags: %w["b em"]) %>
+          <% else %>
+            <%= sanitize_plain(m.message.html_from_serialized, tags: %w["b em"]) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

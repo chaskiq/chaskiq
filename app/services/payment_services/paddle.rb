@@ -30,7 +30,7 @@ module PaymentServices
       )
 
       res.filter do |o|
-        Plan.all.map{|o| o[:id]}.include?(o.id)
+        Plan.all.map { |o| o[:id] }.include?(o.id)
       end.map do |o|
         p = Plan.get_by_id(o.id)
         {

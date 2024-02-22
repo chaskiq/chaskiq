@@ -1,0 +1,53 @@
+
+<turbo-frame id="modal">
+<!-- Modal Container -->
+
+<div
+  data-modal-target="container"
+  data-action="click->modal#closeBackground keyup@window->modal#closeWithKeyboard"
+  class="hidden-- animated fadeIn fixed inset-0 overflow-y-auto flex items-center justify-center" style="z-index: 9999;">
+
+  <!-- Modal Inner Container -->
+  <div class="max-h-screen w-full max-w-lg relative">
+    <!-- Modal Card -->
+    <div class="m-1 bg-white rounded shadow">
+
+      <div class="absolute top-0 right-0 pt-4 pr-4">
+        <button type="button"
+          data-action="click->modal#close"
+          class="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150">
+          <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+            </path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-8">
+        <h2 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+          <%= @title %>
+        </h2>
+        <%= content %>
+        <div class="flex justify-end items-center flex-wrap mt-6 space-x-3">
+          <% if @action_content %>
+            <%= render Button::Component.new(variant: 'success', size: 'md', type: 'button', data: {action: "click->modal#submit"} ) do %>
+              <%= @action_content %>
+            <% end %>
+
+            <%= render Button::Component.new(variant: 'outlined', size: 'md', type: 'button', data: {action: "click->modal#close"} ) do %>
+              <%= I18n.t("common.cancel")%>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-background"
+  data-modal-target="backdrop"
+  class="fixed top-0 left-0 w-full h-full"
+  style="background-color: rgba(0, 0, 0, 0.8); z-index: 9998;">
+</div>
+
+</turbo-frame>

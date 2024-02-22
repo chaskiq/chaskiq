@@ -1,0 +1,98 @@
+<%= form_for @app, url: app_messenger_path(@app.key, :editor_settings) do |f| %>
+
+	<%= render Hints::Component.new(type: 'inbound_settings') %>
+
+  <p class="text-lg font-bold text-gray-900 dark:text-gray-100 pb-2">
+    Text editor configuration
+  </p>
+
+  <p class="my-2 max-w-xl text-sm leading-5 text-gray-500">
+    configure specific features to allow users to use in the chat editor.
+  </p>
+
+  <hr class="py-3"></hr>
+
+  <div data-controller="simple-tabs">
+
+  	<div class="inline-flex mt-4">
+			<a 
+				href="<%= "app_inbound_setting_path(@app.key, 'users')" %>"
+				data-tab="users"
+				class="tab-default-left"
+				data-action="click->simple-tabs#changeTab" 
+				data-simple-tabs-target="tab"
+				data-turbo-frame="inbound-settings-form"
+				data-selected-class="tab-active-left"
+				data-unselected-class="tab-default-left"
+				>
+				Agents
+			</a>
+
+      <button
+        class="tab-default-center"
+				data-action="click->simple-tabs#changeTab" 
+				data-simple-tabs-target="tab"
+				data-turbo-frame="inbound-settings-form"
+				data-selected-class="tab-active-center"
+				data-unselected-class="tab-default-center">
+        Users
+      </button>
+
+			<a 
+				href="<%= "app_inbound_setting_path(@app.key, 'visitors')" %>"
+				class="tab-default-right"
+				data-tab="visitors"
+				data-action="click->simple-tabs#changeTab" 
+				data-simple-tabs-target="tab"
+				data-selected-class="tab-active-right"
+				data-unselected-class="tab-default-right"
+				data-turbo-frame="inbound-settings-form"
+				>
+			  Visitors
+			</a>
+		</div>
+
+    <div data-simple-tabs-target="panel">
+      <%= f.fields_for :agent_editor_settings_objects, @app.agent_editor_settings_objects do |ff| %>
+        <div class="my-2 space-y-2">
+          <%= ff.check_box :images %>
+          <%= ff.check_box :attachments %>
+          <%= ff.check_box :giphy %>
+          <%= ff.check_box :link_embeds %>
+          <%= ff.check_box :embeds %>
+          <%= ff.check_box :video_recorder %>
+          <%= ff.check_box :app_packages %>
+          <%= ff.check_box :routing_bots %>
+          <%= ff.check_box :quick_replies %>
+          <%= ff.check_box :bot_triggers %>
+          <%= ff.check_box :divider %>
+        </div>
+      <% end %>
+    </div>
+
+    <div data-simple-tabs-target="panel">
+      <%= f.fields_for :user_editor_settings_objects, @app.user_editor_settings_objects do |ff| %>
+        <div class="my-2 space-y-2">
+          <%= ff.check_box :gifs %>
+          <%= ff.check_box :emojis %>
+          <%= ff.check_box :attachments %>
+        </div>
+      <% end %>
+    </div>
+
+    <div data-simple-tabs-target="panel">
+      <%= f.fields_for :lead_editor_settings_objects, @app.lead_editor_settings_objects do |ff| %>
+        <div class="my-2 space-y-2">
+          <%= ff.check_box :gifs %>
+          <%= ff.check_box :emojis %>
+          <%= ff.check_box :attachments %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+
+
+	<%= f.submit t("common.submit"), class: "btn btn-success my-6" %>
+
+<% end %>

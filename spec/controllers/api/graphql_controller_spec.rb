@@ -321,7 +321,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
       graphql_raw_post(raw: q, variables: {
                          page: 1, per: 20
                        })
-
       expect(graphql_response.errors).to be_present
     end
 

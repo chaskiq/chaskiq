@@ -1,0 +1,15 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings' do %>
+
+		<%= render PageHeader::Component.new(title: I18n.t('settings.app.messenger_settings') ) do %>
+			
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: messenger_menu_data(app: @app), turbo_frame: "content", turbo_action: "advance" ) do %>
+			<%= render 'appearance'%>
+		<% end %>
+
+	<% end %>
+	
+<% end %>

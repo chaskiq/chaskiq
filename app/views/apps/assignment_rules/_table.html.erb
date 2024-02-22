@@ -1,0 +1,27 @@
+<%= render Table::Component.new(
+  data: @assignment_rules, 
+  config: {
+    columns: [
+      {name: :title},
+      {name: :agent, render: lambda{|record| record.agent&.display_name} },
+      {name: :actions, render: lambda{|record|
+        %{
+          <div class="flex space-x-3">
+          #{
+            [
+            link_to( "edit link", edit_app_assignment_rule_path(@app.key, record), data: {
+              'turbo-frame': 'modal'
+              }, class: "btn btn-outlined sm"),
+            button_to( 'remove', 
+              app_assignment_rule_path(@app.key, record), method: :delete, class: "btn btn-danger sm"),
+          ].join(" ")
+          }
+          </div>
+        }.html_safe
+          
+        }
+      }
+    ]
+  },
+  paginate: paginate(@assignment_rules)
+)%>

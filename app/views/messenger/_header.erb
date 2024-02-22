@@ -1,0 +1,10 @@
+<span id="header-content"
+  data-messenger-target="header" 
+  class="cache-emo-k8eo3k" 
+  style="padding: 2em; opacity: 1; transform: translateY(-8px);">
+  <% if @app.logo.present? %>
+    <%= image_tag @app.logo.variant(resize_to_limit: [100, 100]).processed, style: "height: 50px; width: 50px;" %>
+  <% end %>
+  <h2 class="title"><%= @app.greetings %></h2>
+  <p class="tagline"><%= @app.intro %></p>
+</span>

@@ -1,0 +1,85 @@
+<%= render "shared/modal" do %>
+  
+  <div 
+    data-controller="conversation-inserter"
+    data-locale="<%= @locale %>"
+    data-type="quick_reply"
+    class="sm:flex--dis sm:items-start">
+    <div class="mt-3 sm:mt-0 text-left">
+      <h3 class="text-xl leading-6 font-semibold text-gray-900 dark:text-gray-100">
+        Send a quick reply
+      </h3>
+
+      <div class="mt-2">
+        <div>
+          <div>
+            <div class="sm:flex sm:items-start">
+              <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+              </div>
+              <div class="w-11/12 pr-4 mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
+                  Confirm send <%= @quick_reply.title %>?
+                </h3>
+                <div class="w-full">
+                  <div class="border-b border-gray-200 dark:border-gray-800">
+                    <div class="overflow-auto  css-4qv6jb">
+                      <nav class="-mb-px flex justify-start w-screen tabs">
+
+                        <% @app.translations.each do |s| %>
+                          <%= link_to s.locale, 
+                          app_editor_quick_reply_path(@app.key, @quick_reply.id, lang: s.locale), 
+                          data: {turbo_frame: "modal"},
+                          class: "tab-item p-4 #{s.locale.to_s == @locale.to_s ? "active" : ""}"
+                          %>
+                          
+                        <% end %>
+                      </nav>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="my-4 h-32 border overflow-auto p-4 border-yellow-300 bg-yellow-100 rounded-md">
+                      <div class="css-ltgkwu">
+                        <div>
+                          <% I18n.with_locale(@locale) do %>
+                            <%= raw Dante::Renderer.new(raw: JSON.parse(@quick_reply.send(:content)).deep_symbolize_keys).render rescue "no data" %>
+                            <%= hidden_field_tag :content, @quick_reply.send(:content), data: {conversation_inserter_target: "content" } %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p>The "<%= @locale%>" version will be sent to the conversation.</p>
+
+                <div class="mt-2">
+                  <p class="text-sm leading-5 text-gray-500">
+                    This quick reply will be delivered on user's current conversation. 
+                    <br>
+                    <%= link_to "Choose another", 
+                      app_editor_quick_replies_path(@app.key), 
+                      data: {turbo_frame: "modal"}, 
+                      class: "btn btn-link xs" 
+                    %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="mt-3 flex justify-end">
+        <%= link_to "send", "#", 
+          class: "btn btn-success md",
+          data: {action: "click->conversation-inserter#insert" } 
+        %>
+      </div>
+
+    </div>
+  </div>
+
+<% end %>

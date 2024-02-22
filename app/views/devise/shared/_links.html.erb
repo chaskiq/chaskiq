@@ -8,7 +8,9 @@
   }
 
 </style>
-<div class="flex flex-col space-y-2 pt-4 justify-around">
+
+
+<div class="flex flex-col pb-4 py-4 justify-start items-start text-left">
   <%- if controller_name != 'sessions' %>
     <%= link_to "Log in", new_session_path(resource_name) %>
   <% end %>
@@ -29,5 +31,25 @@
     <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %>
   <% end %>
 </div>
+
+<div class="py-4">
+  <% if Chaskiq::Config.get("AUTH0_ENABLED") == "true" %>
+    <%- if devise_mapping.omniauthable? %>
+      <% #= resource_class.omniauth_providers %>
+      <%- [:auth0].each do |provider| %>
+        <div>
+          <%= button_to omniauth_authorize_path(resource_name, provider), data: { turbo: false },
+            class: "w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-800 rounded-md shadow-sm bg-white dark:bg-black text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900" do %>
+            <span class="sr-only">
+              <%= t("Sign in with #{OmniAuth::Utils.camelize(provider)}") %>
+            </span>
+            <%= provider %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
 
 

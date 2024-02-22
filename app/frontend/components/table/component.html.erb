@@ -1,0 +1,75 @@
+	<div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
+
+		<div class="table min-w-full">
+			<div class="table-header-group <%= 'hidden' if @headless %> border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-600">
+				<% if @sortable %>
+					<div class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+							sortable
+					</div>
+				<% end %>
+				<% @config[:columns].each do |c|%>
+					<div class="table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+						<%= c[:name].to_s.humanize.titleize %>
+					</div>
+				<% end %>
+			</div>
+
+			<div class="table-row-group bg-white dark:bg-gray-800"
+
+				<% if @sortable%>
+					data-controller="sortable"
+					data-handle=".cursor-move"
+					data-url="<%= @sortable %>"
+					<% if @sortable_group %>
+					data-group="<%= @sortable_group %>"
+					<% end %>
+				<% end %>
+			>
+
+				<% @data.each_with_index do |record, index| %>
+					<div
+						data-id="<%= record.try(:id) || index %>"
+						id="<%= "#{record.class.table_name}-#{record.try(:id) || index}" %>"
+						class="table-row hover:bg-gray-50 dark:hover:bg-gray-800">
+
+						<% if @sortable %>
+							<div class="table-cell align-middle px-6 py-4 whitespace-nowrap border-b dark:border-gray-900">
+								<div class="cursor-move btn btn-dark-flat">
+									<%= heroicon "arrows-up-down" %>
+								</div>
+							</div>
+						<% end %>
+
+						<% @config[:columns].each do |c| %>
+							<div class="table-cell align-middle px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900">
+								<% if c[:render] %>
+									<%= c[:render].call(record) %>
+								<% else %>
+									<%= record.send(c[:name].to_sym) %>
+								<% end %>
+							</div>
+						<% end %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+
+	</div>
+
+	<% if @data.present? && @data.respond_to?(:total_count) %>
+		<div class="px-4 py-3 flex items-center justify-between sm:px-6--">
+			<div class="flex-1 flex justify-between items-center">
+				<%= link_to_prev_page @data, 'Prev', class: "btn btn-outlined" %>
+
+				<p class="text-sm leading-5 text-gray-700 dark:text-gray-50">
+					Showing<span class="font-medium ml-1 mr-1"><%= @data.size %></span>of<span class="font-medium ml-1 mr-1"><%= @data.total_count %>
+				</p>
+
+				<%= link_to_next_page @data, 'Next' , class: "btn btn-outlined" %>
+			</div>
+		</div>
+	<% end %>
+
+	<% if @paginate_meta.present? %>
+		oli paginate meta here
+	<% end %>

@@ -1,0 +1,7 @@
+<%= @dashboard%>
+
+<%= render HeatMapChart::Component.new(
+  data: @dashboard,
+  from: @range[:from],
+  to: @range[:to]
+)%>

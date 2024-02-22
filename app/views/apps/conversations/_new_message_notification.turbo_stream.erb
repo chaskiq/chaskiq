@@ -1,0 +1,28 @@
+
+ 
+
+  <%= turbo_stream.send(partial_method, partial_target) do %>
+    <%= render "apps/conversation_messages/part", 
+      app: app, 
+      message: message, 
+      notified: true 
+    %>   
+  <% end %>   
+    
+  <%= turbo_stream.prepend("conversation-list-#{app.key}") do %>
+    <%= render "apps/conversations/conversation", 
+      app: app, 
+      conversation: message.conversation 
+    %>
+  <% end %>
+
+  <% if message.authorable_type != "Agent" && !message.read? %>
+    <%= turbo_stream.update("chaskiq-panel-custom-events") do %>
+      <%= render "shared/pling", type: "conversation_part", 
+        data: { 
+          conversation_key: message.conversation.key, 
+          message_id: message.id 
+        }
+      %>
+    <% end %>
+  <% end %>

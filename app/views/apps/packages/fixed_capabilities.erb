@@ -1,0 +1,27 @@
+
+<%= turbo_frame_tag "fixed-app-packages", data: {turbo_permanent: true} do %>
+  <div class="md:block 
+    bg-gray-100 dark:bg-black
+    text-purple-lighter 
+    flex-none w-23 
+    p-2 
+    border-r border-gray-300 dark:border-gray-900 border-l h-screen">
+	
+	  <div class="cursor-pointer mb-4">
+      <div class="bg-white dark:bg-gray-900 dark:text-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
+        <%= link_to app_integrations_path(@app.key), data: {turbo_frame: "content", turbo_action: "advance"} do %>
+          <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+            <path d="M7.5 1.5l.197-.46a.5.5 0 00-.394 0l.197.46zm-7 3l-.197-.46a.5.5 0 000 .92L.5 4.5zm7 3l-.197.46a.5.5 0 00.394 0L7.5 7.5zm7-3l.197.46a.5.5 0 000-.92l-.197.46zm-7 6l-.197.46.197.084.197-.084-.197-.46zm0 3l-.197.46.197.084.197-.084-.197-.46zM7.303 1.04l-7 3 .394.92 7-3-.394-.92zm-7 3.92l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92zm7-3.92l-7-3-.394.92 7 3 .394-.92zM.303 7.96l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92zm-7.394 0l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92z" fill="currentColor"></path>
+          </svg>
+        <% end %>
+      </div>
+    </div>
+    <div class="overflow-y-auto h-full">
+      <% #= rand(50) %>
+
+			<%= turbo_frame_tag "fixed_packages" do %>
+				<%= render "apps/packages/fixed_capabilities" %>
+			<% end %>
+    </div>
+	</div>
+<% end %>

@@ -1,0 +1,117 @@
+<% dropdown_options = [
+    {
+      title: 'Archive',
+      name: 'archived',
+      description: 'Archive this person and their conversation history',
+      icon: "archive-box-arrow-down",
+      id: 'archive',
+      state: 'archive',
+    },
+    {
+      title: 'Block',
+      name: 'blocked',
+      description: 'Blocks them so you won’t get their replies',
+      icon: "no-symbol",
+      id: 'block',
+      state: 'block',
+    },
+    {
+      title: 'Unsubscribe',
+      name: 'unsubscribed',
+      description: 'Removes them from your email list',
+      icon: "user-minus",
+      id: 'unsubscribe',
+      state: 'unsubscribe',
+    },
+  ];
+%>
+
+<main
+  class="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last"
+  tabindex="0"
+>
+  <!-- Breadcrumb -->
+  <nav
+    class="flex items-start px-4 py-3 sm:px-6 lg:px-8 xl:hidden"
+    aria-label="Breadcrumb"
+  >
+    <%= link_to '#', class: 'inline-flex items-center space-x-3 text-sm font-medium text-gray-900' do %>
+      <% #= inline_svg_pack_tag 'media/solid/chevron-left.svg', class: '-ml-2 h-5 w-5 text-gray-400', aria: { hidden: true } %>
+      <span>Directory</span>
+    <% end %>
+  </nav>
+
+  <article>
+    <!-- Profile header -->
+    <div>
+      <div>
+        <div class="h-32 w-full object-cover lg:h-48" 
+          data-controller="map" 
+          data-user-data="<%= @user_data.to_json %>">
+        </div>
+      </div>
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
+          <div class="block relative">
+            <%= render(Avatar::Component.new(src: @app_user.avatar_url, app: @app, size: "full")) %>
+            <% #= render "avatar", size: 24, classes: 'h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32', src: "#{@app_user.avatar_url}&s=120px" %>
+          </div>
+          <div class="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+            <div class="sm:hidden 2xl:block mt-6 min-w-0 flex-1">
+              <h1 class="text-2xl font-bold text-gray-900 truncate">
+                <%= @app_user.display_name %>
+              </h1>
+            </div>
+            <div class="items-center mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+              <!-- Other components/buttons and logic -->
+
+              <%= link_to "new conversation", 
+                new_app_conversation_path(@app.key, modal: true, app_user_id: @app_user.id),
+                class: "btn md btn-outlined",
+                "data-turbo-frame": "modal"
+              %>
+
+              <%= render FilterMenu::Component.new( label: 'Add filters', 
+                variant: 'outlined',
+                orientation: 'right',
+                items: dropdown_options, 
+                size: 'sm',
+                label: "..."
+              )
+              %>
+            </div>
+          </div>
+          <!-- More code here... -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tabs & other sections -->
+
+
+      <%= turbo_frame_tag "profile-frame" do %>
+      
+        <%= render Tabs::Component.new(	items: contact_menu_data(app: @app, app_user: @app_user) ) do %>
+          <% if params[:namespace].blank? %>
+            <%= render "attributes" %>
+          <% end %>
+
+          <%= params[:namespace] %>
+
+          <% if params[:namespace] == "conversations" %>
+            <%= render "conversations" %>
+          <% end %>
+
+          <% if params[:namespace] == "visits" %>
+            <%= render "conversations" %>
+          <% end %>
+
+        <% end %>
+      <% end %>
+
+    </div>
+
+    
+
+  </article>
+</main>

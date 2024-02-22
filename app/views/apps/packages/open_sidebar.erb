@@ -1,0 +1,39 @@
+<%= turbo_frame_tag "fixed-app-packages" do %>
+
+
+  <div class="pointer-events-auto w-screen max-w-xs">
+    <div class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-black shadow-xl">
+      <div class="p-6">
+        <div class="flex items-start justify-between">
+          <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 dark:bg-gray-900">Integration packages</h3>
+          <div class="ml-3 flex h-7 items-center">
+            <%= link_to capabilities_app_packages_path( @app.key, kind: "fixed_sidebar"), data: {turbo_frame: "fixed-app-packages"},
+              class: "rounded-md bg-white text-gray-400 hover:text-gray-500 dark:bg-black dark:text-gray-100 dark:hover:text-gray-300 focus:ring-2 focus:ring-indigo-500" do %>
+              <span class="sr-only">Close panel</span>
+              <svg class="h-6 w-6 css-1dhg8p7" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+              </svg>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="rounded-md- border- border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-800 w-full p-2--">
+        <p class="hidden text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">TwilioPhone</p>
+        <div class="flex flex-col">
+          <form>
+            <div class="css-sxfrcw">
+              <div class="css-144ix0b">
+                
+                <iframe id="package-frame" 
+                  allow="autoplay; camera; microphone; fullscreen; speaker; display-capture" src="https://app.chaskiq.io/package_iframe/TwilioPhone?token=BAh7CjoLYXBwX2lkaQY6D3BhY2thZ2VfaWRpAigZOglsYW5nOgdlbjoRY3VycmVudF91c2VyewlJIgdpZAY6BkVUaQZJIglraW5kBjsKRkkiCmFnZW50BjsKVEkiEWRpc3BsYXlfbmFtZQY7CkZJIhVNaWd1ZWwgTWljaGVsc29uBjsKVEkiD2F2YXRhcl91cmwGOwpGSSICogFodHRwczovL2FwcC5jaGFza2lxLmlvL3JhaWxzL2FjdGl2ZV9zdG9yYWdlL3JlcHJlc2VudGF0aW9ucy9yZWRpcmVjdC9leUpmY21GcGJITWlPbnNpYldWemMyRm5aU0k2SWtKQmFIQkJkWGRLSWl3aVpYaHdJanB1ZFd4c0xDSndkWElpT2lKaWJHOWlYMmxrSW4xOS0tMWU0YmIzN2RlNzBiODIyZjU1ZjA1MDUxYjVmMTE3MzBjZjliMDk2My9leUpmY21GcGJITWlPbnNpYldWemMyRm5aU0k2SWtKQmFEZENlbTlNV20wNWVXSlhSakJUVTBsSlkwYzFia0pxYjBkU1ZsRTJSa2hLYkdNeWJEWmFWamt3WWpFNWMyRlhNWEJrUm5OSVlWZHNjR0ZSUFQwaUxDSmxlSEFpT201MWJHd3NJbkIxY2lJNkluWmhjbWxoZEdsdmJpSjlmUT09LS0yODVlZThkMTA0NzYxNTc3MWFmZWYyNThmMGRiNTlhMGM1NzI2YjJhL21pY2gtc3F1YXJlLXByb2ZpbGUucG5nBjsKVDoObmFtZXNwYWNlSSISc2lkZWJhcl9mcmFtZQY7ClQ=--5eb71484ef86056eb4e9161e58b58fe99bf08b7480af4a932736cd1d3ca3d202" style="width: 100%; height: calc(100vh - 75px); border: 0px;">
+                </iframe>
+                
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% end %>

@@ -1,0 +1,41 @@
+
+<div id="step-index-<%= index%>" 
+  class="flex flex-row justify-start min-h-0 min-w-0" style="flex: 0 0 auto;">
+  
+  <div class="w-[60px] h-[60px] border-b border-gray-300"> </div>
+
+  <div class="flex flex-col bg-white w-32 h-32 min-h-full shadow-md border rounded-md overflow-hidden p-1">
+
+
+    <div class="flex justify-end w-full space-x-2 p-1">
+      <%= link_to "#", 
+        data: { 
+          url: url, index: index, target: step.target, action: "click->tour-editor#editStep",
+          "controller"=> "tippy", "content": "edit", "placement": 'bottom' },
+        class: "p-0.5 self-end inline-flex text-center h-4 w-4 items-center border border-transparent 
+        rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" do %>
+        <%= heroicon("pencil", variant: :mini) %>
+      <% end %>
+
+      <%= link_to "#", 
+        data: { url: url, action: "click->tour-editor#sendDelete",  
+        "controller"=> "tippy", "content": "remove", "placement": 'bottom'  },
+        class: "p-0.5 self-end inline-flex text-center h-4 w-4 items-center border border-transparent 
+        rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" do %>
+        <%= heroicon("x-mark", variant: :mini) %>
+      <% end %>
+    </div>
+
+    <div style="padding: 16px 24px;"></div>
+
+    <div>
+        <%= raw Dante::Renderer.new(
+          raw: JSON.parse(step.content).with_indifferent_access
+          ).render 
+        %>
+    </div>
+  </div>
+
+</div>

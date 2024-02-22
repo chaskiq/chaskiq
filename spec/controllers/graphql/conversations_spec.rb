@@ -95,11 +95,9 @@ RSpec.describe GraphqlController, type: :controller do
                                               subject: "aaa",
                                               id: app_user.id.to_s,
                                               message: {
-                                                html: "oli",
-                                                serialized: "aaa"
+                                                html: "oli"
                                               }
                                             }))
-
       expect(graphql_response.data.startConversation.conversation.subject).to be == "aaa"
     end
 
@@ -148,8 +146,7 @@ RSpec.describe GraphqlController, type: :controller do
                                               id: app_user.id.to_s,
                                               initiatorChannel: "Twilio",
                                               message: {
-                                                html: "oli",
-                                                serialized: "aaa"
+                                                html: "oli"
                                               }
                                             }))
 

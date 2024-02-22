@@ -1,0 +1,15 @@
+<% # @blocks["definitions"] %>
+
+<%= render DefinitionRenderer::Component.new(
+		schema: @blocks["definitions"], 
+		size: 'sm', 
+		values: {},
+		blocks: @blocks,
+		location: @location,
+		category: @category,
+		frame: @identifier,
+		message_key: @message_key,
+		conversation_key: @conversation_key,
+		app_package: @package_name,
+		app: @app
+)%>

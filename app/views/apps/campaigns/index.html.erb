@@ -1,0 +1,52 @@
+
+<%= render Content::Component.new do %>
+
+  <%= render PageHeader::Component.new(title: campaign_name(@namespace) ) do %>
+    <%= link_to I18n.t('campaigns.create_new'), 
+      new_app_campaign_path(@app.key, namespace: @namespace),
+      class: "btn sm btn-flat-dark"
+    %>
+  <% end %>
+
+  <% if @collection %>
+    <%= render Table::Component.new(
+      data: @collection, 
+      config: {
+        columns: [
+          { name: :title, render: lambda{|record| 
+              raw(%{
+                <div class="flex items-center">
+                  <div class="flex items-center text-lg font-bold">
+                    #{link_to record.name, app_campaign_path(@app.key, record), class: "truncate w-64"}
+                  </div>
+                </div>
+              }) 
+            }
+          },
+          { name: :state, render: lambda{|record|
+              raw(
+                render( Badge::Component.new(variant: record.state_color, class_name: 'mr-2')){ record.state } 
+              )
+            }
+          }
+        ]
+      },
+      paginate: paginate(@collection)
+    )%>
+
+  <% end %>
+
+  <% if @collection.blank? %>
+    <%= render EmptyView::Component.new(
+        title: I18n.t('campaigns.home.title'),
+        subtitle: I18n.t('campaigns.home.text'),
+        text: "ieiei"
+      )  
+    %>
+  <% end %>
+
+<% end %>
+
+
+
+

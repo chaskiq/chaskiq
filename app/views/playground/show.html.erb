@@ -1,0 +1,27 @@
+
+
+<div class="flex" data-controller="playground">
+  <div class="w-1/2 h-screen overflow-auto">
+
+    <div class="bg-gray-200 p-4 flex space-x-3 items-center">
+      <a href="/" class="border-2 p-2 hover:bg-gray-500 bg-gray-400 text-white rounded-md">
+        <%= heroicon("chevron-left") %>
+      </a>
+      <%= image_tag "favicon.png", width: "40", class: "border-sm" %>
+      <p class="text-lg font-bold">CHASKIQ BLOCKS PLAYGROUND</p>
+    </div>
+    
+    <div class="p-4 flex">
+      <%= turbo_frame_tag "playground-renderer" do %>
+      <% end %>
+    </div>
+  
+  </div>
+  
+  <div class="text-white w-1/2">
+
+    <div data-playground-target="errors" class="hidden fixed- top-0 z-10 w-full p-2 px-4 bg-red-600 text-white"></div>
+
+    <div data-playground-target="codemirror" class="h-screen overflow-auto"></div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<%= f.fields_for :steps, items do |fff| %>
+
+	<div class="follow-action-item border-- border-red-600--" 
+		id="bot-step-<%= fff.object.step_uid %>">
+		<%= fff.hidden_field :type %>
+		<%= fff.hidden_field :step_uid, label: 'step id' %>
+
+		<div 
+			data-controller="nested-form" 
+			data-new-record="<%= true %>">
+			<div data-nested-form-target="wrap" 
+				id="bot-nested-fields-<%= fff.object.step_uid %>" 
+				data-controller="sortable"
+				data-handle=".cursor-move"
+				data-new-record="true"
+				class="bot-nested-fields">
+
+				<% #= fff.object.messages.size %>
+				<% #= fff.object.controls.present? ? fff.object.controls.type : "NONO" %>
+				<% # fff.object.as_json %>
+				<%= fff.fields_for :controls, fff.object.controls, child_index: 'NEW_RECORD' do |ff| %>
+					<%= render "apps/bots/editor/ask_option", 
+						form: ff, 
+						bot_step: fff.object.step_uid,
+						disable_delete: local_assigns[:disable_delete]
+					%>
+				<% end %>
+			</div>
+		</div>
+	</div>
+<% end %>
+
+<% # f.object.follow_actions.as_json %>
+
+<div 
+  data-controller="nested-form"
+  data-new-record="<%= true %>">
+
+    <%= f.fields_for :follow_actions, f.object.follow_actions do |fff| %>
+			<% if f.object.follow_actions %>
+				<% unless local_assigns[:disable_delete] %>
+					<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 py-4">
+						End bot with follow actions
+					</p>
+				<% end %>
+			<% end %>
+
+			<% if fff.object.key == "close_conversation"%>
+				<%= render "apps/bots/editor/close_conversation", form: fff %>
+			<% end %>
+
+			<% if fff.object.key == "assign_agent"%>
+				<%= render "apps/bots/editor/assign_agent", form: fff %>
+			<% end %>
+    <% end %>
+
+</div>
+

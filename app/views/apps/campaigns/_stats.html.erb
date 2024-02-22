@@ -1,0 +1,64 @@
+
+
+<% counts = @campaign.metrics.group(:action).count(:trackable_id) %>
+
+<div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
+  <% @campaign.stats_fields.each do |field| %>
+    <% data = field[:keys].map do |o|
+      {
+        id: o[:name],
+        label: o[:name],
+        value: counts[o[:name]],
+        color: o[:color]
+      }
+    end 
+    %>
+
+    <div class="sm:col-span-1">
+      <%= render PieChart::Component.new(
+          data: data,
+          label: field[:name]
+        )
+      %>
+    </div>
+  <% end %>
+</div>
+
+
+<%= render Table::Component.new(
+  data: @collection, 
+  config: {
+    columns: [
+      { field: 'id', name: 'id', hidden: true },
+      {
+        name: 'email',
+        title: I18n.t('definitions.stats.email.label'),
+        render: ->(row) {row.app_user.email }
+      },
+      {
+        name: 'action',
+        title: I18n.t('definitions.stats.actions.label'),
+        render: ->(row) {
+          render Badge::Component.new() do 
+            row.action
+          end
+        } 
+      },
+      {
+        name: 'host',
+        title: I18n.t('definitions.stats.from.label'),
+      },
+      {
+        name: 'created_at',
+        title: I18n.t('definitions.stats.when.label'),
+        render: ->(row) { l(row.created_at, format: :long) },
+      },
+      {
+        name: 'data',
+        title: I18n.t('definitions.stats.data.label'),
+        render: ->(row) { row.data },
+      },
+    ]
+  },
+  paginate: paginate(@collection)
+)%>

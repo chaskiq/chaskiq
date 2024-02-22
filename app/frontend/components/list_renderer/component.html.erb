@@ -1,0 +1,54 @@
+<div class="list list-wrapper divide-x-2">
+	<% @field.each do |item| %>
+    <div class="list-item cursor-pointer" 
+			<% if item["action"] %>
+				data-action="<%= action_method(item["action"]) %>"
+				data-field-json="<%= item.to_json %>"
+			<% end %>
+			>
+      <div 
+				class="list-item-b"
+			 	data-action--nono="click->definitions-renderer#dispatchAction">
+        <div class="content">
+          <div class="avatar-content">
+            <!--{avatar && avatar}-->
+						<% if item["image"] %>
+							<img width="55" src="<%= item["image"] %>" />
+						<% end %>
+
+						<div class="list-item-wrapper">
+							<div>
+
+								<div class="list-item-primary">
+									<% if item["title"] %>
+										<%= item["title"] %>
+									<% end %>
+								</div>
+
+								<div class="list-item-secondary">
+									<% if item["subtitle"] %>
+										<%= item["subtitle"] %>
+									<% end %>
+								</div>
+							</div>
+
+							<div class="list-item-terciary">
+								<div>
+
+									<div class="terciary-text">
+										<% if item["tertiary_text"] %>
+											<%= item["tertiary_text"] %>
+										<% end %>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+	<% end %>
+</div>

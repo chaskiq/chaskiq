@@ -1,0 +1,38 @@
+<p class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4">
+	<%= I18n.t("articles.settings.appearance_settings") %>
+</p>
+
+<%= form_for @article_setting, url: app_articles_setting_path(@app.key, :appearance) do |f| %>
+
+	<div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
+
+		<div class="sm:col-span-2">
+			<%= image_tag @article_setting.logo_url %>
+			<%= f.file_field :logo %>
+		</div>
+		
+		<div class="sm:col-span-4">
+			<%= image_tag @article_setting.header_image_url %>
+			<%= f.file_field :header_image %>
+		</div>
+
+		<div class="sm:col-span-6">
+			<%= f.color_field :color %>
+		</div>
+
+		<div class="sm:col-span-2">
+			<%= f.text_field :twitter %>
+		</div>
+
+		<div class="sm:col-span-2">
+			<%= f.text_field :facebook %>
+		</div>
+
+		<div class="sm:col-span-2">
+			<%= f.text_field :linkedin %>
+		</div>
+
+	</div>
+
+	<%= f.submit(t("common.save"), class: "btn btn-success") %>
+<% end %>

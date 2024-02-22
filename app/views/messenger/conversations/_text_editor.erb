@@ -1,0 +1,92 @@
+
+<div class="cache-emo-1c9rau9" id="text_editor-<%= conversation.key %>">
+
+  <% if conversation.state == "closed" && app.inbound_replies_closed_for?(user)  %>
+    <div  class="h-[93px] top-[-60px] bg-white absolute flex flex-col justify-center items-center w-full">
+      <p class="text-xs py-2">
+        <%= t('messenger.closed_conversation') %>
+      </p>
+
+      <% if app.inbound_conversations_enabled_for?(user) %>
+        <%= link_to t("messenger.start_conversation"), new_messenger_conversation_path(app.key),
+        data: {action: "click->messenger#animateOnClick"},
+        class: "cache-emo-1kn0l3e" %>
+      <% end %>
+
+   
+    </div>
+  <% else %>
+    <div class="cache-emo-1ndl2to" id="chat-editor">
+      <div class="cache-emo-dddhpq">
+
+        <div class="absolute bottom-[17px] left-[13px] z-50 hidden" data-messenger-target="loader">
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
+
+        <textarea
+          data-action="input->messenger#handleChatInput keydown.enter->messenger#handleEnter"
+          data-messenger-target="chatField"
+          placeholder="Send message..." 
+          data-cy="messenger-editor"
+          data-url="<%= conversation.persisted? ? messenger_conversation_messages_path(app.key, conversation.key) : messenger_conversations_path(app.key) %>" 
+          class="cache-emo-168wfpv"></textarea>
+
+        <div class="cache-emo-1px880n">
+
+          <% if app.allowed_editor_feature?(user.type, "emojis") %>
+            <%= render "messenger/conversations/emoji_picker" %>
+
+            <button data-action="messenger#showEmojiContainer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                <path d="M6 8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm6 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-3 5.5c2.14 0 3.92-1.5 4.38-3.5H4.62c.46 2 2.24 3.5 4.38 3.5zM9 1C4.57 1 1 4.58 1 9s3.57 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S5.41 2.5 9 2.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z"></path>
+              </svg>
+            </button>
+
+          <% end %>
+
+          <% if app.allowed_editor_feature?(user.type, "gifs") %>
+            <div id="giphyPicker" class="dda hidden rounded-md shadow-md" data-messenger-target="giphyWrapper">
+              <div class="p-2 mt-2">
+                <input type="text"
+                  placeholder="search gifs in giphy" 
+                  class="block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  data-messenger-target="giphySearchInput" data-action="messenger#debouncedGiphySearch" />
+                <div data-messenger-target="giphyList" 
+                  class="mx-2 mt-2 flex flex-col overflow-y-auto h-[213px]">
+                </div>
+              </div>
+            </div>
+          
+            <button data-action="messenger#showGiphyContainer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M11.5 9H13v6h-1.5zM9 9H6c-.6 0-1 .5-1 1v4c0 .5.4 1 1 1h3c.6 0 1-.5 1-1v-2H8.5v1.5h-2v-3H10V10c0-.5-.4-1-1-1zm10 1.5V9h-4.5v6H16v-2h2v-1.5h-2v-1z"></path>
+              </svg>
+            </button>
+
+          <% end %>
+
+
+          <% if app.allowed_editor_feature?(user.type, "attachments") %>
+
+            <button data-action="messenger#handleFileUpload">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                <path d="M13 14c0 2.21-1.79 4-4 4s-4-1.79-4-4V3c0-1.66 1.34-3 3-3s3 1.34 3 3v9c0 1.1-.9 2-2 2s-2-.9-2-2V4h1v8c0 .55.45 1 1 1s1-.45 1-1V3c0-1.1-.9-2-2-2s-2 .9-2 2v11c0 1.66 1.34 3 3 3s3-1.34 3-3V4h1v10z"></path>
+              </svg>
+              <input
+                data-messenger-target="uploadField"
+                data-action="messenger#handleFileUploadChange"
+                type="file" 
+                accept="text/plain, text/markdown, text/x-markdown, image/jpg, image/gif, image/jpeg, image/png, application/pdf, application/csv, application/xls, application/xlsx" 
+                style="display: none;">
+            </button>
+
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

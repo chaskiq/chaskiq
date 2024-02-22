@@ -5,25 +5,26 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
   darkMode: 'class',
-  mode: 'jit',
-  experimental: {},
-  //purge: {
-    //enabled: false,
-    //enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
-    content: [
-      './app/**/*.html.erb',
-      './app/**/*.erb',
-      './app/javascript/**/*.scss',
-      './app/helpers/**/*.rb',
-      './app/services/message_apis/**/presenter.rb',
-      './app/javascript/**/*.js',
-      './app/javascript/**/*.jsx',
-      './app/javascript/**/*.ts',
-      './app/javascript/**/*.tsx',
-      './node_modules/rc-tooltip/**/*.js',
-      './node_modules/rc-tooltip/**/*.css',
-    ],
-  //},
+  content: [
+    './app/**/*.html.erb',
+    './app/**/*.erb',
+    './app/assets/stylesheets/**/*.css',
+    './app/helpers/tailwind_form_builder.rb',
+    './app/frontend/**/*.erb',
+    './app/frontend/components/**/*.erb',
+    './app/**/component.rb',
+    './app/frontend/**/*.scss',
+    './app/javascript/**/*.scss',
+    './app/helpers/**/*.rb',
+    './app/services/message_apis/**/presenter.rb',
+    './app/javascript/**/*.js',
+    './app/javascript/**/*.jsx',
+    './app/javascript/**/*.ts',
+    './app/javascript/**/*.tsx',
+    './app/assets/stylesheets/**/*.css',
+    './node_modules/rc-tooltip/**/*.js',
+    './node_modules/rc-tooltip/**/*.css',
+  ],
   theme: {
     minWidth: {
       0: '0',
@@ -102,7 +103,8 @@ module.exports = {
       },
     }
   },
-  variants: {},
+  //variants: {
+  //},
   corePlugins: {
     // ...
   },

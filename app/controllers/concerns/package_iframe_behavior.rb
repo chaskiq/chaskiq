@@ -6,15 +6,26 @@ module PackageIframeBehavior
   def package_iframe
     if params[:token]
       data = CHASKIQ_FRAME_VERIFIER.verify(params[:token])
+
+      @app = App.find_by(key: data[:app_id])
+
       # in case an user_token is provided
       if params[:user_token].present?
         data.merge!({
                       current_user: CHASKIQ_FRAME_VERIFIER.verify(params[:user_token])
                     })
+      elsif (!data[:current_user] && !data[:current_user_id]) && session[:messenger_session_id]
+        app_user = @app.app_users.find_by(session_id: session[:messenger_session_id])
+        data[:user] = app_user
       end
 
+      pkg = AppPackageIntegration.find(data[:package_id])
+      html = pkg.presenter.sheet_view(data)
+    elsif params[:token].blank? && session[:messenger_session_id]
       @app = App.find_by(key: data[:app_id])
-
+      app_user = @app.app_users.find_by(session_id: session[:messenger_session_id])
+      data = {}
+      data[:user] = app_user
       pkg = AppPackageIntegration.find(data[:package_id])
       html = pkg.presenter.sheet_view(data)
     elsif params[:data].present?
@@ -56,7 +67,34 @@ module PackageIframeBehavior
 
     # rubocop:disable Rails/OutputSafety
     response.headers.delete "X-Frame-Options"
+    if params[:frame]
+      render turbo_stream: [
+        turbo_stream.replace(
+          params[:frame],
+          inline: html.html_safe
+        )
+      ] and return
+    end
+
+    if params[:messengerFrame]
+      # render turbo_stream: [
+      #  turbo_stream.update("bbbb", inline: html.html_safe),
+      #  turbo_stream.replace("header-content", partial: "messenger/base_header", locals: { app: @app })
+      # ] and return
+
+      respond_to do |format|
+        format.turbo_stream do
+          @html = html
+          render "apps/packages/package_iframe_internal", layout: false
+        end
+        format.html do
+          render html: html.html_safe, layout: false
+        end
+      end
+    end
+
     render html: html.html_safe, layout: false
+
     # rubocop:enable Rails/OutputSafety
   end
 
@@ -68,7 +106,13 @@ module PackageIframeBehavior
     #  app = conversation.app
     # else
 
-    app = AppUser.find(params[:user]["id"]).app
+    if session[:messenger_session_id]
+      user = AppUser.find_by(session_id: session[:messenger_session_id])
+      app = user.app
+    else
+      app = AppUser.find(params[:user]["id"]).app
+      user = params[:user]
+    end
     # end
 
     presenter = app.app_package_integrations
@@ -78,21 +122,31 @@ module PackageIframeBehavior
 
     opts = {
       app_key: app.key,
-      user: params[:user],
-      field: params.dig(:data, :field),
-      values: params.dig(:data, :values)
+      user: user,
+      field: params.dig(:data, :field) || params.dig(:ctx, :field),
+      values: params.dig(:data, :values) || params[:values]
     }
 
     opts.merge!({
-                  conversation_key: params.dig(:data, :conversation_key),
-                  message_key: params.dig(:data, :message_key)
+                  conversation_key: params.dig(:data, :conversation_key) || params.dig(:ctx, :conversation_key),
+                  message_key: params.dig(:data, :message_key) || params.dig(:ctx, :message_key)
                 })
 
     html = presenter.sheet_view(opts)
 
     # rubocop:disable Rails/OutputSafety
     response.headers.delete "X-Frame-Options"
-    render html: html.html_safe, layout: false
+    @html = html.html_safe
+
+    respond_to do |format|
+      format.turbo_stream do
+        @app = app
+        render "apps/packages/package_iframe_internal", layout: false
+      end
+      format.html do
+        render html: html.html_safe, layout: false
+      end
+    end
     # rubocop:enable Rails/OutputSafety
   end
 

@@ -3,17 +3,23 @@
 class WidgetsController < ApplicationController
   include ActionView::Helpers::AssetUrlHelper
 
-  protect_from_forgery except: :show
+  protect_from_forgery except: %i[show new_embed]
 
   def show
     respond_to do |format|
-      format.js { redirect_to widget_javascript_source }
+      format.js { redirect_to widget_javascript_source("embed.js") }
+    end
+  end
+
+  def new_embed
+    respond_to do |format|
+      format.js { redirect_to widget_javascript_source("new_embed.js") }
     end
   end
 
   private
 
-  def widget_javascript_source
-    ActionController::Base.helpers.compute_asset_path("embed.js", debug: true)
+  def widget_javascript_source(embed)
+    ActionController::Base.helpers.compute_asset_path(embed, debug: true)
   end
 end

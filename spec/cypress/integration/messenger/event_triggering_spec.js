@@ -16,7 +16,7 @@ describe('Customization Spec', function () {
     cy.appEval('App.last').then((results) => {
       const appKey = results.key
 
-      cy.visit(`/tester/${appKey}`)
+      cy.visit(`/tester/${appKey}?old_embed=true`)
         .then(() => {
           cy.get('iframe:first')
             .then(function ($iframe) {
