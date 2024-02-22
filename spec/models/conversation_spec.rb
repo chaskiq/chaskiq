@@ -154,6 +154,7 @@ RSpec.describe Conversation, type: :model do
 
     it "add block message" do
       # expect(conversation.events.count).to be == 1
+      allow_any_instance_of(ConversationPart).to receive(:email_send_disabled?).and_return(false)
       expect(conversation.messages.count).to be == 1
       expect(EventsChannel).to receive(:broadcast_to)
 
@@ -170,6 +171,60 @@ RSpec.describe Conversation, type: :model do
       )
 
       expect_any_instance_of(ConversationPart).to receive(:enqueue_email_notification)
+      message = conversation.add_message(
+        from: app_user,
+        controls: { a: 1 }
+      )
+      expect(message).to be_persisted
+      expect(message.message[:blocks]).to be_present
+    end
+
+    it "add block message, disabled emails" do
+      # expect(conversation.events.count).to be == 1
+      allow_any_instance_of(ConversationPart).to receive(:email_send_disabled?).and_return(true)
+      expect(conversation.messages.count).to be == 1
+      expect(EventsChannel).to receive(:broadcast_to)
+
+      message = conversation.messages.last
+
+      expect(MessengerEventsChannel).to receive(:broadcast_to).with(
+        message.broadcast_key,
+        hash_including(type: "conversations:conversation_part")
+      )
+
+      expect(MessengerEventsChannel).to receive(:broadcast_to).with(
+        message.broadcast_key,
+        hash_including(type: "conversations:unreads")
+      )
+
+      expect_any_instance_of(ConversationPart).to_not receive(:enqueue_email_notification)
+      message = conversation.add_message(
+        from: app_user,
+        controls: { a: 1 }
+      )
+      expect(message).to be_persisted
+      expect(message.message[:blocks]).to be_present
+    end
+
+    it "add block message, disabled emails account flagged" do
+      # expect(conversation.events.count).to be == 1
+      conversation.app.update(flagged: true)
+      expect(conversation.messages.count).to be == 1
+      expect(EventsChannel).to receive(:broadcast_to)
+
+      message = conversation.messages.last
+
+      expect(MessengerEventsChannel).to receive(:broadcast_to).with(
+        message.broadcast_key,
+        hash_including(type: "conversations:conversation_part")
+      )
+
+      expect(MessengerEventsChannel).to receive(:broadcast_to).with(
+        message.broadcast_key,
+        hash_including(type: "conversations:unreads")
+      )
+
+      expect_any_instance_of(ConversationPart).to_not receive(:enqueue_email_notification)
       message = conversation.add_message(
         from: app_user,
         controls: { a: 1 }

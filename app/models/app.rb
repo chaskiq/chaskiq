@@ -51,6 +51,7 @@ class App < ApplicationRecord
     lead_editor_settings
 
     sorted_agents
+    flagged
   ]
 
   include InboundAddress
