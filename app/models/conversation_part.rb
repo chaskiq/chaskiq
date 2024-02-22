@@ -183,7 +183,8 @@ class ConversationPart < ApplicationRecord
 
   def email_send_disabled?
     app = conversation.app
-    app.flagged || (app.plan.name == "free" && Chaskiq::Config.get("DISABLE_OUTGOING_EMAILS_FREE_PLAN"))
+    app.flagged || (app.plan.name == "free" && Chaskiq::Config.get("DISABLE_OUTGOING_EMAILS_FREE_PLAN")) ||
+      conversation&.main_participant&.disabled_notifications?
   end
 
   def is_from_auto_message_campaign?

@@ -194,6 +194,10 @@ class AppUser < ApplicationRecord
     end
   end
 
+  def disabled_notifications?
+    unsubscribed? || archived? || blocked?
+  end
+
   def update_email(email)
     app_user = app.get_app_user_by_email(email)
     if app_user
