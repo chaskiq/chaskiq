@@ -37,6 +37,8 @@ class Messenger::AuthController < ApplicationController
       inbound_settings: @app.inbound_settings,
       inline_conversations: ActiveModel::Type::Boolean.new.cast(@app.inline_new_conversations)
     }
+  rescue OriginValidator::NonAcceptedOrigin => e
+    render json: { error: e.message }, status: :unauthorized
   end
 
   private

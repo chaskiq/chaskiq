@@ -2,6 +2,7 @@
 	<% @field.each do |item| %>
     <div class="list-item cursor-pointer" 
 			<% if item["action"] %>
+				data-cy="action-<%= item["id"] %>"
 				data-action="<%= action_method(item["action"]) %>"
 				data-field-json="<%= item.to_json %>"
 			<% end %>

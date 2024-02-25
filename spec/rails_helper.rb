@@ -54,6 +54,26 @@ RSpec.configure do |config|
     metadata[:type] = :view_component
   end
 
+  require "falcon/capybara"
+
+  Capybara.configure do |config| # rubocop:disable Lint/ShadowingOuterLocalVariable
+    # This forces capybara to create a new server instance for each session/spec:
+    config.reuse_server = false
+
+    # config.server_port = 5002
+    # config.server_host = "localhost"
+    config.default_max_wait_time = 10
+    config.raise_server_errors == false
+
+    config.server = :falcon
+    config.javascript_driver = :selenium_chrome_headless
+
+    app, = Rack::Builder.parse_file(Rails.root.join("config.ru").to_s)
+    config.app = app
+  end
+
+  config.include FeatureHelpers, type: :system
+
   # https://github.com/rspec/rspec-rails/issues/2410
   config.include ActiveSupport::Testing::Assertions
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -101,7 +121,7 @@ RSpec.configure do |config|
     metadata[:browser] = true
   end
 
-  config.filter_run_excluding browser: true
+  # config.filter_run_excluding browser: true
 
   config.include Devise::Test::ControllerHelpers, type: :controller
   # RSpec Rails can automatically mix in different behaviours to your tests

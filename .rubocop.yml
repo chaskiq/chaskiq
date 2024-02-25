@@ -9,12 +9,11 @@ Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
   SupportedStyles:
-  - single_quotes
-  - double_quotes
+    - single_quotes
+    - double_quotes
 
 Style/HashSyntax:
   EnforcedShorthandSyntax: never
-
 
 Rails/EnvironmentVariableAccess:
   AllowReads: true
@@ -24,7 +23,7 @@ Lint/EmptyBlock:
     - 'spec/**/*'
 Metrics/BlockLength:
   Exclude:
-  - 'spec/**/*'
+    - 'spec/**/*'
 
 Style/OpenStructUse:
   Enabled: false
@@ -41,6 +40,7 @@ Metrics/ModuleLength:
   Exclude:
     - app/helpers/application_helper.rb
     - app/services/message_apis/helpers.rb
+    - spec/**/*
 Rails/InverseOf:
   Enabled: false
 
@@ -59,6 +59,3 @@ AllCops:
     - 'tmp/**/*'
     - 'spec/e2e/**/*'
     - public/assets/**/*
-
-
-
