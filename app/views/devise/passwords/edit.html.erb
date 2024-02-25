@@ -9,7 +9,9 @@
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md" data-turbo="false">
     <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
 
-      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {
+         method: :put, data: {'turbo-frame': '_top' } 
+         }) do |f| %>
 
         <%= render "devise/shared/error_messages", resource: resource %>
 

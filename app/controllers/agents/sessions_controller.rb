@@ -24,7 +24,7 @@ class Agents::SessionsController < Devise::SessionsController
         sign_in(resource_name, resource)
 
         # return
-        # redirect_to root_path and return
+        redirect_to root_path and return
       end
       format.json do
         self.resource = warden.authenticate!(auth_options)
