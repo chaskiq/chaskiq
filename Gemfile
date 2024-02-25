@@ -174,10 +174,12 @@ group :test do
   gem "database_cleaner-active_record"
   gem "database_cleaner-redis"
   gem "factory_bot_rails"
+  gem "falcon-capybara"
   gem "rubocop", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "selenium-webdriver"
   gem "shoulda"
   gem "shoulda-matchers"
   gem "webmock"
