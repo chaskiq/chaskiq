@@ -62,6 +62,8 @@ jobs:
           echo "INSTALL NODE"
           npm install -g ts-node
           echo "RUN SPECS"
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          apt-get install -y ./google-chrome-stable_current_amd64.deb
           bundle exec rspec -fd ./spec
 
       - name: Build and run E2E tests
@@ -77,9 +79,6 @@ jobs:
           ./node_modules/.bin/cypress install
           curl -i http://localhost:5002
           yarn cypress:ga-ci
-
-          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          apt-get install -y ./google-chrome-stable_current_amd64.deb
       #- name: Deploy to Heroku
       #  env:
       #    HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
