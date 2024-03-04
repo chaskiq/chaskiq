@@ -63,7 +63,7 @@ jobs:
           npm install -g ts-node
           echo "RUN SPECS"
           wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          apt-get install -y ./google-chrome-stable_current_amd64.deb
+          sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
           bundle exec rspec -fd ./spec
 
       - name: Build and run E2E tests
