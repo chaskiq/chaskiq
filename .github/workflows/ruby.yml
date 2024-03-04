@@ -26,7 +26,6 @@ jobs:
         ports: ['6379:6379']
         options: --entrypoint redis-server
 
-    
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
       REDIS_URL: redis://localhost:6379/0
@@ -79,7 +78,8 @@ jobs:
           curl -i http://localhost:5002
           yarn cypress:ga-ci
 
-
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          apt-get install -y ./google-chrome-stable_current_amd64.deb
       #- name: Deploy to Heroku
       #  env:
       #    HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
