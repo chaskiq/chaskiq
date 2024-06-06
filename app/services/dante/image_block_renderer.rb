@@ -18,15 +18,15 @@ class Dante::ImageBlockRenderer
       ratio = "100"
     end
 
-    default_style = "max-width: #{width}px; max-height: #{height}px;"
+    default_style = "max-width: #{width}; max-height: #{height};"
     direction_class = direction_class(@data[:direction])
     image_url = get_url(url || src, @domain)
 
     figure = <<~HTML
-      <figure id="#{@block_key}" class="graf graf--figure #{direction_class}">
+      <figure id="#{@block_key}" data-controller="medium" class="graf graf--figure #{direction_class}">
         <div>
           <div class="aspectRatioPlaceholder is-locked" style="#{default_style}">
-            <div class="aspect-ratio-fill" style="padding-bottom: #{ratio}%;"></div>
+            <div class="aspect-ratio-fill absolute" style="padding-bottom: #{ratio}%;"></div>
             <img src="#{image_url}" width="#{width}" height="#{height}" class="graf-image medium-zoom-image" alt="#{caption}">
           </div>
         </div>
@@ -53,6 +53,8 @@ class Dante::ImageBlockRenderer
   end
 
   def get_url(url, domain)
+    return url if url.include?("https://")
+
     domain ? "#{domain}#{url}" : url
   end
 

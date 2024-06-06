@@ -83,7 +83,8 @@ class Dante::Renderer
   def handle_mark(element, mark, node)
     case mark[:type]
     when "textStyle"
-      create_element("span", nil, element, style: "color: #{mark[:attrs][:color]};")
+      color = mark[:attrs][:color].is_a?(Hash) && mark[:attrs][:color].key?(:color) ? mark[:attrs][:color][:color] : mark[:attrs][:color]
+      create_element("span", nil, element, style: "color: #{color};")
     when "bold"
       create_element("strong", nil, element)
     when "italic"
