@@ -56,6 +56,9 @@ RSpec.configure do |config|
 
   require "falcon/capybara"
 
+
+  Capybara.default_driver = :selenium_chrome_headless
+
   Capybara.configure do |config| # rubocop:disable Lint/ShadowingOuterLocalVariable
     # This forces capybara to create a new server instance for each session/spec:
     config.reuse_server = false

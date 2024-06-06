@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
-import { ResponsiveCalendarCanvas } from '@nivo/calendar';
+import { ResponsiveCalendarCanvas, ResponsiveCalendar } from '@nivo/calendar';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-
+import moment from 'moment';
 import './index.css'
 
 // Add a Stimulus controller for this component.
@@ -15,16 +15,17 @@ export default class extends Controller {
   initialize() {
     const root = createRoot(this.element);
     root.render(
-      <HeatMap 
-        data={JSON.parse(this.element.dataset.points)}
-        from={this.element.dataset.from}
-        to={this.element.dataset.to}
-      />
+      <div className="h-40">
+        <HeatMap 
+          data={JSON.parse(this.element.dataset.points)}
+          from={this.element.dataset.from}
+          to={this.element.dataset.to}
+        />
+      </div>
     )
    }
 
-  disconnect() {
-  }
+  disconnect() {}
 }
 
 const theme = {
@@ -37,10 +38,21 @@ const theme = {
 };
 
 function HeatMap({ data, from, to }){
+
+  let fromTime = moment(from).toISOString()
+  let toTime = moment(to).toISOString()
+
+  console.log(data)
+  console.log(fromTime, toTime)
+
+  
   return <ResponsiveCalendarCanvas
   data={data}
-  from={from}
-  to={to}
+  from={fromTime}
+  to={toTime}
+
+  //from="2015-03-01"
+  //to="2016-07-12"
   //colors={{ scheme: 'nivo' }}
   emptyColor="#eeeeee"
   colors={['#61cdbb', '#97e3d5', '#e8c1a0', '#f47560']}

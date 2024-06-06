@@ -53,31 +53,6 @@ RSpec.describe "Widget management", type: :system do
   end
 
   before do
-    if ENV["CI"].present?
-      # Selenium::WebDriver::Chrome::Service.driver_path = ENV.fetch('GOOGLE_CHROME_BIN', nil)
-      # options = Selenium::WebDriver::Chrome::Options.new
-      # options.binary = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-      # driver = Selenium::WebDriver.for :chrome, options: options
-
-      Capybara.register_driver :chrome do |app|
-        options = Selenium::WebDriver::Chrome::Options.new(args: %w[no-sandbox headless disable-gpu])
-        Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
-      end
-    end
-
-    options_for_selemium = if ENV["CI"].present?
-                             {
-                               args: %w[no-sandbox headless disable-gpu]
-                             }
-                           else
-                             {
-                               # args: %w[auto-open-devtools-for-tabs]
-                             }
-                           end
-
-    driven_by :selenium, using: :chrome, screen_size: [1400, 1400],
-                         options: options_for_selemium
-
     ActiveJob::Base.queue_adapter = :test
     ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
     # Rails.application.config.active_job.queue_adapter = :test
