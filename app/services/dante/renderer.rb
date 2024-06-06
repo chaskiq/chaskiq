@@ -4,7 +4,7 @@
 class Dante::Renderer
   attr_accessor :raw, :html, :theme, :domain
 
-  def initialize(raw:, html: nil, theme: nil, domain: nil)
+  def initialize(raw:, html: nil, theme: nil, domain: Chaskiq::Config.get("HOST"))
     @raw = raw
     @html = html
     @theme = theme
