@@ -422,46 +422,6 @@ export default class ChatEditor extends Component<
 
         <ChatEditorInput style={{ flexGrow: 3 }}>
           <>
-            {/*<TextEditor
-                allowedEditorFeature={this.allowedEditorFeature}
-                theme={editorTheme}
-                inlineMenu={true}
-                tooltipsConfig={this.tooltipsConfig}
-                campaign={true}
-                uploadHandler={this.uploadHandler}
-                serializedContent={serializedContent}
-                loading={this.props.loading}
-                setDisabled={this.setDisabled}
-                read_only={this.state.read_only}
-                //ref={this.editorRef} // this breaks the anchors on editor
-                handleReturn={(e, isEmptyDraft) => {
-                  if (isEmptyDraft || this.isDisabled()) return;
-                  if (
-                    this.props.sendMode == 'enter' &&
-                    !e.nativeEvent.shiftKey
-                  ) {
-                    return this.handleSubmit();
-                  }
-                }}
-                toggleEditable={() => {
-                  this.setState({
-                    read_only: !this.state.read_only,
-                  });
-                }}
-                appendWidgets={this.extraWidgets()}
-                data={{
-                  serialized_content: serializedContent,
-                }}
-                styles={{
-                  lineHeight: '2em',
-                  fontSize: '1.2em',
-                }}
-                saveHandler={this.saveHandler}
-                updateState={({ _status, _statusButton, content }) => {
-                  this.saveContent(content);
-                }}
-              />*/}
-
             <TextEditor
               //widgets={defaultPlugins}
               theme={this.props.theme}
