@@ -4,6 +4,8 @@ module MessageApis::AuditsReports
   class Api
     attr_accessor :secret
 
+    def initialize(config:); end
+
     def self.definition_info
       {
         name: "AuditsReports",

@@ -1,7 +1,7 @@
 <div data-controller="heat-map-chart" 
-  data-points="<%= @data %>"
+  data-points="<%= @data.to_json %>"
   data-from="<%= @from %>"
   data-to="<%= @to %>"
+  style="width: 100%; height: 100%;"
   >
-  Add HeatMapChart template here
 </div>

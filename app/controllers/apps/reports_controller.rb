@@ -1,4 +1,5 @@
 class Apps::ReportsController < ApplicationController
+  before_action :authenticate_agent!
   before_action :find_app
   before_action :set_navigation
   before_action :set_dashboard
