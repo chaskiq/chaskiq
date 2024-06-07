@@ -1,4 +1,5 @@
 class Apps::ConversationsController < ApplicationController
+  before_action :authenticate_agent!
   before_action :find_app
   before_action :check_plan
 
@@ -112,6 +113,20 @@ class Apps::ConversationsController < ApplicationController
   end
 
   def new
+    unless request.headers["Turbo-Frame"]
+
+      @filter = "opened"
+      @sort = "newest"
+
+      authorize! @app, to: :can_read_conversations?, with: AppPolicy, context: {
+        app: @app,
+        user: current_agent
+      }
+
+      @conversations = search_service.search
+
+    end
+
     @app_user = @app.app_users.find(params[:app_user_id]) if params[:app_user_id]
 
     authorize! @app, to: :can_manage_conversations?, with: AppPolicy, context: {
@@ -120,10 +135,11 @@ class Apps::ConversationsController < ApplicationController
     }
 
     @conversation = @app.conversations.new(
-      main_participant_id: @app_user&.id
+      main_participant_id: @app_user&.id,
+      assignee_id: current_agent.id
     )
 
-    render "new", layout: false
+    render "new"
   end
 
   def edit
@@ -132,15 +148,33 @@ class Apps::ConversationsController < ApplicationController
   end
 
   def create
-    author = @app.agents.where("agents.email =?", current_user.email).first
-    participant = @app.app_users.find(params[:conversation][:main_participant])
+    author = @app.agents.where("agents.email =?", current_agent.email).first
+
+    if params[:conversation][:main_participant]
+      participant = @app.app_users.find_or_initialize_by(email: params[:conversation][:main_participant])
+      if participant.new_record?
+        participant.type = "AppUser"
+        participant.requires_email = true
+
+        unless participant.valid?
+          flash.now[:error] = "Error creating user #{participant.errors.full_messages.join(' ')}"
+
+          render turbo_stream: [
+            flash_stream
+          ] and return
+        end
+      end
+    end
+
+    participant = @app.app_users.find(params[:conversation][:main_participant_id]) if params[:conversation][:main_participant_id]
+
     initiator_channel = params[:conversation][:initiator_channel]
     initiator_block = params[:conversation][:initiator_block]
     sanitized_html = ""
     subject = params[:conversation][:subject]
 
     options = {
-      from: author,
+      from: current_agent,
       participant: participant,
       initiator_channel: initiator_channel,
       initiator_block: initiator_block,

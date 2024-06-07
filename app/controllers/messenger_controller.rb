@@ -1,6 +1,12 @@
 class MessengerController < ApplicationController
   layout "messenger"
 
+  before_action :allow_iframe
+
+  def allow_iframe
+    response.headers["X-Frame-Options"] = "ALLOW-FROM *"
+  end
+
   def show
     @app = App.find_by(key: params[:id])
     if params[:token].present?

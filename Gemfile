@@ -77,7 +77,8 @@ gem "geocoder", "~> 1.6"
 gem "geoip"
 gem "truemail"
 
-gem "turbo-rails"
+gem "turbo-rails", github: "hotwired/turbo-rails", branch: "main"
+
 gem "view_component"
 
 gem "google-cloud-dialogflow"

@@ -16,7 +16,7 @@ export default class extends Controller {
       <div>
         <ColorPicker
           colorHandler={this.colorHandler.bind(this)}
-          color={`#${this.inputTarget.value}`}
+          color={`#${this.inputTarget.value.replace("#", "")}`}
           variant={'circle'}
         />
       </div>
@@ -31,6 +31,7 @@ export default class extends Controller {
 
   resolveSrc() {
     const selectElement = document.querySelector('.avatar-select');
+    if(!selectElement) return
     const kind = selectElement.value;
     const resolvedPalette = this.resolvePalette();
     const url = `https://source.boringavatars.com/${kind}/128/1234?colors=${resolvedPalette}`;

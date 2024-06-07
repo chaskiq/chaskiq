@@ -1,16 +1,25 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = ['tab', 'panel'];
+  static targets = ['tab', 'panel', 'tabField'];
 
   connect() {
-    this.showPanel(0); // Show the first tab content by default
+    let tabIndex = 0
+    if(this.hasTabFieldTarget) {
+      tabIndex = this.tabFieldTarget.value
+    }
+    this.showPanel(tabIndex); // Show the first tab content by default
   }
 
   changeTab(event) {
-    event.preventDefault();
-    const index = this.tabTargets.indexOf(event.currentTarget);
+    if(!event?.currentTarget?.dataset?.skipPrevent)
+      event.preventDefault();
+
+    const index = event?.currentTarget?.dataset.index || this.tabTargets.indexOf(event.currentTarget)
     this.showPanel(index);
+    if(this.hasTabFieldTarget){
+      this.tabFieldTarget.value = index
+    }
   }
 
   showPanel(index) {

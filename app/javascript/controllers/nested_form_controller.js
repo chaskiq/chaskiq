@@ -54,7 +54,7 @@ export default class extends Controller {
       doc = document.querySelector(event.currentTarget.dataset.templateId);
     }
 
-    var content = doc.innerHTML.replace(/NEW_RECORD/g, new Date().getTime());
+    const content = doc.innerHTML.replace(/NEW_RECORD/g, new Date().getTime());
 
     if (this.hasWrapTarget) {
       this.wrapTarget.insertAdjacentHTML('beforeend', content);
@@ -68,7 +68,7 @@ export default class extends Controller {
   }
 
   remove_association(event) {
-    //event.preventDefault();
+    event.preventDefault();
 
     const removeContainer = event.currentTarget.dataset.removeContainer;
 

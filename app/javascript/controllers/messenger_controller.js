@@ -138,7 +138,6 @@ export default class extends Controller {
   }
 
   connect() {
-    window.oli = this;
     window.pupu = document.getElementById('main-content');
     console.log('MESSENGER INITIALIZED');
   }

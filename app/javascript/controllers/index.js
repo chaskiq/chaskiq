@@ -11,7 +11,6 @@ application.load(definitionsFromContext(context));
 */
 
 //const application = Application.start();
-
 import application from './init';
 import controllers from './**/*_controller.js';
 

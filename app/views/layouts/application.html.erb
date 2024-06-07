@@ -11,6 +11,7 @@
     <meta content='320' name='MobileOptimized'>
     <meta name="chaskiq-host" content="<%= Chaskiq::Config.get('HOST') %>"/>
     <meta name="chaskiq-ws" content="<%= Chaskiq::Config.get('WS') %>"/>
+    <meta name="turbo-prefetch" content="false">
 
     <% if auth0_enabled? %>
       <meta name="auth0-domain" content="<%= Chaskiq::Config.get('AUTH0_DOMAIN') %>"/>

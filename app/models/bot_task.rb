@@ -359,7 +359,6 @@ class BotPathStep
   def controls_attributes=(attrs)
     @controls = BotPathStepControl.new(attrs)
     # attrs.each do |i, params|
-    #  binding.pry
     # @controls.push(BotPathStepControl.new(params))
     # end
     # @controls
@@ -425,7 +424,6 @@ class BotPathStepSchema
                 :label,
                 :disabled,
                 :text,
-                :items,
                 :element,
                 :next_step_uuid,
                 :type,
@@ -440,6 +438,7 @@ class BotPathStepSchema
                 :width,
                 :height,
                 :url,
+                :event_type_id,
                 # :controls,
                 # :messages,
                 :step_uid,
@@ -454,6 +453,34 @@ class BotPathStepSchema
     true
   end
 
+  attr_reader :action, :items
+
+  def items=(attrs)
+    @items = attrs.map do |attr|
+      BotPathStepSchemaItem.new(attr)
+    end
+  end
+
+  def items_attributes=(attrs)
+    @items = attrs.map do |_i, attr|
+      BotPathStepSchemaItem.new(attr)
+    end
+  end
+
+  def action=(attrs)
+    @action = BotPathStepSchemaAction.new(attrs)
+  end
+
+  def action_attributes=(attrs)
+    @action = BotPathStepSchemaAction.new(attrs)
+  end
+end
+
+class BotPathStepSchemaItem
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  include ActiveModel::Validations
+  attr_accessor :id, :type, :title, :subtitle
   attr_reader :action
 
   def action=(attrs)

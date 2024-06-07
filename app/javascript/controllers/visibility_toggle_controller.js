@@ -14,4 +14,17 @@ export default class extends Controller {
   show(e) {
     this.inputToggleTarget.classList.remove('hidden');
   }
+
+  toggleFields(e) {
+    const mode = e.currentTarget.value;
+    this.inputToggleTargets.forEach(field => {
+      if (field.dataset.mode === mode) {
+        field.disabled = false;
+        field.parentElement.classList.remove("hidden");
+      } else {
+        field.disabled = true;
+        field.parentElement.classList.add("hidden");
+      }
+    });
+  }
 }
