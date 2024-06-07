@@ -14,7 +14,7 @@ class Api::V1::DirectUploadsController < ActiveStorage::DirectUploadsController
 
   def direct_upload_json(blob)
     blob.as_json(root: false, methods: :signed_id)
-        .merge(service_url: rails_blob_path(blob))
+        .merge(service_url: rails_blob_url(blob))
         .merge(direct_upload: {
                  url: blob.service_url_for_direct_upload,
                  headers: blob.service_headers_for_direct_upload
