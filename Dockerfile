@@ -64,6 +64,10 @@ COPY --chown=docker:docker . /usr/src/app/
 # Clean up temp files and Yarn cache folder
 RUN NODE_OPTIONS="--max-old-space-size=2048" \
     RAILS_ENV=${APP_ENV} \
+    AWS_ACCESS_KEY_ID=00000 \
+    AWS_SECRET_ACCESS_KEY=0000 \
+    AWS_S3_BUCKET=test \
+    AWS_S3_REGION=us-east-1 \
     SECRET_KEY_BASE=`bin/rails secret` \
     bundle exec rails assets:precompile --trace \
     && rm -rf /usr/src/app/node_modules /usr/src/app/tmp/cache/* /tmp/* \
