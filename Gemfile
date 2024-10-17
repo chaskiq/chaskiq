@@ -9,7 +9,7 @@ ruby "3.3.5"
 
 # gem "grpc", force_ruby_platform: true
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-# gem "anycable-rails"
+gem "anycable-rails"
 
 gem "pg"
 gem "rails", "7.2.1" # , github: "rails/rails",

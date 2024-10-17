@@ -143,6 +143,21 @@ GEM
       activerecord (>= 3.0)
     addressable (2.8.5)
       public_suffix (>= 2.0.2, < 6.0)
+    anycable (1.5.1)
+      anycable-core (= 1.5.1)
+      grpc (~> 1.53)
+    anycable-core (1.5.1)
+      anyway_config (~> 2.2)
+      google-protobuf (~> 3.25)
+    anycable-rails (1.5.4)
+      anycable (~> 1.5.0)
+      anycable-rails-core (= 1.5.4)
+    anycable-rails-core (1.5.4)
+      actioncable (>= 7.0, < 9.0)
+      anycable-core (~> 1.5.0)
+      globalid
+    anyway_config (2.6.0)
+      ruby-next-core (>= 0.15)
     ast (2.4.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.835.0)
@@ -731,6 +746,7 @@ DEPENDENCIES
   active_importer
   acts-as-taggable-on!
   acts_as_list (~> 0.9.19)
+  anycable-rails
   aws-sdk-rails
   aws-sdk-s3 (~> 1.48)
   biz (~> 1.8)
