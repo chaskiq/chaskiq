@@ -32,7 +32,7 @@ Rails.application.configure do
   # Enable server timing
   config.server_timing = true
 
-  config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
+  config.action_mailer.preview_paths << "#{Rails.root}/spec/mailers/previews"
 
   host = ENV.fetch('HOST') { 'http://localhost:3000' }
   ws   = ENV.fetch('WS') { 'ws://locahost:3000/cable' }

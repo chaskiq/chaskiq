@@ -3,16 +3,16 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.2.0"
+ruby "3.3.5"
 
 # gem 'google-protobuf', git: 'https://github.com/google/protobuf'
 
-gem "grpc", force_ruby_platform: true
+# gem "grpc", force_ruby_platform: true
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "anycable-rails"
+# gem "anycable-rails"
 
 gem "pg"
-gem "rails", "7.1.1" # , github: "rails/rails",
+gem "rails", "7.2.1" # , github: "rails/rails",
 gem "uri", "0.10.3"
 
 # Use sqlite3 as the database for Active Record
@@ -23,8 +23,8 @@ gem "haml"
 gem "jsbundling-rails"
 gem "kredis", "~> 1.3"
 gem "propshaft"
-# gem "puma", "~> 6.0"
-gem "falcon"
+gem "puma", "~> 6.0"
+# gem "falcon"
 gem "sassc"
 gem "tailwindcss-rails"
 
@@ -128,7 +128,8 @@ gem "biz", "~> 1.8"
 # gem "i18n-js"
 gem "i18n-js", "~> 4.0.0.alpha1"
 
-gem "globalize", github: "globalize/globalize", branch: "main"
+# gem "globalize", github: "globalize/globalize", branch: "main"
+gem "globalize", github: "jules-w2/globalize", branch: "main"
 
 # To use Stripe, also include:
 gem "stripe", "~> 6.0"

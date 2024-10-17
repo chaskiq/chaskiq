@@ -17,8 +17,8 @@ jobs:
       - name: Build the Container image
         run: |
           docker build --build-arg APP_ENV=production \
-               --build-arg RUBY_VERSION=3.2.0 \
-               --build-arg PG_MAJOR=11 \
+               --build-arg RUBY_VERSION=3.3.5 \
+               --build-arg PG_MAJOR=15 \
                --build-arg NODE_MAJOR=16 \
                --build-arg YARN_VERSION=1.13.0 \
                --build-arg BUNDLER_VERSION=2.3.26 \
@@ -29,7 +29,7 @@ jobs:
       - uses: anchore/scan-action@v3.2.4
         id: scan
         with:
-          image: "localbuild/testimage:latest"
+          image: 'localbuild/testimage:latest'
           fail-build: false
           acs-report-enable: true
 
