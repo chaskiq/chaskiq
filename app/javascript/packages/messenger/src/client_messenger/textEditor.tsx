@@ -292,7 +292,7 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
   };
 
   submitImage = (link, cb = null) => {
-    const url = this.props.domain + link
+    const url = this.props.domain + link;
     this.getImageDimensions(url)
       .then((dimensions) => {
         const html = `<img src="${url}" width="${dimensions.width}" height="${dimensions.height}" url="${link}" data-type="image"/>`;
