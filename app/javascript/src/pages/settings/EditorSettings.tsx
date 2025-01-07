@@ -121,14 +121,14 @@ function EditorSettingsForm({ settings, update, option }) {
   function defaultAgentDefinitions() {
     return userDefinitions().reduce(
       (obj, item) => Object.assign(obj, { [item]: true }),
-      {}
+      {},
     );
   }
 
   function defaultUserDefinitions() {
     return leadDefinitions().reduce(
       (obj, item) => Object.assign(obj, { [item]: true }),
-      {}
+      {},
     );
   }
 

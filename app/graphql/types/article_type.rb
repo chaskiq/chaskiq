@@ -29,7 +29,7 @@ module Types
       return nil if object.position.blank?
       return nil if object.collection.blank?
 
-      object.collection.articles.published.where("position < ?", object.position)&.first
+      object.collection.articles.published.where(position: ...object.position)&.first
     end
 
     def content

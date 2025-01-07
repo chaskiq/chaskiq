@@ -204,7 +204,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
           this.setDisabled(false);
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -245,7 +245,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
             upload_handler: this.uploadHandler,
             image_caption_placeholder: 'type a caption (optional)',
           },
-        })
+        }),
       );
     }
 
@@ -257,7 +257,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
             upload_handler: this.uploadHandler,
             image_caption_placeholder: 'type a caption (optional)',
           },
-        })
+        }),
       );
     }
 
@@ -274,7 +274,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
             placeholder: 'put an external links',
             endpoint: `/oembed?url=`,
           },
-        })
+        }),
       );
     }
 
@@ -295,7 +295,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
               endpoint: `/oembed?url=`,
               caption: 'optional caption',
             },
-          })
+          }),
         );
       }
 
@@ -306,7 +306,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
             upload_handler: this.uploadHandler,
             //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
           },
-        })
+        }),
       );
 
       if (this.props.allowedEditorFeature('video_recorder')) {
@@ -318,7 +318,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
               upload_handler: this.uploadHandler,
               //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
             },
-          })
+          }),
         );
       }
     }
@@ -451,7 +451,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
 
 const WrappedComponent = React.forwardRef(function myFunction(
   props: ArticleEditorProps,
-  ref
+  ref,
 ) {
   return <ArticleEditor {...props} forwardedRef={ref} />;
 });

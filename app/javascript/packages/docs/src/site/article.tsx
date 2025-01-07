@@ -66,7 +66,7 @@ function Article(props: ArticleProps) {
           setArticle(data.helpCenter.article);
         },
         error: (_e) => {},
-      }
+      },
     );
   }
 

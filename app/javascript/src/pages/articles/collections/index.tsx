@@ -104,7 +104,7 @@ class Collections extends Component<CollectionsProps, CollectionsState> {
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -129,7 +129,7 @@ class Collections extends Component<CollectionsProps, CollectionsState> {
               } else {
                 return o;
               }
-            }
+            },
           );
 
           this.setState({
@@ -139,7 +139,7 @@ class Collections extends Component<CollectionsProps, CollectionsState> {
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -161,7 +161,7 @@ class Collections extends Component<CollectionsProps, CollectionsState> {
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -189,7 +189,7 @@ class Collections extends Component<CollectionsProps, CollectionsState> {
         success: (data) => {
           const col = data.articleCollectionDelete.collection;
           const newCollection = this.state.article_collections.filter(
-            (o) => o.id != col.id
+            (o) => o.id != col.id,
           );
 
           this.setState({
@@ -198,7 +198,7 @@ class Collections extends Component<CollectionsProps, CollectionsState> {
             article_collections: newCollection,
           });
         },
-      }
+      },
     );
   };
 
@@ -207,7 +207,7 @@ class Collections extends Component<CollectionsProps, CollectionsState> {
       {
         lang: o,
       },
-      this.getCollections
+      this.getCollections,
     );
   };
 
@@ -232,20 +232,20 @@ class Collections extends Component<CollectionsProps, CollectionsState> {
       {
         success: (_res) => {
           this.props.dispatch(
-            successMessage(I18n.t('articles.reordered_success'))
+            successMessage(I18n.t('articles.reordered_success')),
           );
         },
         error: (_res) => {
           this.props.dispatch(errorMessage(I18n.t('articles.reordered_error')));
         },
-      }
+      },
     );
 
     this.setState({
       article_collections: arrayMove(
         this.state.article_collections,
         oldIndex,
-        newIndex
+        newIndex,
       ),
     });
 
@@ -271,7 +271,7 @@ class Collections extends Component<CollectionsProps, CollectionsState> {
                   uploadedIcon: signedBlobId,
                 },
               },
-              this.submitEdit
+              this.submitEdit,
             );
           });
         },
@@ -415,11 +415,11 @@ class Collections extends Component<CollectionsProps, CollectionsState> {
           <ScrollableTabsButtonForce
             // tabs={this.props.settings.availableLanguages}
             tabs={this.props.settings.availableLanguages.map((o) =>
-              langs.find((lang) => lang.value === o)
+              langs.find((lang) => lang.value === o),
             )}
             changeHandler={(index) =>
               this.handleLangChange(
-                this.props.settings.availableLanguages[index]
+                this.props.settings.availableLanguages[index],
               )
             }
           />

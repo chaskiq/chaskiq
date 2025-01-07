@@ -39,7 +39,7 @@ export function getConversations(options, cb) {
             collection:
               nextPage > 1
                 ? getState().conversations.collection.concat(
-                    conversations.collection
+                    conversations.collection,
                   )
                 : conversations.collection,
             meta: conversations.meta,
@@ -50,7 +50,7 @@ export function getConversations(options, cb) {
 
           if (cb) cb();
         },
-      }
+      },
     );
   };
 }
@@ -58,7 +58,7 @@ export function getConversations(options, cb) {
 export function appendConversation(data) {
   return (dispatch, getState) => {
     const conversation = getState().conversations.collection.find(
-      (o) => o.key === data.conversationKey
+      (o) => o.key === data.conversationKey,
     );
 
     let newMessages = null;
@@ -75,11 +75,11 @@ export function appendConversation(data) {
         {
           success: (data) => {
             newMessages = [data.app.conversation].concat(
-              getState().conversations.collection
+              getState().conversations.collection,
             );
             dispatch(appendConversationDispatcher(newMessages));
           },
-        }
+        },
       );
     } else {
       const newConversations = getState().conversations.collection.map((o) => {
@@ -167,7 +167,7 @@ export default function reducer(
     term: null,
     channelId: null,
   },
-  action: ActionType = {}
+  action: ActionType = {},
 ) {
   switch (action.type) {
     case ActionTypes.GetConversations: {
@@ -190,7 +190,7 @@ export default function reducer(
       return {
         ...state,
         collection: state.collection.map((item) =>
-          item.id === action.data.id ? { ...item, ...action.data } : item
+          item.id === action.data.id ? { ...item, ...action.data } : item,
         ),
       };
     }

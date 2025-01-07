@@ -94,13 +94,13 @@ export default class CampaignSettings extends Component<
               }
 
               this.props.history.push(
-                `/apps/${this.props.app.key}/messages/${this.props.mode}/${this.state.data.id}`
+                `/apps/${this.props.app.key}/messages/${this.props.mode}/${this.state.data.id}`,
               );
               this.props.updateData(this.state.data);
-            }
+            },
           );
         },
-      }
+      },
     );
   };
 

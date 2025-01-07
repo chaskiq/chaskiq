@@ -27,7 +27,7 @@ const navigationState = {
 // Reducer
 export default function reducer(
   state = navigationState,
-  action: ActionType = {}
+  action: ActionType = {},
 ) {
   switch (action.type) {
     case ActionTypes.SetCurrentPage:

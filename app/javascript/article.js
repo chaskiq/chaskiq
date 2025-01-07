@@ -6,6 +6,6 @@ import Article from '@chaskiq/messenger/src/client_messenger/articles';
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Article />,
-    document.body.appendChild(document.getElementById('main-page'))
+    document.body.appendChild(document.getElementById('main-page')),
   );
 });

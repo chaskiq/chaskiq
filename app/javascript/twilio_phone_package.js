@@ -9,22 +9,22 @@ const i18n = new I18n(translations);
 // eslint-disable-next-line no-undef
 document.addEventListener('DOMContentLoaded', () => {
   const data_string = document.querySelector(
-    'meta[name="data"]'
+    'meta[name="data"]',
     //@ts-ignore
   ).content;
 
   const endpointURL = document.querySelector(
-    'meta[name="endpoint-url"]'
+    'meta[name="endpoint-url"]',
     //@ts-ignore
   ).content;
 
   const contentType = document.querySelector(
-    'meta[name="content-type"]'
+    'meta[name="content-type"]',
     //@ts-ignore
   ).content;
 
   const userToken = document.querySelector(
-    'meta[name="user-token"]'
+    'meta[name="user-token"]',
     //@ts-ignore
   )?.content;
 
@@ -43,6 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ) : (
       <PhoneCall data={data} endpointURL={endpointURL} i18n={i18n} />
     ),
-    document.body.appendChild(document.getElementById('content'))
+    document.body.appendChild(document.getElementById('content')),
   );
 });

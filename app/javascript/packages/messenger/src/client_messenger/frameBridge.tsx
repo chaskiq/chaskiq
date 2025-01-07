@@ -50,7 +50,7 @@ export default function FrameBridge(props) {
         if (!e.data.chaskiqMessage) return;
         props.handleAppPackageEvent(e);
       },
-      false
+      false,
     );
   }, []);
 

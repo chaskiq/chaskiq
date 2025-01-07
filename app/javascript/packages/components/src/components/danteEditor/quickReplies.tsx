@@ -16,7 +16,7 @@ type QuickRepliesBlockConfigType = {
 };
 
 export const QuickRepliesBlockConfig = (
-  options: QuickRepliesBlockConfigType = {}
+  options: QuickRepliesBlockConfigType = {},
 ) => {
   const config = {
     tag: 'QuickReply',

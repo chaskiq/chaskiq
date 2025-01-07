@@ -97,7 +97,7 @@ class CollectionDetail extends Component<
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -209,7 +209,7 @@ class CollectionDetail extends Component<
         success: (data) => {
           const section = data.articleSectionDelete.section;
           const newSections = this.state.collection.sections.filter(
-            (o) => o.id != section.id
+            (o) => o.id != section.id,
           );
 
           this.setState({
@@ -219,7 +219,7 @@ class CollectionDetail extends Component<
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -247,7 +247,7 @@ class CollectionDetail extends Component<
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -283,7 +283,7 @@ class CollectionDetail extends Component<
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -360,7 +360,7 @@ class CollectionDetail extends Component<
         error: () => {
           this.setState({ addArticlesDialog: false });
         },
-      }
+      },
     );
   };
 
@@ -381,7 +381,7 @@ class CollectionDetail extends Component<
       {
         lang: o,
       },
-      this.getCollection
+      this.getCollection,
     );
   };
 
@@ -413,11 +413,11 @@ class CollectionDetail extends Component<
           <ScrollableTabsButtonForce
             // tabs={this.props.settings.availableLanguages}
             tabs={this.props.settings.availableLanguages.map((o) =>
-              langs.find((lang) => lang.value === o)
+              langs.find((lang) => lang.value === o),
             )}
             changeHandler={(index) =>
               this.handleLangChange(
-                this.props.settings.availableLanguages[index]
+                this.props.settings.availableLanguages[index],
               )
             }
           />
@@ -470,7 +470,7 @@ class AddArticleDialog extends Component<
           });
         },
         error: () => {},
-      }
+      },
     );
   }
 

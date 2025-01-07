@@ -23,8 +23,8 @@ export function fetchAppSegment(id, cb) {
             dispatchSegmentUpdate(
               Object.assign({}, data.app.segment, {
                 initialPredicates: data.app.segment.predicates,
-              })
-            )
+              }),
+            ),
           );
 
           cb && cb();
@@ -34,7 +34,7 @@ export function fetchAppSegment(id, cb) {
         error: (error) => {
           console.log(error);
         },
-      }
+      },
     );
   };
 }
@@ -50,7 +50,7 @@ export function updateSegment(id, cb) {
     graphql(PREDICATES_UPDATE, params, {
       success: (data) => {
         dispatchSegmentUpdate(
-          Object.assign(data.predicatesUpdate.segment, { jwt: null })
+          Object.assign(data.predicatesUpdate.segment, { jwt: null }),
         );
 
         cb && cb();
@@ -80,8 +80,8 @@ export function createSegment(options, cb) {
           dispatchSegmentUpdate(
             Object.assign(data.predicatesCreate.segment, {
               jwt: null,
-            })
-          )
+            }),
+          ),
         );
 
         cb && cb();
@@ -104,7 +104,7 @@ export function deleteSegment(id, cb) {
           cb && cb();
         },
         error: () => {},
-      }
+      },
     );
   };
 }
@@ -119,7 +119,7 @@ export function addPredicate(options, cb) {
       dispatchSegmentUpdate({
         predicates: new_predicates,
         jwt: jwtToken,
-      })
+      }),
     );
 
     if (cb) {
@@ -135,7 +135,7 @@ export function updatePredicate(data, cb) {
     dispatch(
       dispatchSegmentUpdate({
         jwt: jwtToken,
-      })
+      }),
     );
 
     if (cb) {
@@ -153,7 +153,7 @@ export function deletePredicate(data, cb) {
         id: getState().segment.id,
         predicates: data,
         jwt: jwtToken,
-      })
+      }),
     );
 
     if (cb) {
@@ -187,7 +187,7 @@ export default function reducer(
     initialPredicates: [],
     jwt: null,
   },
-  action: ActionType = {}
+  action: ActionType = {},
 ) {
   switch (action.type) {
     case ActionTypes.updateSegment: {

@@ -59,8 +59,8 @@ export const SingleSelectButton = styled.button<SingleSelectButtonProps>`
     props.i === 0 && props.variant === 'bordered'
       ? tw`rounded-l`
       : props.i === props.field.options.length - 1
-      ? tw`rounded-r`
-      : ''}
+        ? tw`rounded-r`
+        : ''}
   ${(props) =>
     props.i !== 0 && props.variant === 'bordered' ? tw`border-l-0` : ''}
   ${(props) =>

@@ -54,7 +54,7 @@ export function BaseInserter({
       getPackage(params, location, (data) => {
         setPackage(data.app.appPackage.callHook);
       }),
-    []
+    [],
   );
 
   function updatePackage(formData, cb) {

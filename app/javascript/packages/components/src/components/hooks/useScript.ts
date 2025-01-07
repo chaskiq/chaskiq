@@ -16,7 +16,7 @@ export default function useScript(src) {
       // Fetch existing script element by src
       // It may have been added by another intance of this hook
       let script: HTMLScriptElement = document.querySelector(
-        `script[src="${src}"]`
+        `script[src="${src}"]`,
       );
       if (!script) {
         // Create script
@@ -31,7 +31,7 @@ export default function useScript(src) {
         const setAttributeFromEvent = (event) => {
           script.setAttribute(
             'data-status',
-            event.type === 'load' ? 'ready' : 'error'
+            event.type === 'load' ? 'ready' : 'error',
           );
         };
         script.addEventListener('load', setAttributeFromEvent);
@@ -57,7 +57,7 @@ export default function useScript(src) {
         }
       };
     },
-    [src] // Only re-run effect if script src changes
+    [src], // Only re-run effect if script src changes
   );
   return status;
 }

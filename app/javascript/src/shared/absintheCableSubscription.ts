@@ -18,7 +18,7 @@ const withAbsintheSocket = require('@absinthe/socket');
 
 export function createSubscription(match, accessToken) {
   const chaskiq_cable_url = document.querySelector(
-    'meta[name="chaskiq-ws"]'
+    'meta[name="chaskiq-ws"]',
     //@ts-ignore
   ).content;
 
@@ -28,7 +28,7 @@ export function createSubscription(match, accessToken) {
     cable: withAbsintheSocket.create(
       new PhoenixSocket(`${chaskiq_cable_url}`, {
         params: { token: accessToken },
-      })
+      }),
     ),
   };
 }
@@ -107,7 +107,7 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
           return dispatch(appendConversation(data.message));
         case 'conversations:update_state':
           return dispatch(
-            dispatchUpdateConversationData(camelizeKeys(data.data))
+            dispatchUpdateConversationData(camelizeKeys(data.data)),
           );
         //case 'presence':
         //  return updateUser(camelizeKeys(data.data))
@@ -155,6 +155,6 @@ export function sendPush(name, { props, events, data }) {
         console.log('SENT PUSH EVENT: ', data);
       },
       error: () => {},
-    }
+    },
   );
 }

@@ -246,9 +246,8 @@ class Segment < ApplicationRecord
     end
 
     if to_exclude
-      exx = []
-      to_exclude.each do |ex|
-        exx << result.select("app_users.id").arel.except(result.joins(ex.join_sources).select("app_users.id").arel)
+      exx = to_exclude.map do |ex|
+        result.select("app_users.id").arel.except(result.joins(ex.join_sources).select("app_users.id").arel)
       end
 
       exx.each do |e|
@@ -334,7 +333,7 @@ class Segment < ApplicationRecord
   end
 
   def clause_group(predicates, clause)
-    predicates&.filter { |o| o[:clause] == clause }&.map { |o| o[:fragment] }&.flatten || []
+    predicates&.filter { |o| o[:clause] == clause }&.pluck(:fragment)&.flatten || []
   end
 
   def nested_preds_group(clause, attributes)

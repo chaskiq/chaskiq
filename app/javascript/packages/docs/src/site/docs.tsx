@@ -48,7 +48,7 @@ function Docs(props) {
           if (!lang) setLang(data.helpCenter.defaultLang);
         },
         error: () => {},
-      }
+      },
     );
   }
 

@@ -77,7 +77,7 @@ export function RtcView(props) {
   const callStatusTarget = usePortal(props.callStatusElement, documentObject);
   const callInitiatorTarget = usePortal(
     props.callInitiatorElement,
-    documentObject
+    documentObject,
   );
   const callButtonsTarget = usePortal(props.callButtonsElement, documentObject);
 
@@ -212,7 +212,7 @@ export function RtcView(props) {
         peer.replaceTrack(
           currentTrack[0],
           stream.getVideoTracks()[0],
-          localStream
+          localStream,
         );
         // Set Local video
         localVideo.current.srcObject = stream;
@@ -347,13 +347,13 @@ export function RtcView(props) {
           <div id="local-video-wrapper">
             <video id="local-video" muted={true} autoPlay ref={localVideo} />
           </div>,
-          localVideoTarget
+          localVideoTarget,
         )}
 
       {remoteVideoTarget &&
         createPortal(
           <div id="remote-video-container" ref={remoteVideoContainer}></div>,
-          remoteVideoTarget
+          remoteVideoTarget,
         )}
 
       {infoTarget &&
@@ -373,7 +373,7 @@ export function RtcView(props) {
               </div>
             )}
           </React.Fragment>,
-          infoTarget
+          infoTarget,
         )}
 
       {initiator &&
@@ -413,7 +413,7 @@ export function RtcView(props) {
               </button>
             </div>
           </div>,
-          callInitiatorTarget
+          callInitiatorTarget,
         )}
 
       {/* {
@@ -462,7 +462,7 @@ export function RtcView(props) {
               </button>
             </div>
           </div>,
-          callStatusTarget
+          callStatusTarget,
         )}
 
       {props.callButtonsElement &&
@@ -517,7 +517,7 @@ export function RtcView(props) {
               {!props.video ? <CallIcon /> : <CallEndIcon />}
             </Button>
           </div>,
-          callButtonsTarget
+          callButtonsTarget,
         )}
     </React.Fragment>
   );

@@ -2,7 +2,7 @@
 
 function getDomainName(hostName) {
   return hostName.substring(
-    hostName.lastIndexOf('.', hostName.lastIndexOf('.') - 1) + 1
+    hostName.lastIndexOf('.', hostName.lastIndexOf('.') - 1) + 1,
   );
 }
 

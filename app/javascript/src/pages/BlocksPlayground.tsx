@@ -20,7 +20,7 @@ export default function Playground() {
   const [err, setErr] = React.useState(null);
 
   const status = useScript(
-    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js'
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js',
   );
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function Playground() {
         tabSize: 2,
         value: blocks,
         theme: 'dracula',
-      }
+      },
     );
 
     editor.on('change', (e) => {

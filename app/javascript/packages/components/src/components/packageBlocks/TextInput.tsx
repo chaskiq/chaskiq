@@ -119,7 +119,7 @@ const TextInputButton = styled.div<TextInputButtonProps>`
 
     `
       : props.theme && props.theme.palette
-      ? `
+        ? `
       background-color: ${props.theme.palette.primary};
       color: ${textColor(props.theme.palette.primary)};
   
@@ -137,7 +137,7 @@ const TextInputButton = styled.div<TextInputButtonProps>`
         color: ${textColor(props.theme.palette.primary)};
       }
       `
-      : tw`dark:bg-blue-700 
+        : tw`dark:bg-blue-700 
       hover:bg-blue-600 
       active:bg-gray-100 
       active:text-gray-700

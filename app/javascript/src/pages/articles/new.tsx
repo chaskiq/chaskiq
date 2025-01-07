@@ -151,7 +151,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
             collections: data.app.collections,
           });
         },
-      }
+      },
     );
   };
 
@@ -171,13 +171,13 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
   updateUrlFromNew = () => {
     this.props.history.push(
-      `/apps/${this.props.app.key}/articles/${this.state.article.id}`
+      `/apps/${this.props.app.key}/articles/${this.state.article.id}`,
     );
   };
 
@@ -194,7 +194,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -217,13 +217,13 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
             () => {
               this.updateUrlFromNew();
               this.updatedMessage();
-            }
+            },
           );
         },
         error: () => {
           this.errorMessage();
         },
-      }
+      },
     );
   };
 
@@ -248,13 +248,13 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
             },
             () => {
               this.updatedMessage();
-            }
+            },
           );
         },
         error: (_e) => {
           this.errorMessage();
         },
-      }
+      },
     );
   };
 
@@ -277,7 +277,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
         } else {
           this.createArticle();
         }
-      }
+      },
     );
   };
 
@@ -317,7 +317,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
         error: () => {
           this.errorMessage();
         },
-      }
+      },
     );
   };
 
@@ -337,13 +337,13 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
             },
             () => {
               this.updatedMessage();
-            }
+            },
           );
         },
         error: () => {
           this.errorMessage();
         },
-      }
+      },
     );
   };
 
@@ -363,13 +363,13 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
             },
             () => {
               this.updatedMessage();
-            }
+            },
           );
         },
         error: () => {
           this.errorMessage();
         },
-      }
+      },
     );
   };
 
@@ -394,7 +394,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
         error: (err) => {
           console.log('error on direct upload', err);
         },
-      }
+      },
     );
   };
 
@@ -407,7 +407,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
         lang: lang,
         loading: true,
       },
-      () => this.getArticle(this.state.article.id)
+      () => this.getArticle(this.state.article.id),
     );
   };
 
@@ -516,7 +516,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
                 type={'textarea'}
                 // label="Description"
                 placeholder={I18n.t(
-                  'articles.create_article.description_placeholder'
+                  'articles.create_article.description_placeholder',
                 )}
                 // helperText="Full width!"
                 // multiline
@@ -627,11 +627,11 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
                             scrollButtons="on"
                             // tabs={this.props.settings.availableLanguages}
                             tabs={this.props.settings.availableLanguages.map(
-                              (o) => langs.find((lang) => lang.value === o)
+                              (o) => langs.find((lang) => lang.value === o),
                             )}
                             onChange={(index) => {
                               this.handleLangChange(
-                                this.props.settings.availableLanguages[index]
+                                this.props.settings.availableLanguages[index],
                               );
                             }}
                           />

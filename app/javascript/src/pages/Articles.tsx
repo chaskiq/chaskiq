@@ -85,11 +85,11 @@ class Articles extends Component<ArticlesProps, ArticlesState> {
             {
               settings: data.app.articleSettings,
             },
-            cb
+            cb,
           );
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -111,22 +111,22 @@ class Articles extends Component<ArticlesProps, ArticlesState> {
             () => {
               if (!isEmpty(data.articleSettingsUpdate.errors)) {
                 this.props.dispatch(
-                  errorMessage(I18n.t('articles.settings_updated_error'))
+                  errorMessage(I18n.t('articles.settings_updated_error')),
                 );
                 return cb && cb();
               }
               this.props.dispatch(
-                successMessage(I18n.t('articles.settings_updated_success'))
+                successMessage(I18n.t('articles.settings_updated_success')),
               );
               return cb && cb();
-            }
+            },
           );
         },
         error: () => {
           errorMessage(I18n.t('articles.settings_updated_error'));
           cb && cb();
         },
-      }
+      },
     );
   };
 
@@ -147,15 +147,15 @@ class Articles extends Component<ArticlesProps, ArticlesState> {
             () => {
               cb && cb();
               this.props.dispatch(
-                successMessage(I18n.t('articles.settings_updated_success'))
+                successMessage(I18n.t('articles.settings_updated_success')),
               );
-            }
+            },
           );
         },
         error: () => {
           errorMessage(I18n.t('articles.settings_updated_error'));
         },
-      }
+      },
     );
   };
 
@@ -232,7 +232,7 @@ class Articles extends Component<ArticlesProps, ArticlesState> {
                               <Button
                                 onClick={() =>
                                   window.open(
-                                    `https://${this.state.settings.subdomain}.chaskiq.io`
+                                    `https://${this.state.settings.subdomain}.chaskiq.io`,
                                   )
                                 }
                                 variant="outlined"
@@ -249,7 +249,7 @@ class Articles extends Component<ArticlesProps, ArticlesState> {
                             color={'primary'}
                             onClick={() =>
                               this.props.history.push(
-                                `/apps/${this.props.app.key}/articles/new`
+                                `/apps/${this.props.app.key}/articles/new`,
                               )
                             }
                           >
@@ -392,7 +392,7 @@ class AllArticles extends React.Component<AllArticlesProps, AllArticlesState> {
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -401,7 +401,7 @@ class AllArticles extends React.Component<AllArticlesProps, AllArticlesState> {
       {
         lang: lang,
       },
-      this.getArticles
+      this.getArticles,
     );
   };
 
@@ -410,7 +410,7 @@ class AllArticles extends React.Component<AllArticlesProps, AllArticlesState> {
       {
         loading: true,
       },
-      this.getArticles
+      this.getArticles,
     );
   };
 
@@ -423,7 +423,7 @@ class AllArticles extends React.Component<AllArticlesProps, AllArticlesState> {
             color={'primary'}
             onClick={() =>
               this.props.history.push(
-                `/apps/${this.props.app.key}/articles/new`
+                `/apps/${this.props.app.key}/articles/new`,
               )
             }
           >
@@ -457,13 +457,13 @@ class AllArticles extends React.Component<AllArticlesProps, AllArticlesState> {
             () => {
               this.setOpenDeleteDialog(null);
               this.props.dispatch(
-                successMessage(I18n.t('articles.deleted_success'))
+                successMessage(I18n.t('articles.deleted_success')),
               );
-            }
+            },
           );
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -474,7 +474,7 @@ class AllArticles extends React.Component<AllArticlesProps, AllArticlesState> {
       <div>
         <ScrollableTabsButtonForce
           tabs={this.props.settings.availableLanguages.map((o) =>
-            langs.find((lang) => lang.value === o)
+            langs.find((lang) => lang.value === o),
           )}
           changeHandler={(index) =>
             this.handleLangChange(this.props.settings.availableLanguages[index])

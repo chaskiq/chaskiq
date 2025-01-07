@@ -23,7 +23,7 @@ export default function AppPackageReport({ dashboard, app, pkg }) {
         error: (_err) => {
           setLoading(false);
         },
-      }
+      },
     );
   }
 

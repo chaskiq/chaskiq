@@ -19,7 +19,7 @@ function createRootElement(id) {
 function addRootElement(rootElem) {
   document.body.insertBefore(
     rootElem,
-    document.body.lastElementChild.nextElementSibling
+    document.body.lastElementChild.nextElementSibling,
   );
 }
 

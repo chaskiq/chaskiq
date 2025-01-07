@@ -27,7 +27,7 @@ const graphql = (query, variables, callbacks) => {
         query: query,
         variables: variables,
       },
-      { headers: config }
+      { headers: config },
     )
     .then((r) => {
       const data = r.data.data;

@@ -89,7 +89,7 @@ function Settings({ app, dispatch }) {
           setEventTypes(types);
         },
         error: (_data) => {},
-      }
+      },
     );
   }
 
@@ -111,7 +111,7 @@ function Settings({ app, dispatch }) {
         error: () => {
           setLoading(false);
         },
-      }
+      },
     );
   }
 
@@ -197,7 +197,7 @@ function Settings({ app, dispatch }) {
         error: () => {
           dispatch(errorMessage(I18n.t('settings.webhooks.create_error')));
         },
-      }
+      },
     );
   }
 
@@ -223,7 +223,7 @@ function Settings({ app, dispatch }) {
             return;
           }
           const newIntegrations = webhooks.map((o) =>
-            o.id === webhook.id ? webhook : o
+            o.id === webhook.id ? webhook : o,
           );
           setWebhooks(newIntegrations);
           // getAppPackageIntegration()
@@ -233,7 +233,7 @@ function Settings({ app, dispatch }) {
         error: () => {
           dispatch(errorMessage(I18n.t('settings.webhooks.update_error')));
         },
-      }
+      },
     );
   }
 
@@ -262,7 +262,7 @@ function Settings({ app, dispatch }) {
         error: () => {
           dispatch(errorMessage(I18n.t('settings.webhooks.delete_error')));
         },
-      }
+      },
     );
   }
 

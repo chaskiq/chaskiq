@@ -102,7 +102,7 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
           setCollections(data.helpCenter.collection);
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -213,7 +213,7 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
               <div className="py-4">
                 <List>
                   {collections.baseArticles.map((article) =>
-                    renderArticles(article, 'articles-base')
+                    renderArticles(article, 'articles-base'),
                   )}
                 </List>
               </div>
@@ -232,7 +232,7 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
                     <div>
                       <List>
                         {section.articles.map((article) =>
-                          renderArticles(article, 'section-articles')
+                          renderArticles(article, 'section-articles'),
                         )}
                       </List>
                     </div>

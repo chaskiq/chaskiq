@@ -1,4 +1,4 @@
-class ChaskiqPluginGenerator < Rails::Generators::NamedBase
+class Generators::ChaskiqPlugin::ChaskiqPluginGenerator < Rails::Generators::NamedBase
   source_root File.expand_path("templates", __dir__)
 
   def start

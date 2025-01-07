@@ -614,7 +614,7 @@ function LanguageForm({ settings, update, deleteLang }) {
           }}
           deleteHandler={() => {
             deleteLang(openDeleteDialog.locale, () =>
-              setOpenDeleteDialog(false)
+              setOpenDeleteDialog(false),
             );
           }}
         >

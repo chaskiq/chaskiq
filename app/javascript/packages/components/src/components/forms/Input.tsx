@@ -91,7 +91,7 @@ const WrappedComponent = React.forwardRef(function Input(
     dispatch,
     ...props
   }: IWrapperComponent,
-  ref: React.ForwardedRef<any>
+  ref: React.ForwardedRef<any>,
 ) {
   function inputAppearance(variant) {
     switch (variant) {
@@ -169,7 +169,7 @@ const WrappedComponent = React.forwardRef(function Input(
         ? defaultValue.map((o) => ({ label: o, value: o }))
         : defaultValue
       : props.options.find(
-          (o) => o.value == (defaultValue?.value || defaultValue)
+          (o) => o.value == (defaultValue?.value || defaultValue),
         );
 
     return (
@@ -307,7 +307,7 @@ const WrappedComponent = React.forwardRef(function Input(
             rows={3}
             name={name}
             className={`shadow appearance-none border border-${borderColor(
-              error
+              error,
             )}-300
             dark:border-${borderColor(error)}-800
             rounded 
@@ -416,7 +416,7 @@ const WrappedComponent = React.forwardRef(function Input(
 });
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(
-  WrappedComponent
+  WrappedComponent,
 );
 
 interface FormFieldProps {

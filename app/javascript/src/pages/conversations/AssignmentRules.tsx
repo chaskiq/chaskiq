@@ -150,7 +150,7 @@ function AssignmentRules({ dispatch, app }) {
         success: () => {
           dispatch(successMessage(I18n.t('assignment_rules.success_message')));
         },
-      }
+      },
     );
   };
 
@@ -173,7 +173,7 @@ function AssignmentRules({ dispatch, app }) {
           setState({ ...state, rules: data.app.assignmentRules });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -202,7 +202,7 @@ function AssignmentRules({ dispatch, app }) {
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -241,7 +241,7 @@ function AssignmentRules({ dispatch, app }) {
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -263,7 +263,7 @@ function AssignmentRules({ dispatch, app }) {
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -391,7 +391,7 @@ function AssignmentForm(props) {
 
   function availableFields() {
     let fields = [{ name: 'message_content', type: 'string' }].concat(
-      defaultFields
+      defaultFields,
     );
     if (!props.app.customFields) return fields;
     return props.app.customFields.concat(fields);
@@ -412,7 +412,7 @@ function AssignmentForm(props) {
           setAgents(data.app.agents);
         },
         error: () => {},
-      }
+      },
     );
   }
 

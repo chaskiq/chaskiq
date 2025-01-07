@@ -57,7 +57,7 @@ function QuickReplyDialog({
         error: (_err) => {
           dispatch(errorMessage(I18n.t('quick_replies.create.error')));
         },
-      }
+      },
     );
   }
 

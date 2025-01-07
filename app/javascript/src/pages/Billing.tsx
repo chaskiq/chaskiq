@@ -65,7 +65,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
           setPlans(data.app.plans);
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -128,7 +128,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
         error: (err) => {
           console.log(err);
         },
-      }
+      },
     );
     //subscription ? setOpenSubscriptionUpdate(plan) : setOpenCheckout(plan);
   }
@@ -145,7 +145,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
           setSubscriptionDetails(data.app.subscriptionDetails);
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -183,7 +183,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
           data.app.updateSubscriptionPlan;
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -211,7 +211,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
           setCustomerPortalLoading(false);
           console.log(err);
         },
-      }
+      },
     );
   }
 
@@ -251,7 +251,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
                                 subscription.next_payment.amount,
                               next_payment_currency:
                                 subscription.next_payment.currency,
-                            }
+                            },
                           )}
                         </span>
                       )}
@@ -263,7 +263,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
                             'subscriptions.billing_information.subscription_state',
                             {
                               state: subscription.state,
-                            }
+                            },
                           )}
                         </span>
                       )}
@@ -272,7 +272,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
                       <span className="text-sm text-red-500 hover:text-gray-900">
                         <a href={subscription.cancel_url} target="blank">
                           {I18n.t(
-                            'subscriptions.billing_information.cancel_plan'
+                            'subscriptions.billing_information.cancel_plan',
                           )}
                         </a>
                       </span>
@@ -290,7 +290,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
                         focus:shadow-outline transition duration-150 ease-in-out"
                       >
                         {I18n.t(
-                          'subscriptions.billing_information.update_payment_method'
+                          'subscriptions.billing_information.update_payment_method',
                         )}
                       </a>
                     </div>
@@ -582,7 +582,7 @@ function UpdateSubscriptionModal({
                           {
                             billing_period: plan.billing_period,
                             billing_type: plan.billing_type,
-                          }
+                          },
                         ),
                       }}
                     />
@@ -597,7 +597,7 @@ function UpdateSubscriptionModal({
                           'subscriptions.update_subscription.amount',
                           {
                             recurring_price: plan.pricing,
-                          }
+                          },
                         ),
                       }}
                     />
@@ -612,7 +612,7 @@ function UpdateSubscriptionModal({
                           'subscriptions.update_subscription.next_payment',
                           {
                             next_payment_date: subscription.next_payment.date,
-                          }
+                          },
                         ),
                       }}
                     />
@@ -795,7 +795,7 @@ function Transactions({ app }) {
           setTransactions(data.app.subscriptionTransactions);
         },
         errors: () => {},
-      }
+      },
     );
   }
 

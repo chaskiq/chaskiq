@@ -123,7 +123,7 @@ export function Conversation(props) {
           sent: () => {
             console.log('sent conversation', item);
           },
-        }
+        },
       );
     }
 

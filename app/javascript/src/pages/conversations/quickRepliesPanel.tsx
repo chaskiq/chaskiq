@@ -25,7 +25,7 @@ function QuickRepliesPanel(props) {
   const [quickReplies, setQuickReplies] = React.useState([]);
   //const [values, setValues] = React.useState({})
   const [lang, setLang] = React.useState(
-    props.app.availableLanguages[0] || 'en'
+    props.app.availableLanguages[0] || 'en',
   );
   const [_loading, setLoading] = React.useState(false);
   const [term, setTerm] = React.useState(null);
@@ -108,7 +108,7 @@ function QuickRepliesPanel(props) {
                   onClick={() => setQuickReply(null)}
                 >
                   {I18n.t(
-                    'conversation.editor.panels.quick_reply.choose_another'
+                    'conversation.editor.panels.quick_reply.choose_another',
                   )}
                 </Button>
               </p>
@@ -136,7 +136,7 @@ function QuickRepliesPanel(props) {
           setQuickReplies(data.app.quickReplies);
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -158,7 +158,7 @@ function QuickRepliesPanel(props) {
           setLoading(false);
           // dispatch(errorMessage('error updating quick reply'))
         },
-      }
+      },
     );
   }
 

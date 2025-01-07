@@ -77,7 +77,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         error: () => {
           setLoading(false);
         },
-      }
+      },
     );
   }
 
@@ -107,7 +107,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         error: (_res) => {
           dispatch(errorMessage(I18n.t('status_messages.reordered_error')));
         },
-      }
+      },
     );
 
     setBotTasks(arrayMove(botTasks, oldIndex, newIndex));
@@ -127,7 +127,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           dispatch(successMessage(I18n.t('task_bots.remove_success')));
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -422,7 +422,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode, dispatch }) => {
           submit && submit();
         },
         error: (_error) => {},
-      }
+      },
     );
   };
 

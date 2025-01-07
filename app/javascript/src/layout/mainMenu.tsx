@@ -58,7 +58,7 @@ export function InnerMenu({ current_section, categories }) {
                     </Link>
                   ) : (
                     render()
-                  )
+                  ),
               )}
           </nav>
         </div>

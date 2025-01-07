@@ -35,7 +35,7 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
           setAgents(data.app.agents);
         },
         error: (_error) => {},
-      }
+      },
     );
   }
 
@@ -48,7 +48,7 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
           setTasks(data.app.botTasks);
         },
         error: (_error) => {},
-      }
+      },
     );
   }
 

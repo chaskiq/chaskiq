@@ -143,7 +143,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -152,7 +152,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
       {
         loading: true,
       },
-      this.getAgents
+      this.getAgents,
     );
   };
 
@@ -166,7 +166,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
       {
         success: () => {
           this.props.dispatch(
-            successMessage(I18n.t('settings.team.destroyed_agent'))
+            successMessage(I18n.t('settings.team.destroyed_agent')),
           );
           this.setState({ isDestroyDialogOpen: false });
           this.getAgents();
@@ -174,7 +174,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
         error: () => {
           // errorMessage('...')
         },
-      }
+      },
     );
   };
 
@@ -189,7 +189,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
       {
         success: (_data) => {
           this.props.dispatch(
-            successMessage(I18n.t('settings.team.updated_agent'))
+            successMessage(I18n.t('settings.team.updated_agent')),
           );
           this.setState({ isEditDialogOpen: false });
           this.getAgents();
@@ -197,7 +197,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
         error: (_err) => {
           // errorMessage('...')
         },
-      }
+      },
     );
   };
 
@@ -550,22 +550,22 @@ class NonAcceptedAppUsers extends React.Component<
       {
         success: () => {
           this.props.dispatch(
-            successMessage(I18n.t('settings.team.invitation_success'))
+            successMessage(I18n.t('settings.team.invitation_success')),
           );
           this.setState(
             {
               sent: true,
               isOpen: false,
             },
-            this.search
+            this.search,
           );
         },
         error: () => {
           this.props.dispatch(
-            errorMessage(I18n.t('settings.team.invitation_error'))
+            errorMessage(I18n.t('settings.team.invitation_error')),
           );
         },
-      }
+      },
     );
   };
 
@@ -623,7 +623,7 @@ class NonAcceptedAppUsers extends React.Component<
           });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -632,7 +632,7 @@ class NonAcceptedAppUsers extends React.Component<
       {
         loading: true,
       },
-      this.getAgents
+      this.getAgents,
     );
   };
 
@@ -646,15 +646,15 @@ class NonAcceptedAppUsers extends React.Component<
       {
         success: (_data) => {
           this.props.dispatch(
-            successMessage(I18n.t('settings.team.invitation_success'))
+            successMessage(I18n.t('settings.team.invitation_success')),
           );
         },
         error: () => {
           this.props.dispatch(
-            errorMessage(I18n.t('settings.team.invitation_error'))
+            errorMessage(I18n.t('settings.team.invitation_error')),
           );
         },
-      }
+      },
     );
   };
 
@@ -721,7 +721,7 @@ const Teams = function (props) {
           });
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -781,7 +781,7 @@ const Teams = function (props) {
         error: (_err) => {
           // errorMessage('...')
         },
-      }
+      },
     );
   }
 
@@ -814,7 +814,7 @@ const Teams = function (props) {
         error: (_err) => {
           // errorMessage('...')
         },
-      }
+      },
     );
   }
 
@@ -839,7 +839,7 @@ const Teams = function (props) {
         error: (_err) => {
           // errorMessage('...')
         },
-      }
+      },
     );
   }
 
@@ -1059,7 +1059,7 @@ function TeamAgentEdit(props) {
         setElements([]);
       }
     },
-    [debouncedSearchTerm] // Only call effect if debounced search term changes
+    [debouncedSearchTerm], // Only call effect if debounced search term changes
   );
 
   React.useEffect(() => {
@@ -1080,7 +1080,7 @@ function TeamAgentEdit(props) {
         error: (err) => {
           console.log('err', err);
         },
-      }
+      },
     );
   }
 
@@ -1113,7 +1113,7 @@ function TeamAgentEdit(props) {
         success: (data) => {
           if (isEmpty(data.addTeamAgent.errors)) {
             props.dispatch(
-              successMessage(I18n.t('settings.agent_teams.added_success'))
+              successMessage(I18n.t('settings.agent_teams.added_success')),
             );
             return getTeamAgents();
           }
@@ -1124,7 +1124,7 @@ function TeamAgentEdit(props) {
         error: (err) => {
           console.log('err', err);
         },
-      }
+      },
     );
   }
 
@@ -1143,7 +1143,7 @@ function TeamAgentEdit(props) {
         error: (err) => {
           console.log('err', err);
         },
-      }
+      },
     );
   }
 
@@ -1158,14 +1158,14 @@ function TeamAgentEdit(props) {
       {
         success: (data) => {
           props.dispatch(
-            successMessage(I18n.t('settings.agent_teams.delete_success'))
+            successMessage(I18n.t('settings.agent_teams.delete_success')),
           );
           getTeamAgents();
         },
         error: (err) => {
           console.log('err', err);
         },
-      }
+      },
     );
   }
 
@@ -1189,7 +1189,7 @@ function TeamAgentEdit(props) {
                     value={searchValue}
                     onChange={handleChange}
                     placeholder={I18n.t(
-                      'settings.agent_teams.search_placeholder'
+                      'settings.agent_teams.search_placeholder',
                     )}
                     onInputChange={handleInputChange}
                   />

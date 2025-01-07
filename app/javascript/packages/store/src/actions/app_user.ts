@@ -21,7 +21,7 @@ export function getAppUser(userId: any, cb?: (data: any) => void) {
           }) */
         },
         error: () => {},
-      }
+      },
     );
   };
 }
@@ -41,7 +41,7 @@ export function syncExternalProfile(id, profile, cb) {
           cb && cb(data);
         },
         error: () => {},
-      }
+      },
     );
   };
 }

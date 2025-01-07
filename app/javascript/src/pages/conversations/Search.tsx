@@ -20,7 +20,7 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
     dispatch(
       getConversations(options, () => {
         cb && cb();
-      })
+      }),
     );
   }
 
@@ -34,8 +34,8 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
         () => {
           setOpen(false);
           fetchConversations({ page: 1 });
-        }
-      )
+        },
+      ),
     );
   }
 

@@ -39,7 +39,7 @@ function ContentRenderer({
         },
         () => {
           cb && cb();
-        }
+        },
       );
   }, []);
 
@@ -95,7 +95,7 @@ export function DefinitionRenderer({
         },
         () => {
           setLoading(false);
-        }
+        },
       );
   }
 

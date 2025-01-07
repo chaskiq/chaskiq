@@ -20,7 +20,7 @@ export default function useDarkMode() {
   // Read the recipe for this hook to learn more: usehooks.com/useLocalStorage
   const [enabledState, setEnabledState] = useLocalStorage(
     'dark-mode-enabled',
-    undefined
+    undefined,
   );
   // See if user has set a browser or OS preference for dark mode.
   // The usePrefersDarkMode hook composes a useMedia hook (see code below).
@@ -40,7 +40,7 @@ export default function useDarkMode() {
         element.classList.remove(className);
       }
     },
-    [enabled] // Only re-call effect when value changes
+    [enabled], // Only re-call effect when value changes
   );
   // Return enabled state and setter
   return [enabled, setEnabledState];

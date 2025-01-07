@@ -438,7 +438,7 @@ function Sidebar({
         error: () => {
           setLoading(false);
         },
-      }
+      },
     );
   }
 

@@ -13,14 +13,14 @@ import {
 
 export function createSubscription(match, accessToken) {
   const chaskiq_cable_url = document.querySelector(
-    'meta[name="chaskiq-ws"]'
+    'meta[name="chaskiq-ws"]',
     //@ts-ignore
   ).content;
 
   return {
     events: null,
     cable: actioncable.createConsumer(
-      `${chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`
+      `${chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`,
     ),
   };
 }
@@ -62,7 +62,7 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
             return dispatch(appendConversation(camelizeKeys(data.data)));
           case 'conversations:update_state':
             return dispatch(
-              dispatchUpdateConversationData(camelizeKeys(data.data))
+              dispatchUpdateConversationData(camelizeKeys(data.data)),
             );
           case 'presence':
             return dispatch(updateAppUserPresence(camelizeKeys(data.data)));
@@ -94,7 +94,7 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
       handleMessage: () => {
         console.log('handle message');
       },
-    }
+    },
   );
 
   // agent channel
@@ -129,7 +129,7 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
       handleMessage: () => {
         console.log('handle message');
       },
-    }
+    },
   );
 };
 

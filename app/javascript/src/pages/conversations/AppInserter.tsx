@@ -81,7 +81,7 @@ const SortableItem = SortableElement(
         </div>
       </div>
     </li>
-  )
+  ),
 );
 
 function AppInserter({
@@ -143,11 +143,11 @@ function SidebarAppInserter({
         success: (data) => {
           setLoading(false);
           setPackages(
-            internalPackages.concat(data.app.appPackagesCapabilities)
+            internalPackages.concat(data.app.appPackagesCapabilities),
           );
         },
         error: () => {},
-      }
+      },
     );
   }
 

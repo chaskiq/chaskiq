@@ -97,13 +97,13 @@ class NewApp extends Component<NewAppProps, NewAppState> {
             {
               data: data.appsCreate,
             },
-            () => this.handleResponse()
+            () => this.handleResponse(),
           );
         },
         error: (_error) => {
           this.props.dispatch(errorMessage('server error'));
         },
-      }
+      },
     );
   };
 

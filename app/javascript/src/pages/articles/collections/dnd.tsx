@@ -95,14 +95,14 @@ class Dnd extends Component<DndProps> {
 
     const el = this.getList(source.droppableId)[source.index];
     const section = this.props.sections.find(
-      (o) => o.id === destination.droppableId
+      (o) => o.id === destination.droppableId,
     );
 
     if (source.droppableId === destination.droppableId) {
       const items = reorder(
         this.getList(source.droppableId),
         source.index,
-        destination.index
+        destination.index,
       );
 
       const newCollection = this.props.sections.map((o) => {
@@ -120,7 +120,7 @@ class Dnd extends Component<DndProps> {
         // this.props.sections[source.droppableId],
         // this.props.sections[destination.droppableId],
         source,
-        destination
+        destination,
       );
 
       const newCollection = this.props.sections.map((o) => {
@@ -195,11 +195,11 @@ class Dnd extends Component<DndProps> {
                                 {...provided.dragHandleProps}
                                 className={getItemClass(
                                   snapshot.isDragging,
-                                  provided.draggableProps.style
+                                  provided.draggableProps.style,
                                 )}
                                 style={getItemStyle(
                                   snapshot.isDragging,
-                                  provided.draggableProps.style
+                                  provided.draggableProps.style,
                                 )}
                               >
                                 <ListItem divider={true}>

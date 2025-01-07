@@ -40,7 +40,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
         error: () => {
           dispatch(errorMessage('server error ocurred'));
         },
-      }
+      },
     );
   }
 
@@ -151,7 +151,7 @@ function AppItem({ app, packageInfo, app_user }) {
       return window.open(
         packageParams.field.action.url,
         'win',
-        packageParams.field.action.options
+        packageParams.field.action.options,
       );
     }
 

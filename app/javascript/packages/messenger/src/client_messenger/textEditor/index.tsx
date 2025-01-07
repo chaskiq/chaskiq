@@ -181,7 +181,7 @@ export default class ArticleEditor extends Component<ArticleEditorProps> {
     const menuConfig = Object.assign(
       {},
       MenuBarConfig(), //this.props.inlineTooltipConfig),
-      inlineMenu
+      inlineMenu,
     );
 
     return [AddButtonConfig(), menuConfig];

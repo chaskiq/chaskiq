@@ -2,12 +2,12 @@ import actioncable from 'actioncable';
 
 export function createSubscription() {
   const chaskiq_cable_url = document.querySelector(
-    'meta[name="chaskiq-ws"]'
+    'meta[name="chaskiq-ws"]',
     //@ts-ignore
   ).content;
 
   const appId = document.querySelector(
-    'meta[name="app-id"]'
+    'meta[name="app-id"]',
     //@ts-ignore
   ).content;
 
@@ -16,7 +16,7 @@ export function createSubscription() {
   return {
     events: null,
     cable: actioncable.createConsumer(
-      `${chaskiq_cable_url}?app=${appId}&token=${accessToken}`
+      `${chaskiq_cable_url}?app=${appId}&token=${accessToken}`,
     ),
   };
 }
@@ -27,7 +27,7 @@ export function destroySubscription(cableApp) {
 
 export const eventsSubscriber = (cableApp, cb) => {
   const appId = document.querySelector(
-    'meta[name="app-id"]'
+    'meta[name="app-id"]',
     //@ts-ignore
   ).content;
 
@@ -62,6 +62,6 @@ export const eventsSubscriber = (cableApp, cb) => {
       handleMessage: () => {
         console.log('handle message');
       },
-    }
+    },
   );
 };

@@ -192,7 +192,7 @@ export default class TourManager extends Component<TourManagerProps> {
         },
         () => {
           this.enableEditMode(path);
-        }
+        },
       );
     }, 200);
   }
@@ -229,7 +229,7 @@ export default class TourManager extends Component<TourManagerProps> {
     document.addEventListener(
       'mouseover',
       this.handleMouseOver.bind(this),
-      false
+      false,
     );
 
     document.addEventListener('click', this.handleClick.bind(this), false);
@@ -237,7 +237,7 @@ export default class TourManager extends Component<TourManagerProps> {
     document.addEventListener(
       'mousedown',
       this.handleMouseDown.bind(this),
-      false
+      false,
     );
 
     const scrollHandler = () => {
@@ -269,7 +269,7 @@ export default class TourManager extends Component<TourManagerProps> {
           this.setState({ steps: e.data.data.steps });
         }
       },
-      false
+      false,
     );
 
     this.getSteps();
@@ -328,7 +328,7 @@ export default class TourManager extends Component<TourManagerProps> {
       },
       () => {
         this.disableSelection();
-      }
+      },
     );
   };
 
@@ -337,7 +337,7 @@ export default class TourManager extends Component<TourManagerProps> {
       {
         selectionMode: true,
       },
-      () => setTimeout(() => this.enableSelection(), 500)
+      () => setTimeout(() => this.enableSelection(), 500),
     );
   };
 
@@ -367,7 +367,7 @@ export default class TourManager extends Component<TourManagerProps> {
           });
         }
       },
-      false
+      false,
     );
 
     this.props.ev.source.postMessage(
@@ -377,7 +377,7 @@ export default class TourManager extends Component<TourManagerProps> {
         // imageBlock: imageBlock,
         input: input,
       },
-      this.props.ev.origin
+      this.props.ev.origin,
     );
   };
 
@@ -389,7 +389,7 @@ export default class TourManager extends Component<TourManagerProps> {
           imageBlock.uploadCompleted(e.data.data.serviceUrl);
         }
       },
-      false
+      false,
     );
 
     this.props.ev.source.postMessage(
@@ -399,7 +399,7 @@ export default class TourManager extends Component<TourManagerProps> {
         // imageBlock: imageBlock,
         input: input,
       },
-      this.props.ev.origin
+      this.props.ev.origin,
     );
   };
 
@@ -467,7 +467,7 @@ export default class TourManager extends Component<TourManagerProps> {
       () =>
         setTimeout(() => {
           // this.enableSelection()
-        }, 500)
+        }, 500),
     );
   };
 
@@ -494,7 +494,7 @@ export default class TourManager extends Component<TourManagerProps> {
           }
         });
         this.setState({ steps: newSteps });
-      }
+      },
     );
   };
 
@@ -530,7 +530,7 @@ export default class TourManager extends Component<TourManagerProps> {
           };
         }),
       },
-      this.props.ev.origin
+      this.props.ev.origin,
     );
 
     this.setState(
@@ -539,7 +539,7 @@ export default class TourManager extends Component<TourManagerProps> {
         selectionMode: false,
         selectedCoords: null,
       },
-      clearAllBodyScrollLocks
+      clearAllBodyScrollLocks,
     );
   };
 
@@ -553,7 +553,7 @@ export default class TourManager extends Component<TourManagerProps> {
   getSteps = () => {
     this.props.ev.source.postMessage(
       { type: 'GET_TOUR' },
-      this.props.ev.origin
+      this.props.ev.origin,
     );
   };
 

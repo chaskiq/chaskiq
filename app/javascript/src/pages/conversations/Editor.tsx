@@ -95,7 +95,7 @@ export default class ConversationEditor extends Component<
         options.note
           ? this.props.insertNote(formats, this.enable)
           : this.props.insertComment(formats, this.enable);
-      }
+      },
     );
   };
 

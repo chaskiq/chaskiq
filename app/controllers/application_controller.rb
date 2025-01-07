@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def cookie_namespace
-    "chaskiq_session_id_#{@app.key.gsub('-', '')}".to_sym
+    :"chaskiq_session_id_#{@app.key.gsub('-', '')}"
   end
 
   def render_empty
@@ -61,9 +61,9 @@ class ApplicationController < ActionController::Base
   end
 
   def paddle_subscriptions?
-    (Chaskiq::Config.get("PADDLE_PUBLIC_KEY").present? &&
+    Chaskiq::Config.get("PADDLE_PUBLIC_KEY").present? &&
       Chaskiq::Config.get("PADDLE_VENDOR_ID").present? &&
-      Chaskiq::Config.get("PADDLE_SECRET_TOKEN").present?)
+      Chaskiq::Config.get("PADDLE_SECRET_TOKEN").present?
   end
 
   def auth0_enabled?

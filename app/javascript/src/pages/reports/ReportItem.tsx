@@ -66,7 +66,7 @@ export default function DashboardItem({
         error: (_err) => {
           setLoading(false);
         },
-      }
+      },
     );
   }
 

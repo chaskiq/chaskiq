@@ -7,7 +7,7 @@ class PreviewCard < ApplicationRecord
 
   self.inheritance_column = false
 
-  enum type: { link: 0, photo: 1, video: 2, rich: 3 }
+  enum :type, { link: 0, photo: 1, video: 2, rich: 3 }
 
   # mount_uploader :image, PreviewUploader
   has_one_attached :image

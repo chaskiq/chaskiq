@@ -97,7 +97,7 @@ function Integrations({ app, dispatch }) {
         error: () => {
           setLoading(false);
         },
-      }
+      },
     );
   }
 
@@ -116,7 +116,7 @@ function Integrations({ app, dispatch }) {
         error: () => {
           setLoading(false);
         },
-      }
+      },
     );
   }
 
@@ -157,7 +157,7 @@ function Integrations({ app, dispatch }) {
 
           if (!isEmpty(data.integrationsCreate.errors)) {
             dispatch(
-              errorMessage(I18n.t('settings.integrations.create_error'))
+              errorMessage(I18n.t('settings.integrations.create_error')),
             );
             setErrors(data.integrationsCreate.errors);
             return;
@@ -165,19 +165,19 @@ function Integrations({ app, dispatch }) {
 
           const integration = data.integrationsCreate.integration;
           const newIntegrations = integrations.map((o) =>
-            o.name === integration.name ? integration : o
+            o.name === integration.name ? integration : o,
           );
           setIntegrations(newIntegrations);
 
           setOpen(null);
           dispatch(
-            successMessage(I18n.t('settings.integrations.create_success'))
+            successMessage(I18n.t('settings.integrations.create_success')),
           );
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.integrations.create_error')));
         },
-      }
+      },
     );
   }
 
@@ -197,7 +197,7 @@ function Integrations({ app, dispatch }) {
           setTabValue(0);
           const integration = data.integrationsUpdate.integration;
           const newIntegrations = integrations.map((o) =>
-            o.name === integration.name ? integration : o
+            o.name === integration.name ? integration : o,
           );
 
           if (isEmpty(data.integrationsUpdate.errors)) {
@@ -205,7 +205,7 @@ function Integrations({ app, dispatch }) {
             // getAppPackageIntegration()
             setOpen(null);
             dispatch(
-              successMessage(I18n.t('settings.integrations.update_success'))
+              successMessage(I18n.t('settings.integrations.update_success')),
             );
             return;
           }
@@ -216,7 +216,7 @@ function Integrations({ app, dispatch }) {
         error: () => {
           dispatch(errorMessage(I18n.t('settings.integrations.update_error')));
         },
-      }
+      },
     );
   }
 
@@ -232,19 +232,19 @@ function Integrations({ app, dispatch }) {
           setTabValue(0);
           const integration = data.integrationsDelete.integration;
           const newIntegrations = integrations.filter(
-            (o) => o.name !== integration.name
+            (o) => o.name !== integration.name,
           );
           setIntegrations(newIntegrations);
           setOpen(null);
           setOpenDeleteDialog(null);
           dispatch(
-            successMessage(I18n.t('settings.integrations.remove_success'))
+            successMessage(I18n.t('settings.integrations.remove_success')),
           );
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.integrations.remove_error')));
         },
-      }
+      },
     );
   }
 
@@ -645,7 +645,7 @@ function MyAppPackages({ app, dispatch, handleOpen }: MyAppPackagesType) {
         error: () => {
           setLoading(false);
         },
-      }
+      },
     );
   }
 
@@ -665,7 +665,7 @@ function MyAppPackages({ app, dispatch, handleOpen }: MyAppPackagesType) {
         error: () => {
           setLoading(false);
         },
-      }
+      },
     );
   }
 
@@ -684,7 +684,7 @@ function MyAppPackages({ app, dispatch, handleOpen }: MyAppPackagesType) {
           // setIntegration(data.app.agentAppPackage)
           setLoading(false);
           dispatch(
-            successMessage(I18n.t('settings.integrations.remove_success'))
+            successMessage(I18n.t('settings.integrations.remove_success')),
           );
           getAppPackages();
         },
@@ -692,7 +692,7 @@ function MyAppPackages({ app, dispatch, handleOpen }: MyAppPackagesType) {
           setLoading(false);
           dispatch(errorMessage(I18n.t('settings.integrations.remove_error')));
         },
-      }
+      },
     );
   }
 
@@ -973,7 +973,7 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         type: 'string',
         hint: I18n.t('definitions.app_packages.initialize_url.hint'),
         placeholder: I18n.t(
-          'definitions.app_packages.initialize_url.placeholder'
+          'definitions.app_packages.initialize_url.placeholder',
         ),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
@@ -983,7 +983,7 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         type: 'string',
         hint: I18n.t('definitions.app_packages.configure_url.hint'),
         placeholder: I18n.t(
-          'definitions.app_packages.configure_url.placeholder'
+          'definitions.app_packages.configure_url.placeholder',
         ),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
@@ -1038,7 +1038,7 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         success: (data) => {
           if (!isEmpty(data.appPackagesCreate.errors)) {
             dispatch(
-              errorMessage(I18n.t('settings.app_packages.create_error'))
+              errorMessage(I18n.t('settings.app_packages.create_error')),
             );
             setErrors(data.appPackagesCreate.errors);
             return;
@@ -1046,13 +1046,13 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
           setAppPackage(data.appPackagesCreate.appPackage);
           onCancel();
           dispatch(
-            successMessage(I18n.t('settings.app_packages.create_success'))
+            successMessage(I18n.t('settings.app_packages.create_success')),
           );
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.app_packages.create_error')));
         },
-      }
+      },
     );
   }
 
@@ -1069,20 +1069,20 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         success: (data) => {
           if (!isEmpty(data.appPackagesUpdate.errors)) {
             dispatch(
-              errorMessage(I18n.t('settings.app_packages.update_error'))
+              errorMessage(I18n.t('settings.app_packages.update_error')),
             );
             setErrors(data.appPackagesUpdate.errors);
             return;
           }
           setAppPackage(data.appPackagesUpdate.appPackage);
           dispatch(
-            successMessage(I18n.t('settings.app_packages.update_success'))
+            successMessage(I18n.t('settings.app_packages.update_success')),
           );
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.app_packages.update_error')));
         },
-      }
+      },
     );
   }
 

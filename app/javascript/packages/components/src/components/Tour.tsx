@@ -130,7 +130,7 @@ class TourManager extends Component<TourManagerProps, TourManagerState> {
           tour: this.props.data,
           tourManagerEnabled: true,
         },
-        '*'
+        '*',
       );
     }
 
@@ -140,7 +140,7 @@ class TourManager extends Component<TourManagerProps, TourManagerState> {
           type: 'GET_TOUR',
           data: this.props.data,
         },
-        '*'
+        '*',
       );
     }
 
@@ -151,7 +151,7 @@ class TourManager extends Component<TourManagerProps, TourManagerState> {
             type: 'GET_TOUR',
             data: this.props.data,
           },
-          '*'
+          '*',
         );
       });
     }
@@ -223,11 +223,11 @@ class TourManager extends Component<TourManagerProps, TourManagerState> {
               type: 'URL_UPLOAD_COMPLETED',
               data: { signedBlobId, headers, url, serviceUrl },
             },
-            '*'
+            '*',
           );
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -243,7 +243,7 @@ class TourManager extends Component<TourManagerProps, TourManagerState> {
               type: 'UPLOAD_COMPLETED',
               data: { signedBlobId, headers, url, serviceUrl },
             },
-            '*'
+            '*',
           );
 
           // this.setDisabled(false)
@@ -269,7 +269,7 @@ class TourManager extends Component<TourManagerProps, TourManagerState> {
         window.__CHILD_WINDOW_HANDLE_2 = window.open(
           `${this.props.data.url}`,
           'win',
-          options
+          options,
         );
         // '_blank' )
 
@@ -286,7 +286,7 @@ class TourManager extends Component<TourManagerProps, TourManagerState> {
       open(`/tester/${this.props.app.key}`, 'null', winFeature) */
         // open(`/tester/${this.props.app.key}`)
         // open(`${this.props.data.url}`)
-      }
+      },
     );
   };
 

@@ -89,7 +89,7 @@ var customHTML2Content = function customHTML2Content(HTML, blockRn) {
   var content = convertFromHTML(
     tempDoc.body.innerHTML,
     getSafeBodyFromHTML,
-    blockRn
+    blockRn,
   );
   var contentBlocks = content.contentBlocks; // now replace <blockquote /> ContentBlocks with 'atomic' ones
 

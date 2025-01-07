@@ -27,7 +27,7 @@ export const camelizeKeys = (obj) => {
         ...result,
         [camelCase(key)]: camelizeKeys(obj[key]),
       }),
-      {}
+      {},
     );
   }
   return obj;
@@ -57,13 +57,13 @@ export function getConversation(options, cb) {
               collection:
                 nextPage > 1
                   ? getState().conversation.collection.concat(
-                      conversation.messages.collection
+                      conversation.messages.collection,
                     )
                   : conversation.messages.collection,
               meta: conversation.messages.meta,
               loading: false,
             },
-            conversation
+            conversation,
           );
           // console.log('newConversation', newConversation, nextPage)
           dispatch(dispatchGetConversations(newConversation));
@@ -71,7 +71,7 @@ export function getConversation(options, cb) {
           if (cb) cb();
         },
         error: () => {},
-      }
+      },
     );
   };
 }
@@ -94,19 +94,19 @@ export function updateConversationTagList(options, cb) {
             dispatchUpdateConversations({
               ...getState().conversation,
               tagList: tags,
-            })
+            }),
           );
 
           dispatch(
             dispatchUpdateListItemTagList({
               id: options.id,
               tagList: tags,
-            })
+            }),
           );
           if (cb) cb();
         },
         error: () => {},
-      }
+      },
     );
   };
 }
@@ -135,7 +135,7 @@ export function typingNotifier(cb) {
         error: (error) => {
           console.log(error);
         },
-      }
+      },
     );
   };
 }
@@ -159,7 +159,7 @@ export function insertComment(comment, cb) {
           console.log(error);
           cb && cb(error);
         },
-      }
+      },
     );
   };
 }
@@ -190,7 +190,7 @@ export function insertAppBlockComment(comment, cb) {
           console.log(error);
           cb && cb(error);
         },
-      }
+      },
     );
   };
 }
@@ -213,7 +213,7 @@ export function insertNote(comment, cb) {
           console.log(error);
           cb && cb(error);
         },
-      }
+      },
     );
   };
 }
@@ -263,7 +263,7 @@ export function setLoading(val) {
       dispatchUpdateConversations({
         ...getState().conversation,
         loading: val,
-      })
+      }),
     );
   };
 }
@@ -274,7 +274,7 @@ export function updateTags(val) {
       dispatchUpdateConversations({
         ...getState().conversation,
         tagList: val,
-      })
+      }),
     );
   };
 }
@@ -299,14 +299,14 @@ export function updateConversationState(state, cb) {
           const newConversation = Object.assign(
             {},
             getState().conversation,
-            conversation
+            conversation,
           );
           dispatch(dispatchGetConversations(newConversation));
 
           if (cb) cb(newConversation);
         },
         error: () => {},
-      }
+      },
     );
   };
 }
@@ -325,13 +325,13 @@ export function updateConversationPriority(cb) {
           const newConversation = Object.assign(
             {},
             getState().conversation,
-            conversation
+            conversation,
           );
           dispatch(dispatchGetConversations(newConversation));
           if (cb) cb(newConversation);
         },
         error: () => {},
-      }
+      },
     );
   };
 }
@@ -355,7 +355,7 @@ export function assignAgent(id, cb) {
           if (cb) cb(data.assignUser.conversation);
         },
         error: () => {},
-      }
+      },
     );
   };
 }
@@ -399,7 +399,7 @@ export default function reducer(
   action: {
     type: string;
     data: any;
-  } = null
+  } = null,
 ) {
   switch (action.type) {
     case ActionTypes.GetConversation: {

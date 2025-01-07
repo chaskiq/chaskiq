@@ -12,8 +12,7 @@ ruby "3.3.5"
 gem "anycable-rails"
 
 gem "pg"
-gem "rails", "7.2.1" # , github: "rails/rails",
-gem "uri", "0.10.3"
+gem "rails", "8.0.1" # , github: "rails/rails",
 
 # Use sqlite3 as the database for Active Record
 # gem "sqlite3", group: "test"
@@ -129,7 +128,7 @@ gem "biz", "~> 1.8"
 gem "i18n-js", "~> 4.0.0.alpha1"
 
 # gem "globalize", github: "globalize/globalize", branch: "main"
-gem "globalize", github: "jules-w2/globalize", branch: "main"
+gem "globalize", github: "globalize/globalize", branch: "main"
 
 # To use Stripe, also include:
 gem "stripe", "~> 6.0"

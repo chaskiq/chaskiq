@@ -88,14 +88,14 @@ class Segment extends Component<SegmentProps, SegmentState> {
     if (cb) cb(jwtToken);
 
     this.setState({ jwt: jwtToken }, () =>
-      this.updateData(parseJwt(this.state.jwt))
+      this.updateData(parseJwt(this.state.jwt)),
     );
   };
 
   deletePredicate(data) {
     const jwtToken = generateJWT(data);
     this.setState({ jwt: jwtToken }, () =>
-      this.updateData(parseJwt(this.state.jwt), this.search)
+      this.updateData(parseJwt(this.state.jwt), this.search),
     );
   }
 
@@ -129,7 +129,7 @@ class Segment extends Component<SegmentProps, SegmentState> {
           });
         },
         error: (_error) => {},
-      }
+      },
     );
   };
 
@@ -137,7 +137,7 @@ class Segment extends Component<SegmentProps, SegmentState> {
     this.props.dispatch(
       toggleDrawer({ userDrawer: true }, () => {
         this.props.dispatch(getAppUser(o.id));
-      })
+      }),
     );
   };
 

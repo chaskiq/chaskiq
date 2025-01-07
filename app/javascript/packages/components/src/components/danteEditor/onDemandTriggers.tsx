@@ -15,7 +15,7 @@ type OnDemandTriggersOptionsType = {
   handleFunc?: any;
 };
 export const OnDemandTriggersBlockConfig = (
-  options: OnDemandTriggersOptionsType = {}
+  options: OnDemandTriggersOptionsType = {},
 ) => {
   const config = {
     tag: 'OnDemandTrigger',

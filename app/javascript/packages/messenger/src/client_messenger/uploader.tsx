@@ -9,7 +9,7 @@ export function imageUpload(file, props = null) {
 
     const upload = new DirectUpload(
       file,
-      `${props.domain}/api/v1/direct_uploads`
+      `${props.domain}/api/v1/direct_uploads`,
     );
     upload.create((error, blob) => {
       if (error) {

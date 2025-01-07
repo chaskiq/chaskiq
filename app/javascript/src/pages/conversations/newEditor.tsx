@@ -35,9 +35,11 @@ export const ArticlePad = styled.div`
   margin-top: 18px !important;
 
   border: 1px solid #dde1eb;
-  -webkit-box-shadow: 0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
+  -webkit-box-shadow:
+    0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
     0 1px 2px 0 rgba(39, 45, 52, 0.08);
-  box-shadow: 0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
+  box-shadow:
+    0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
     0 1px 2px 0 rgba(39, 45, 52, 0.08);
   .debugControls {
     position: relative;
@@ -153,7 +155,7 @@ export default class ChatEditor extends Component<
 
   isMobile = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
+      navigator.userAgent,
     );
   };
 
@@ -262,7 +264,7 @@ export default class ChatEditor extends Component<
       },
       () =>
         this.props.saveContentCallback &&
-        this.props.saveContentCallback(content)
+        this.props.saveContentCallback(content),
     );
   };
 
@@ -303,7 +305,7 @@ export default class ChatEditor extends Component<
   allowedEditorFeature = (feature_type) => {
     return this.resolveEditorSetting(
       this.props.app.agentEditorSettings,
-      feature_type
+      feature_type,
     );
   };
 
@@ -318,7 +320,7 @@ export default class ChatEditor extends Component<
       widgets.push(
         AppPackageBlockConfig({
           handleFunc: this.handleAppFunc,
-        })
+        }),
       );
     }
 
@@ -326,7 +328,7 @@ export default class ChatEditor extends Component<
       widgets.push(
         OnDemandTriggersBlockConfig({
           handleFunc: this.handleBotFunc,
-        })
+        }),
       );
     }
 
@@ -334,7 +336,7 @@ export default class ChatEditor extends Component<
       widgets.push(
         QuickRepliesBlockConfig({
           handleFunc: this.handleQuickRepliesFunc,
-        })
+        }),
       );
     }
 
@@ -484,7 +486,7 @@ export default class ChatEditor extends Component<
                 try {
                   console.log(
                     e.currentTarget.pmViewDesc.node.content.content[0].attrs
-                      .blockKind
+                      .blockKind,
                   );
                   const blockKind =
                     e.currentTarget.pmViewDesc?.node?.content?.content[0]?.attrs

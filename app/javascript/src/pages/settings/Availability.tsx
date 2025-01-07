@@ -9,11 +9,11 @@ import { PlusIcon, DeleteIcon } from '@chaskiq/components/src/components/icons';
 
 export default function LanguageForm({ settings, update }) {
   const [selectedOption, setSelectedOption] = React.useState(
-    settings.replyTime
+    settings.replyTime,
   );
   const [records, setRecords] = useState(settings.teamSchedule);
   const replyTimeOptions: any = I18n.t(
-    'settings.availability.reply_time.options'
+    'settings.availability.reply_time.options',
   );
 
   function handleChange(e) {
@@ -182,7 +182,7 @@ function AvailabilityRecord({ record, update, index, removeItem }) {
       .map((_, i) => {
         return ('0' + ~~(i / 4) + ':0' + 60 * ((i / 4) % 1)).replace(
           /\d(\d\d)/g,
-          '$1'
+          '$1',
         );
       });
   }

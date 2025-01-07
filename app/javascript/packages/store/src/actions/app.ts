@@ -24,7 +24,7 @@ export function setApp(key, cb = null) {
             cb.success(err);
           }
         },
-      }
+      },
     );
   };
 }
@@ -66,7 +66,7 @@ export function updateApp(appParams, cb = null) {
           console.log('ERRR Updating app', error);
           cb && cb();
         },
-      }
+      },
     );
   };
 }

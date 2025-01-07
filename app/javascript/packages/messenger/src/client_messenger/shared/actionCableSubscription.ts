@@ -10,7 +10,7 @@ export function createSubscription(props, userData, sessionValue) {
     cable: actioncable.createConsumer(
       `${props.ws}?enc=${props.encData}&user_data=${btoa(userData)}&app=${
         props.app_id
-      }&session_id=${props.sessionId}&session_value=${sessionValue}`
+      }&session_id=${props.sessionId}&session_value=${sessionValue}`,
     ),
   };
 }
@@ -75,7 +75,7 @@ export function eventsSubscriber(app, { ctx }) {
       handleMessage: (message) => {
         console.log('handle event message', message);
       },
-    }
+    },
   );
 }
 
@@ -98,7 +98,7 @@ export function precenseSubscriber(app, { ctx }) {
       handleMessage: (_message) => {
         console.log('handle message');
       },
-    }
+    },
   );
 }
 

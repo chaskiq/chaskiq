@@ -90,7 +90,7 @@ function AppContainer({
         match.params.appId,
         CableApp.current,
         dispatch,
-        fetchApp
+        fetchApp,
       );
     });
     return () => {
@@ -106,7 +106,7 @@ function AppContainer({
         success: () => {
           cb && cb();
         },
-      })
+      }),
     );
   };
 

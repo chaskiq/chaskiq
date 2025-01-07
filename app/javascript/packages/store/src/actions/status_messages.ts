@@ -10,7 +10,7 @@ export function errorMessage(message) {
         message: message,
         variant: 'error',
         placement: defaultPlacement(),
-      })
+      }),
     );
   };
 }
@@ -22,7 +22,7 @@ export function warningMessage(message) {
         message: message,
         variant: 'warning',
         placement: defaultPlacement(),
-      })
+      }),
     );
   };
 }
@@ -34,7 +34,7 @@ export function infoMessage(message) {
         message: message,
         variant: 'info',
         placement: defaultPlacement(),
-      })
+      }),
     );
   };
 }
@@ -46,7 +46,7 @@ export function successMessage(message) {
         message: message,
         variant: 'success',
         placement: defaultPlacement(),
-      })
+      }),
     );
   };
 }

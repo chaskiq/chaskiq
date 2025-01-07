@@ -390,7 +390,9 @@ export const ConversationEventContainer = styled.div<InlineProps>`
   margin: 6px 4.2em;
   padding: 0.7em;
   font-size: 0.8em;
-  box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 4px 15px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.1);
 
   ${(props) => {
     return props.isInline
@@ -457,7 +459,9 @@ export const AppPackageBlockContainer = styled.div<IsHiddenProps>`
       background-clip: padding-box;
       border: 1px solid #ced4da;
       border-radius: 0.25rem;
-      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
     }
     button:not(:disabled):not(.disabled) {
       cursor: pointer;
@@ -492,8 +496,11 @@ export const AppPackageBlockContainer = styled.div<IsHiddenProps>`
       font-size: 1rem;
       line-height: 1.5;
       border-radius: 0.25rem;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      transition:
+        color 0.15s ease-in-out,
+        background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
     }
   }
 `;
@@ -637,7 +644,9 @@ export const Prime = styled.div<{ theme: ThemeProps }>`
   border-radius: 50%;
   text-align: center;
   margin: 0 0;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+  box-shadow:
+    0 0 4px rgba(0, 0, 0, 0.14),
+    0 4px 8px rgba(0, 0, 0, 0.28);
   cursor: pointer;
   transition: all 0.1s ease-out;
   position: relative;
@@ -891,7 +900,8 @@ export const MessageItem = styled.div<
       position: relative;
       border-radius: 5px 5px 5px 0px;
 
-      box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1),
+      box-shadow:
+        0 4px 15px 0 rgba(0, 0, 0, 0.1),
         0 1px 2px 0 rgba(0, 0, 0, 0.1);
 
       ${(props) => {
@@ -925,7 +935,8 @@ export const MessageItem = styled.div<
       border-radius: 6px;
       min-width: 80px;
       min-width: 200px;
-      box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1),
+      box-shadow:
+        0 4px 15px 0 rgba(0, 0, 0, 0.1),
         0 1px 2px 0 rgba(0, 0, 0, 0.1);
 
       ${(props) => {

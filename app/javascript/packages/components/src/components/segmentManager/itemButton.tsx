@@ -73,7 +73,7 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
       },
       () => {
         this.handleInputScroll(target, cb);
-      }
+      },
     );
   };
 
@@ -88,7 +88,7 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
       },
       () => {
         this.handleInputScroll(target, cb);
-      }
+      },
     );
   };
 
@@ -109,7 +109,7 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
       },
       () => {
         this.handleInputScroll(target, cb);
-      }
+      },
     );
   };
 
@@ -146,7 +146,7 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
 
       case 'date': {
         value = `${this.relative_input.value} ${I18n.t(
-          'segment_manager.days_ago'
+          'segment_manager.days_ago',
         )}`;
         break;
       }
@@ -168,7 +168,7 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
 
     const response = Object.assign({}, this.props.predicate, h);
     const new_predicates = this.props.predicates.map((o, i) =>
-      this.props.index === i ? response : o
+      this.props.index === i ? response : o,
     );
 
     this.props.updatePredicate(new_predicates, this.props.predicateCallback);

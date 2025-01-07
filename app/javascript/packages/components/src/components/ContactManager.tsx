@@ -79,7 +79,7 @@ function ContactManager({ app, current_user, dispatch }: ContactManagerType) {
           dispatch(successMessage(I18n.t('contact_manager.success_message')));
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -283,7 +283,7 @@ function ContactForm({ app, dispatch }) {
           }
         },
         error: (err) => {},
-      }
+      },
     );
   }
 

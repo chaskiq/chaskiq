@@ -37,7 +37,7 @@ function AppPackagePanel(props) {
         error: () => {
           setLoading(false);
         },
-      }
+      },
     );
   }
 

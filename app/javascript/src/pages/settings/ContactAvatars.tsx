@@ -36,10 +36,10 @@ function ContactAvatar({ app, settings, update, namespace }) {
 
   const avatar_settings = settings.preferences?.avatar_settings;
   const [avatarType, setAvatarType] = React.useState(
-    avatar_settings?.style || 'marble'
+    avatar_settings?.style || 'marble',
   );
   const [palette, setPalette] = React.useState(
-    avatar_settings?.palette?.split(',') || defaultPalette.split(',')
+    avatar_settings?.palette?.split(',') || defaultPalette.split(','),
   );
 
   return (

@@ -9,12 +9,11 @@ Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
   SupportedStyles:
-  - single_quotes
-  - double_quotes
+    - single_quotes
+    - double_quotes
 
 Style/HashSyntax:
   EnforcedShorthandSyntax: never
-
 
 Rails/EnvironmentVariableAccess:
   AllowReads: true
@@ -24,13 +23,15 @@ Lint/EmptyBlock:
     - 'spec/**/*'
 Metrics/BlockLength:
   Exclude:
-  - 'spec/**/*'
+    - 'spec/**/*'
 
 Style/OpenStructUse:
   Enabled: false
 Style/AsciiComments:
   Enabled: false
 Lint/MissingSuper:
+  Enabled: false
+Style/SafeNavigationChainLength:
   Enabled: false
 Rails/SkipsModelValidations:
   Enabled: false
@@ -49,6 +50,3 @@ AllCops:
     - 'bin/{rails,rake}'
     - 'spec/cypress/**/*'
     - 'tmp/**/*'
-
-
-

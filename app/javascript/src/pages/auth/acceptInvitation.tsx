@@ -50,7 +50,10 @@ function AcceptInvitation(props) {
       })
       .then(function (response) {
         props.dispatch(
-          successAuthentication(response.data.token, response.data.refreshToken)
+          successAuthentication(
+            response.data.token,
+            response.data.refreshToken,
+          ),
         );
         props.dispatch(getCurrentUser());
         // use router redirect + snackbar status

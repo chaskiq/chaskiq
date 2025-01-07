@@ -76,7 +76,7 @@ class AppSettingsContainer extends Component<
         errors: (error) => {
           console.log(error);
         },
-      }
+      },
     );
   };
 
@@ -85,7 +85,7 @@ class AppSettingsContainer extends Component<
     this.props.dispatch(
       updateApp(data.app, (d) => {
         console.log(d);
-      })
+      }),
     );
   };
 
@@ -133,7 +133,7 @@ class AppSettingsContainer extends Component<
       {
         name: 'privacyConsentRequired',
         label: I18n.t(
-          'definitions.settings.privacy_consent_required_all.label'
+          'definitions.settings.privacy_consent_required_all.label',
         ),
         hint: I18n.t('definitions.settings.privacy_consent_required_all.hint'),
         type: 'radio',
@@ -145,7 +145,7 @@ class AppSettingsContainer extends Component<
       {
         name: 'privacyConsentRequired',
         label: I18n.t(
-          'definitions.settings.privacy_consent_required_none.label'
+          'definitions.settings.privacy_consent_required_none.label',
         ),
         hint: I18n.t('definitions.settings.privacy_consent_required_none.hint'),
         type: 'radio',

@@ -504,7 +504,7 @@ class AppSegment extends Component<AppSegmentProps, AppSegmentState> {
     // console.log(parseJwt(jwtToken))
     if (cb) cb(jwtToken);
     this.setState({ jwt: jwtToken }, () =>
-      this.updateData(parseJwt(this.state.jwt), this.search)
+      this.updateData(parseJwt(this.state.jwt), this.search),
     );
   };
 
@@ -522,14 +522,14 @@ class AppSegment extends Component<AppSegmentProps, AppSegmentState> {
     if (cb) cb(jwtToken);
 
     this.setState({ jwt: jwtToken }, () =>
-      this.updateData(parseJwt(this.state.jwt))
+      this.updateData(parseJwt(this.state.jwt)),
     );
   };
 
   deletePredicate(data) {
     const jwtToken = generateJWT(data);
     this.setState({ jwt: jwtToken }, () =>
-      this.updateData(parseJwt(this.state.jwt), this.search)
+      this.updateData(parseJwt(this.state.jwt), this.search),
     );
   }
 
@@ -564,7 +564,7 @@ class AppSegment extends Component<AppSegmentProps, AppSegmentState> {
           });
         },
         error: (_error) => {},
-      }
+      },
     );
   };
 
@@ -572,7 +572,7 @@ class AppSegment extends Component<AppSegmentProps, AppSegmentState> {
     this.props.dispatch(
       toggleDrawer({ userDrawer: true }, () => {
         this.props.dispatch(getAppUser(o.id));
-      })
+      }),
     );
   };
 

@@ -44,8 +44,8 @@ export default class MessageItemWrapper extends Component<MessageItemWrapperProp
             step: this.props.stepId,
             trigger: this.props.triggerId,
           },
-          { email: this.props.email }
-        )
+          { email: this.props.email },
+        ),
       );
     }
   };

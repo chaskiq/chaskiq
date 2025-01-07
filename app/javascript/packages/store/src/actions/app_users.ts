@@ -109,7 +109,7 @@ export default function reducer(
     meta: {},
     searching: true,
   },
-  action: ActionType = {}
+  action: ActionType = {},
 ) {
   switch (action.type) {
     case ActionTypes.searchAppUsers: {

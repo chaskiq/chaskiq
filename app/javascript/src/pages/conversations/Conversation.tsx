@@ -109,7 +109,9 @@ const BgContainer = styled.div<BgContainerProps>`
   }});
 
   /* background-size: calc(40px) calc(40px); */
-  background-position: 0px 0px, calc(20px) calc(20px);
+  background-position:
+    0px 0px,
+    calc(20px) calc(20px);
 `;
 
 type MessageItemType = {
@@ -124,8 +126,8 @@ const MessageItem = styled.div<MessageItemType>`
       props.userOrAdmin === 'user'
         ? tw`bg-gray-600 text-white dark:bg-gray-800 dark:border dark:border-black`
         : props.privateNote
-        ? tw`bg-yellow-300 text-black`
-        : tw`bg-brand text-white dark:bg-brand dark:border dark:border-gray-800 dark:text-white`
+          ? tw`bg-yellow-300 text-black`
+          : tw`bg-brand text-white dark:bg-brand dark:border dark:border-gray-800 dark:text-white`
 
     // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
     // `background: linear-gradient(45deg,#202020,#000000e6)`
@@ -193,7 +195,7 @@ function Conversation({
     dispatch(
       clearConversation(() => {
         if (!isNew) getMessages(scrollToLastItem);
-      })
+      }),
     );
 
     if (isNew) {
@@ -205,7 +207,7 @@ function Conversation({
           mainParticipant: null,
           assignee: current_user,
           subject: '',
-        })
+        }),
       );
       dispatch(setLoading(false));
     }
@@ -233,7 +235,7 @@ function Conversation({
       dispatch(
         clearConversation(() => {
           if (!isNew) getMessages(scrollToLastItem);
-        })
+        }),
       );
     }
   }, [reconnect]);
@@ -249,11 +251,11 @@ function Conversation({
         success: (data) => {
           setLoading(false);
           setInitiatorChannels(
-            [{ name: 'Email' }].concat(data.app.appPackagesCapabilities)
+            [{ name: 'Email' }].concat(data.app.appPackagesCapabilities),
           );
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -263,7 +265,7 @@ function Conversation({
     dispatch(
       insertComment(comment, () => {
         cb && cb();
-      })
+      }),
     );
   };
 
@@ -292,7 +294,7 @@ function Conversation({
         fail: (req) => {
           cb && cb(req);
         },
-      }
+      },
     );
   };
 
@@ -300,7 +302,7 @@ function Conversation({
     dispatch(
       insertNote(comment, () => {
         cb && cb();
-      })
+      }),
     );
   };
 
@@ -308,7 +310,7 @@ function Conversation({
     dispatch(
       insertAppBlockComment(data, () => {
         cb && cb();
-      })
+      }),
     );
   };
 
@@ -362,7 +364,7 @@ function Conversation({
         // TODO: this will scroll scroll to last when new items
         // are added on pagination (scroll up)!
         cb && cb(lastItem ? lastItem.key : null);
-      })
+      }),
     );
   };
 
@@ -370,7 +372,7 @@ function Conversation({
     dispatch(
       typingNotifier(() => {
         cb && cb();
-      })
+      }),
     );
   };
 
@@ -378,7 +380,7 @@ function Conversation({
     dispatch(
       updateConversationState(state, (data) => {
         cb && cb(data.updateConversationState.conversation);
-      })
+      }),
     );
   };
 
@@ -386,7 +388,7 @@ function Conversation({
     dispatch(
       updateConversationPriority((data) => {
         cb && cb(data.updateConversationState.conversation);
-      })
+      }),
     );
   };
 
@@ -399,7 +401,7 @@ function Conversation({
           cb(data.app.agents);
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -615,8 +617,8 @@ function Conversation({
         () => {
           dispatch(successMessage('tags updated'));
           setOpenTagManager(false);
-        }
-      )
+        },
+      ),
     );
   };
 
@@ -691,7 +693,7 @@ function Conversation({
               overlay={I18n.t(
                 `conversation.actions.${
                   conversation.state === 'closed' ? 'reopen' : 'close'
-                }`
+                }`,
               )}
             >
               <button
@@ -703,7 +705,7 @@ function Conversation({
                 aria-label={I18n.t(
                   `conversation.actions.${
                     conversation.state === 'closed' ? 'reopen' : 'close'
-                  }`
+                  }`,
                 )}
                 className={`
                   focus:outline-none outline-none mr-1 rounded-full 
@@ -726,7 +728,7 @@ function Conversation({
               overlay={I18n.t(
                 `conversation.actions.${
                   videoSession ? 'end_call' : 'start_call'
-                }`
+                }`,
               )}
             >
               <button
@@ -773,7 +775,7 @@ function Conversation({
               overlay={I18n.t(
                 `conversation.actions.${
                   !conversation.priority ? 'priorize' : 'remove_priority'
-                }`
+                }`,
               )}
             >
               <button
@@ -781,7 +783,7 @@ function Conversation({
                 aria-label={I18n.t(
                   `conversation.actions.${
                     !conversation.priority ? 'priorize' : 'remove_priority'
-                  }`
+                  }`,
                 )}
                 className="focus:outline-none outline-none mr-1 rounded-full 
                   bg-white hover:bg-gray-100 text-gray-800
@@ -1044,14 +1046,14 @@ function NewConversationControls({
         setElements([]);
       }
     },
-    [debouncedSearchTerm] // Only call effect if debounced search term changes
+    [debouncedSearchTerm], // Only call effect if debounced search term changes
   );
 
   function handleChange(e) {
     dispatch(
       dispatchUpdateConversationData({
         mainParticipant: elements.find((o) => o.id == e.value),
-      })
+      }),
     );
 
     setFixedSidebarOpen(false);
@@ -1062,7 +1064,7 @@ function NewConversationControls({
     dispatch(
       dispatchUpdateConversationData({
         subject: value,
-      })
+      }),
     );
   }
 
@@ -1084,7 +1086,7 @@ function NewConversationControls({
         error: (err) => {
           console.log('err', err);
         },
-      }
+      },
     );
   }
 
@@ -1125,7 +1127,7 @@ function NewConversationControls({
             dispatch(
               dispatchUpdateConversationData({
                 mainParticipant: data.createAppUser.appUser,
-              })
+              }),
             );
 
             //
@@ -1138,7 +1140,7 @@ function NewConversationControls({
           dispatch(errorMessage('error'));
           setLoading(false);
         },
-      }
+      },
     );
   }
 
@@ -1238,8 +1240,8 @@ function MessageItemWrapper({
             conversation_key: conversation.key,
             message_key: data.key,
           },
-          { email: data.email }
-        )
+          { email: data.email },
+        ),
       );
 
       /*events &&
@@ -1273,7 +1275,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
       return window.open(
         data.field.action.url,
         'win',
-        data.field.action.options
+        data.field.action.options,
       );
     }
 

@@ -20,12 +20,12 @@ function App() {
 
   //@ts-ignore
   const auth0Domain = document.querySelector(
-    'meta[name="auth0-domain"]'
+    'meta[name="auth0-domain"]',
   )?.content;
 
   //@ts-ignore
   const auth0ClientId = document.querySelector(
-    'meta[name="auth0-client-id"]'
+    'meta[name="auth0-client-id"]',
   )?.content;
 
   return (

@@ -76,7 +76,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
           this.setState({ agent: data.app.agent });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -95,7 +95,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
           this.setState({ collection: collection });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -114,14 +114,14 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       {
         success: () => {
           this.props.dispatch(
-            successMessage(I18n.t('status_messages.updated_success'))
+            successMessage(I18n.t('status_messages.updated_success')),
           );
           this.getAgent();
           // this.props.dispatch(this.getAgent());
           // data.appUserUpdateData.appUser
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -143,17 +143,17 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
           // this.props.dispatch(getAppUser(parseInt(id)));
           // data.appUserUpdateData.appUser
           this.props.dispatch(
-            successMessage(I18n.t('status_messages.updated_success'))
+            successMessage(I18n.t('status_messages.updated_success')),
           );
           this.setState({ editName: false });
           this.getAgent();
         },
         error: (data) => {
           this.props.dispatch(
-            errorMessage(I18n.t('status_messages.updated_error'))
+            errorMessage(I18n.t('status_messages.updated_error')),
           );
         },
-      }
+      },
     );
   };
 
@@ -174,10 +174,10 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
         },
         error: () => {
           this.props.dispatch(
-            errorMessage(I18n.t('status_messages.updated_error'))
+            errorMessage(I18n.t('status_messages.updated_error')),
           );
         },
-      }
+      },
     );
   };
 
@@ -197,7 +197,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
         },
         error: (error) => {
           this.props.dispatch(
-            errorMessage(I18n.t('status_messages.updated_error'))
+            errorMessage(I18n.t('status_messages.updated_error')),
           );
           console.log('error on signing blob', error);
         },
@@ -491,7 +491,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                                       key={o.id}
                                       onClick={(_e) =>
                                         this.props.history.push(
-                                          `/apps/${this.props.app.key}/conversations/${o.key}`
+                                          `/apps/${this.props.app.key}/conversations/${o.key}`,
                                         )
                                       }
                                     >
@@ -501,7 +501,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                                       />
                                     </div>
                                   );
-                                }
+                                },
                               )}
                           </div>
                         </div>

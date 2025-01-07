@@ -8,7 +8,7 @@ const autoLink = function (text, ...options) {
 [\\-A-Z0-9+\\u0026@#/%=~()_|]\
 )\
 ',
-    'gi'
+    'gi',
   );
 
   if (!(options.length > 0)) {

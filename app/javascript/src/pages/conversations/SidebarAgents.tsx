@@ -58,12 +58,12 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
           setCounts(data.app.conversationsCounts);
           setTagCounts(data.app.conversationsTagCounts);
           setAndReorderAgents(
-            data.app.agents.filter((o) => o.id !== current_user.id)
+            data.app.agents.filter((o) => o.id !== current_user.id),
           );
           setConversationsChannelsCounts(data.app.conversationsChannelsCounts);
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -84,7 +84,7 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
     dispatch(
       getConversations(options, () => {
         cb && cb();
-      })
+      }),
     );
   }
 
@@ -106,8 +106,8 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
             tag: null,
             channelId: null,
           });
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -127,8 +127,8 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
             filter: 'opened',
             tag: null,
           });
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -148,8 +148,8 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
             filter: 'opened',
             channelId: null,
           });
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -195,14 +195,14 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
     const newPaths = reorder(
       agents,
       result.source.index,
-      result.destination.index
+      result.destination.index,
     );
 
     console.log(
       'PATHS',
       newPaths,
       result.source.index,
-      result.destination.index
+      result.destination.index,
     );
 
     graphql(
@@ -221,7 +221,7 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
         error: (a) => {
           console.log('errr');
         },
-      }
+      },
     );
 
     setAgents(newPaths);
@@ -300,7 +300,7 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
                             {...provided.dragHandleProps}
                             style={getItemStyle(
                               snapshot.isDragging,
-                              provided.draggableProps.style
+                              provided.draggableProps.style,
                             )}
                           >
                             <ListItem
@@ -358,7 +358,7 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
                               {...provided.dragHandleProps}
                               style={getItemStyle(
                                 snapshot.isDragging,
-                                provided.draggableProps.style
+                                provided.draggableProps.style,
                               )}
                             >
                               <ListItem

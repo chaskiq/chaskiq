@@ -16,7 +16,7 @@ export function createSubscription(props, userData) {
           app: props.app_id,
           session_id: props.sessionId,
         },
-      })
+      }),
     ),
   };
 }
@@ -177,6 +177,6 @@ export function sendPush(name, { ctx, app, data }) {
         console.log('SENT PUSH EVENT: ', data);
       },
       error: () => {},
-    }
+    },
   );
 }

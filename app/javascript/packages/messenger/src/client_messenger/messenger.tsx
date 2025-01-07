@@ -301,7 +301,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
           });
         }
       },
-      false
+      false,
     );
 
     window.opener &&
@@ -372,7 +372,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     this.App = createSubscription(
       this.props,
       this.defaultCableData.user_data,
-      this.props.sessionValue
+      this.props.sessionValue,
     );
   };
 
@@ -413,7 +413,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       hidden === undefined
     ) {
       console.log(
-        'Visibility browser, such as Google Chrome or Firefox, that supports the Page Visibility API.'
+        'Visibility browser, such as Google Chrome or Firefox, that supports the Page Visibility API.',
       );
     } else {
       // Handle page visibility change
@@ -547,7 +547,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         } else {
           return o;
         }
-      }
+      },
     );
 
     this.setState({
@@ -566,7 +566,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         conversation: Object.assign(this.state.conversation, {
           messages: {
             collection: [newMessage].concat(
-              this.state.conversation.messages.collection
+              this.state.conversation.messages.collection,
             ),
             meta: this.state.conversation.messages.meta,
           },
@@ -574,7 +574,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       },
       () => {
         this.scrollToLastItem();
-      }
+      },
     );
 
     if (newMessage.appUser.kind === 'agent') {
@@ -598,7 +598,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
               },
               () => {
                 setTimeout(this.scrollToLastItem, 200);
-              }
+              },
             );
           });
         } else {
@@ -610,7 +610,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
               },
               () => {
                 setTimeout(this.scrollToLastItem, 200);
-              }
+              },
             );
           });
         }
@@ -629,7 +629,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     // update or append
     if (
       this.state.conversation.messages.collection.find(
-        (o) => o.key === newMessage.key
+        (o) => o.key === newMessage.key,
       )
     ) {
       this.updateMessage(newMessage);
@@ -669,11 +669,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             () => {
               // console.log("subscribe to events")
               cb();
-            }
+            },
           );
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -721,7 +721,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
           cb(data);
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -740,11 +740,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             },
             () => {
               cb && cb();
-            }
+            },
           );
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -781,13 +781,13 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                 this.handleTriggerRequest('infer');
               }
               cb && cb();
-            }
+            },
           );
         },
         error: (error) => {
           console.log(error);
         },
-      }
+      },
     );
   };
 
@@ -801,7 +801,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
 
   clearAndGetConversations = (options = {}, cb) => {
     this.setState({ conversationsMeta: {} }, () =>
-      this.getConversations(options, cb)
+      this.getConversations(options, cb),
     );
   };
 
@@ -825,11 +825,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                   : collection,
               conversationsMeta: meta,
             },
-            () => cb && cb()
+            () => cb && cb(),
           );
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -863,18 +863,18 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                     collection: newCollection,
                     meta: meta,
                   },
-                }
+                },
               ),
               // conversation_messages: nextPage > 1 ? this.state.conversation.messages.collection.concat(messages.collection) : messages.collection ,
               // conversation_messagesMeta: messages.meta
             },
-            cb
+            cb,
           );
         },
         error: (error) => {
           console.log('Error', error);
         },
-      }
+      },
     );
   };
 
@@ -899,7 +899,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         setTimeout(() => {
           cb();
         }, 200);
-      }
+      },
     );
   };
 
@@ -945,7 +945,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         },
         () => {
           // this.requestTrigger("infer")
-        }
+        },
       );
     });
 
@@ -968,7 +968,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       {
         conversation: {},
       },
-      cb
+      cb,
     );
   };
 
@@ -987,7 +987,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         {
           article: article,
         },
-        () => this.setDisplayMode('article')
+        () => this.setDisplayMode('article'),
       );
     });
   };
@@ -1004,9 +1004,9 @@ class Messenger extends Component<MessengerProps, MessengerState> {
           },
           () => {
             cb && cb();
-          }
+          },
         );
-      }
+      },
     );
   };
 
@@ -1041,7 +1041,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       {
         success: (_data) => {},
         error: () => {},
-      }
+      },
     );
   }
 
@@ -1066,7 +1066,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         open: !this.state.open,
         // display_mode: "conversations",
       },
-      this.clearInlineConversation
+      this.clearInlineConversation,
     );
   };
 
@@ -1093,7 +1093,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       () => {
         this.setup();
         this.clearInlineConversation;
-      }
+      },
     );
   };
 
@@ -1164,14 +1164,14 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             },
             () => {
               this.persistBannerCache(banner);
-            }
+            },
           );
         },
         error: () => {
           console.error('error fetching banner');
           //this.clearBannerCache()
         },
-      }
+      },
     );
   };
 
@@ -1235,7 +1235,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
           this.ping(() => {});
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -1293,8 +1293,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                   {i18n.t(
                     `messenger.reply_time.${this.state.appData.replyTime.replace(
                       ' ',
-                      ''
-                    )}`
+                      '',
+                    )}`,
                   )}
                 </AssigneeStatus>
               )}
@@ -1329,7 +1329,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       },
       () => {
         this.displayConversation(ev, this.state.conversation);
-      }
+      },
     );
   };
 
@@ -1340,7 +1340,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         display_mode: 'conversation',
         inline_conversation: null,
       },
-      () => setTimeout(this.scrollToLastItem, 200)
+      () => setTimeout(this.scrollToLastItem, 200),
     );
   };
 
@@ -1422,7 +1422,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       });*/
 
     const newAvailableMessages = this.state.availableMessages.filter(
-      (o) => o.id != id
+      (o) => o.id != id,
     );
     this.setState({ availableMessages: newAvailableMessages });
   };
@@ -1542,7 +1542,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                             // this.closeMessenger();
                             window.localStorage.setItem(
                               'chaskiqTabClosedAt',
-                              Math.random() + ''
+                              Math.random() + '',
                             );
                           }, 200);
                         }
@@ -1881,7 +1881,7 @@ export default class ChaskiqMessenger {
 
     ReactDOM.render(
       <MessengerBridge {...this.props} />,
-      document.getElementById(this.props.wrapperId)
+      document.getElementById(this.props.wrapperId),
     );
   }
 }
@@ -2006,7 +2006,7 @@ function MessengerBridge(props) {
         errors: (e) => {
           console.log('Error', e);
         },
-      }
+      },
     );
   }
 

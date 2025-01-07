@@ -129,7 +129,7 @@ function HomeAppInserter({ app, update, option, capability }) {
           setPackages(data.app.appPackagesCapabilities);
         },
         error: () => {},
-      }
+      },
     );
   }
 

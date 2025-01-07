@@ -60,7 +60,8 @@ const Wrapper = styled.div<WrapperProps>`
         border-radius: 50%;
         overflow: hidden;
         -webkit-transform: translateZ(0);
-        box-shadow: 0 19px 51px 0 rgba(0, 0, 0, 0.16),
+        box-shadow:
+          0 19px 51px 0 rgba(0, 0, 0, 0.16),
           0 14px 19px 0 rgba(0, 0, 0, 0.07);
       }
     }

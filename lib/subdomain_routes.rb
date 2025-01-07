@@ -4,6 +4,12 @@
 
 DOMAIN = "chaskiq.test"
 
+class SubdomainRoutes
+  def initialize
+    # Rails.application.routes.draw do
+  end
+end
+
 class PersonalizedDomain
   def self.matches?(request)
     case request.host

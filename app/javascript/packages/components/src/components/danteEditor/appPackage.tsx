@@ -16,7 +16,7 @@ type AppPackageBlockConfigType = {
 };
 
 export const AppPackageBlockConfig = (
-  options: AppPackageBlockConfigType = {}
+  options: AppPackageBlockConfigType = {},
 ) => {
   const config = {
     tag: 'AppPackage',

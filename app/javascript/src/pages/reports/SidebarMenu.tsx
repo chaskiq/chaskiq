@@ -30,7 +30,7 @@ function SidebarMenu({ dispatch, app }) {
           setData(data.app.appPackagesDashboard);
         },
         error: (_err) => {},
-      }
+      },
     );
   }
 

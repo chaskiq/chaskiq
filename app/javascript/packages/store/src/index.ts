@@ -59,7 +59,7 @@ const enhancer = compose(
   persistState('auth', { key: 'AUTH' }),
   persistState('current_user', { key: 'CURRENT_USER' }),
   persistState('fixedSlider', { key: 'FIXED_SLIDER' }),
-  persistState('theme', { key: 'THEME' })
+  persistState('theme', { key: 'THEME' }),
 );
 
 const store = createStore(rootReducer, composeWithDevTools(enhancer));

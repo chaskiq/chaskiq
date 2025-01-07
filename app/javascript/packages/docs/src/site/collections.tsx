@@ -32,7 +32,7 @@ export default function Collections({ lang, subdomain }) {
           }
         },
         error: () => {},
-      }
+      },
     );
   }
 

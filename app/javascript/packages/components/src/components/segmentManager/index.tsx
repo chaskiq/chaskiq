@@ -91,7 +91,7 @@ export class SaveSegmentModal extends Component<SaveSegmentModalType> {
       () => {
         this.close();
         if (this.props.predicateCallback) this.props.predicateCallback();
-      }
+      },
     );
   };
 
@@ -107,7 +107,7 @@ export class SaveSegmentModal extends Component<SaveSegmentModalType> {
 
   equalPredicates = () => {
     return fromJS(this.props.segment.predicates).equals(
-      fromJS(this.props.segment.initialPredicates)
+      fromJS(this.props.segment.initialPredicates),
     );
   };
 

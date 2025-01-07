@@ -125,7 +125,7 @@ class ApiPage extends Component<ApiPageProps, ApiPageState> {
           cb(data.app.oauthApplications);
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -142,7 +142,7 @@ class ApiPage extends Component<ApiPageProps, ApiPageState> {
           }); */
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -227,14 +227,14 @@ function OauthApp(props) {
           setLoading(false);
         },
         error: () => {},
-      }
+      },
     );
     //@ts-ignore
   }, []);
 
   function authorizeUrl() {
     return `/oauth/authorize?client_id=${data.uid}&redirect_uri=${encodeURI(
-      data.redirectUri
+      data.redirectUri,
     )}&response_type=code&scope=`;
   }
 
@@ -263,7 +263,7 @@ function OauthApp(props) {
           }
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -279,7 +279,7 @@ function OauthApp(props) {
           history.push(`/apps/${props.app.key}/oauth_applications`);
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -479,11 +479,11 @@ class OauthList extends React.Component<OauthListProps, OauthListState> {
               errors: errs,
               data: data.createOauthApplication.oauthApplication,
             },
-            this.search
+            this.search,
           );
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -559,7 +559,7 @@ class OauthList extends React.Component<OauthListProps, OauthListState> {
           collection: data,
           loading: false,
         });
-      })
+      }),
     );
   };
 

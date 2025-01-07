@@ -123,7 +123,7 @@ class Stats extends Component<StatsProps, StatsState> {
           counts: counts,
           collection: metrics.collection,
         });
-      }
+      },
     );
   };
 
@@ -146,7 +146,7 @@ class Stats extends Component<StatsProps, StatsState> {
     this.props.dispatch(
       toggleDrawer({ userDrawer: true }, () => {
         this.props.dispatch(getAppUser(id));
-      })
+      }),
     );
   };
 

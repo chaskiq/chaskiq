@@ -68,7 +68,7 @@ function Conversations({
     dispatch(
       getConversations(options, () => {
         cb && cb();
-      })
+      }),
     );
   };
 
@@ -84,7 +84,7 @@ function Conversations({
           },
           () => {
             setFetching(false);
-          }
+          },
         );
       }
     }
@@ -134,8 +134,8 @@ function Conversations({
         () => {
           fetchConversations({ page: 1 }, cb);
           // getConversations({page: 1}, cb)
-        }
-      )
+        },
+      ),
     );
   };
 
@@ -149,8 +149,8 @@ function Conversations({
         () => {
           fetchConversations({ page: 1 });
           // getConversations({page: 1}, cb)
-        }
-      )
+        },
+      ),
     );
   };
 

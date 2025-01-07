@@ -9,9 +9,11 @@ export const BrowserSimulatorWrap = styled.div`
   border-radius: 4px;
   background: #fafafa;
   border: 1px solid #dde1eb;
-  -webkit-box-shadow: 0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
+  -webkit-box-shadow:
+    0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
     0 1px 2px 0 rgba(39, 45, 52, 0.08);
-  box-shadow: 0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
+  box-shadow:
+    0 4px 8px 0 hsla(212, 9%, 64%, 0.16),
     0 1px 2px 0 rgba(39, 45, 52, 0.08);
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;

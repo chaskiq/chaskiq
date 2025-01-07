@@ -118,7 +118,7 @@ export const Button = styled(BaseButton)<ButtonProps>`
             &:hover{
               background-color: ${darken(
                 0.1,
-                props.theme.palette.primary
+                props.theme.palette.primary,
               )} !important;
               color: ${textColor(props.theme.palette.primary)} !important;
               border: none !important;

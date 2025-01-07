@@ -22,7 +22,7 @@ class GraphqlClient {
           query: query,
           variables: variables,
         },
-        { headers: this.config }
+        { headers: this.config },
       )
       .then((res) => {
         const data = res.data.data;

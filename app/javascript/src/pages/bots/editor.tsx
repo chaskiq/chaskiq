@@ -105,7 +105,7 @@ function create_UUID() {
       var r = (dt + Math.random() * 16) % 16 | 0;
       dt = Math.floor(dt / 16);
       return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
-    }
+    },
   );
   return uuid;
 }
@@ -196,7 +196,7 @@ const BotEditor = ({ match, app, dispatch, mode }) => {
           setSelectedPath(data.app.botTask.paths[0]);
         },
         error: (_err) => {},
-      }
+      },
     );
 
     dispatch(setCurrentSection('Bot'));
@@ -235,7 +235,7 @@ const BotEditor = ({ match, app, dispatch, mode }) => {
         error: (_err) => {
           dispatch(errorMessage(I18n.t('status_messages.error_success')));
         },
-      }
+      },
     );
   };
 
@@ -257,7 +257,7 @@ const BotEditor = ({ match, app, dispatch, mode }) => {
         error: (_err) => {
           dispatch(errorMessage(I18n.t('status_messages.updated_error')));
         },
-      }
+      },
     );
   };
 
@@ -310,7 +310,7 @@ const BotEditor = ({ match, app, dispatch, mode }) => {
                   setBotTask(
                     Object.assign({}, botTask, {
                       segments: segments,
-                    })
+                    }),
                   );
                   saveData(cb);
                 }}
@@ -400,7 +400,7 @@ const BotEditor = ({ match, app, dispatch, mode }) => {
           setBotTask(data.updateBotTask.botTask);
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -482,11 +482,11 @@ export function BotPathEditor({
 
   const reorderPathSteps = (path) => {
     let newSteps = path.steps.filter(
-      (o) => !o.controls || o.controls.type !== 'ask_option'
+      (o) => !o.controls || o.controls.type !== 'ask_option',
     );
 
     const controlStep = path.steps.find(
-      (o) => o.controls && o.controls.type === 'ask_option'
+      (o) => o.controls && o.controls.type === 'ask_option',
     );
 
     if (controlStep) {
@@ -499,7 +499,7 @@ export function BotPathEditor({
   const addUpdatedPath = (path, data) => {
     const newSteps = path.steps.concat(data);
     const newPath = reorderPathSteps(
-      Object.assign({}, path, { steps: newSteps })
+      Object.assign({}, path, { steps: newSteps }),
     );
 
     const newPaths = paths.map((o) => {
@@ -636,7 +636,7 @@ export function BotPathEditor({
     const newPaths = reorder(
       paths,
       result.source.index,
-      result.destination.index
+      result.destination.index,
     );
 
     setPaths(newPaths);
@@ -705,7 +705,7 @@ export function BotPathEditor({
                           {...provided.draggableProps}
                           style={getItemStyle(
                             snapshot.isDragging,
-                            provided.draggableProps.style
+                            provided.draggableProps.style,
                           )}
                           className="mb-2 mx-2 items-center"
                         >
@@ -963,7 +963,7 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
           setAgents(data.app.agents);
         },
         error: (_error) => {},
-      }
+      },
     );
   }
 
@@ -979,7 +979,7 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
     const agent = agents.find((o) => selected === o.id);
     updateAction(
       Object.assign({}, action, { value: agent && agent.id }),
-      index
+      index,
     );
   }, [selected]);
 
@@ -1048,7 +1048,7 @@ const FirstPath = ({
                 ...controlStep.controls,
                 label: e.currentTarget.value,
               },
-              controlStep
+              controlStep,
             );
           }}
         />
@@ -1108,11 +1108,11 @@ const Path = ({
     let newSteps = reorder(
       path.steps.filter((o) => !o.controls || o.controls.type !== 'ask_option'),
       result.source.index,
-      result.destination.index
+      result.destination.index,
     );
 
     const controlStep = path.steps.find(
-      (o) => o.controls && o.controls.type === 'ask_option'
+      (o) => o.controls && o.controls.type === 'ask_option',
     );
 
     if (controlStep) {
@@ -1538,7 +1538,7 @@ const AppPackageBlocks = ({
   const updateOption = (value, option) => {
     const newOption = Object.assign({}, option, { next_step_uuid: value });
     const newOptions = controls.schema.map((o) =>
-      o.id === newOption.id ? newOption : o
+      o.id === newOption.id ? newOption : o,
     );
     const newControls = Object.assign({}, controls, { schema: newOptions });
     update(newControls);
@@ -1553,7 +1553,7 @@ const AppPackageBlocks = ({
   const handleInputChange = (value, option, index) => {
     const newOption = Object.assign({}, option, { label: value });
     const newOptions = controls.schema.map((o, i) =>
-      i === index ? newOption : o
+      i === index ? newOption : o,
     );
     const newControls = Object.assign({}, controls, { schema: newOptions });
     update(newControls);
@@ -1696,7 +1696,7 @@ class SortableSteps extends Component<SortableStepsProps> {
     } = this.props;
 
     const stepsWithoutcontrols = steps.filter(
-      (o) => !o.controls || o.controls.type !== 'ask_option'
+      (o) => !o.controls || o.controls.type !== 'ask_option',
     );
 
     const stepOptions = paths.map((o) => ({
@@ -1726,7 +1726,7 @@ class SortableSteps extends Component<SortableStepsProps> {
                       className="mb-4"
                       style={getItemStyle(
                         snapshot.isDragging,
-                        provided.draggableProps.style
+                        provided.draggableProps.style,
                       )}
                     >
                       <ItemButtons first={true} {...provided.dragHandleProps}>

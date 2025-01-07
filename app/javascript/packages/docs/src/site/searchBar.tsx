@@ -32,7 +32,7 @@ export default function CustomizedInputBase({
           setResults(data.helpCenter.search.collection);
         },
         error: () => {},
-      }
+      },
     );
   }
 

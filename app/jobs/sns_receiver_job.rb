@@ -39,7 +39,7 @@ class SnsReceiverJob < ApplicationJob
 
     return if campaign.blank? || app_user.blank?
 
-    app_user.send("track_#{track_type}".to_sym,
+    app_user.send(:"track_#{track_type}",
                   host: data["ipAddress"],
                   trackable: campaign,
                   # message_id: message_id,

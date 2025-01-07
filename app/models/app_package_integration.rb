@@ -184,7 +184,7 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def get_presenter_manager
-    "MessageApis::#{app_package.name}::Presenter"&.constantize
+    "MessageApis::#{app_package.name}::Presenter".constantize
   rescue StandardError
     ExternalPresenterManager
   end

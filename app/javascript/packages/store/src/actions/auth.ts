@@ -21,7 +21,7 @@ export function authenticate(email, password, cb) {
 
     //@ts-ignore
     const client_id = document.querySelector(
-      'meta[name="chaskiq-client-id"]'
+      'meta[name="chaskiq-client-id"]',
     )?.content;
 
     return axios({
@@ -63,7 +63,7 @@ export function authenticateFromAuth0(accessToken, refreshToken, cb) {
 
     //@ts-ignore
     const crsfToken = document.querySelector(
-      'meta[name="csrf-token"]'
+      'meta[name="csrf-token"]',
     )?.content;
 
     return axios({
@@ -126,7 +126,7 @@ export function successAuthentication(accessToken, refreshToken) {
 export function refreshToken(auth) {
   //@ts-ignore
   const client_id = document.querySelector(
-    'meta[name="chaskiq-client-id"]'
+    'meta[name="chaskiq-client-id"]',
   )?.content;
 
   return (dispatch, _getState) => {

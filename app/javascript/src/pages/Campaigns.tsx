@@ -159,14 +159,14 @@ class CampaignSegment extends Component<
     // console.log(parseJwt(jwtToken))
     if (cb) cb(jwtToken);
     this.setState({ jwt: jwtToken }, () =>
-      this.updateData(parseJwt(this.state.jwt))
+      this.updateData(parseJwt(this.state.jwt)),
     );
   };
 
   deletePredicate(data) {
     const jwtToken = generateJWT(data);
     this.setState({ jwt: jwtToken }, () =>
-      this.updateData(parseJwt(this.state.jwt), this.search)
+      this.updateData(parseJwt(this.state.jwt), this.search),
     );
   }
 
@@ -200,7 +200,7 @@ class CampaignSegment extends Component<
           });
         },
         error: (_error) => {},
-      }
+      },
     );
   };
 
@@ -208,7 +208,7 @@ class CampaignSegment extends Component<
     this.props.dispatch(
       toggleDrawer({ userDrawer: true }, () => {
         this.props.dispatch(getAppUser(o.id));
-      })
+      }),
     );
   };
 
@@ -319,7 +319,7 @@ class CampaignForm extends Component<CampaignFormProps, CampaignFormState> {
         error: (error) => {
           console.log(error);
         },
-      }
+      },
     );
   };
 
@@ -341,10 +341,10 @@ class CampaignForm extends Component<CampaignFormProps, CampaignFormState> {
               {
                 data: data.campaignCreate.campaign,
               },
-              cb && cb
+              cb && cb,
             );
           },
-        }
+        },
       );
     } else {
       graphql(
@@ -360,10 +360,10 @@ class CampaignForm extends Component<CampaignFormProps, CampaignFormState> {
               {
                 data: data.app.campaign,
               },
-              cb && cb
+              cb && cb,
             );
           },
-        }
+        },
       );
     }
   };
@@ -426,7 +426,7 @@ class CampaignForm extends Component<CampaignFormProps, CampaignFormState> {
                 mode={this.props.mode}
                 successMessage={() =>
                   this.props.dispatch(
-                    successMessage(I18n.t('campaigns.campaign_updated'))
+                    successMessage(I18n.t('campaigns.campaign_updated')),
                   )
                 }
                 //url={this.url()}
@@ -443,7 +443,7 @@ class CampaignForm extends Component<CampaignFormProps, CampaignFormState> {
                 //url={this.url()}
                 successMessage={() =>
                   this.props.dispatch(
-                    successMessage(I18n.t('campaigns.campaign_updated'))
+                    successMessage(I18n.t('campaigns.campaign_updated')),
                   )
                 }
                 updateData={this.updateData}
@@ -552,13 +552,13 @@ class CampaignForm extends Component<CampaignFormProps, CampaignFormState> {
             data: data.campaignUpdate.campaign,
           });
           this.props.dispatch(
-            successMessage(I18n.t('campaigns.campaign_updated'))
+            successMessage(I18n.t('campaigns.campaign_updated')),
           );
         },
         error: () => {
           this.props.dispatch(errorMessage(I18n.t('campaigns.updated_error')));
         },
-      }
+      },
     );
   };
 
@@ -658,7 +658,7 @@ class CampaignForm extends Component<CampaignFormProps, CampaignFormState> {
         error: () => {
           this.props.dispatch(errorMessage('error purging metrics'));
         },
-      }
+      },
     );
   };
 
@@ -685,9 +685,9 @@ class CampaignForm extends Component<CampaignFormProps, CampaignFormState> {
                   },
                   () => {
                     this.props.history.push(
-                      `/apps/${this.props.app.key}/messages/${this.props.mode}`
+                      `/apps/${this.props.app.key}/messages/${this.props.mode}`,
                     );
-                  }
+                  },
                 );
               });
             }}
@@ -792,7 +792,7 @@ class CampaignForm extends Component<CampaignFormProps, CampaignFormState> {
                 updateData={this.updateData}
                 successMessage={() =>
                   this.props.dispatch(
-                    successMessage(I18n.t('campaigns.campaign_updated'))
+                    successMessage(I18n.t('campaigns.campaign_updated')),
                   )
                 }
               />
@@ -876,7 +876,7 @@ class CampaignContainer extends Component<
             loading: false,
           });
         },
-      }
+      },
     );
   };
 
@@ -918,7 +918,7 @@ class CampaignContainer extends Component<
         error: (error) => {
           console.log(error);
         },
-      }
+      },
     );
   };
 
@@ -976,9 +976,9 @@ class CampaignContainer extends Component<
                             openDeleteDialog: null,
                           });
                           this.props.dispatch(
-                            successMessage(I18n.t('campaigns.remove_success'))
+                            successMessage(I18n.t('campaigns.remove_success')),
                           );
-                        }
+                        },
                       );
                     }}
                   >
@@ -988,7 +988,7 @@ class CampaignContainer extends Component<
 
                 <ContentHeader
                   title={this.titleMapping(
-                    this.props.match.params.message_type
+                    this.props.match.params.message_type,
                   )}
                   actions={this.renderActions()}
                 />
@@ -1003,7 +1003,7 @@ class CampaignContainer extends Component<
                         {
                           field: 'name',
                           title: I18n.t(
-                            'definitions.campaigns.campaign_name.label'
+                            'definitions.campaigns.campaign_name.label',
                           ),
                           render: (row) =>
                             row && (
@@ -1021,7 +1021,7 @@ class CampaignContainer extends Component<
                         {
                           field: 'subject',
                           title: I18n.t(
-                            'definitions.campaigns.email_subject.label'
+                            'definitions.campaigns.email_subject.label',
                           ),
                         },
                         {
@@ -1042,28 +1042,28 @@ class CampaignContainer extends Component<
                         {
                           field: 'fromName',
                           title: I18n.t(
-                            'definitions.campaigns.from_name.label'
+                            'definitions.campaigns.from_name.label',
                           ),
                           hidden: true,
                         },
                         {
                           field: 'fromEmail',
                           title: I18n.t(
-                            'definitions.campaigns.from_email.label'
+                            'definitions.campaigns.from_email.label',
                           ),
                           hidden: true,
                         },
                         {
                           field: 'replyEmail',
                           title: I18n.t(
-                            'definitions.campaigns.reply_email.label'
+                            'definitions.campaigns.reply_email.label',
                           ),
                           hidden: true,
                         },
                         {
                           field: 'description',
                           title: I18n.t(
-                            'definitions.campaigns.description.label'
+                            'definitions.campaigns.description.label',
                           ),
                           hidden: true,
                         },
@@ -1074,7 +1074,7 @@ class CampaignContainer extends Component<
                         {
                           field: 'scheduledAt',
                           title: I18n.t(
-                            'definitions.campaigns.scheduled_at.label'
+                            'definitions.campaigns.scheduled_at.label',
                           ),
                           hidden: true,
                           type: 'datetime',
@@ -1086,7 +1086,7 @@ class CampaignContainer extends Component<
                         {
                           field: 'scheduledTo',
                           title: I18n.t(
-                            'definitions.campaigns.scheduled_to.label'
+                            'definitions.campaigns.scheduled_to.label',
                           ),
                           hidden: true,
                           type: 'datetime',

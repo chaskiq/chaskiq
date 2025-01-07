@@ -29,9 +29,9 @@ module Subscribable
 
   def payment_attribute(key)
     if payment_service == PaymentServices::StripeService
-      send("stripe_#{key}".to_sym)
+      send(:"stripe_#{key}")
     elsif payment_service == PaymentServices::Paddle
-      send("paddle_#{key}".to_sym)
+      send(:"paddle_#{key}")
     end
   end
 

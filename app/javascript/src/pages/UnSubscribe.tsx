@@ -44,7 +44,7 @@ export default function UnSubscribe({ match }) {
         error: () => {
           console.log('errorroor');
         },
-      }
+      },
     );
   }
 

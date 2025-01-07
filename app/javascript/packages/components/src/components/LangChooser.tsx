@@ -33,7 +33,7 @@ function LangChooser({ open, handleClose, current_user, app, dispatch }) {
           setSetted(true);
         },
         error: () => {},
-      }
+      },
     );
   }
 

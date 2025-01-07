@@ -37,7 +37,7 @@ function Sidebar({
     dispatch(
       updateApp(data.app, (d) => {
         cb && cb(d);
-      })
+      }),
     );
   }
 
@@ -289,7 +289,7 @@ export function AppItem({ app, object, conversation, app_user }) {
       return window.open(
         packageParams.field.action.url,
         'pagename',
-        packageParams.field?.action?.options
+        packageParams.field?.action?.options,
       );
     }
 

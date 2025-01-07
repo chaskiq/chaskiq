@@ -23,7 +23,7 @@ const subscriptionState = {};
 // Reducer
 export default function reducer(
   state = subscriptionState,
-  action: ActionType = {}
+  action: ActionType = {},
 ) {
   switch (action.type) {
     case ActionTypes.SetSubscriptionState:

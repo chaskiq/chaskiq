@@ -38,7 +38,7 @@ function Platform({ dispatch, match, app, app_users, segment }) {
       dispatchSegmentUpdate({
         id: match.params.segmentID,
         jwt: match.params.Jwt,
-      })
+      }),
     );
 
     getSegment();
@@ -75,7 +75,7 @@ function Platform({ dispatch, match, app, app_users, segment }) {
     dispatch(
       createSegment(params, () => {
         cb && cb();
-      })
+      }),
     );
   };
 
@@ -84,7 +84,7 @@ function Platform({ dispatch, match, app, app_users, segment }) {
       deleteSegment(id, () => {
         cb && cb();
         fetchApp();
-      })
+      }),
     );
   };
 
@@ -98,7 +98,7 @@ function Platform({ dispatch, match, app, app_users, segment }) {
     dispatch(
       addPredicate(pending_predicate, (token) => {
         cb && cb(token);
-      })
+      }),
     );
   };
 
@@ -107,7 +107,7 @@ function Platform({ dispatch, match, app, app_users, segment }) {
       updatePredicate(data, (token) => {
         cb && cb(token);
         // this.setState({jwt: token})
-      })
+      }),
     );
   };
 

@@ -100,7 +100,7 @@ export default class CampaignEditor extends Component<
         this.props.updateData(data.campaignUpdate.campaign, null);
         this.setState({ status: null });
         this.props.dispatch(
-          successMessage(I18n.t('campaigns.campaign_updated'))
+          successMessage(I18n.t('campaigns.campaign_updated')),
         );
       },
       error: () => {
@@ -132,7 +132,7 @@ export default class CampaignEditor extends Component<
         this.props.updateData(data.campaignUpdate.campaign, null);
         this.setState({ status: null });
         this.props.dispatch(
-          successMessage(I18n.t('campaigns.campaign_updated'))
+          successMessage(I18n.t('campaigns.campaign_updated')),
         );
       },
       error: () => {
@@ -354,11 +354,11 @@ function StyleBanner({ app, campaign, onChange }) {
   const hidden = React.useRef(null);
 
   const [agent, setAgent] = React.useState(
-    agentData(campaign.bannerData.sender_data)
+    agentData(campaign.bannerData.sender_data),
   );
 
   const [fontOptions, setFontOptions] = React.useState(
-    campaign.bannerData.font_options || {}
+    campaign.bannerData.font_options || {},
   );
 
   const [agents, setAgents] = React.useState([]);
@@ -381,7 +381,7 @@ function StyleBanner({ app, campaign, onChange }) {
           setAgents(options);
         },
         error: () => {},
-      }
+      },
     );
   }
 

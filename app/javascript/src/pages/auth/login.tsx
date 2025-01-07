@@ -59,7 +59,7 @@ const Auth0Login = ({ dispatch, domain, currentUser, loading }) => {
           authenticateFromAuth0(accessToken, refreshToken, () => {
             console.log('LOGGED IN!');
             dispatch(getCurrentUser());
-          })
+          }),
         );
 
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
@@ -156,7 +156,7 @@ function Login({ dispatch, current_user, loading }) {
 
   //@ts-ignore
   const auth0Domain = document.querySelector(
-    'meta[name="auth0-domain"]'
+    'meta[name="auth0-domain"]',
   )?.content;
 
   function handleSubmit(e) {
@@ -173,7 +173,7 @@ function Login({ dispatch, current_user, loading }) {
     dispatch(
       authenticate(email, password, () => {
         getUser();
-      })
+      }),
     );
   }
 

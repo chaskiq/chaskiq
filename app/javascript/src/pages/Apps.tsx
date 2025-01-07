@@ -48,7 +48,7 @@ function App({ dispatch, loading }) {
           setReady(true);
         },
         error: () => {},
-      }
+      },
     );
   }, []);
 

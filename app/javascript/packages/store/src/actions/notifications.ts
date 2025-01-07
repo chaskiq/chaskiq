@@ -18,7 +18,7 @@ export function createNotification({
         action: defaultAction(),
         timeout: timeout || 3500,
         actions: actions,
-      })
+      }),
     );
   };
 }

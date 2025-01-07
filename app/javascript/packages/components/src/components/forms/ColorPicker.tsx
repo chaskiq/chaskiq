@@ -22,7 +22,7 @@ interface IColorPickerProps {
 export function ColorPicker(props: IColorPickerProps) {
   const [displayColorPicker, setDisplayColorPicker] = React.useState(false);
   const [value, setValue] = React.useState(
-    props.color || props.defaultValue || '#444'
+    props.color || props.defaultValue || '#444',
   );
 
   function handleClick(e) {

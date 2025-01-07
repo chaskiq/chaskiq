@@ -128,7 +128,7 @@ export default class AppPackageBlock extends Component<
             submit: results,
             definitions: definitions,
           },
-          message
+          message,
         );
         // independly on the result of appPackageSubmit
         // we will update the state definitions on the block
@@ -201,7 +201,7 @@ export default class AppPackageBlock extends Component<
                   'messenger.conversation_block.choosen',
                   {
                     field: escapeHTML(item.label),
-                  }
+                  },
                 ),
               }}
             />
@@ -346,7 +346,7 @@ export default class AppPackageBlock extends Component<
         )}
 
         {this.props.message.message.blocks.schema.map((o, i) =>
-          this.renderElement(o, i)
+          this.renderElement(o, i),
         )}
       </div>
     );

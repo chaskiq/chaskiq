@@ -55,7 +55,7 @@ function QuickReplies({ app, _update, dispatch }) {
           setQuickReplies(data.app.quickReplies);
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -77,7 +77,7 @@ function QuickReplies({ app, _update, dispatch }) {
         error: (_err) => {
           dispatch(errorMessage(I18n.t('quick_replies.create.success')));
         },
-      }
+      },
     );
   }
 
@@ -100,7 +100,7 @@ function QuickReplies({ app, _update, dispatch }) {
         error: (_err) => {
           dispatch(errorMessage(I18n.t('quick_replies.update.error')));
         },
-      }
+      },
     );
   }
 
@@ -122,7 +122,7 @@ function QuickReplies({ app, _update, dispatch }) {
           setLoading(false);
           dispatch(errorMessage(I18n.t('quick_replies.update.error')));
         },
-      }
+      },
     );
   }
 
@@ -148,7 +148,7 @@ function QuickReplies({ app, _update, dispatch }) {
           setOpenDeleteDialog(false);
           dispatch(errorMessage('error deleting quick reply'));
         },
-      }
+      },
     );
   }
 
@@ -280,7 +280,7 @@ function QuickReplies({ app, _update, dispatch }) {
                   key={`quick-reply-${i}`}
                   className={`border-t hover:bg-gray-100 border-gray-200 
                     dark:hover:bg-gray-900 dark:border-gray-800 ${isSelected(
-                      o
+                      o,
                     )}`}
                 >
                   <a

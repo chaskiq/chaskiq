@@ -211,7 +211,7 @@ function Example({ actions }) {
             actionIdx === actions.length - 1
               ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
               : '',
-            'relative group bg-white dark:bg-gray-800 dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
+            'relative group bg-white dark:bg-gray-800 dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500',
           )}
         >
           <div>
@@ -220,7 +220,7 @@ function Example({ actions }) {
                 className={classNames(
                   action.iconBackground,
                   action.iconForeground,
-                  'rounded-lg inline-flex p-3 ring-4 ring-white'
+                  'rounded-lg inline-flex p-3 ring-4 ring-white',
                 )}
               >
                 <action.icon className="h-6 w-6" aria-hidden="true" />

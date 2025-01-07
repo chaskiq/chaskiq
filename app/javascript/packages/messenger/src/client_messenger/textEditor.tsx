@@ -313,7 +313,7 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
         });
 
         console.log(
-          `Image width: ${dimensions.width}, Image height: ${dimensions.height}`
+          `Image width: ${dimensions.width}, Image height: ${dimensions.height}`,
         );
       })
       .catch((error) => {

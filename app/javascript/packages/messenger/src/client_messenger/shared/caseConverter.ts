@@ -25,7 +25,7 @@ const convertCase = (oldObject, converterFunction) => {
 
   if (Array.isArray(oldObject)) {
     newObject = oldObject.map((element) =>
-      convertCase(element, converterFunction)
+      convertCase(element, converterFunction),
     );
   } else {
     newObject = {};

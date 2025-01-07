@@ -35,7 +35,7 @@ function TriggersPanel(props) {
           setBotTasks(data.app.botTasks.collection);
         },
         error: () => {},
-      }
+      },
     );
   }
 
@@ -52,7 +52,7 @@ function TriggersPanel(props) {
           handleClose();
         },
         errors: (_err) => {},
-      }
+      },
     );
   }
 

@@ -4,6 +4,6 @@ class Agents::PasswordsController < Devise::PasswordsController
     # the tokens with expires_in: nil are those from app
     # integration packages and we must not remove those
     resource.access_tokens.where.not(expires_in: nil).delete_all
-    super(resource)
+    super
   end
 end

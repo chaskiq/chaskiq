@@ -21,7 +21,7 @@ export function getCurrentUser() {
         error: (data) => {
           console.error(
             'error retriving current user. Sign out!',
-            data.data.errors
+            data.data.errors,
           );
           dispatch(doSignout());
           // window.location = "/users/sign_in"
@@ -30,7 +30,7 @@ export function getCurrentUser() {
         fatal: () => {
           dispatch(doSignout());
         },
-      }
+      },
     );
   };
 }

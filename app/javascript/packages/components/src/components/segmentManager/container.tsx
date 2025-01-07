@@ -56,14 +56,14 @@ class AppContent extends Component<AppContentProps> {
     this.props.dispatch(setCurrentSection('Platform'));
 
     this.props.dispatch(
-      setCurrentPage(`segment-${this.props.match.params.segmentID}`)
+      setCurrentPage(`segment-${this.props.match.params.segmentID}`),
     );
 
     this.props.dispatch(
       dispatchSegmentUpdate({
         id: this.props.match.params.segmentID,
         jwt: this.props.match.params.Jwt,
-      })
+      }),
     );
 
     this.getSegment();
@@ -83,11 +83,11 @@ class AppContent extends Component<AppContentProps> {
         dispatchSegmentUpdate({
           id: this.props.match.params.segmentID,
           jwt: this.props.match.params.Jwt,
-        })
+        }),
       );
 
       this.props.dispatch(
-        setCurrentPage(`segment-${this.props.match.params.segmentID}`)
+        setCurrentPage(`segment-${this.props.match.params.segmentID}`),
       );
 
       this.getSegment();
@@ -109,7 +109,7 @@ class AppContent extends Component<AppContentProps> {
       this.props.dispatch(
         dispatchSegmentUpdate({
           jwt: this.props.match.params.Jwt,
-        })
+        }),
       );
 
       this.getSegment();
@@ -259,7 +259,7 @@ class AppUsers extends Component<AppUsersProps, AppUsersState> {
     this.props.dispatch(
       toggleDrawer({ userDrawer: true }, () => {
         this.props.dispatch(getAppUser(o.id));
-      })
+      }),
     );
   };
 

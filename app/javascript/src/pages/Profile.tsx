@@ -112,7 +112,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
           this.setState({ collection: collection });
         },
         error: () => {},
-      }
+      },
     );
   };
 
@@ -144,7 +144,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
           this.props.history.push(url);
         },
         errors: (_error) => {},
-      }
+      },
     );
   };
 
@@ -163,7 +163,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
           this.props.history.push(url);
         },
         errors: (_error) => {},
-      }
+      },
     );
   };
 
@@ -183,7 +183,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
         error: (_error) => {
           this.props.dispatch(errorMessage('error'));
         },
-      }
+      },
     );
   };
 
@@ -206,7 +206,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
             this.getUser();
           },
           error: () => {},
-        }
+        },
       );
     }
   };
@@ -524,7 +524,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                         key={`user-list-${o.key}`}
                         onClick={(_e) =>
                           this.props.history.push(
-                            `/apps/${this.props.app.key}/conversations/${o.key}`
+                            `/apps/${this.props.app.key}/conversations/${o.key}`,
                           )
                         }
                         className="relative rounded-lg border
@@ -556,8 +556,8 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                               dangerouslySetInnerHTML={{
                                 __html: escapeHTML(
                                   sanitizeHtml(
-                                    o.lastMessage.message.htmlContent
-                                  )
+                                    o.lastMessage.message.htmlContent,
+                                  ),
                                 ).substring(0, 250),
                               }}
                             />
@@ -622,7 +622,7 @@ class AppUserVisits extends React.Component<
               loading: true,
             });
           },
-        }
+        },
       );
     });
   };

@@ -15,7 +15,7 @@ class ApiController < ActionController::API
     # elsif ...
     if @app.encryption_enabled?
       @user_data = authorize_by_encrypted_params
-      @user_data = (identify_by_user_data || {}) if @user_data.blank?
+      @user_data = identify_by_user_data || {} if @user_data.blank?
       set_locale
       handle_encrypted_auth
     else
@@ -59,7 +59,7 @@ class ApiController < ActionController::API
 
       app_user.update(options)
     else
-      visitor = (get_user_by_session || add_vistor)
+      visitor = get_user_by_session || add_vistor
       visitor.update(lang: I18n.locale)
       merge_user_data(visitor.reload)
     end
