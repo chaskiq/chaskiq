@@ -4,7 +4,7 @@ module InboundAddress
   extend ActiveSupport::Concern
 
   def inbound_email_address
-    part = URLcrypt.encode(key.to_s)
+    part = CHASKIQ_VERIFIER.generate(key.to_s)
     domain = outgoing_email_domain
     url = "inbound+app-#{part}@#{domain}"
   end
@@ -22,7 +22,7 @@ module InboundAddress
       # "inbound+app-#{part}@#{domain}"
       if (matches = email.match(/inbound\+app-(\S+)@\S+/)) && matches&.captures&.any?
         app = App.find_by(
-          key: URLcrypt.decode(matches.captures.first)
+          key: CHASKIQ_VERIFIER.verify(matches.captures.first)
         )
         [app]
       end
@@ -34,7 +34,7 @@ module InboundAddress
       return if app.blank?
 
       agent_id = parts[2].split("@").first
-      agent = app.agents.find(URLcrypt.decode(agent_id))
+      agent = app.agents.find(CHASKIQ_VERIFIER.verify(agent_id))
       [app, agent]
     end
   end

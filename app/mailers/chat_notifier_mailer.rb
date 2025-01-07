@@ -37,7 +37,7 @@ class ChatNotifierMailer < ApplicationMailer
     raise "no outgoing_email_domain on app" if app.outgoing_email_domain.blank?
 
     ## TODO: configurability of email
-    crypt         = URLcrypt.encode("#{app.id}+#{conversation.id}")
+    crypt         = CHASKIQ_VERIFIER.generate("#{app.id}+#{conversation.id}")
     from_email    = "messages+#{crypt}@#{app.outgoing_email_domain}"
     email         = recipient.email
     subject       = "new message from #{app.name}"

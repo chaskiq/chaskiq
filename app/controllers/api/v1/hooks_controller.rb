@@ -147,7 +147,7 @@ class Api::V1::HooksController < ActionController::API
 
   def handle_message_recipient(mail)
     recipient = mail.recipients.first
-    recipient_parts = URLcrypt.decode(recipient.split("@").first.split("+").last)
+    recipient_parts = CHASKIQ_VERIFIER.verify(recipient.split("@").first.split("+").last)
     app, conversation = find_resources_in_recipient_parts(recipient_parts)
     # this logic implies that if the email.from correspond to an agent , then we assume that the message is from agent
     from = find_remitent(app: app, from: mail.from)

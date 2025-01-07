@@ -157,11 +157,11 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def encoded_id
-    URLcrypt.encode("#{app.key}+#{id}")
+    CHASKIQ_VERIFIER.generate("#{app.key}+#{id}")
   end
 
   def self.decode(encoded)
-    result = URLcrypt.decode(encoded).split("+")
+    result = CHASKIQ_VERIFIER.verify(encoded).split("+")
     App.find_by(key: result.first).app_package_integrations.find(result.last)
   end
 

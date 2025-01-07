@@ -304,13 +304,13 @@ class AppUser < ApplicationRecord
   def encoded_id
     return nil if email.blank?
 
-    URLcrypt.encode(email)
+    CHASKIQ_VERIFIER.generate(email)
   end
 
   def decoded_id
     return nil if email.blank?
 
-    URLcrypt.decode(email)
+    CHASKIQ_VERIFIER.verify(email)
   end
 
   def kind

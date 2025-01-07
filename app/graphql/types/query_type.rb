@@ -44,7 +44,7 @@ module Types
     end
 
     def campaign_subscription_toggle(encoded:, op:)
-      subscriber_email = URLcrypt.decode(encoded)
+      subscriber_email = CHASKIQ_VERIFIER.verify(encoded)
       app_user = AppUser.find_by(email: subscriber_email)
 
       toggle_subscription_state(app_state, op)

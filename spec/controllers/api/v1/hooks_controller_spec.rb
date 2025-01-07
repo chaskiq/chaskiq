@@ -384,7 +384,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
   end
 
   let(:open_sns_event_with_part) do
-    crypt         = URLcrypt.encode("#{app.id}+#{conversation.id}")
+    crypt         = CHASKIQ_VERIFIER.generate("#{app.id}+#{conversation.id}")
     from_email    = "messages+#{crypt}@#{app.outgoing_email_domain}"
 
     { "Type" => "Notification",
@@ -1006,6 +1006,8 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         allow_any_instance_of(Api::V1::HooksController).to receive(
           :is_notification_message?
         ).and_return(true)
+
+        allow(CHASKIQ_VERIFIER).to receive(:verify).and_return([1, 2])
 
         allow_any_instance_of(Api::V1::HooksController).to receive(
           :find_resources_in_recipient_parts

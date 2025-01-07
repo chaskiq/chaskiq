@@ -50,7 +50,7 @@ class SnsReceiverJob < ApplicationJob
     return unless track_type == "open"
 
     recipient = m["mail"]["headers"].find { |o| o["name"] == "Return-Path" }["value"]
-    recipient_parts = URLcrypt.decode(recipient.split("@").first.split("+").last)
+    recipient_parts = CHASKIQ_VERIFIER.verify(recipient.split("@").first.split("+").last)
     app_id, conversation_id = recipient_parts.split("+")
 
     conversation = Conversation.find_by(id: conversation_id)

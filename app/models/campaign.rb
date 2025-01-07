@@ -198,11 +198,11 @@ class Campaign < Message
   end
 
   def self.encode_email(address)
-    URLcrypt.encode(address)
+    CHASKIQ_VERIFIER.generate(address)
   end
 
   def self.decoded_email(address)
-    URLcrypt.decode(address)
+    CHASKIQ_VERIFIER.verify(address)
   end
 
   def campaign_outgoing_email
