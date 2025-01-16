@@ -116,7 +116,7 @@ Chaskiq is built for the *next* 10 years of the Internet, so our requirements ar
 ## Built With
 
 - [Ruby on Rails](https://github.com/rails/rails) &mdash; Our back end API is a Rails app. It responds to requests RESTfully in JSON.
-- [React.js](https://reactjs.org/) &mdash; Our front end is an React.js app that communicates with the Rails Graphql API.
+- [React.js](https://reactjs.org/) &mdash; Our front end is a React.js app that communicates with the Rails Graphql API.
 - [PostgreSQL](https://www.postgresql.org/) &mdash; Our main data store is in Postgres.
 - [Redis](https://redis.io/) &mdash; We use Redis as a cache and for transient data.
 
