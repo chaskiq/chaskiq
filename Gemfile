@@ -12,7 +12,9 @@ ruby "3.3.5"
 gem "anycable-rails"
 
 gem "pg"
-gem "rails", "7.2.1" # , github: "rails/rails",
+# gem "rails", "7.2.1" # , github: "rails/rails",
+gem 'rails', '6.0.6'
+
 gem "uri", "0.10.3"
 
 # Use sqlite3 as the database for Active Record
@@ -22,7 +24,7 @@ gem "uri", "0.10.3"
 gem "haml"
 gem "jsbundling-rails"
 gem "kredis", "~> 1.3"
-gem "propshaft"
+# gem "propshaft"
 gem "puma", "~> 6.0"
 # gem "falcon"
 gem "sassc"
@@ -58,14 +60,15 @@ gem "nokogiri", force_ruby_platform: true
 # gem 'tunable'
 gem "aasm"
 gem "acts_as_list", "~> 0.9.19"
-gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on" # branch: "support_rails_7-1"
+# gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on" # branch: "support_rails_7-1"
 # github: "mbleigh/acts-as-taggable-on", branch: "support_rails_7-1"
+gem 'acts-as-taggable-on', '7.0.0'
 gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"
 gem "groupdate"
-gem "pg_search"
+gem 'pg_search', '2.2.0'
 gem "phonelib"
-gem "ransack"
+gem 'ransack', '3.0.0'
 
 gem "searchkick"
 
@@ -129,7 +132,8 @@ gem "biz", "~> 1.8"
 gem "i18n-js", "~> 4.0.0.alpha1"
 
 # gem "globalize", github: "globalize/globalize", branch: "main"
-gem "globalize", github: "jules-w2/globalize", branch: "main"
+# gem "globalize", github: "jules-w2/globalize", branch: "main"
+gem 'globalize', '5.3.0'
 
 # To use Stripe, also include:
 gem "stripe", "~> 6.0"
