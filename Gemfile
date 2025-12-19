@@ -13,7 +13,8 @@ gem "anycable-rails"
 
 gem "pg"
 # gem "rails", "7.2.1" # , github: "rails/rails",
-gem 'rails', '6.0.6'
+# gem 'rails', '6.0.6'
+gem "rails", "7.2.1" # , github: "rails/rails",
 
 gem "uri", "0.10.3"
 
@@ -62,7 +63,7 @@ gem "aasm"
 gem "acts_as_list", "~> 0.9.19"
 # gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on" # branch: "support_rails_7-1"
 # github: "mbleigh/acts-as-taggable-on", branch: "support_rails_7-1"
-gem 'acts-as-taggable-on', '7.0.0'
+gem 'acts-as-taggable-on'
 gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"
 gem "groupdate"
@@ -133,7 +134,9 @@ gem "i18n-js", "~> 4.0.0.alpha1"
 
 # gem "globalize", github: "globalize/globalize", branch: "main"
 # gem "globalize", github: "jules-w2/globalize", branch: "main"
-gem 'globalize', '5.3.0'
+# gem 'globalize', '5.3.0'
+# gem 'globalize', '5.3.0'
+gem "globalize", git: "https://github.com/jules-w2/globalize", branch: "main"
 
 # To use Stripe, also include:
 gem "stripe", "~> 6.0"
