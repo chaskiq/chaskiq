@@ -15,7 +15,6 @@ x-app: &app
     RAILS_ENV: ${RAILS_ENV:-development}
     ANYCABLE_DEBUG: ${DEBUG:-0}
     ANYCABLE_RPC_HOST: 0.0.0.0:50051
-  image: chaskiq/chaskiq:1.1.0
   tmpfs:
     - /tmp
 
@@ -27,7 +26,6 @@ x-backend: &backend
     - .:/app:cached
     - rails_cache:/app/tmp/cache
     - bundle:/usr/local/bundle
-    - node_modules:/app/node_modules
     - packs:/app/public/packs
     - .dockerdev/.psqlrc:/root/.psqlrc:ro
     - .dockerdev/.bashrc:/root/.bashrc:ro
@@ -52,6 +50,7 @@ services:
   runner:
     <<: *backend
     command: /bin/bash
+    image: chaskiq-runner:local
 
   rpc:
     <<: *backend
@@ -75,6 +74,7 @@ services:
   rails:
     <<: *backend
     command: ./bin/dev
+    image: chaskiq-rails:local
     ports:
       - '3000:3000'
       - '3001:3001'
@@ -82,6 +82,7 @@ services:
   sidekiq:
     <<: *backend
     command: bundle exec sidekiq -C config/sidekiq.yml
+    image: chaskiq-sidekiq:local
 
   postgres:
     image: postgres:14-alpine
@@ -114,6 +115,5 @@ volumes:
   postgres: null
   redis: null
   bundle: null
-  node_modules: null
   rails_cache: null
   packs: null
