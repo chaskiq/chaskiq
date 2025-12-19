@@ -69,7 +69,7 @@ gem "friendly_id", "~> 5.2"
 gem "groupdate"
 gem 'pg_search', '2.2.0'
 gem "phonelib"
-gem 'ransack', '3.0.0'
+gem 'ransack'
 
 gem "searchkick"
 
