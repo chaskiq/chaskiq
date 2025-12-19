@@ -475,9 +475,9 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.4)
-    pg_search (2.2.0)
-      activerecord (>= 4.2)
-      activesupport (>= 4.2)
+    pg_search (2.3.7)
+      activerecord (>= 6.1)
+      activesupport (>= 6.1)
     phonelib (0.8.4)
     php_serialize (1.2)
     prism (1.7.0)
@@ -793,7 +793,7 @@ DEPENDENCIES
   omniauth-oauth2
   opensearch-ruby
   pg
-  pg_search (= 2.2.0)
+  pg_search (~> 2.3)
   phonelib
   php_serialize (~> 1.2)
   pry
@@ -824,6 +824,7 @@ DEPENDENCIES
   shoulda-matchers
   sidekiq
   spring
+  sprockets-rails
   stripe (~> 6.0)
   tailwindcss-rails
   timezone (~> 1.2)

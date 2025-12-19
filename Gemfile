@@ -67,11 +67,12 @@ gem 'acts-as-taggable-on'
 gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"
 gem "groupdate"
-gem 'pg_search', '2.2.0'
+gem "pg_search", "~> 2.3"
 gem "phonelib"
 gem 'ransack'
 
 gem "searchkick"
+gem "sprockets-rails"
 
 # gem "elasticsearch", "7.12" # select one
 gem "opensearch-ruby" # select one
