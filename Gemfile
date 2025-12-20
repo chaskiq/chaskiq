@@ -97,6 +97,8 @@ gem "omniauth-oauth2"
 
 gem "image_processing", "~> 1.12"
 gem "sidekiq" # , "~> 6.5"
+gem "connection_pool", "~> 2.4"
+
 # gem "sidekiq-cron"
 
 gem "emoji_data", github: "chaskiq/emoji_data.rb"
