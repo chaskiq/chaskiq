@@ -24,25 +24,32 @@ module MessageApis
       main_doc(lines.map { |o| serialized_block(o) }).to_json
     end
 
-    def gif_block(url:, text:)
+    def gif_block(url:, text:, w: nil, h: nil)
+      data_options = {}
+      if w.present? && h.present?
+        data_options = {
+          aspect_ratio: get_aspect_ratio(w.to_f, h.to_f),
+          width: w.to_i,
+          height: h.to_i
+        }
+      end
       {
-        key: keygen,
-        text: text.to_s,
-        type: "recorded-video",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
-          rejectedReason: "",
-          secondsLeft: 0,
-          fileReady: true,
-          paused: false,
+        type: "VideoRecorderBlock",
+        content: [],
+        attrs: {
+          caption: text.to_s,
+          forceUpload: false,
           url: url,
+          width: 100,
+          height: 100,
+          loading_progress: 0,
+          selected: false,
+          file: {},
           recording: false,
           granted: true,
           loading: false,
           direction: "center"
-        }
+        }.merge(data_options)
       }
     end
 
