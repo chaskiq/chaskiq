@@ -45,7 +45,12 @@ module Chaskiq
 
     config.encoding = 'utf-8'
 
-    config.assets.css_compressor = nil
+    # config.assets.css_compressor = nil
+    if config.respond_to?(:assets)
+      config.assets.enabled = true
+    end
+
+    # config.assets.css_compressor = nil
 
     config.i18n.fallbacks = [I18n.default_locale]
 

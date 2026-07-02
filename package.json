@@ -117,8 +117,6 @@
     "babel-eslint": "^10.1.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-macros": "^2.8.0",
-    "cypress": "12.3.0",
-    "cypress-xpath": "^1.4.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.1.0",
     "eslint-config-standard": "^14.1.1",
@@ -146,6 +144,10 @@
     "rollup-plugin-typescript2": "^0.30.0",
     "typescript": "^4.4.2",
     "util": "^0.12.4"
+  },
+  "optionalDependencies": {
+    "cypress": "12.3.0",
+    "cypress-xpath": "^1.4.0"
   },
   "browser": {
     "path": "path-browserify"

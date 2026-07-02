@@ -1,4 +1,4 @@
-version: '2.4'
+# version: '2.4'
 
 x-app: &app
   build:
@@ -15,7 +15,6 @@ x-app: &app
     RAILS_ENV: ${RAILS_ENV:-development}
     ANYCABLE_DEBUG: ${DEBUG:-0}
     ANYCABLE_RPC_HOST: 0.0.0.0:50051
-  image: chaskiq/chaskiq:1.1.0
   tmpfs:
     - /tmp
 
@@ -27,14 +26,13 @@ x-backend: &backend
     - .:/app:cached
     - rails_cache:/app/tmp/cache
     - bundle:/usr/local/bundle
-    - node_modules:/app/node_modules
     - packs:/app/public/packs
     - .dockerdev/.psqlrc:/root/.psqlrc:ro
     - .dockerdev/.bashrc:/root/.bashrc:ro
   environment:
     <<: *env
     REDIS_URL: redis://redis:6379/
-    DATABASE_URL: postgres://postgres:password@postgres:5432
+    DATABASE_URL: postgres://postgres:password@postgres:5432/chaskiq_dev
     BOOTSNAP_CACHE_DIR: /usr/local/bundle/_bootsnap
     WEBPACKER_DEV_SERVER_HOST: webpacker
     DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: 1
@@ -52,6 +50,7 @@ services:
   runner:
     <<: *backend
     command: /bin/bash
+    image: chaskiq-runner:local
 
   rpc:
     <<: *backend
@@ -75,31 +74,35 @@ services:
   rails:
     <<: *backend
     command: ./bin/dev
+    image: chaskiq-rails:local
     ports:
       - '3000:3000'
       - '3001:3001'
 
-  sidekiq:
-    <<: *backend
-    command: bundle exec sidekiq -C config/sidekiq.yml
+  # sidekiq:
+  #   <<: *backend
+  #   command: bundle exec sidekiq -C config/sidekiq.yml
+  #   image: chaskiq-sidekiq:local
 
   postgres:
-    image: postgres:14-alpine
+    image: postgres:15-alpine
     volumes:
-      - ~/apps/postgres:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
     environment:
-      #POSTGRES_USER: postgresql
+      POSTGRES_DB: chaskiq_dev
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       PSQL_HISTFILE: /root/log/.psql_history
     ports:
-      - 5432
+      - "5432:5432"
     healthcheck:
-      test: pg_isready -U postgres -h 127.0.0.1
+      test: ["CMD-SHELL", "pg_isready -U postgres -d chaskiq_dev"]
       interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
-    image: redis:5-alpine
+    image: redis:7-alpine
     volumes:
       - redis:/data
     ports:
@@ -114,6 +117,5 @@ volumes:
   postgres: null
   redis: null
   bundle: null
-  node_modules: null
   rails_cache: null
   packs: null
