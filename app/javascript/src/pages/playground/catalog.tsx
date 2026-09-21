@@ -139,7 +139,7 @@ export function basic() {
       {"type": "separator"},
       {
         "type": "image",
-        "url": "https://via.placeholder.com/150",
+        "url": "https://placeholder.photo/150",
         "height": 64,
         "width": 64,
         "align": "center",
